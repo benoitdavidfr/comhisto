@@ -1,0 +1,17 @@
+title: comhisto/insee - production d'un document Yaml de l'historique de chaque code Insee
+path: /yamldoc/pub/comhisto/insee
+doc: |
+  Production d'un document Yaml de l'historique de chaque code Insee à partir des données de mouvements Insee et de l'état au 1/1/2020.
+  Correction des incohérences constatées et de quelques erreurs flagrantes.
+  Ajustement à la marge au périmètre choisi (a priori Métropole + DOM, par la suite évent. extension à StBarth, StMartin, StP&M)
+journal: |
+  9/7/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/insee/insee.php
+phpIncludes:
+  - /yamldoc/pub/comhisto/insee/menu.inc.php
+  - /yamldoc/pub/comhisto/insee/base.inc.php
+  - /yamldoc/pub/comhisto/insee/grpmvts.inc.php
+  - /yamldoc/pub/comhisto/insee/mgrpmvts.inc.php
+htmlFiles:
