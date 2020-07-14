@@ -140,15 +140,16 @@ class Base {
         Si $data=='' alors la base est initialisée à vide ;
         SinonSi le fichier $data.pser existe et est plus récent qu'un éventuel fichier yaml
           alors ce fichier pser est utilisé ;
-        Sinonsi le fichier yaml existe
+        SinonSi le fichier yaml existe
           alors il est utilisé et enregistré en pser (pour accélérer une prochaine utilisation) ;
         Sinon la base est initialisée à vide.
-      SinonSi $data est un array alors la base est initailisée à partir de cet array
+      SinonSi $data est un array alors
+        la base est initialisée à partir de cet array
       Sinon exception
       
       Si $data est un string <> '' mais que les fichiers n'existent pas alors ce $data sera utilisé lors d'un save().
-      La base correspond au champ 'contents' du fichier Yaml/pser ; les autres champs sont considérés comme les métadonnées
-      de la base.
+      La base correspond au champ 'contents' du fichier Yaml/pser ;
+      les autres champs sont considérés comme les métadonnées de la base.
     */}
     $this->filepath = ''; // initialisation de $this->filepath pour le cas où $data est un array
     if (is_string($data)) { // si string alors le chemin du fichier contenant les données

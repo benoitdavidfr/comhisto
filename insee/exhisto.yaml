@@ -34,21 +34,39 @@ $schema:
         - description: cas où l'évènement est défini par son libellé
           type: string
           enum:
+            - Entre dans le périmètre du référentiel # Cas des c. de Mayotte qui devient DOM le 31/03/2011
+            - Sort du périmètre du référentiel # Cas de Saint-Martin et Saint-Barthélémy
             - Commune associée rétablie comme commune simple
             - Absorbe certaines de ses c. rattachées ou certaines de ses c. associées deviennent déléguées
             - Commune déléguée rétablie comme commune simple
             - Commune rétablissant des c. rattachées ou fusionnées
             - Commune rattachée devient commune de rattachement
-            - Sort du périmètre du référentiel # Cas de Saint-Martin et Saint-Barthélémy
-            - Entre dans le périmètre du référentiel # Cas des c. de Mayotte qui devient DOM le 31/03/2011
-        - description: commune change de nom avec indication du nouveau nom
+        - description: quitteLeDépartementEtPrendLeCode - c. changeant d'id lors d'un changement de département avec nouvel id
+          type: object
+          additionalProperties: false
+          required: [quitteLeDépartementEtPrendLeCode]
+          properties:
+            quitteLeDépartementEtPrendLeCode:
+              $ref: '#/definitions/codeInsee'
+        - description: arriveDansLeDépartementAvecLeCode - c. changeant de département avec précédent id + devientDéléguéeDe?
+          type: object
+          additionalProperties: false
+          required: [arriveDansLeDépartementAvecLeCode]
+          properties:
+            arriveDansLeDépartementAvecLeCode:
+              $ref: '#/definitions/codeInsee'
+            devientDéléguéeDe:
+              $ref: '#/definitions/codeInsee'
+          examples:
+            - { arriveDansLeDépartementAvecLeCode: 49144, devientDéléguéeDe: 44180 }
+        - description: changeDeNomPour - commune change de nom avec indication du nouveau nom
           type: object
           additionalProperties: false
           required: [changeDeNomPour]
           properties:
             changeDeNomPour:
               type: string
-        - description: c. supprimée avec ids des c. dans lesquelles son territoire est réparti
+        - description: seDissoutDans - c. supprimée avec ids des c. dans lesquelles son territoire est réparti
           type: object
           additionalProperties: false
           required: [seDissoutDans]
@@ -66,13 +84,21 @@ $schema:
               type: string
           examples:
             - { changeDeNomPour: Mœurs-Verdey, reçoitUnePartieDe: 51606 }
-        - description: commune contribuant à la création d'une commune avec l'id de la c. créée
+        - description: crééeAPartirDe - c. créée avec liste des id des communes dont provient son territoire
+          type: object
+          additionalProperties: false
+          required: [crééeAPartirDe]
+          properties:
+            crééeAPartirDe:
+              $ref: '#/definitions/listeDeCodesInsee'
+        - description: contribueA - commune contribuant à la création d'une commune avec l'id de la c. créée
           type: object
           additionalProperties: false
           required: [contribueA]
           properties:
             contribueA:
               $ref: '#/definitions/codeInsee'
+
         - description: prendPourAssociées? + absorbe - c. prenant des associées et/ou en absorbant d'autres (fusion/association)
           type: object
           additionalProperties: false
@@ -218,34 +244,7 @@ $schema:
           properties:
             rétabliCommeArrondissementMunicipalDe:
               $ref: '#/definitions/codeInsee'
-        - description: c. créée avec liste des id des communes dont provient son territoire
-          type: object
-          additionalProperties: false
-          required: [crééeAPartirDe]
-          properties:
-            crééeAPartirDe:
-              $ref: '#/definitions/listeDeCodesInsee'
-        - description: quitteLeDépartementEtPrendLeCode - c. changeant d'id lors d'un changement de département avec nouvel id
-          type: object
-          additionalProperties: false
-          required: [quitteLeDépartementEtPrendLeCode]
-          properties:
-            quitteLeDépartementEtPrendLeCode:
-              $ref: '#/definitions/codeInsee'
-        - description: arriveDansLeDépartementAvecLeCode - c. changeant de département avec précédent id + devientDéléguéeDe?
-          type: object
-          additionalProperties: false
-          required: [arriveDansLeDépartementAvecLeCode]
-          properties:
-            arriveDansLeDépartementAvecLeCode:
-              $ref: '#/definitions/codeInsee'
-            devientDéléguéeDe:
-              $ref: '#/definitions/codeInsee'
-          examples:
-            - { arriveDansLeDépartementAvecLeCode: 49144, devientDéléguéeDe: 44180 }
-        - description: >
-            c. créée par fusion simple à l'occasion de laquelle un nouvel id est créé avec liste des id
-            des c. à partir desquelles cette fusion a été effectuée
+        - description: c. créée par fusion simple à l'occasion de laquelle un nouvel id est créé avec liste des id des c. supprimées
           type: object
           additionalProperties: false
           required: [crééeParFusionSimpleDe]

@@ -5,7 +5,15 @@ title: histo.php - génération du fichier histo
 doc: |
   Production d'un document Yaml de l'historique de chaque code Insee à partir des données de mouvements Insee et de l'état au 1/1/2020.
   Correction des incohérences constatées et de quelques erreurs flagrantes.
+  Fonctionne en 3 étapes:
+    1) fabrication du Rpicom défini par date de fin avec pseudo-date now
+    2) ajout d'évènements détaillés
+    3) construction du fichier histo à partir du Rpicom avec évènements détaillés
 journal: |
+  12-14/7/2020:
+    - construction de mirroirs
+    - essai d'amélioration de la sémantique de histo.yaml
+    - Transformation de rétablieCommeSimpleDe en crééeCommeSimpleParScissionDe
   9-11/7/2020:
     - reconstruction à partir de rpicom
 includes:
@@ -55,16 +63,22 @@ $menu = new Menu([
       "Fabrication du Rpicom"=> [],
     ],
   ],
-  'détailleEvt'=> [
+  'showRpicom'=> [
     'argNames'=> [],
     'actions'=> [
-      "détailleEvt"=> [],
+      "Affichage du Rpicom"=> [],
     ],
   ],
   'bhisto'=> [
     'argNames'=> [],
     'actions'=> [
       "Fabrication du histo"=> [],
+    ],
+  ],
+  'mirroirs'=> [
+    'argNames'=> [],
+    'actions'=> [
+      "génère les mirroirs"=> [],
     ],
   ],
 ], $argc ?? 0, $argv ?? []);
@@ -220,11 +234,14 @@ function ypath(array $yaml, array $path) {
   }
 }
 
+function echoHtmlHeader(string $title, string $start='<pre>'): void {
+  if (php_sapi_name() <> 'cli')
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>$title</title></head><body>$start\n";
+}
+
 
 if ($_GET['action'] == 'buildState') { // affichage Yaml de l'état des communes par traduction du fichier INSEE
-  if (php_sapi_name() <> 'cli')
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>buildState $_GET[file]</title></head><body>\n",
-         "<h3>lecture du fichier $_GET[file]</h3><pre>\n";
+  echoHtmlHeader($_GET['action'], "<h3>lecture du fichier $_GET[file]</h3><pre>\n");
   //die("Fin ligne ".__LINE__);
   $coms = []; // [cinsee => record + children] 
   $enfants = []; // [cinsee => record] 
@@ -332,90 +349,6 @@ EOT;
 // Attention base.inc.php et YamDoc sont incompatibles
 require_once __DIR__.'/base.inc.php';
 
-// détaille les évts de rattachement et d'absorption vus des c. de rattachement
-if ($_GET['action'] == 'détailleEvt') {
-  /*
-  évènement/sAssocieA => évènementDétaillé/prendPourAssociées
-  évènement/fusionneDans => évènementDétaillé/absorbe
-  évènement/devientDéléguéeDe => évènementDétaillé/délègueA
-  évènement/seFondDans => évènementDétaillé/absorbe
-  évènement/rétablieCommeSimpleDe => ['évènementDétaillé/rétablitCommeSimple
-  */
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>détailleEvt</title></head><body><pre>\n";
-  $rpicomBase = new Base(__DIR__.'/rpicom', new Criteria(['not']));
-  //$rpicomBase = new Base(__DIR__.'/rpicomtest', new Criteria(['not']));
-  $rpicoms = $rpicomBase->contents();
-  // supprime des évènementDétaillés et les réinitialise pour les c. déléguées propres
-  foreach ($rpicoms as $id => $rpicom) {
-    foreach ($rpicom as $dv => $version) {
-      unset($rpicoms[$id][$dv]['évènementDétaillé']);
-      if (($version['évènement'] ?? null) == 'Se crée en commune nouvelle avec commune déléguée propre') {
-        addValToArray($id, $rpicoms[$id][$dv]['évènementDétaillé']['délègueA']);
-        $rpicomBase->$id = $rpicoms[$id];
-      }
-    }
-    $rpicomBase->$id = $rpicoms[$id];
-  }
-  // balaie les c. rattachées ou absorbées pour détailler l'évt de rattachement/absorption sur la c. de ratt./absorbante
-  foreach ($rpicoms as $id => $rpicom) {
-    foreach ($rpicom as $dv => $version) {
-      if ($cratid = $version['évènement']['sAssocieA'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourAssociées']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-      if ($cratid = $version['évènement']['fusionneDans'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-      if ($cratid = $version['évènement']['devientDéléguéeDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['délègueA']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-      if ($cratid = $version['évènement']['seFondDans'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-      if ($cratid = $version['évènement']['rétablieCommeSimpleDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['rétablitCommeSimple']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-    }
-  }
-  // corrige les evts détaillés affectés par erreur à une date alors qu'ils auraient du être affecté au bis
-  $évènements = [
-    'Se crée en commune nouvelle avec commune déléguée propre',
-    'Prend des c. associées et/ou absorbe des c. fusionnées',
-    'Absorbe certaines de ses c. rattachées ou certaines de ses c. associées deviennent déléguées',
-    'Se crée en commune nouvelle',
-    'Commune rétablissant des c. rattachées ou fusionnées',
-  ];
-  foreach ($rpicoms as $id => $rpicom) {
-    foreach ($rpicom as $dv => $version) {
-      if (isset($rpicom["$dv-bis"])) {
-        if (isset($version['évènementDétaillé']) && !in_array($version['évènement'], $évènements)) {
-          $rpicom["$dv-bis"]['évènementDétaillé'] = $version['évènementDétaillé'];
-          unset($rpicom[$dv]['évènementDétaillé']);
-          //echo "Pour $id, transfert détails de $dv sur $dv-bis pour évènement='",json_encode($version['évènement']),"'\n";
-          $rpicomBase->$id = $rpicom;
-        }
-      }
-    }
-  }
-  
-  if (0)
-  foreach ($rpicoms as $id => $rpicom) { // affiche les évènementsDétaillés
-    foreach ($rpicom as $dv => $version) {
-      if (isset($rpicoms[$id][$dv]['évènementDétaillé'])) {
-        echo Yaml::dump([$id => [$dv => ['évènementDétaillé'=> $rpicoms[$id][$dv]['évènementDétaillé']]]]);
-      }
-    }
-  }
-  $rpicomBase->storeMetadata(array_merge($rpicomBase->metadata(), ['évènementsDétaillésAjoutés' => date(DATE_ATOM)]));
-  $rpicomBase->writeAsYaml();
-  $rpicomBase->save();
-  die("Fin détailleEvt dans '".$rpicomBase->metadata()['title']."'\n");
-}
-
 require_once __DIR__.'/grpmvts.inc.php';
 require_once __DIR__.'/mgrpmvts.inc.php';
 
@@ -488,9 +421,8 @@ name: brpicom
 title: brpicom - construction du Rpicom
 doc: |
 */}
-if ($_GET['action'] == 'brpicom') { // construction du Rpicom v2
-  if (php_sapi_name() <> 'cli')
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>brpicom</title></head><body><pre>\n";
+if ($_GET['action'] == 'brpicom') { // construction du Rpicom 
+  echoHtmlHeader($_GET['action']);
   //$trace = new Criteria([]); // aucun critère, tout est affiché
   $trace = new Criteria(['not']); // rien n'est affiché
   //$trace = new Criteria(['mod'=> ['32']]);
@@ -585,6 +517,18 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom v2
     $rpicom['1972-12-01']['évènement'] = ['fusionneDans' => $rpicom['1972-12-01']['évènement']['sAssocieA']];
     $rpicoms->$id = $rpicom;
   }
+  if (1) { // Ajout des 2 Evts de scission des arrdts mun. de Lyon
+    echo "Ajout des 2 Evts de scission des arrdts mun. de Lyon\n";
+    foreach ([69385 => '1964-08-12', 69387 => '1959-02-08'] as $id => $devt) {
+      $rpicom = $rpicoms->$id;
+      $rpicom[$devt] = [
+        'name'=> $rpicom['now']['name'],
+        'estArrondissementMunicipalDe'=> $rpicom['now']['estArrondissementMunicipalDe'],
+        'évènement'=> "Se scinde pour créer un nouvel arrondissement municipal",
+      ];
+      $rpicoms->$id = $rpicom;
+    }
+  }
   if (0)
     $rpicoms->showExtractAsYaml(5, 2);
   $rpicoms->ksort(); // tri du Yaml sur le code INSEE de commune
@@ -592,8 +536,23 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom v2
   die("Fin brpicom ok, rpicom sauvé dans rpicom.yaml\n");
 }
 
-// détaille les évts de rattachement et d'absorption vus des c. de rattachement
-if ($_GET['action'] == 'détailleEvt') {
+{/*PhpDoc: screens
+name: showRpicom
+title: showRpicom - affichage du Rpicom
+doc: |
+*/}
+if ($_GET['action'] == 'showRpicom') { // affichage du Rpicom 
+  echoHtmlHeader($_GET['action']);
+  $rpicoms = new Base('rpicom', new Criteria(['not'])); // Lecture de rpicom.yaml dans $rpicoms
+  detailleEvt($rpicoms);
+  foreach ($rpicoms->contents() as $cinsee => $rpicom) {
+    echo Yaml::dump([$cinsee => $rpicom], 2, 2);
+  }
+  die("Fin srpicom ok\n");
+}
+
+// détaille certains évts
+function detailleEvt(Base $rpicomBase) {
   /*
   évènement/sAssocieA => évènementDétaillé/prendPourAssociées
   évènement/fusionneDans => évènementDétaillé/absorbe
@@ -601,8 +560,6 @@ if ($_GET['action'] == 'détailleEvt') {
   évènement/seFondDans => évènementDétaillé/absorbe
   évènement/rétablieCommeSimpleDe => ['évènementDétaillé/rétablitCommeSimple
   */
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>détailleEvt</title></head><body><pre>\n";
-  $rpicomBase = new Base(__DIR__.'/rpicom', new Criteria(['not']));
   //$rpicomBase = new Base(__DIR__.'/rpicomtest', new Criteria(['not']));
   $rpicoms = $rpicomBase->contents();
   // supprime des évènementDétaillés et les réinitialise pour les c. déléguées propres
@@ -610,7 +567,7 @@ if ($_GET['action'] == 'détailleEvt') {
     foreach ($rpicom as $dv => $version) {
       unset($rpicoms[$id][$dv]['évènementDétaillé']);
       if (($version['évènement'] ?? null) == 'Se crée en commune nouvelle avec commune déléguée propre') {
-        addValToArray($id, $rpicoms[$id][$dv]['évènementDétaillé']['délègueA']);
+        addValToArray($id, $rpicoms[$id][$dv]['évènementDétaillé']['prendPourDéléguées']);
         $rpicomBase->$id = $rpicoms[$id];
       }
     }
@@ -623,12 +580,24 @@ if ($_GET['action'] == 'détailleEvt') {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourAssociées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
+      if ($cratid = $version['évènement']['resteAssociéeA'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['gardeCommeAssociées']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
       if ($cratid = $version['évènement']['fusionneDans'] ?? null) {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['devientDéléguéeDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['délègueA']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['resteDéléguéeDe'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['gardeCommeDéléguées']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['changedAssociéeEnDéléguéeDe'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['seFondDans'] ?? null) {
@@ -636,7 +605,49 @@ if ($_GET['action'] == 'détailleEvt') {
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['rétablieCommeSimpleDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['rétablitCommeSimple']);
+        // Transformation de rétablieCommeSimpleDe en crééParScissionDe
+        unset($rpicoms[$id][$dv]['évènement']['rétablieCommeSimpleDe']);
+        $rpicoms[$id][$dv]['évènement']['crééeCommeSimpleParScissionDe'] = $cratid;
+        $rpicomBase->$id = $rpicoms[$id];
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréer']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['crééeCommeSimpleParScissionDe'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréer']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['rétabliCommeArrondissementMunicipalDe'] ?? null) {
+        // Transformation de rétabliCommeArrondissementMunicipalDe en 
+        unset($rpicoms[$id][$dv]['évènement']['rétabliCommeArrondissementMunicipalDe']);
+        $rpicoms[$id][$dv]['évènement']['crééCommeArrondissementMunicipalParScissionDe'] = $cratid;
+        $rpicomBase->$id = $rpicoms[$id];
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLeNouvelArrondissementMunicipal']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['crééCommeArrondissementMunicipalParScissionDe'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLeNouvelArrondissementMunicipal']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['rétablieCommeAssociéeDe'] ?? null) {
+        // Transformation de rétablieCommeAssociéeDe en crééeCommeAssociéeParScissionDe
+        unset($rpicoms[$id][$dv]['évènement']['rétablieCommeAssociéeDe']);
+        $rpicoms[$id][$dv]['évènement']['crééeCommeAssociéeParScissionDe'] = $cratid;
+        $rpicomBase->$id = $rpicoms[$id];
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLAssociée']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if ($cratid = $version['évènement']['crééeCommeAssociéeParScissionDe'] ?? null) {
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLAssociée']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if (($cratid = $version['évènement']['changeDeRattachementPour'] ?? null)
+       || ($cratid = $version['évènement']['perdRattachementPour'] ?? null)) {
+        // Transformation de changeDeRattachementPour||perdRattachementPour en devientDéléguéeDe
+        unset($rpicoms[$id][$dv]['évènement']['changeDeRattachementPour']);
+        unset($rpicoms[$id][$dv]['évènement']['perdRattachementPour']);
+        $rpicoms[$id][$dv]['évènement']['devientDéléguéeDe'] = $cratid;
+        $rpicomBase->$id = $rpicoms[$id];
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
     }
@@ -673,12 +684,11 @@ if ($_GET['action'] == 'détailleEvt') {
   $rpicomBase->storeMetadata(array_merge($rpicomBase->metadata(), ['évènementsDétaillésAjoutés' => date(DATE_ATOM)]));
   $rpicomBase->writeAsYaml();
   $rpicomBase->save();
-  die("Fin détailleEvt dans '".$rpicomBase->metadata()['title']."'\n");
 }
 
 {/*PhpDoc: screens
 name: bhisto
-title: bhisto - construction du fichier insee
+title: bhisto - construction du fichier histo
 doc: |
   {cinsee}: [
     {date}: [
@@ -692,14 +702,15 @@ doc: |
   ]
 */}
 if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
-  if (php_sapi_name() <> 'cli')
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>binsee</title></head><body><pre>\n";
-  $rpicoms = new Base('rpicom', new Criteria(['not'])); // Lecture de rpicom.yaml dans $$rpicoms
+  echoHtmlHeader($_GET['action']);
+  $rpicoms = new Base('rpicom', new Criteria(['not'])); // Lecture de rpicom.yaml dans $rpicoms
+  detailleEvt($rpicoms);
   $histo = [];
   //print_r($rpicoms);
   foreach ($rpicoms->contents() as $cinsee => $rpicom) {
     //if (!in_array($cinsee, ['01015','01079','01283',01217','78001','13201','14513','55273','55386','91001'])) continue;
-    echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 3);
+    //echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 3);
+    
     // transforme estAssociéeA/estDéléguéeDe/estArrondissementMunicipalDe en statut/crat
     // traite aussi le cas di statut mixte Simple + Déléguée
     foreach ($rpicom as $dfin => $val) {
@@ -718,9 +729,15 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
       $rpicom[$dfin] = $val;
     }
 
-    // transforme évènement | évènementDétaillé -> evts
+    // transforme évènement + évènementDétaillé -> evts
     foreach ($rpicom as $dfin => $val) {
-      $evt = $val['évènementDétaillé'] ?? $val['évènement'] ?? [];
+      $evt = $val['évènement'] ?? [];
+      if (isset($val['évènementDétaillé'])) {
+        if (is_string($evt) || !$evt)
+          $evt = $val['évènementDétaillé'];
+        else
+          $evt = array_merge($evt, $val['évènementDétaillé']);
+      }
       if ($evt) {
         $val['evts'] = $evt;
         unset($val['évènement']);
@@ -745,7 +762,7 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     }
     ksort($rpicom);
     
-    echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 3);
+    //echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 3);
     
     // passe de date de fin en date de début
     $dfins = array_keys($rpicom);
@@ -776,8 +793,8 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
       }
     }
     unset($rpicom['now']);
-    echo Yaml::dump(['fin'=> [$cinsee => $rpicom]], 4);
-    $histo[$cinsee] = $rpicom;
+    //echo Yaml::dump(['fin'=> [$cinsee => $rpicom]], 4);
+    $histos[$cinsee] = $rpicom;
   }
   
   // code Php intégré dans le document pour définir l'affichage résumé de la commune
@@ -805,10 +822,126 @@ EOT;
         ],
         'writePserReally'=> true,
       ],
-      'contents'=> $histo,
+      'contents'=> $histos,
     ], 4, 2));
-  //die("Fin binsee ok\n");
   die("Fin bhisto ok, résultat écrit dans histo.yaml\n");
 }
+
+if ($_GET['action'] == 'retaborigin') { // recherche les codes créés par un rétablissement
+  echoHtmlHeader($_GET['action']);
+  $histos = new Base('histo', new Criteria(['not'])); // Lecture de histo.yaml dans $histos
+  foreach ($histos->contents() as $cinsee => $histo) {
+    if (array_keys($histo)[0]=='1943-01-01') continue;
+    $evts0 = array_values($histo)[0]['evts'];
+    //if () continue;
+    if (is_array($evts0) && array_keys($evts0)==['arriveDansLeDépartementAvecLeCode']) continue;
+    echo Yaml::dump([$cinsee => $histo], 4);
+  }
+  die("</pre>Fin retaborigin\n");
+}
+
+if ($_GET['action'] == 'mirroirs') { // construction de la liste des mirroirs
+  class Evts {
+    protected $evts;
+  
+    function __construct($evts) { $this->evts = $evts; }
+    
+    function asVal() { return $this->evts; }
+    
+    function is_stringOrNumeric(): bool { return is_string($this->evts) || is_numeric($this->evts); }
+    
+    function buildMirroirs(string $cinsee, string $dcrea, Base $histos) {
+      if (is_string($this->evts)) return;
+      foreach ($this->evts as $key => $vals) {
+        if ($key == 'changeDeNomPour') continue;
+        //echo Yaml::dump(['$vals'=> $vals]);
+        if (is_string($vals) || is_numeric($vals)) {
+          if ($key=='label') continue;
+          if (!$histos->$vals) {
+            echo "<b>Erreur sur $cinsee</b>\n";
+            echo Yaml::dump([$cinsee=> [$dcrea => $this->asVal()]]);
+            continue;
+          }
+          if (!isset($histos->$vals[$dcrea])) {
+            echo "<b>Erreur sur $cinsee $dcrea</b>\n";
+            echo Yaml::dump([$cinsee=> [$dcrea => $this->asVal()]]);
+            continue;
+          }
+          $cible = $histos->$vals[$dcrea];
+          //echo Yaml::dump(['$cible'=> $cible]);
+          $mirroir = new Evts($cible['evts']);
+          Mirroirs::add($cinsee, $key, $vals, $this, $mirroir);
+        }
+        else {
+          foreach ($vals as $val) {
+            if (!$histos->$val) {
+              echo "<b>Erreur sur $cinsee</b>\n";
+              continue;
+            }
+            if (!isset($histos->$val[$dcrea])) {
+              echo "<b>Erreur sur $cinsee $dcrea</b>\n";
+              echo Yaml::dump([$cinsee=> [$dcrea => $this->asVal()]]);
+              continue;
+            }
+            $cible = $histos->$val[$dcrea];
+            //echo Yaml::dump(['$cible'=> $cible]);
+            $mirroir = new Evts($cible['evts']);
+            Mirroirs::add($cinsee, $key, $val, $this, $mirroir);
+          }
+        }
+      }
+    }
+    
+    function searchKey(string $cinsee): string {
+      foreach ($this->evts as $key => $vals) {
+        if (($vals == $cinsee) || (is_array($vals) && in_array($cinsee, $vals)))
+          return $key;
+      }
+      return '*'.implode('-',array_keys($this->evts));
+    }
+  };
+
+  class Mirroirs {
+    static $mirroirs;
+    
+    static function add(string $cinsee, string $key1, string $cinsee2, Evts $evts, Evts $mirroir) {
+      if (0) {
+        echo yaml::dump([
+          'Mirroirs::add'=> [
+            'evts'=> [$cinsee => [$key1 => $evts->asVal()]],
+            'mirroir'=> [$cinsee2 => $mirroir->asVal()]
+          ]
+        ]);
+      }
+      if ($mirroir->is_stringOrNumeric()) {
+        $key2 = $mirroir->asVal();
+      }
+      else {
+        $key2 = $mirroir->searchKey($cinsee);
+        //echo "key2=$key2\n";
+      }
+      if (!isset(self::$mirroirs[$key1][$key2]))
+        self::$mirroirs[$key1][$key2] = 1;
+      else
+        self::$mirroirs[$key1][$key2]++;
+      //echo '<b>',Yaml::dump(['$mirroirs'=> self::$mirroirs]),"</b>";
+    }
+  };
+  
+  echoHtmlHeader($_GET['action']);
+  $histos = new Base('histo', new Criteria(['not'])); // Lecture de histo.yaml dans $histos
+  foreach ($histos->contents() as $cinsee => $histo) {
+    foreach ($histo as $dcrea => $version) {
+      if (isset($version['evts'])) {
+        //echo Yaml::dump(['histo'=> [$cinsee => [$dcrea => $version['evts']]]], 3, 2);
+        $evts = new Evts($version['evts']);
+        $evts->buildMirroirs($cinsee, $dcrea, $histos);
+      }
+    }
+  }
+  echo Yaml::dump(['$mirroirs' => Mirroirs::$mirroirs], 2, 2);
+  die("Fin mirroirs ok\n");
+}
+
 
 die("Aucune commande $_GET[action]\n");
