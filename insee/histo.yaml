@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-07-14T19:56:18+00:00'
+created: '2020-07-14T20:59:36+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -110472,7 +110472,7 @@ contents:
     '1943-01-01':
       etat: { name: 'Lyon 5e Arrondissement', statut: ARDM, crat: 69123 }
     '1964-08-12':
-      evts: { seScindePourCréerLeNouvelArrondissementMunicipal: [69389] }
+      evts: { seScindePourCréerLesNouveauxArrondissementsMunicipaux: [69389] }
       etat: { name: 'Lyon 5e Arrondissement', statut: ARDM, crat: 69123 }
   69386:
     '1943-01-01':
@@ -110481,7 +110481,7 @@ contents:
     '1943-01-01':
       etat: { name: 'Lyon 7e Arrondissement', statut: ARDM, crat: 69123 }
     '1959-02-08':
-      evts: { seScindePourCréerLeNouvelArrondissementMunicipal: [69388] }
+      evts: { seScindePourCréerLesNouveauxArrondissementsMunicipaux: [69388] }
       etat: { name: 'Lyon 7e Arrondissement', statut: ARDM, crat: 69123 }
   69388:
     '1959-02-08':
@@ -140107,7 +140107,7 @@ contents:
       evts: { prendPourAssociées: [89220, 89254, 89352], absorbe: [89325, 89389] }
       etat: { name: Saint-Fargeau, statut: COMS }
     '1977-01-01':
-      evts: { seScindePourCréerLAssociée: [89325, 89389] }
+      evts: { seScindePourCréerLesAssociées: [89325, 89389] }
       etat: { name: Saint-Fargeau, statut: COMS }
     '1999-01-01':
       evts: { gardeCommeAssociées: [89389] }

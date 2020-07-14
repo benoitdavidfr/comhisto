@@ -621,11 +621,11 @@ function detailleEvt(Base $rpicomBase) {
         unset($rpicoms[$id][$dv]['évènement']['rétabliCommeArrondissementMunicipalDe']);
         $rpicoms[$id][$dv]['évènement']['crééCommeArrondissementMunicipalParScissionDe'] = $cratid;
         $rpicomBase->$id = $rpicoms[$id];
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLeNouvelArrondissementMunicipal']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesNouveauxArrondissementsMunicipaux']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['crééCommeArrondissementMunicipalParScissionDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLeNouvelArrondissementMunicipal']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesNouveauxArrondissementsMunicipaux']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['rétablieCommeAssociéeDe'] ?? null) {
@@ -633,11 +633,11 @@ function detailleEvt(Base $rpicomBase) {
         unset($rpicoms[$id][$dv]['évènement']['rétablieCommeAssociéeDe']);
         $rpicoms[$id][$dv]['évènement']['crééeCommeAssociéeParScissionDe'] = $cratid;
         $rpicomBase->$id = $rpicoms[$id];
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLAssociée']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesAssociées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['crééeCommeAssociéeParScissionDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLAssociée']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesAssociées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if (($cratid = $version['évènement']['changeDeRattachementPour'] ?? null)

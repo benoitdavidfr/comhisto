@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/rpicom'
-created: '2020-07-14T19:55:52+00:00'
+created: '2020-07-14T20:59:22+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -9,7 +9,7 @@ ydADscrBhv:
   buildName:
     AdministrativeArea: "if (isset($item['now']['name']))\n  return $item['now']['name'].\" ($skey)\";\nelse\n  return '<s>'.array_values($item)[0]['name'].\" ($skey)</s>\";"
   writePserReally: true
-évènementsDétaillésAjoutés: '2020-07-14T19:56:16+00:00'
+évènementsDétaillésAjoutés: '2020-07-14T20:59:34+00:00'
 contents:
   '01001':
     now:
@@ -133330,7 +133330,7 @@ contents:
       estArrondissementMunicipalDe: 69123
       évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
       évènementDétaillé:
-        seScindePourCréerLeNouvelArrondissementMunicipal:
+        seScindePourCréerLesNouveauxArrondissementsMunicipaux:
           - 69389
   69386:
     now:
@@ -133345,7 +133345,7 @@ contents:
       estArrondissementMunicipalDe: 69123
       évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
       évènementDétaillé:
-        seScindePourCréerLeNouvelArrondissementMunicipal:
+        seScindePourCréerLesNouveauxArrondissementsMunicipaux:
           - 69388
   69388:
     now:
@@ -167978,7 +167978,7 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Fargeau
       évènementDétaillé:
-        seScindePourCréerLAssociée:
+        seScindePourCréerLesAssociées:
           - 89325
           - 89389
     '1972-12-01':

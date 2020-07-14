@@ -1,5 +1,5 @@
 title: définition du schéma du référentiel historique des codes INSEE des communes avec illustration
-modified: '2020-07-11'
+modified: '2020-07-14'
 description: |
   Le champ $schema contient le schéma du référentiel.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
@@ -37,222 +37,97 @@ $schema:
             - Entre dans le périmètre du référentiel # Cas des c. de Mayotte qui devient DOM le 31/03/2011
             - Sort du périmètre du référentiel # Cas de Saint-Martin et Saint-Barthélémy
             - Commune associée rétablie comme commune simple
-            - Absorbe certaines de ses c. rattachées ou certaines de ses c. associées deviennent déléguées
             - Commune déléguée rétablie comme commune simple
             - Commune rétablissant des c. rattachées ou fusionnées
-            - Commune rattachée devient commune de rattachement
-        - description: quitteLeDépartementEtPrendLeCode - c. changeant d'id lors d'un changement de département avec nouvel id
+        - description: cas où l'évènement est défini par un objet
           type: object
           additionalProperties: false
-          required: [quitteLeDépartementEtPrendLeCode]
           properties:
-            quitteLeDépartementEtPrendLeCode:
-              $ref: '#/definitions/codeInsee'
-        - description: arriveDansLeDépartementAvecLeCode - c. changeant de département avec précédent id + devientDéléguéeDe?
-          type: object
-          additionalProperties: false
-          required: [arriveDansLeDépartementAvecLeCode]
-          properties:
+            label:
+              type: string
+              enum:
+                - Commune associée rétablie comme commune simple
+            changeDeNomPour:
+              description: changeDeNomPour - commune change de nom avec indication du nouveau nom
+              type: string
             arriveDansLeDépartementAvecLeCode:
+              description: arriveDansLeDépartementAvecLeCode - c. changeant de département avec précédent id
               $ref: '#/definitions/codeInsee'
-            devientDéléguéeDe:
-              $ref: '#/definitions/codeInsee'
-          examples:
-            - { arriveDansLeDépartementAvecLeCode: 49144, devientDéléguéeDe: 44180 }
-        - description: changeDeNomPour - commune change de nom avec indication du nouveau nom
-          type: object
-          additionalProperties: false
-          required: [changeDeNomPour]
-          properties:
-            changeDeNomPour:
-              type: string
-        - description: seDissoutDans - c. supprimée avec ids des c. dans lesquelles son territoire est réparti
-          type: object
-          additionalProperties: false
-          required: [seDissoutDans]
-          properties:
-            seDissoutDans:
-              $ref: '#/definitions/listeDeCodesInsee'
-        - description: reçoitUnePartieDe + changeDeNomPour? - c. recevant un territoire d'une c. supprimée avec l'id de la c. supprimée
-          type: object
-          additionalProperties: false
-          required: [reçoitUnePartieDe]
-          properties:
-            reçoitUnePartieDe:
-              $ref: '#/definitions/codeInsee'
-            changeDeNomPour:
-              type: string
-          examples:
-            - { changeDeNomPour: Mœurs-Verdey, reçoitUnePartieDe: 51606 }
-        - description: crééeAPartirDe - c. créée avec liste des id des communes dont provient son territoire
-          type: object
-          additionalProperties: false
-          required: [crééeAPartirDe]
-          properties:
-            crééeAPartirDe:
-              $ref: '#/definitions/listeDeCodesInsee'
-        - description: contribueA - commune contribuant à la création d'une commune avec l'id de la c. créée
-          type: object
-          additionalProperties: false
-          required: [contribueA]
-          properties:
-            contribueA:
-              $ref: '#/definitions/codeInsee'
-
-        - description: prendPourAssociées? + absorbe - c. prenant des associées et/ou en absorbant d'autres (fusion/association)
-          type: object
-          additionalProperties: false
-          properties:
-            prendPourAssociées:
-              $ref: '#/definitions/listeDeCodesInsee'
-            absorbe:
-              $ref: '#/definitions/listeDeCodesInsee'
-          examples:
-            - { prendPourAssociées: ['01440'], absorbe: ['01055'] }
-        - description: cas particulier - rétablissement + prendPourAssociées
-          type: object
-          additionalProperties: false
-          required: [label, prendPourAssociées]
-          properties:
-            label:
-              type: string
-            prendPourAssociées:
-              $ref: '#/definitions/listeDeCodesInsee'
-          examples:
-            - { label: 'Commune associée rétablie comme commune simple', prendPourAssociées: [55273] }
-        - description: sAssocieA - c. s'associant par fusion-association à une commune de rattachement
-          type: object
-          additionalProperties: false
-          required: [sAssocieA]
-          properties:
-            sAssocieA:
-              $ref: '#/definitions/codeInsee'
-        - description: cas particulier - rétablissement + sAssocieA
-          type: object
-          additionalProperties: false
-          required: [label, sAssocieA]
-          properties:
-            label:
-              type: string
-            sAssocieA:
-              $ref: '#/definitions/codeInsee'
-          examples:
-            - { label: 'Commune associée rétablie comme commune simple', sAssocieA: 55386 }
-        - description: fusionneDans - c. fusionnant par fusion-association dans une autre commune
-          type: object
-          additionalProperties: false
-          required: [fusionneDans]
-          properties:
-            fusionneDans:
-              $ref: '#/definitions/codeInsee'
-        - description: resteAssociéeA - c. restant associée à l'occasion d'une absorption
-          type: object
-          additionalProperties: false
-          required: [resteAssociéeA]
-          properties:
-            resteAssociéeA:
-              $ref: '#/definitions/codeInsee'
-        - description: délègueA + absorbe? - création d'une c. nouvelle avec liste des communes déléguées et absorbées
-          type: object
-          additionalProperties: false
-          required: [délègueA]
-          properties:
-            délègueA:
-              $ref: '#/definitions/listeDeCodesInsee'
-            absorbe:
-              $ref: '#/definitions/listeDeCodesInsee'
-          examples:
-            - evts: { délègueA: ['08490', '08443', '08493'], absorbe: ['08068'] }
-        - description: seFondDans - c. absorbée par une c. nouv. sans c. dél. avec id de la c. aborbante
-          type: object
-          additionalProperties: false
-          required: [seFondDans]
-          properties:
-            seFondDans:
-              $ref: '#/definitions/codeInsee'
-        - description: devientDéléguéeDe - c. devenant déléguée lors de la création d'une c. nouv. avec id de la c. déléguante
-          type: object
-          additionalProperties: false
-          required: [devientDéléguéeDe]
-          properties:
-            devientDéléguéeDe:
-              $ref: '#/definitions/codeInsee'
-        - description: resteDéléguéeDe - c. restant déléguée lors d'une absorption avec id de la c. déléguante
-          type: object
-          additionalProperties: false
-          required: [resteDéléguéeDe]
-          properties:
-            resteDéléguéeDe:
-              $ref: '#/definitions/codeInsee'
-        - description: changedAssociéeEnDéléguéeDe - c. associée devient déléguée avec id de la c. déléguante
-          type: object
-          additionalProperties: false
-          required: [changedAssociéeEnDéléguéeDe]
-          properties:
-            changedAssociéeEnDéléguéeDe:
-              $ref: '#/definitions/codeInsee'
-        - description: cas particulier - absorbe + quitteLeDépartementEtPrendLeCode
-          type: object
-          additionalProperties: false
-          required: [absorbe,quitteLeDépartementEtPrendLeCode]
-          properties:
-            absorbe:
-              $ref: '#/definitions/listeDeCodesInsee'
             quitteLeDépartementEtPrendLeCode:
+              description: quitteLeDépartementEtPrendLeCode - c. changeant d'id lors d'un changement de département avec nouvel id
               $ref: '#/definitions/codeInsee'
-          examples:
-            - { absorbe: [14507], quitteLeDépartementEtPrendLeCode: 50649 }
-        - description: perdRattachementPour - c. de rattachement perdant son statut au profit de la c. dont l'id est indiqué
-          type: object
-          additionalProperties: false
-          required: [perdRattachementPour]
-          properties:
-            perdRattachementPour:
+            reçoitUnePartieDe:
+              description: reçoitUnePartieDe - c. recevant un territoire d'une c. supprimée avec l'id de la c. supprimée
               $ref: '#/definitions/codeInsee'
-        - description: changeDeRattachementPour - c. rattachée changeant de c. de rattachement au profit de la c. dont l'id est indiqué
-          type: object
-          additionalProperties: false
-          required: [changeDeRattachementPour]
-          properties:
-            changeDeRattachementPour:
-              $ref: '#/definitions/codeInsee'
-        - description: rétablitCommeSimple - c. simple rétablissant des c. avec id de ces c. rétablies
-          type: object
-          additionalProperties: false
-          required: [rétablitCommeSimple]
-          properties:
-            rétablitCommeSimple:
+            seDissoutDans:
+              description: seDissoutDans - c. supprimée avec ids des c. dans lesquelles son territoire est réparti
               $ref: '#/definitions/listeDeCodesInsee'
-        - description: rétablieCommeSimpleDe - c. simple rétablie avec id de la c. dont elle est issue
-          type: object
-          additionalProperties: false
-          required: [rétablieCommeSimpleDe]
-          properties:
-            rétablieCommeSimpleDe:
+            contribueA:
+              description: contribueA - commune contribuant à la création d'une commune avec l'id de la c. créée
               $ref: '#/definitions/codeInsee'
-        - description: rétablieCommeAssociéeDe - c. associée rétablie avec id de la c. dont elle est issue
-          type: object
-          additionalProperties: false
-          required: [rétablieCommeAssociéeDe]
-          properties:
-            rétablieCommeAssociéeDe:
+            crééeAPartirDe:
+              description: crééeAPartirDe - c. créée avec liste des id des communes dont provient son territoire
+              $ref: '#/definitions/listeDeCodesInsee'
+            seFondDans:
+              description: seFondDans - c. absorbée par une c. nouv. sans c. dél. avec id de la c. aborbante
               $ref: '#/definitions/codeInsee'
-        - description: rétabliCommeArrondissementMunicipalDe - arrondissement municipal rétabli avec id de celui dont il est issu
-          type: object
-          additionalProperties: false
-          required: [rétabliCommeArrondissementMunicipalDe]
-          properties:
-            rétabliCommeArrondissementMunicipalDe:
+            absorbe:
+              $ref: '#/definitions/listeDeCodesInsee'
+            fusionneDans:
+              description: fusionneDans - c. fusionnant par fusion-association dans une autre commune
               $ref: '#/definitions/codeInsee'
-        - description: c. créée par fusion simple à l'occasion de laquelle un nouvel id est créé avec liste des id des c. supprimées
-          type: object
-          additionalProperties: false
-          required: [crééeParFusionSimpleDe]
-          properties:
             crééeParFusionSimpleDe:
+              description: c. créée par fusion de c. supprimées, un nouvel id est créé, avec liste des id des c. supprimées
+              $ref: '#/definitions/listeDeCodesInsee'
+            crééeCommeSimpleParScissionDe:
+              description: c. simple créée par scission d'un c. existante avec id de la c. existante
+              $ref: '#/definitions/codeInsee'
+            seScindePourCréer:
+              description: c. simple se scindant pour créer une c. avec id de la c. créée
+              $ref: '#/definitions/listeDeCodesInsee'
+            sAssocieA:
+              description: c. s'associant par fusion-association à une commune de rattachement
+              $ref: '#/definitions/codeInsee'
+            prendPourAssociées:
+              description: c. prenant des associées avec ids des c. associées
+              $ref: '#/definitions/listeDeCodesInsee'
+            devientDéléguéeDe:
+              description: c. devenant déléguée lors de la création/évolution d'une c. nouv. avec id de la c. de rattachement
+              $ref: '#/definitions/codeInsee'
+            prendPourDéléguées:
+              description: c. prenant des déléguées lors de la création/évolution d'une c. nouv. avec ids des c. déléguées
+              $ref: '#/definitions/listeDeCodesInsee'
+            changedAssociéeEnDéléguéeDe:
+              description: c. associée devient déléguée avec id de la c. de rattachement
+              $ref: '#/definitions/codeInsee'
+            resteAssociéeA:
+              description: c. restant associée à l'occasion d'une modification de l'association
+              $ref: '#/definitions/codeInsee'
+            gardeCommeAssociées:
+              description: c. associante listant les c. restant associées à l'occasion d'une modification de l'association
+              $ref: '#/definitions/listeDeCodesInsee'
+            resteDéléguéeDe:
+              description: c. restant déléguée à l'occasion d'une modification de la commune nouvelle
+              $ref: '#/definitions/codeInsee'
+            gardeCommeDéléguées:
+              description: c. nouvelle listant les c. restant déléguées à l'occasion d'une modification de cette c. n.
+              $ref: '#/definitions/listeDeCodesInsee'
+            crééCommeArrondissementMunicipalParScissionDe:
+              description: arrondissement municipal créé avec id de celui dont il est issu
+              $ref: '#/definitions/codeInsee'
+            seScindePourCréerLesNouveauxArrondissementsMunicipaux:
+              description: arrondissements municipaux créés avec id de ceux créés
+              $ref: '#/definitions/listeDeCodesInsee'
+            crééeCommeAssociéeParScissionDe:
+              description: c. associée créée avec id de la c. dont elle est issue
+              $ref: '#/definitions/codeInsee'
+            seScindePourCréerLesAssociées:
+              description: c. associées créées avec id des c. créées
               $ref: '#/definitions/listeDeCodesInsee'
     etat:
-      description: état résultant des évènements et valide à partir de la date de la version jusqu'à la date de version suivante
+      description: |
+        état résultant des évènements et valide à partir de la date de la version jusqu'à la date de version suivante s'il y en a une,
+        sinon valide à la date de validité du référentiel
       type: object
       required: [name, statut]
       properties:
@@ -357,7 +232,7 @@ contents:
     '1943-01-01':
       etat: { name: Arbignieu, statut: COMS }
     '2016-01-01':
-      evts: { délègueA: ['01015', '01340'] }
+      evts: { prendPourDéléguées: ['01015', '01340'] }
       etat: { name: 'Arboys en Bugey', statut: COMM, nomCommeDéléguée: Arbignieu }
   '01079':
     '1943-01-01':
@@ -399,6 +274,15 @@ contents:
     '1983-01-01':
       evts: { label: 'Commune associée rétablie comme commune simple', sAssocieA: 55386 }
       etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+  55245:
+    '1943-01-01':
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+    '1973-01-01':
+      evts: { prendPourAssociées: [55273, 55386] }
+      etat: { name: Madine, statut: COMS }
+    '1983-01-01':
+      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
   55386:
     '1943-01-01':
       etat: { name: Nonsard, statut: COMS }
