@@ -12,8 +12,7 @@ doc: |
 journal: |
   12-14/7/2020:
     - construction de mirroirs
-    - essai d'amélioration de la sémantique de histo.yaml
-    - Transformation de rétablieCommeSimpleDe en crééeCommeSimpleParScissionDe
+    - amélioration de la sémantique de histo.yaml, mise au point de exhisto.yaml
   9-11/7/2020:
     - reconstruction à partir de rpicom
 includes:
