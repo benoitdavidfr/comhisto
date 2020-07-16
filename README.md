@@ -8,7 +8,7 @@ De nombreuses bases de données, par exemple des bases de décisions administrat
 pour localiser leur contenu, c'est à dire dans l'exemple chaque décision administrative.
 
 Or, ces codes INSEE évoluent, notamment en raison de la volonté de réduire le nombre de communes
-par fusion et par création de communes nouvelles.
+par fusion de communes et par création de communes nouvelles.
 Ces codes devraient donc être modifiés dans la base pour en tenir compte.
 Cependant ces modifications ne sont généralement pas effectuées
 et en conséquence les codes INSEE ainsi contenus dans les bases perdent leur signification
