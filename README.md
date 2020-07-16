@@ -31,7 +31,7 @@ l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
 et peut être géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-## 1ère étape - histo.yaml
+## 1ère étape - partir des données du COG de l'INSEE
 La première étape consiste à produire, à partir des données de mouvements Insee et de l'état au 1/1/2020, un document Yaml
 facile à consulter (par un humain et une machine) et à exploiter (par une machine) de l'historique de chaque code Insee.
 Le fichier [exhisto.yaml](insee/exhisto.yaml) spécifie le schéma de ce fichier ;
