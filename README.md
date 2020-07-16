@@ -31,24 +31,51 @@ l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
 et peut être géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-## 1ère étape - partir des données du COG de l'INSEE
-La première étape consiste à produire, à partir des données de mouvements et de l'état du COG INSEE au 1/1/2020, un document Yaml
-facile à consulter (par un humain et une machine) et à exploiter (par une machine) de l'historique de chaque code Insee.
+## 1ère étape - partir des données du COG de l'Insee
+La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
+l'historique de chaque code Insee sous la forme pour chaque code Insee de versions datées
+présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
 
-Le fichier [exhisto.yaml](insee/exhisto.yaml) spécifie le schéma de ce fichier ;
-le champ $schema définit le schéma JSON des données et le champ contents donne un exemple de contenu.
+Le schéma de ce fichier est spécifié dans le fichier [exhisto.yaml](insee/exhisto.yaml)
+dans le champ $schema sous la forme d'un schéma JSON ; le champ contents donne un exemple de contenu.
 Le fichier [histo.yaml](insee/histo.yaml) contient l'historique de chaque code Insee produit à partir du COG INSEE au 1/1/2020.
 
-## 2ème étape - structuration des versions en zones
-En utilisant la topologie définie par l'Insee entre versions, produire à partir de histo.yaml un document Yaml des zones.
-Une zone correspond aux différentes versions ayant même extension géographique ;
-la définition des zones inclus la relation d'inclusion entre elles.
+## 2ème étape - organisation des entités versionnées en zones
+Certains codes Insee correspondent à une date donnée à 2 entités distinctes.
+Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
+le code '01015' correspond en même temps à cette commune nouvelle et à Arbignieu, une de ses communes déléguées.
+Ainsi, pour identifier chaque entité versionnée, on suffixe son code Insee par le caractère '@' et la date de création de la version
+et, de plus, on préfixe par le caractère 's' pour une commune simple
+et 'r' pour une entité rattachée (commune associée, commune déléguée ou arrondissement municipal).
+Ainsi la commune simple d'Arboys en Bugey sera identifiée par 's01015@2026-01-01'
+et la commune déléguée d'Arbignieu par 'r01015@2026-01-01'.
+
+Les relations entre entités versionnées permettent de définir des zones, qui correspondent aux entités versionnées
+ayant même extension géographique et permettent aussi de définir la relation d'inclusion entre elles.
+
+Une zone correspondant à plusieurs versions, on choisit pour identifier une zone l'identifiant de la version la plus ancienne.
+
+Pour reprendre l'exemple d'Arboys en Bugey, la zone s01015@2016-01-01 correspond au territoire de la commune nouvelle,
+elle est composée de chacune des 2 communes déléguées.
+La commune déléguée d'Arbignieu correspond à une zone identifiée par s01015@1943-01-01 et qui correspond aussi à r01015@2016-01-01.
+L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par s01340@1943-01-01
+qui correspond aussi à r01340@2016-01-01.
+On exprime l'existence de ces 3 zone spar l'extrait suivant en Yaml :
+
+  s01015@2016-01-01:
+    contains:
+      s01015@1943-01-01:
+        sameAs:
+          - r01015@2016-01-01
+      s01340@1943-01-01:
+        sameAs:
+          - r01340@2016-01-01
 
 Une première version de ce fichier des zones est disponible dans [zones.yaml](zones/zones.yaml).
 
 ## 3ème étape - géoréférencement des entités valides en utilisant des données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
-ou à une entité rattachée (commune associée, commune déléguée ou arrondissement municipal) valide au 1/1/2020.
+ou à une entité rattachée valide au 1/1/2020.
 
 De même, les versions précédentes d'Admin-Express ou de GéoFLA permettent de géoréférencer des zones correspondant à une commune périmée,
 par exemple fusionnée dans une autre.
