@@ -58,7 +58,7 @@ On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu asso
 ## 4ème étape - construction d'un géoréférencement approché des entités périmées
 Il existe un certain nombre d'entités périmées pour lesquelles il est difficile de définir un géoréférencement.
 L'idée est dans ce cas de définir un géoréférencement approché en partant de la localisation ponctuelle des chefs-lieux
-et en construisant des polygones par l'(algorithme de Voronoï)[https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF].
+et en construisant des polygones par l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
 
 ## 5ème étape - publication du référentiel
 
