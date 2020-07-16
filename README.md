@@ -13,9 +13,9 @@ Ces codes devraient donc être modifiés dans la base pour en tenir compte.
 Cependant ces modifications ne sont généralement pas effectuées
 et en conséquence les codes INSEE ainsi contenus dans les bases perdent leur signification
 car ils ne peuvent plus être croisés
-avec un référentiel à jour des communes comme (celui de l'INSEE)[https://www.insee.fr/fr/information/2560452]
+avec un référentiel à jour des communes comme [celui de l'INSEE](https://www.insee.fr/fr/information/2560452)
 ou une base géographique IGN
-comme (Admin-Express)[https://geoservices.ign.fr/documentation/diffusion/telechargement-donnees-libres.html#admin-express].
+comme [Admin-Express](https://geoservices.ign.fr/documentation/diffusion/telechargement-donnees-libres.html#admin-express).
 Finalement, ils ne remplissent plus leur fonction de localisant.
 
 Or, sur le fond, le code INSEE d'une commune périmée, par exemple fusionnée,
