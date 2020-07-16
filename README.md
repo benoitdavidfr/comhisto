@@ -79,7 +79,7 @@ On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
           sameAs:
             - r01340@2016-01-01
 
-Une première version de ce fichier des zones est disponible dans [zones.yaml](zones/zones.yaml).
+Une première version du fichier complet des zones est disponible dans [zones.yaml](zones/zones.yaml).
 
 La définition des zones apporte un premier niveau de réponse au problème posé initialement.
 En effet, pour un code Insee de commune à une date donnée, on peut identifier la version d'entité à laquelle il correspond
