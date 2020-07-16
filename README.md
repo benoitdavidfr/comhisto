@@ -20,8 +20,9 @@ Finalement, ils ne remplissent plus leur fonction de localisant.
 
 Or, sur le fond, le code INSEE d'une commune périmée, par exemple fusionnée,
 reste un localisant à condition de disposer du référentiel adhoc.
-De plus, il peut être préférable dans une base de conserver un code INSEE périmé car en cas de rétablissement il redevient valide
-et la conservation du code périmé dans la base évite alors des erreurs de localisation.
+De plus, il peut être dans certains cas préférable dans une base de conserver un code INSEE périmé
+car le géoréférencement peut être plus précis et parfois en cas de rétablissement il redevient valide.
+La conservation du code périmé dans la base évite ainsi des erreurs de localisation.
 
 La proposition est donc de créer un nouveau référentiel, appelé "Historique du code INSEE des communes" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
