@@ -34,9 +34,9 @@ et peut être géocodé à partir des informations d'Admin-Express publiées par
 ## 1ère étape - partir des données du COG de l'INSEE
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG INSEE au 1/1/2020, un document Yaml
 facile à consulter (par un humain et une machine) et à exploiter (par une machine) de l'historique de chaque code Insee.
+
 Le fichier [exhisto.yaml](insee/exhisto.yaml) spécifie le schéma de ce fichier ;
 le champ $schema définit le schéma JSON des données et le champ contents donne un exemple de contenu.
-
 Le fichier [histo.yaml](insee/histo.yaml) contient l'historique de chaque code Insee produit à partir du COG INSEE au 1/1/2020.
 
 ## 2ème étape - structuration des versions en zones
