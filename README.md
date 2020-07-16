@@ -51,19 +51,20 @@ le code '01015' correspond en même temps à cette commune nouvelle et à Arbign
 Ainsi, pour identifier chaque entité versionnée, on suffixe son code Insee par le caractère '@' et la date de création de la version
 et, de plus, on préfixe par le caractère 's' pour une commune simple
 et 'r' pour une entité rattachée (commune associée, commune déléguée ou arrondissement municipal).
-Ainsi la commune simple d'Arboys en Bugey sera identifiée par 's01015@2026-01-01'
-et la commune déléguée d'Arbignieu par 'r01015@2026-01-01'.
+Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2026-01-01`
+et celle de la commune déléguée d'Arbignieu par `r01015@2026-01-01`.
 
 Les relations entre entités versionnées permettent de définir des zones, qui correspondent aux entités versionnées
 ayant même extension géographique et permettent aussi de définir la relation d'inclusion entre elles.
+Par exemple, on peut déduire que la zone associée à la commune nouvelle est composée des zones correspond à ses communes déléguées.
 
 Une zone correspondant à plusieurs versions, on choisit pour identifier une zone l'identifiant de la version la plus ancienne.
 
-Pour reprendre l'exemple d'Arboys en Bugey, la zone s01015@2016-01-01 correspond au territoire de la commune nouvelle,
+Pour reprendre l'exemple d'Arboys en Bugey, la zone `s01015@2016-01-01` correspond au territoire de la commune nouvelle,
 elle est composée de chacune des 2 communes déléguées.
-La commune déléguée d'Arbignieu correspond à une zone identifiée par s01015@1943-01-01 et qui correspond aussi à r01015@2016-01-01.
-L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par s01340@1943-01-01
-qui correspond aussi à r01340@2016-01-01.  
+La commune déléguée d'Arbignieu correspond à une zone identifiée par `s01015@1943-01-01` et qui correspond aussi à `r01015@2016-01-01`.
+L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par `s01340@1943-01-01`
+qui correspond aussi à `r01340@2016-01-01`.  
 On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
 
   s01015@2016-01-01:
@@ -76,6 +77,13 @@ On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
           - r01340@2016-01-01
 
 Une première version de ce fichier des zones est disponible dans [zones.yaml](zones/zones.yaml).
+
+La définition des zones apporte un premier niveau de réponse au problème posé initialement.
+En effet, pour un code Insee de commune à une date donnée, on peut identifier la version d'entité à laquelle il correspond
+et la zone correspondante. On peut ensuite identifier si l'extension géographique de cette zone est définie dans un ebase géographique
+et si non en déduire en général une zone majorante de la zone recherchée.
+
+Les 2 étapes suivantes vont permettre de géoréférencer plus précisément chaque zone.
 
 ## 3ème étape - géoréférencement des entités valides en utilisant des données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
