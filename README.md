@@ -24,13 +24,15 @@ De plus, il peut être dans certains cas préférable dans une base de conserver
 car le géoréférencement peut être plus précis et parfois en cas de rétablissement il redevient valide.
 La conservation du code périmé dans la base évite ainsi des erreurs de localisation.
 
-La proposition est donc de créer un nouveau référentiel, appelé "Historique du code INSEE des communes" (ComHisto),
+La proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
-et associant à chacun des informations versionnées permettant de retrouver l'état de la commune à une date donnée.  
+et associant à chacun les versions successives permettant de retrouver l'état de l'entité à une date donnée.  
 Ainsi les codes INSEE intégrés un jour dans une base restent valables et peuvent être utilisés par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
 et peut être géocodé à partir des informations d'Admin-Express publiées par l'IGN.
+
+La suite de ce document détaille les principes retenus pour définir ce nouveau référentiel.
 
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
