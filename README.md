@@ -61,4 +61,6 @@ L'idée est dans ce cas de définir un géoréférencement approché en partant 
 et en construisant des polygones par l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
 
 ## 5ème étape - publication du référentiel
+Outre les fichiers Yaml, ce référentiel pourra être publié sous la forme d'une API et d'une couche SIG.
+
 
