@@ -362,7 +362,7 @@ else
 EOT;
   $rpicom = [
     'title'=> "Référentiel rpicom",
-    'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/rpicom",
+    'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/comhisto",
     'created'=> date(DATE_ATOM),
     'valid'=> '2020-01-01',
     '$schema'=> 'http://id.georef.eu/rpicom/exrpicom/$schema',

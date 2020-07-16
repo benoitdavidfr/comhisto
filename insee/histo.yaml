@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
-description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
+description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
 created: '2020-07-14T20:59:36+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
