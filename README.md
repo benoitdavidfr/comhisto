@@ -39,9 +39,9 @@ La première étape consiste à produire, à partir des données de mouvements e
 l'historique de chaque code Insee sous la forme pour chaque code Insee de versions datées
 présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
 
-Le schéma de ce fichier est spécifié dans le fichier [exhisto.yaml](insee/exhisto.yaml)
-dans le champ $schema sous la forme d'un schéma JSON ; le champ contents donne un exemple de contenu.
-Le fichier [histo.yaml](insee/histo.yaml) contient l'historique de chaque code Insee produit à partir du COG INSEE au 1/1/2020.
+Ce fichier appelé histo.yaml est disponible [ici](insee/histo.yaml).
+Sa structuration est spécifiée par un schéma JSON défini dans le champ $schema du fichier [exhisto.yaml](insee/exhisto.yaml) ;
+le champ contents donnant des exemples d'enregistrements.
 
 Le fichier Insee des mouvements est complété de certaines données manquantes
 (comme par exemple la prise en compte des communes de Mayotte qui deviend un DOM au 31/3/2011)
