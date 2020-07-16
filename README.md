@@ -70,14 +70,14 @@ L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et 
 qui correspond aussi à `r01340@2016-01-01`.  
 On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
 
-  s01015@2016-01-01:
-    contains:
-      s01015@1943-01-01:
-        sameAs:
-          - r01015@2016-01-01
-      s01340@1943-01-01:
-        sameAs:
-          - r01340@2016-01-01
+    s01015@2016-01-01:
+      contains:
+        s01015@1943-01-01:
+          sameAs:
+            - r01015@2016-01-01
+        s01340@1943-01-01:
+          sameAs:
+            - r01340@2016-01-01
 
 Une première version de ce fichier des zones est disponible dans [zones.yaml](zones/zones.yaml).
 
