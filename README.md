@@ -1,4 +1,4 @@
-# Référentiel historique des communes (ComHisto)
+# Référentiel communal historique (ComHisto)
 ### Utilisation du code INSEE des communes comme référentiel pivot
 
 ## Objectif de ce projet
