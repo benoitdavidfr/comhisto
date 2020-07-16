@@ -40,6 +40,10 @@ Le schéma de ce fichier est spécifié dans le fichier [exhisto.yaml](insee/exh
 dans le champ $schema sous la forme d'un schéma JSON ; le champ contents donne un exemple de contenu.
 Le fichier [histo.yaml](insee/histo.yaml) contient l'historique de chaque code Insee produit à partir du COG INSEE au 1/1/2020.
 
+Le fichier Insee des mouvements est complété de certaines données manquantes
+(comme par exemple la prise en compte des communes de Mayotte qui deviend un DOM au 31/3/2011)
+et corrigé de quelques erreurs manifestes.
+
 ## 2ème étape - organisation des entités versionnées en zones
 Certains codes Insee correspondent à une date donnée à 2 entités distinctes.
 Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
@@ -59,8 +63,8 @@ Pour reprendre l'exemple d'Arboys en Bugey, la zone s01015@2016-01-01 correspond
 elle est composée de chacune des 2 communes déléguées.
 La commune déléguée d'Arbignieu correspond à une zone identifiée par s01015@1943-01-01 et qui correspond aussi à r01015@2016-01-01.
 L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par s01340@1943-01-01
-qui correspond aussi à r01340@2016-01-01.
-On exprime l'existence de ces 3 zone spar l'extrait suivant en Yaml :
+qui correspond aussi à r01340@2016-01-01.  
+On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
 
   s01015@2016-01-01:
     contains:
