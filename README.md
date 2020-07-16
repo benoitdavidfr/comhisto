@@ -7,9 +7,9 @@ L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot
 De nombreuses bases de données, par exemple des bases de décisions administratives, utilisent le code INSEE des communes
 pour localiser leur contenu, c'est à dire dans l'exemple chaque décision administrative.
 
-Or, ces codes INSEE évoluent, notamment en raison de la volonté de réduire le nombre de communes
+Or, ces codes INSEE évoluent, notamment en raison de la volonté de réduire le nombre de communes,
 par fusion de communes et par création de communes nouvelles.
-Ces codes devraient donc être modifiés dans la base pour en tenir compte.
+Pour en tenir compte, ces codes devraient donc être modifiés dans la base.
 Cependant ces modifications ne sont généralement pas effectuées
 et en conséquence les codes INSEE ainsi contenus dans les bases perdent leur signification
 car ils ne peuvent plus être croisés
