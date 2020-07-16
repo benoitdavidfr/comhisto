@@ -43,6 +43,7 @@ Le fichier [histo.yaml](insee/histo.yaml) contient l'historique de chaque code I
 En utilisant la topologie définie par l'Insee entre versions, produire à partir de histo.yaml un document Yaml des zones.
 Une zone correspond aux différentes versions ayant même extension géographique ;
 la définition des zones inclus la relation d'inclusion entre elles.
+
 Une première version de ce fichier des zones est disponible dans [zones.yaml](zones/zones.yaml).
 
 ## 3ème étape - géoréférencement des entités valides en utilisant des données IGN 
