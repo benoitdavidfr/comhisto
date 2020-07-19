@@ -584,8 +584,11 @@ function detailleEvt(Base $rpicomBase) {
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if ($cratid = $version['évènement']['fusionneDans'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
+        $evt = $rpicoms[$cratid][$dv]['évènement'];
+        if (!(is_array($evt) && (array_keys($evt)==['crééeParFusionSimpleDe']))) {
+          addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
+          $rpicomBase->$cratid = $rpicoms[$cratid];
+        }
       }
       if ($cratid = $version['évènement']['devientDéléguéeDe'] ?? null) {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
@@ -681,7 +684,7 @@ function detailleEvt(Base $rpicomBase) {
     }
   }
   $rpicomBase->storeMetadata(array_merge($rpicomBase->metadata(), ['évènementsDétaillésAjoutés' => date(DATE_ATOM)]));
-  $rpicomBase->writeAsYaml();
+  $rpicomBase->writeAsYaml('rpicomd');
   $rpicomBase->save();
 }
 

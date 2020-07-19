@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
-description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-14T20:59:36+00:00'
+description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
+created: '2020-07-19T16:18:14+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -21530,7 +21530,7 @@ contents:
       etat: { name: Vouilly, statut: COMD, crat: 14342 }
   14764:
     '1947-08-27':
-      evts: { crééeParFusionSimpleDe: [14485, 14612], absorbe: [14485, 14612] }
+      evts: { crééeParFusionSimpleDe: [14485, 14612] }
       etat: { name: 'Pont-d''Ouilly', statut: COMS }
   15001:
     '1943-01-01':

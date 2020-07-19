@@ -6,6 +6,9 @@ doc: |
   La classe Base gère une base d'objets en mémoire enregistrée en pser de manière compatble avec YamlDoc.
   La classe Criteria gère des critères utilisés pour afficher une trace dans la classe Base.
 journal: |
+  19/7/2020:
+    - change Base::save() et Base::writeAsYaml()
+    - change dans Base le champ $base en $contents
   18/4/2020:
     - chgt du format du pser de Base pour assurer la compatibilité avec YamlDoc
   16/4/2020:
@@ -121,8 +124,8 @@ methods:
 */}
 class Base {
   protected $filepath; // string - chemin initial du fichier Yaml/pser, évt '' qui signifie que la base a été init. à vide
-  protected $base; // [ {key} => {record} ] - contenu des enregistrements de la base
   protected $metadata; // [ {key} => {val} ] - liste des métadata, si possible DublinCore
+  protected $contents; // [ {key} => {record} ] - contenu des enregistrements de la base
   protected $trace; // Criteria - critères de trace
   protected $traceVars = []; // [string] - variables utilisées pour tester si la trace est active ou non
   protected $extractAsYaml; // [string => 1] ou null - utilisé par startExtractAsYaml() / showExtractAsYaml()
@@ -181,7 +184,7 @@ class Base {
       throw new Exception("Dans Base::__construct() le paramètre data doit avoir comme type soit string soit array");
     elseif (!array_key_exists('contents', $data))
       throw new Exception("Dans Base::__construct() le paramètre data s'il est array doit contenir un champ contents");
-    $this->base = $data['contents'];
+    $this->contents = $data['contents'];
     unset($data['contents']);
     $this->metadata = $data;
     $this->trace = $trace ?? new Criteria([]);
@@ -191,7 +194,7 @@ class Base {
   function __set(string $key, $record): void {
     if ($this->trace->is($this->traceVars))
       echo "Base::__set($key, ",json_encode($record, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),")\n";
-    $this->base[$key] = $record;
+    $this->contents[$key] = $record;
     if ($this->extractAsYaml !== null)
       $this->extractAsYaml[$key] = 1;
   }
@@ -199,19 +202,19 @@ class Base {
   function __get(string $key) {
     if ($this->trace->is($this->traceVars))
       echo "Base::__get($key)\n";
-    return $this->base[$key] ?? null;
+    return $this->contents[$key] ?? null;
   }
   
   function __isset(string $key): bool {
     if ($this->trace->is($this->traceVars))
       echo "Base::__isset($key)\n";
-    return isset($this->base[$key]);
+    return isset($this->contents[$key]);
   }
   
   function __unset(string $key): void {
     if ($this->trace->is($this->traceVars))
       echo "Base::__unset($key)\n";
-    unset($this->base[$key]);
+    unset($this->contents[$key]);
   }
   
   // ajoute à l'enregistrement $key l'array $merge
@@ -237,7 +240,7 @@ class Base {
 
   function __toString(): string {
     return json_encode(
-      array_merge($this->metadata, ['contents'=> $this->base]),
+      array_merge($this->metadata, ['contents'=> $this->contents]),
       JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
   }
   
@@ -248,10 +251,10 @@ class Base {
   function storeMetadata(array $metadata): void { $this->metadata = $metadata; }
   
   // retourne le contenu comme array
-  function contents(): array { return $this->base; }
+  function contents(): array { return $this->contents; }
   
   // tri les enregistrements sur leur clé
-  function ksort(): void { ksort($this->base); }
+  function ksort(): void { ksort($this->contents); }
   
   function save(string $filepath='', array $metadata=[]) {
     {/*PhpDoc: methods
@@ -268,9 +271,13 @@ class Base {
         throw new Exception("Dans Base::save() le paramètre filepath doit être défini s'il ne l'a pas été à l'initialisation");
       $filepath = $this->filepath;
     }
+    else
+      $this->filepath = $filepath;
     if (!$metadata)
       $metadata = $this->metadata;
-    return file_put_contents("$filepath.pser", serialize(array_merge($metadata, ['contents'=> $this->base])));
+    else
+      $this->metadata = $metadata;
+    return file_put_contents("$filepath.pser", serialize(array_merge($metadata, ['contents'=> $this->contents])));
   }
 
   function writeAsYaml(string $filepath='', array $metadata=[]) {
@@ -285,22 +292,24 @@ class Base {
     */}
     // post-traitement, suppression des communes ayant uniq. un nom comme propriété pour faciliter la visualisation
     if (0) {
-      ksort($this->base);
-      foreach ($this->base as $c => $com) {
+      ksort($this->contents);
+      foreach ($this->contents as $c => $com) {
         if (isset($com['name']) && (count(array_keys($com))==1))
-          unset($this->base[$c]);
+          unset($this->contents[$c]);
       }
     }
-    if (!$metadata)
-      $metadata = $this->metadata;
     if (!$filepath)
       $filepath = $this->filepath;
     else
       $this->filepath = $filepath;
-    if ($filepath)
-      return file_put_contents("$filepath.yaml", Yaml::dump(array_merge($metadata, ['contents'=> $this->base]), 99, 2));
+    if (!$metadata)
+      $metadata = $this->metadata;
     else
-      echo Yaml::dump(array_merge($metadata, ['contents'=> $this->base]), 99, 2);
+      $this->metadata = $metadata;
+    if ($filepath)
+      return file_put_contents("$filepath.yaml", Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), 99, 2));
+    else
+      echo Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), 99, 2);
   }
 
   // démarre la constitution avec les enr. modifiés d'un extrait qui sera terminé et affiché par showExtractAsYaml()
@@ -359,7 +368,7 @@ class Base {
 if (basename(__FILE__)<>basename($_SERVER['PHP_SELF'])) return;
 
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../../../vendor/autoload.php';
 
 // Tests unitaires des classe Verbose et Base
 echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>test Base</title></head><body>\n";
