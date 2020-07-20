@@ -39,7 +39,7 @@ La première étape consiste à produire, à partir des données de mouvements e
 l'historique de chaque code Insee sous la forme pour chaque code Insee de versions datées
 présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
 
-Ce fichier appelé histo.yaml est disponible [ici](insee/histo.yaml).
+Une première version de ce [fichier appelé histo.yaml est disponible ici](insee/histo.yaml).
 Sa structuration est spécifiée par un schéma JSON défini dans le champ $schema du fichier [exhisto.yaml](insee/exhisto.yaml) ;
 le champ contents donnant des exemples d'enregistrements.
 
@@ -48,14 +48,18 @@ Le fichier Insee des mouvements est complété de certaines données manquantes
 et corrigé de quelques erreurs manifestes.
 
 ## 2ème étape - organisation des entités versionnées en zones
-Certains codes Insee correspondent à une date donnée à 2 entités distinctes.
+On appelle dans la suite entité une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
+Les 3 derniers types d'entités sont appelés entités rattachées.
+
+Les entités versionnées sont identifiées par leur code Insee suffixé par le caractère '@' et la date de création de la version.
+
+Cependant, cela ne convient pas car certains codes Insee correspondent à une date donnée à 2 entités distinctes.
 Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
 le code '01015' correspond en même temps à cette commune nouvelle et à Arbignieu, une de ses communes déléguées.
-Ainsi, pour identifier chaque entité versionnée, on suffixe son code Insee par le caractère '@' et la date de création de la version
-et, de plus, on préfixe par le caractère 's' pour une commune simple
-et 'r' pour une entité rattachée (commune associée, commune déléguée ou arrondissement municipal).
-Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2026-01-01`
-et celle de la commune déléguée d'Arbignieu par `r01015@2026-01-01`.
+Ainsi, pour identifier chaque entité versionnée, on préfixe l'id défini ci-dessus par le caractère 's' pour une commune simple
+et 'r' pour une entité rattachée.
+Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2016-01-01`
+et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
 Les relations entre entités versionnées permettent de définir des zones, qui correspondent aux entités versionnées
 ayant même extension géographique et permettent aussi de définir la relation d'inclusion entre elles.
@@ -81,28 +85,29 @@ On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
 
 Une première version du fichier complet des zones est disponible dans [zones.yaml](zones/zones.yaml).
 
-La définition des zones apporte un premier niveau de réponse au problème posé initialement.
+La définition de l'historique des codes Insee et des zones apporte un premier niveau de réponse au problème posé initialement.
 En effet, pour un code Insee de commune à une date donnée, on peut identifier la version d'entité à laquelle il correspond
-et la zone correspondante. On peut ensuite identifier si l'extension géographique de cette zone est définie dans un ebase géographique
+et la zone correspondante. On peut ensuite identifier si l'extension géographique de cette zone est définie dans une base géographique
 et si non en déduire en général une zone majorante de la zone recherchée.
 
 Les 2 étapes suivantes vont permettre de géoréférencer plus précisément chaque zone.
 
-## 3ème étape - géoréférencement des entités valides en utilisant des données IGN 
+## 3ème étape - géoréférencement des entités valides en utilisant les données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
 ou à une entité rattachée valide au 1/1/2020.
 
-De même, les versions précédentes d'Admin-Express ou de GéoFLA permettent de géoréférencer des zones correspondant à une commune périmée,
-par exemple fusionnée dans une autre.
+De même, les versions précédentes d'Admin-Express ou de GéoFLA permettent de géoréférencer des zones correspondant à une commune
+périmée, par exemple fusionnée dans une autre.
 
-On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaqeu commune valide.
+On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
 ## 4ème étape - construction d'un géoréférencement approché des entités périmées
-Il existe un certain nombre d'entités périmées pour lesquelles il est difficile de définir un géoréférencement.
+Il existe un certain nombre d'entités périmées pour lesquelles les données dont nous disposons ne permettent pas de définir
+un géoréférencement.
 L'idée est dans ce cas de définir un géoréférencement approché en partant de la localisation ponctuelle des chefs-lieux
 et en construisant des polygones par l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
 
 ## 5ème étape - publication du référentiel
-Outre les fichiers Yaml, ce référentiel pourra être publié sous la forme d'une API et d'une couche SIG.
+Enfin, outre les fichiers Yaml, ce référentiel pourra être publié sous la forme d'une API et d'une couche SIG.
 
 
