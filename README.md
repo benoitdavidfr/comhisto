@@ -44,16 +44,17 @@ Sa structuration est spécifiée par un schéma JSON défini dans le champ $sche
 le champ contents donnant des exemples d'enregistrements.
 
 Le fichier Insee des mouvements est complété de certaines données manquantes
-(comme par exemple la prise en compte des communes de Mayotte qui deviend un DOM au 31/3/2011)
+(comme par exemple la prise en compte des communes de Mayotte devenu un DOM le 31/3/2011)
 et corrigé de quelques erreurs manifestes.
 
 ## 2ème étape - organisation des entités versionnées en zones
 On appelle dans la suite entité une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
 Les 3 derniers types d'entités sont appelés entités rattachées.
 
-Les entités versionnées sont identifiées par leur code Insee suffixé par le caractère '@' et la date de création de la version.
+La première idée est d'identifier les entités versionnées par leur code Insee suffixé par le caractère '@'
+et la date de création de la version.
 
-Cependant, cela ne convient pas car certains codes Insee correspondent à une date donnée à 2 entités distinctes.
+Cependant, cela n'est pas suffisant car certains codes Insee correspondent à une date donnée à 2 entités distinctes.
 Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
 le code '01015' correspond en même temps à cette commune nouvelle et à Arbignieu, une de ses communes déléguées.
 Ainsi, pour identifier chaque entité versionnée, on préfixe l'id défini ci-dessus par le caractère 's' pour une commune simple
@@ -103,11 +104,14 @@ On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu asso
 
 ## 4ème étape - construction d'un géoréférencement approché des entités périmées
 Il existe un certain nombre d'entités périmées pour lesquelles les données dont nous disposons ne permettent pas de définir
-un géoréférencement.
+leur géoréférencement.
 L'idée est dans ce cas de définir un géoréférencement approché en partant de la localisation ponctuelle des chefs-lieux
-et en construisant des polygones par l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
+et en construisant des polygones en utilisant l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
+
+On aboutit à la fin de cette étape à un fichier des zones géoréférencées qui peut être mis à disposition comme une couche SIG
+par exemple en Shape et en GeoJSON.
 
 ## 5ème étape - publication du référentiel
-Enfin, outre les fichiers Yaml, ce référentiel pourra être publié sous la forme d'une API et d'une couche SIG.
+Enfin, outre les fichiers Yaml et SIG, ce référentiel pourra être publié sous la forme d'une API.
 
 
