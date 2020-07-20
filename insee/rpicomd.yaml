@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-19T16:10:08+00:00'
+created: '2020-07-19T20:12:48+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -9,7 +9,7 @@ ydADscrBhv:
   buildName:
     AdministrativeArea: "if (isset($item['now']['name']))\n  return $item['now']['name'].\" ($skey)\";\nelse\n  return '<s>'.array_values($item)[0]['name'].\" ($skey)</s>\";"
   writePserReally: true
-évènementsDétaillésAjoutés: '2020-07-19T16:18:13+00:00'
+évènementsDétaillésAjoutés: '2020-07-20T05:14:32+00:00'
 contents:
   '01001':
     now:
@@ -2963,7 +2963,8 @@ contents:
     now:
       name: Chartèves
     '1978-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '02524'
       name: Chartèves
       estAssociéeA: '02524'
     '1974-10-01':
@@ -4262,6 +4263,9 @@ contents:
     '1978-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Charmont-sur-Marne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '02166'
     '1974-10-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Mont-Saint-Père
@@ -6461,7 +6465,8 @@ contents:
     now:
       name: Archail
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '04072'
       name: Archail
       estAssociéeA: '04072'
     '1973-07-01':
@@ -6824,6 +6829,9 @@ contents:
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Archail-Draix
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '04009'
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Draix
@@ -7055,6 +7063,9 @@ contents:
     '1980-06-12':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Manosque
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '04190'
     '1975-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Manosque
@@ -7460,7 +7471,8 @@ contents:
     now:
       name: Saint-Martin-les-Eaux
     '1980-06-12':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '04112'
       name: Saint-Martin-les-Eaux
       estAssociéeA: '04112'
     '1975-01-01':
@@ -7876,6 +7888,9 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Briançon
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '05109'
     '1974-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Briançon
@@ -8288,7 +8303,8 @@ contents:
     now:
       name: Puy-Saint-Pierre
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '05023'
       name: Puy-Saint-Pierre
       estAssociéeA: '05023'
     '1974-06-01':
@@ -8305,7 +8321,8 @@ contents:
     now:
       name: Rabou
     '1983-02-14':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '05123'
       name: Rabou
       estAssociéeA: '05123'
     '1973-01-01':
@@ -8370,6 +8387,9 @@ contents:
     '1983-02-14':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'La Roche-des-Arnauds'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '05112'
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'La Roche-des-Arnauds'
@@ -9695,6 +9715,9 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Largentière
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '07318'
     '1974-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Largentière
@@ -10389,7 +10412,8 @@ contents:
     now:
       name: Tauriers
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '07132'
       name: Tauriers
       estAssociéeA: '07132'
     '1974-12-01':
@@ -10702,7 +10726,8 @@ contents:
     now:
       name: Barbaise
     '1991-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '08352'
       name: Barbaise
       estAssociéeA: '08352'
     '1974-12-29':
@@ -11141,6 +11166,9 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Montcornet-en-Ardenne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '08297'
     '1973-09-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Cliron
@@ -11584,7 +11612,8 @@ contents:
     now:
       name: Imécourt
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '08470'
       name: Imécourt
       estAssociéeA: '08470'
     '1973-12-29':
@@ -11850,7 +11879,8 @@ contents:
     now:
       name: Montcornet
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '08125'
       name: Montcornet
       estAssociéeA: '08125'
     '1973-09-01':
@@ -12096,6 +12126,9 @@ contents:
     '1991-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Raillicourt-Barbaise
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '08047'
     '1974-12-29':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Raillicourt
@@ -12575,6 +12608,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Verpel
+      évènementDétaillé:
+        détacheCommeSimples:
+          - '08233'
     '1973-12-29':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Verpel
@@ -13076,7 +13112,8 @@ contents:
     now:
       name: Cazenave-Serres-et-Allens
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: '09306'
       name: Cazenave-Serres-et-Allens
       estAssociéeA: '09306'
     '1973-04-01':
@@ -13896,6 +13933,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - '09036'
+        détacheCommeSimples:
+          - '09092'
     '1973-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Tarascon-sur-Ariège
@@ -16362,7 +16401,8 @@ contents:
     now:
       name: Bercenay-le-Hayer
     '2000-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 10054
       name: Bercenay-le-Hayer
       estAssociéeA: 10054
     '1973-01-01':
@@ -16385,7 +16425,8 @@ contents:
     now:
       name: Bessy
     '1990-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 10316
       name: Bessy
       estAssociéeA: 10316
     '1973-01-01':
@@ -16428,6 +16469,10 @@ contents:
     '2000-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'Val-d''Orvin'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 10038
+          - 10383
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bourdenay
@@ -17328,6 +17373,9 @@ contents:
     '1990-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Rhèges-Bessy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 10043
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Rhèges
@@ -17542,7 +17590,8 @@ contents:
     now:
       name: Trancault
     '2000-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 10054
       name: Trancault
       estAssociéeA: 10054
     '1973-01-01':
@@ -18444,6 +18493,9 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Laurabuc-et-Mireval
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 11234
     '1972-06-07':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Laurabuc
@@ -18582,7 +18634,8 @@ contents:
     now:
       name: Mireval-Lauragais
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 11195
       name: Mireval-Lauragais
       estAssociéeA: 11195
     '1972-06-07':
@@ -19311,7 +19364,8 @@ contents:
     now:
       name: 'Les Albres'
     '1978-12-07':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 12305
       name: 'Les Albres'
       estAssociéeA: 12305
     '1975-01-01':
@@ -20593,6 +20647,9 @@ contents:
     '1978-12-07':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Viviez-les-Albres
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 12003
     '1975-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Viviez
@@ -22057,6 +22114,9 @@ contents:
     '2006-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Cesny-aux-Vignes-Ouézy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 14482
     '1972-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Cesny-aux-Vignes
@@ -23259,6 +23319,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Hottot-Longraye
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 14376
     '1972-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Hottot-les-Bagues
@@ -23619,7 +23682,8 @@ contents:
         devientDéléguéeDe: 14011
       name: Longraye
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 14336
       name: Longraye
       estAssociéeA: 14336
     '1972-12-01':
@@ -24412,7 +24476,8 @@ contents:
     now:
       name: Ouézy
     '2006-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 14149
       name: Ouézy
       estAssociéeA: 14149
     '1972-01-01':
@@ -25741,7 +25806,8 @@ contents:
     now:
       name: Sannerville
     '2019-12-31':
-      évènement: 'Commune déléguée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 14712
       name: Sannerville
       estDéléguéeDe: 14712
     '2017-01-01':
@@ -26074,6 +26140,9 @@ contents:
       name: Saline
       commeDéléguée:
         name: Troarn
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 14666
     '2017-01-01':
       après:
         name: Saline
@@ -26474,6 +26543,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Ally
       évènementDétaillé:
+        détacheCommeSimples:
+          - 15024
         gardeCommeAssociées:
           - 15062
     '1973-01-01':
@@ -26559,7 +26630,8 @@ contents:
     now:
       name: Brageac
     '1985-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 15003
       name: Brageac
       estAssociéeA: 15003
     '1973-01-01':
@@ -27068,6 +27140,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Naucelles-Reilhac
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 15160
     '1972-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Naucelles
@@ -27190,7 +27265,8 @@ contents:
     now:
       name: Reilhac
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 15140
       name: Reilhac
       estAssociéeA: 15140
     '1972-12-01':
@@ -27827,6 +27903,9 @@ contents:
     '1993-10-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Brie-Bardenac
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 16063
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bardenac
@@ -28002,7 +28081,8 @@ contents:
     now:
       name: Brie-sous-Chalais
     '1993-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 16029
       name: Brie-sous-Chalais
       estAssociéeA: 16029
     '1973-01-01':
@@ -33476,7 +33556,8 @@ contents:
     now:
       name: Saint-Germain-Lavolps
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 19261
       name: Saint-Germain-Lavolps
       estAssociéeA: 19261
     '1972-12-01':
@@ -33679,6 +33760,9 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Sornac-Saint-Germain-Lavolps
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 19206
     '1972-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Sornac
@@ -35912,7 +35996,8 @@ contents:
     now:
       name: Billey
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 21331
       name: Billey
       estAssociéeA: 21331
     '1973-06-01':
@@ -36578,7 +36663,8 @@ contents:
     now:
       name: Flagey-lès-Auxonne
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 21331
       name: Flagey-lès-Auxonne
       estAssociéeA: 21331
     '1973-06-01':
@@ -36829,6 +36915,10 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Labergement-lès-Auxonne-Billey-Flagey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 21074
+          - 21268
     '1973-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Labergement-lès-Auxonne
@@ -38694,7 +38784,8 @@ contents:
     now:
       name: Langrolay-sur-Rance
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 22213
       name: Langrolay-sur-Rance
       estAssociéeA: 22213
     '1973-03-15':
@@ -39003,7 +39094,8 @@ contents:
     now:
       name: Penguily
     '1984-07-05':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 22296
       name: Penguily
       estAssociéeA: 22296
     '1973-04-01':
@@ -39071,6 +39163,9 @@ contents:
     '2004-10-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Fréhel
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 22201
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Pléhérel
@@ -39203,7 +39298,8 @@ contents:
     now:
       name: Plévenon
     '2004-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 22179
       name: Plévenon
       estAssociéeA: 22179
     '1973-01-01':
@@ -39239,6 +39335,9 @@ contents:
     '1986-09-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Ploëzal-Runan
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 22269
     '1973-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ploëzal
@@ -39310,6 +39409,9 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Plouër-Langrolay-sur-Rance
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 22103
     '1973-03-15':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Plouër-sur-Rance
@@ -39562,7 +39664,8 @@ contents:
     now:
       name: Runan
     '1986-09-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 22204
       name: Runan
       estAssociéeA: 22204
     '1973-04-01':
@@ -39683,6 +39786,9 @@ contents:
     '1984-07-05':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Glen-Penguily
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 22165
     '1973-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Glen
@@ -41441,6 +41547,8 @@ contents:
         gardeCommeAssociées:
           - 24072
           - 24315
+        détacheCommeSimples:
+          - 24560
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'Le Buisson-Cussac'
@@ -43065,7 +43173,8 @@ contents:
     now:
       name: Saint-Aubin-de-Nabirat
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 24450
       name: Saint-Aubin-de-Nabirat
       estAssociéeA: 24450
     '1973-01-01':
@@ -43435,6 +43544,9 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Martial-et-Saint-Aubin-de-Nabirat
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 24375
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Martial-de-Nabirat
@@ -43947,7 +44059,8 @@ contents:
     now:
       name: Urval
     '1989-02-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 24068
       name: Urval
       estAssociéeA: 24068
     '1974-01-01':
@@ -44118,10 +44231,17 @@ contents:
     '1981-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Amancey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 25155
+          - 25236
+          - 25359
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Amancey
       évènementDétaillé:
+        détacheCommeSimples:
+          - 25017
         gardeCommeAssociées:
           - 25155
           - 25236
@@ -44142,7 +44262,8 @@ contents:
     now:
       name: Amondans
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25015
       name: Amondans
       estAssociéeA: 25015
     '1973-01-01':
@@ -44735,7 +44856,8 @@ contents:
     now:
       name: Cléron
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25015
       name: Cléron
       estAssociéeA: 25015
     '1979-01-01':
@@ -44843,7 +44965,8 @@ contents:
     now:
       name: Courchapon
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25317
       name: Courchapon
       estAssociéeA: 25317
     '1973-01-01':
@@ -45084,7 +45207,8 @@ contents:
     now:
       name: Fertans
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25015
       name: Fertans
       estAssociéeA: 25015
     '1979-01-01':
@@ -45422,10 +45546,15 @@ contents:
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Jallerange
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 25414
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Jallerange
       évènementDétaillé:
+        détacheCommeSimples:
+          - 25172
         gardeCommeAssociées:
           - 25414
     '1973-01-01':
@@ -45618,7 +45747,8 @@ contents:
     now:
       name: Malans
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25015
       name: Malans
       estAssociéeA: 25015
     '1979-01-01':
@@ -45640,7 +45770,8 @@ contents:
     now:
       name: Malpas
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25592
       name: Malpas
       estAssociéeA: 25592
     '1974-01-01':
@@ -45855,7 +45986,8 @@ contents:
     now:
       name: 'Le Moutherot'
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 25317
       name: 'Le Moutherot'
       estAssociéeA: 25317
     '1982-01-01':
@@ -46684,6 +46816,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Vaux-et-Chantegrue-Malpas
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 25362
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Vaux-et-Chantegrue
@@ -52787,6 +52922,9 @@ contents:
     '1987-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'La Framboisière-la-Saucelle'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 28368
     '1972-12-22':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'La Framboisière'
@@ -53125,6 +53263,8 @@ contents:
         gardeCommeAssociées:
           - 28043
           - 28125
+        détacheCommeSimples:
+          - 28351
     '1972-12-26':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Maillebois
@@ -53717,7 +53857,8 @@ contents:
     now:
       name: Saint-Maixme-Hauterive
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 28226
       name: Saint-Maixme-Hauterive
       estAssociéeA: 28226
     '1972-12-26':
@@ -53810,7 +53951,8 @@ contents:
     now:
       name: 'La Saucelle'
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 28159
       name: 'La Saucelle'
       estAssociéeA: 28159
     '1972-12-22':
@@ -57070,6 +57212,9 @@ contents:
     '1983-02-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Cierp-Gaud-Signac
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 31548
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Cierp-Gaud
@@ -57594,7 +57739,8 @@ contents:
     now:
       name: Lieoux
     '2008-02-13':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 31483
       name: Lieoux
       estAssociéeA: 31483
     '1974-01-01':
@@ -58209,6 +58355,9 @@ contents:
     '2008-02-13':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Gaudens
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 31300
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Gaudens
@@ -58431,7 +58580,8 @@ contents:
     now:
       name: Signac
     '1983-02-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 31144
       name: Signac
       estAssociéeA: 31144
     '1974-01-01':
@@ -58734,6 +58884,9 @@ contents:
     '1994-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Berdoues-Ponsampère
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 32323
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Berdoues
@@ -59669,7 +59822,8 @@ contents:
     now:
       name: Ponsampère
     '1994-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 32045
       name: Ponsampère
       estAssociéeA: 32045
     '1973-01-01':
@@ -63906,6 +64060,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 35020
+        détacheCommeSimples:
+          - 35317
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Hédé
@@ -64749,7 +64905,8 @@ contents:
     now:
       name: Saint-Symphorien
     '2008-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 35130
       name: Saint-Symphorien
       estAssociéeA: 35130
     '1973-07-01':
@@ -68599,7 +68756,8 @@ contents:
     now:
       name: Sainte-Marie-du-Mont
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 38466
       name: Sainte-Marie-du-Mont
       estAssociéeA: 38466
     '1973-01-01':
@@ -68800,6 +68958,9 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Vincent-de-Mercuze-Sainte-Marie-du-Mont
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 38418
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Vincent-de-Mercuze
@@ -70522,7 +70683,8 @@ contents:
     now:
       name: Grange-de-Vaivre
     '1987-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 39439
       name: Grange-de-Vaivre
       estAssociéeA: 39439
     '1973-01-01':
@@ -70745,6 +70907,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Louvatange-le-Petit-Mercey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 39414
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Louvatange
@@ -71366,7 +71531,8 @@ contents:
         devientDéléguéeDe: 39190
       name: 'Le Petit-Mercey'
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 39302
       name: 'Le Petit-Mercey'
       estAssociéeA: 39302
     '1973-01-01':
@@ -71506,6 +71672,9 @@ contents:
     '1987-03-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Port-Lesney-Grange-de-Vaivre
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 39259
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Port-Lesney
@@ -71621,6 +71790,9 @@ contents:
     '1979-10-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Romange-lès-Vriange
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 39584
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Romange
@@ -72261,7 +72433,8 @@ contents:
     now:
       name: Vriange
     '1979-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 39465
       name: Vriange
       estAssociéeA: 39465
     '1973-01-01':
@@ -80955,6 +81128,9 @@ contents:
     '2001-03-22':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Antagnac
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47227
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Antagnac
@@ -80989,7 +81165,8 @@ contents:
     now:
       name: Bajamont
     '1983-11-24':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47209
       name: Bajamont
       estAssociéeA: 47209
     '1974-01-01':
@@ -81039,7 +81216,8 @@ contents:
     now:
       name: Boudy-de-Beauregard
     '1979-04-16':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47048
       name: Boudy-de-Beauregard
       estAssociéeA: 47048
     '1972-08-04':
@@ -81098,6 +81276,10 @@ contents:
     '1979-04-16':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Cancon
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47033
+          - 47259
     '1972-08-04':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Cancon
@@ -81136,7 +81318,8 @@ contents:
     now:
       name: Caubeyres
     '1983-11-24':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47093
       name: Caubeyres
       estAssociéeA: 47093
     '1972-08-01':
@@ -81255,6 +81438,9 @@ contents:
     '1983-11-24':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Fargues-sur-Ourbise
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47058
     '1972-08-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Fargues-sur-Ourbise
@@ -81268,7 +81454,8 @@ contents:
     now:
       name: Fauillet
     '1987-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47310
       name: Fauillet
       estAssociéeA: 47310
     '1973-01-01':
@@ -81512,6 +81699,9 @@ contents:
     '2003-02-03':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Marmande
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47163
     '1972-11-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Marmande
@@ -81537,7 +81727,8 @@ contents:
     now:
       name: Mauvezin-sur-Gupie
     '2003-02-03':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47157
       name: Mauvezin-sur-Gupie
       estAssociéeA: 47157
     '1972-11-01':
@@ -81700,6 +81891,9 @@ contents:
     '1983-11-24':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Pont-du-Casse
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47019
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Pont-du-Casse
@@ -81759,7 +81953,8 @@ contents:
     now:
       name: Rives
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47324
       name: Rives
       estAssociéeA: 47324
     '1972-08-04':
@@ -81779,7 +81974,8 @@ contents:
     now:
       name: Ruffiac
     '2001-03-22':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47010
       name: Ruffiac
       estAssociéeA: 47010
     '1973-01-01':
@@ -81896,7 +82092,8 @@ contents:
     now:
       name: Saint-Maurice-de-Lestapel
     '1979-04-16':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 47048
       name: Saint-Maurice-de-Lestapel
       estAssociéeA: 47048
     '1972-08-04':
@@ -82081,6 +82278,9 @@ contents:
     '1987-10-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Tonneins
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47095
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Tonneins
@@ -82137,6 +82337,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Villeréal
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 47223
     '1972-08-04':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Villeréal
@@ -87440,7 +87643,8 @@ contents:
         devientDéléguéeDe: 50236
       name: Baudreville
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50528
       name: Baudreville
       estAssociéeA: 50528
     '1973-01-01':
@@ -87511,7 +87715,8 @@ contents:
     now:
       name: Beauvoir
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50410
       name: Beauvoir
       estAssociéeA: 50410
     '1973-01-01':
@@ -87656,7 +87861,8 @@ contents:
         devientDéléguéeDe: 50236
       name: Bolleville
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50528
       name: Bolleville
       estAssociéeA: 50528
     '1980-01-01':
@@ -87694,6 +87900,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Jullouville
       évènementDétaillé:
+        détacheCommeSimples:
+          - 50102
         gardeCommeAssociées:
           - 50526
     '1978-01-01':
@@ -87703,6 +87911,8 @@ contents:
         gardeCommeAssociées:
           - 50102
           - 50526
+        détacheCommeSimples:
+          - 50532
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bouillon
@@ -87913,7 +88123,8 @@ contents:
     now:
       name: Canville-la-Rocque
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50160
       name: Canville-la-Rocque
       estAssociéeA: 50160
     '1973-01-01':
@@ -87998,7 +88209,8 @@ contents:
     now:
       name: Carolles
     '2000-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50066
       name: Carolles
       estAssociéeA: 50066
     '1978-01-01':
@@ -88480,6 +88692,9 @@ contents:
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Denneville
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 50097
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Denneville
@@ -88523,6 +88738,9 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Dragey-Tombelaine
       évènementDétaillé:
+        détacheCommeSimples:
+          - 50199
+          - 50496
         gardeCommeAssociées:
           - 50439
     '1973-01-01':
@@ -88572,7 +88790,8 @@ contents:
         devientDéléguéeDe: 50523
       name: Écoquenéauville
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50609
       name: Écoquenéauville
       estAssociéeA: 50609
     '1973-01-01':
@@ -88790,7 +89009,8 @@ contents:
     now:
       name: Genêts
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50167
       name: Genêts
       estAssociéeA: 50167
     '1973-01-01':
@@ -88997,7 +89217,8 @@ contents:
     now:
       name: Grimesnil
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50463
       name: Grimesnil
       estAssociéeA: 50463
     '1973-02-01':
@@ -89449,7 +89670,8 @@ contents:
         devientDéléguéeDe: 50410
       name: Macey
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50630
       name: Macey
       estAssociéeA: 50630
     '1973-01-01':
@@ -89666,7 +89888,8 @@ contents:
     now:
       name: 'Le Mesnil-Ozenne'
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50531
       name: 'Le Mesnil-Ozenne'
       estAssociéeA: 50531
     '1973-01-01':
@@ -90366,6 +90589,8 @@ contents:
           - 50157
           - 50331
           - 50392
+        détacheCommeSimples:
+          - 50042
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Pontorson
@@ -90811,6 +91036,9 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Denis-le-Gast
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 50221
     '1973-02-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Denis-le-Gast
@@ -91018,7 +91246,8 @@ contents:
     now:
       name: Saint-Jean-le-Thomas
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50167
       name: Saint-Jean-le-Thomas
       estAssociéeA: 50167
     '1973-01-01':
@@ -91248,10 +91477,16 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Pierrepont-en-Cotentin
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 50063
+          - 50548
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Pierrepont-en-Cotentin
       évènementDétaillé:
+        détacheCommeSimples:
+          - 50035
         gardeCommeAssociées:
           - 50063
           - 50548
@@ -91280,6 +91515,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 50067
+        détacheCommeSimples:
+          - 50317
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Osvin
@@ -91291,7 +91528,8 @@ contents:
     now:
       name: Saint-Pair-sur-Mer
     '1978-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50066
       name: Saint-Pair-sur-Mer
       estAssociéeA: 50066
     '1973-01-01':
@@ -91429,7 +91667,8 @@ contents:
     now:
       name: Saint-Sauveur-de-Pierrepont
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50528
       name: Saint-Sauveur-de-Pierrepont
       estAssociéeA: 50528
     '1980-01-01':
@@ -91602,7 +91841,8 @@ contents:
     now:
       name: Sébeville
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 50609
       name: Sébeville
       estAssociéeA: 50609
     '1973-01-01':
@@ -91896,6 +92136,10 @@ contents:
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Criqueville-au-Plain
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 50170
+          - 50571
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Turqueville
@@ -92045,6 +92289,9 @@ contents:
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Vessey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 50284
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Vessey
@@ -92755,6 +93002,9 @@ contents:
     '2006-03-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Châtillon-sur-Marne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 51201
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Châtillon-sur-Marne
@@ -92988,7 +93238,8 @@ contents:
     now:
       name: Cuisles
     '2006-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 51136
       name: Cuisles
       estAssociéeA: 51136
     '1973-07-01':
@@ -93419,7 +93670,8 @@ contents:
     now:
       name: Isle-sur-Marne
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 51316
       name: Isle-sur-Marne
       estAssociéeA: 51316
     '1974-01-01':
@@ -93481,6 +93733,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Larzicourt-Isle-sur-Marne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 51300
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Larzicourt
@@ -94870,7 +95125,8 @@ contents:
     now:
       name: Andilly-en-Bassigny
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Andilly-en-Bassigny
       estAssociéeA: 52348
     '1972-06-01':
@@ -94904,7 +95160,8 @@ contents:
     now:
       name: Arbot
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52439
       name: Arbot
       estAssociéeA: 52439
     '1972-05-15':
@@ -94917,6 +95174,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Arc-en-Barrois
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52022
     '1972-09-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Arc-en-Barrois
@@ -94957,7 +95217,8 @@ contents:
     now:
       name: Aubepierre-sur-Aube
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52017
       name: Aubepierre-sur-Aube
       estAssociéeA: 52017
     '1972-09-01':
@@ -94993,7 +95254,8 @@ contents:
     now:
       name: Autigny-le-Petit
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52156
       name: Autigny-le-Petit
       estAssociéeA: 52156
     '1972-10-01':
@@ -95007,6 +95269,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Autreville-sur-la-Renne
       évènementDétaillé:
+        détacheCommeSimples:
+          - 52278
         gardeCommeAssociées:
           - 52451
           - 52501
@@ -95030,7 +95294,8 @@ contents:
     now:
       name: Avrecourt
     '2012-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52332
       name: Avrecourt
       estAssociéeA: 52332
     '1974-03-09':
@@ -95051,6 +95316,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Hauts-de-Vingeanne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52285
     '1972-08-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Baissey
@@ -95072,7 +95340,8 @@ contents:
     now:
       name: Bannes
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Bannes
       estAssociéeA: 52348
     '1972-06-01':
@@ -95100,7 +95369,8 @@ contents:
     now:
       name: Beauchemin
     '1989-02-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52432
       name: Beauchemin
       estAssociéeA: 52432
     '1972-08-01':
@@ -95236,7 +95506,8 @@ contents:
     now:
       name: Bonnecourt
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Bonnecourt
       estAssociéeA: 52348
     '1972-06-01':
@@ -95531,7 +95802,8 @@ contents:
     now:
       name: Champigny-sous-Varennes
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52504
       name: Champigny-sous-Varennes
       estAssociéeA: 52504
     '1972-08-01':
@@ -95545,7 +95817,8 @@ contents:
     now:
       name: Changey
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Changey
       estAssociéeA: 52348
     '1972-06-01':
@@ -95562,7 +95835,8 @@ contents:
     now:
       name: Charmes
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Charmes
       estAssociéeA: 52348
     '1972-06-01':
@@ -95602,6 +95876,11 @@ contents:
     '1990-07-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Chassigny-Aisey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52145
+          - 52170
+          - 52228
     '1974-02-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Chassigny-Aisey
@@ -95641,7 +95920,8 @@ contents:
     now:
       name: Chatenay-Vaudin
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Chatenay-Vaudin
       estAssociéeA: 52348
     '1972-06-01':
@@ -95705,7 +95985,8 @@ contents:
     now:
       name: Chézeaux
     '2012-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52504
       name: Chézeaux
       estAssociéeA: 52504
     '1986-01-01':
@@ -95854,7 +96135,8 @@ contents:
     now:
       name: Coublanc
     '1990-07-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52113
       name: Coublanc
       estAssociéeA: 52113
     '1974-02-01':
@@ -95926,6 +96208,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Curel-Autigny
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52030
     '1972-10-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Curel
@@ -95960,7 +96245,8 @@ contents:
     now:
       name: Dampierre
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Dampierre
       estAssociéeA: 52348
     '1972-06-01':
@@ -95994,7 +96280,8 @@ contents:
     now:
       name: Dommarien
     '1990-07-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52113
       name: Dommarien
       estAssociéeA: 52113
     '1974-02-01':
@@ -96250,6 +96537,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 52154
+        détacheCommeSimples:
+          - 52297
     '1972-11-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Foulain
@@ -96264,7 +96553,8 @@ contents:
     now:
       name: Frécourt
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Frécourt
       estAssociéeA: 52348
     '1972-06-01':
@@ -96347,7 +96637,8 @@ contents:
     now:
       name: Gilley
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Gilley
       estAssociéeA: 52406
     '1972-08-01':
@@ -96391,7 +96682,8 @@ contents:
     now:
       name: Grandchamp
     '1990-07-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52113
       name: Grandchamp
       estAssociéeA: 52113
     '1974-02-01':
@@ -96467,7 +96759,8 @@ contents:
     now:
       name: Heuilley-le-Grand
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52374
       name: Heuilley-le-Grand
       estAssociéeA: 52374
     '1972-05-18':
@@ -96565,6 +96858,10 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Laferté-sur-Amance
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52390
+          - 52513
     '1972-10-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Laferté-sur-Amance
@@ -96630,7 +96927,8 @@ contents:
     now:
       name: Laneuville-à-Rémy
     '2012-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52427
       name: Laneuville-à-Rémy
       estAssociéeA: 52427
     '1972-09-01':
@@ -96707,7 +97005,8 @@ contents:
     now:
       name: Lavilleneuve-au-Roi
     '2012-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52031
       name: Lavilleneuve-au-Roi
       estAssociéeA: 52031
     '1972-06-01':
@@ -96734,7 +97033,8 @@ contents:
     now:
       name: Lecey
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Lecey
       estAssociéeA: 52348
     '1972-06-01':
@@ -96782,7 +97082,8 @@ contents:
     now:
       name: Leuchey
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52035
       name: Leuchey
       estAssociéeA: 52035
     '1972-08-01':
@@ -96859,7 +97160,8 @@ contents:
     now:
       name: Luzy-sur-Marne
     '1979-02-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52205
       name: Luzy-sur-Marne
       estAssociéeA: 52205
     '1972-11-01':
@@ -96921,6 +97223,9 @@ contents:
     '1988-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Marcilly-Plesnoy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52392
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Marcilly-en-Bassigny
@@ -97039,6 +97344,9 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Val-de-Meuse
       évènementDétaillé:
+        détacheCommeSimples:
+          - 52033
+          - 52465
         gardeCommeAssociées:
           - 52186
           - 52281
@@ -97102,7 +97410,8 @@ contents:
     now:
       name: Montot-sur-Rognon
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52420
       name: Montot-sur-Rognon
       estAssociéeA: 52420
     '1972-05-18':
@@ -97173,6 +97482,19 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Val-de-Gris
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52009
+          - 52037
+          - 52059
+          - 52105
+          - 52108
+          - 52116
+          - 52163
+          - 52207
+          - 52280
+          - 52363
+          - 52397
     '1972-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'Neuilly-l''Évêque'
@@ -97232,7 +97554,8 @@ contents:
     now:
       name: Noidant-Chatenoy
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52374
       name: Noidant-Chatenoy
       estAssociéeA: 52374
     '1972-05-18':
@@ -97257,6 +97580,9 @@ contents:
     '2005-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Nully-Trémilly
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52495
     '1972-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Nully
@@ -97281,7 +97607,8 @@ contents:
     now:
       name: Orbigny-au-Val
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Orbigny-au-Val
       estAssociéeA: 52348
     '1972-06-01':
@@ -97329,6 +97656,12 @@ contents:
     '1992-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Hauts-Vals-sous-Nouroy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52240
+          - 52354
+          - 52375
+          - 52539
     '1972-05-18':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'Le Pailly'
@@ -97342,7 +97675,8 @@ contents:
     now:
       name: Palaiseul
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52374
       name: Palaiseul
       estAssociéeA: 52374
     '1972-05-18':
@@ -97466,7 +97800,8 @@ contents:
     now:
       name: Pisseloup
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52257
       name: Pisseloup
       estAssociéeA: 52257
     '1972-10-01':
@@ -97480,7 +97815,8 @@ contents:
     now:
       name: Plesnoy
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52311
       name: Plesnoy
       estAssociéeA: 52311
     '1973-01-01':
@@ -97494,7 +97830,8 @@ contents:
     now:
       name: Poinson-lès-Fayl
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Poinson-lès-Fayl
       estAssociéeA: 52406
     '1972-08-01':
@@ -97511,7 +97848,8 @@ contents:
     now:
       name: Poiseul
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52348
       name: Poiseul
       estAssociéeA: 52348
     '1972-06-01':
@@ -97589,6 +97927,14 @@ contents:
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Pérégrin-sur-Vannon
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52223
+          - 52394
+          - 52467
+          - 52493
+          - 52503
+          - 52546
     '1972-08-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Pressigny
@@ -97726,6 +98072,11 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Reynel
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52335
+          - 52473
+          - 52523
     '1972-05-18':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Reynel
@@ -97772,6 +98123,9 @@ contents:
     '2012-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Robert-Magny-Laneuville-à-Rémy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52266
     '1972-09-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Robert-Magny
@@ -97810,6 +98164,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Rolampont
       évènementDétaillé:
+        détacheCommeSimples:
+          - 52042
         gardeCommeAssociées:
           - 52111
           - 52270
@@ -97857,6 +98213,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Rouvres-Arbot
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52016
     '1972-05-15':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Rouvres-sur-Aube
@@ -97886,6 +98245,9 @@ contents:
     '1997-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Blin-Semilly
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52468
     '1972-08-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Blin
@@ -98032,7 +98394,8 @@ contents:
     now:
       name: Saulxures
     '2012-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52332
       name: Saulxures
       estAssociéeA: 52332
     '1974-03-09':
@@ -98056,7 +98419,8 @@ contents:
     now:
       name: Savigny
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Savigny
       estAssociéeA: 52406
     '1972-08-01':
@@ -98067,7 +98431,8 @@ contents:
     now:
       name: Semilly
     '1997-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52444
       name: Semilly
       estAssociéeA: 52444
     '1972-08-01':
@@ -98098,7 +98463,8 @@ contents:
     now:
       name: Signéville
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52420
       name: Signéville
       estAssociéeA: 52420
     '1972-05-18':
@@ -98197,7 +98563,8 @@ contents:
     now:
       name: Tornay
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Tornay
       estAssociéeA: 52406
     '1972-08-01':
@@ -98211,7 +98578,8 @@ contents:
     now:
       name: Trémilly
     '2005-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52359
       name: Trémilly
       estAssociéeA: 52359
     '1972-12-01':
@@ -98281,7 +98649,8 @@ contents:
     now:
       name: Valleroy
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Valleroy
       estAssociéeA: 52406
     '1972-08-01':
@@ -98294,10 +98663,15 @@ contents:
     '2012-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Terre-Natale
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 52124
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Terre-Natale
       évènementDétaillé:
+        détacheCommeSimples:
+          - 52103
         gardeCommeAssociées:
           - 52124
     '1972-08-01':
@@ -98360,7 +98734,8 @@ contents:
     now:
       name: Velles
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52257
       name: Velles
       estAssociéeA: 52257
     '1972-10-01':
@@ -98403,7 +98778,8 @@ contents:
     now:
       name: Vignes-la-Côte
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52420
       name: Vignes-la-Côte
       estAssociéeA: 52420
     '1972-05-18':
@@ -98525,7 +98901,8 @@ contents:
     now:
       name: Violot
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52374
       name: Violot
       estAssociéeA: 52374
     '1972-05-18':
@@ -98560,7 +98937,8 @@ contents:
     now:
       name: Voncourt
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 52406
       name: Voncourt
       estAssociéeA: 52406
     '1972-08-01':
@@ -98602,6 +98980,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 53070
+        détacheCommeSimples:
+          - 53111
     '1972-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ambrières-le-Grand
@@ -99156,7 +99536,8 @@ contents:
     now:
       name: 'La Haie-Traversaine'
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 53003
       name: 'La Haie-Traversaine'
       estAssociéeA: 53003
     '1972-01-01':
@@ -99571,6 +99952,10 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Pontmain
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 53213
+          - 53238
     '1972-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Pontmain
@@ -99745,7 +100130,8 @@ contents:
     now:
       name: Saint-Ellier-du-Maine
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 53181
       name: Saint-Ellier-du-Maine
       estAssociéeA: 53181
     '1972-07-01':
@@ -99871,7 +100257,8 @@ contents:
     now:
       name: Saint-Mars-sur-la-Futaie
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 53181
       name: Saint-Mars-sur-la-Futaie
       estAssociéeA: 53181
     '1972-07-01':
@@ -100533,7 +100920,8 @@ contents:
     now:
       name: Coincourt
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 54418
       name: Coincourt
       estAssociéeA: 54418
     '1973-01-01':
@@ -101382,7 +101770,8 @@ contents:
     now:
       name: Mouacourt
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 54418
       name: Mouacourt
       estAssociéeA: 54418
     '1973-01-01':
@@ -101447,6 +101836,9 @@ contents:
     '1987-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Ochey-Thuilley
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 54523
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ochey
@@ -101502,6 +101894,11 @@ contents:
     '1987-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Parroy
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 54133
+          - 54388
+          - 54601
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Parroy
@@ -101858,7 +102255,8 @@ contents:
     now:
       name: Thuilley-aux-Groseilles
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 54405
       name: Thuilley-aux-Groseilles
       estAssociéeA: 54405
     '1973-07-01':
@@ -102124,7 +102522,8 @@ contents:
     now:
       name: Xures
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 54418
       name: Xures
       estAssociéeA: 54418
     '1973-01-01':
@@ -102301,6 +102700,9 @@ contents:
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Baulny-Charpentry
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55103
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Baulny
@@ -102316,6 +102718,9 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Bazincourt-Montplonne
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55352
     '1972-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bazincourt-sur-Saulx
@@ -102358,7 +102763,8 @@ contents:
     now:
       name: Belrain
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55570
       name: Belrain
       estAssociéeA: 55570
     '1973-01-01':
@@ -102464,7 +102870,8 @@ contents:
     now:
       name: Brabant-en-Argonne
     '2004-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55419
       name: Brabant-en-Argonne
       estAssociéeA: 55419
     '1973-01-01':
@@ -102477,6 +102884,9 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Brabant-lès-Villers
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55560
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Brabant-le-Roi
@@ -102528,7 +102938,8 @@ contents:
     now:
       name: Brocourt-en-Argonne
     '2004-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55419
       name: Brocourt-en-Argonne
       estAssociéeA: 55419
     '1973-01-01':
@@ -102655,7 +103066,8 @@ contents:
     now:
       name: Charpentry
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55033
       name: Charpentry
       estAssociéeA: 55033
     '1973-01-01':
@@ -102737,7 +103149,8 @@ contents:
         changeDeNomPour: Cléry-le-Grand
       name: Cléry-Grand
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55119
       name: Cléry-Grand
       estAssociéeA: 55119
     '1973-02-01':
@@ -102754,6 +103167,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Cléry
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55118
     '1973-02-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Cléry-Petit
@@ -102951,6 +103367,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Dieue
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55204
     '1973-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Dieue
@@ -103072,6 +103491,9 @@ contents:
     '1988-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Étraye-Wavrille
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55580
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Étraye
@@ -103179,7 +103601,8 @@ contents:
     now:
       name: Génicourt-sur-Meuse
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55154
       name: Génicourt-sur-Meuse
       estAssociéeA: 55154
     '1973-06-01':
@@ -103204,7 +103627,8 @@ contents:
     now:
       name: Gesnes-en-Argonne
     '1987-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55438
       name: Gesnes-en-Argonne
       estAssociéeA: 55438
     '1973-07-01':
@@ -103220,7 +103644,8 @@ contents:
     now:
       name: Gimécourt
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55570
       name: Gimécourt
       estAssociéeA: 55570
     '1973-01-01':
@@ -103258,7 +103683,8 @@ contents:
     now:
       name: Gouraincourt
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55535
       name: Gouraincourt
       estAssociéeA: 55535
     '1973-01-01':
@@ -103404,6 +103830,10 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Madine
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55273
+          - 55386
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Heudicourt-sous-les-Côtes
@@ -103532,7 +103962,8 @@ contents:
         sAssocieA: 55386
       name: Lamarche-en-Woëvre
     1983-01-01-bis:
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55245
       name: Lamarche-en-Woëvre
       estAssociéeA: 55245
     '1973-01-01':
@@ -103602,6 +104033,11 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'Les Quatre-Vents'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55395
+          - 55482
+          - 55525
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Lemmes
@@ -103648,7 +104084,8 @@ contents:
     now:
       name: Lisle-en-Barrois
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55569
       name: Lisle-en-Barrois
       estAssociéeA: 55569
     '1973-01-01':
@@ -103905,7 +104342,8 @@ contents:
     now:
       name: Montplonne
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55035
       name: Montplonne
       estAssociéeA: 55035
     '1972-04-01':
@@ -103985,7 +104423,8 @@ contents:
     now:
       name: Muzeray
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55535
       name: Muzeray
       estAssociéeA: 55535
     '1973-01-01':
@@ -104068,7 +104507,8 @@ contents:
         prendPourAssociées:
           - 55273
     1983-01-01-bis:
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55245
       name: Nonsard
       estAssociéeA: 55245
     '1973-01-01':
@@ -104131,7 +104571,8 @@ contents:
     now:
       name: Osches
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55286
       name: Osches
       estAssociéeA: 55286
     '1973-01-01':
@@ -104186,7 +104627,8 @@ contents:
     now:
       name: Pretz-en-Argonne
     '1990-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55517
       name: Pretz
       estAssociéeA: 55517
     '1973-01-01':
@@ -104247,6 +104689,10 @@ contents:
     '2004-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Récicourt
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55068
+          - 55082
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Récicourt
@@ -104325,6 +104771,9 @@ contents:
     '1987-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Romagne-Gesnes
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55208
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Romagne-sous-Montfaucon
@@ -104378,7 +104827,8 @@ contents:
     now:
       name: Rupt-devant-Saint-Mihiel
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55570
       name: Rupt-devant-Saint-Mihiel
       estAssociéeA: 55570
     '1973-01-01':
@@ -104554,7 +105004,8 @@ contents:
     now:
       name: Senoncourt-les-Maujouy
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55286
       name: Senoncourt-les-Maujouy
       estAssociéeA: 55286
     '1973-01-01':
@@ -104589,6 +105040,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Seuzey-Vaux
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55540
     '1976-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Seuzey
@@ -104719,6 +105173,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'Seuil-d''Argonne'
       évènementDétaillé:
+        détacheCommeSimples:
+          - 55409
         gardeCommeAssociées:
           - 55480
     '1973-01-01':
@@ -104770,7 +105226,8 @@ contents:
     now:
       name: Vadelaincourt
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55286
       name: Vadelaincourt
       estAssociéeA: 55286
     '1973-01-01':
@@ -104822,6 +105279,10 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'Les Tilleuls-Vaudoncourt'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55216
+          - 55367
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Vaudoncourt
@@ -104868,7 +105329,8 @@ contents:
     now:
       name: Vaux-lès-Palameix
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55487
       name: Vaux-lès-Palameix
       estAssociéeA: 55487
     '1976-07-01':
@@ -104951,7 +105413,8 @@ contents:
     now:
       name: Ville-devant-Belrain
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55570
       name: Ville-devant-Belrain
       estAssociéeA: 55570
     '1973-01-01':
@@ -104979,7 +105442,8 @@ contents:
     now:
       name: Villers-aux-Vents
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55069
       name: Villers-aux-Vents
       estAssociéeA: 55069
     '1973-01-01':
@@ -105018,6 +105482,9 @@ contents:
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Vilisle
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55295
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Villotte-devant-Louppy
@@ -105030,6 +105497,12 @@ contents:
     '1988-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Villotte-sur-Aire
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 55044
+          - 55210
+          - 55448
+          - 55555
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Villotte-sur-Aire
@@ -105097,7 +105570,8 @@ contents:
     now:
       name: Wavrille
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 55183
       name: Wavrille
       estAssociéeA: 55183
     '1973-01-01':
@@ -106237,6 +106711,11 @@ contents:
     '1998-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Albestroff
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 57248
+          - 57573
+          - 57675
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Albestroff
@@ -106245,6 +106724,8 @@ contents:
           - 57248
           - 57573
           - 57675
+        détacheCommeSimples:
+          - 57346
     '1983-03-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Albestroff
@@ -106254,6 +106735,8 @@ contents:
           - 57346
           - 57573
           - 57675
+        détacheCommeSimples:
+          - 57494
     '1973-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Albestroff
@@ -106342,7 +106825,8 @@ contents:
     now:
       name: Arraincourt
     '1985-08-04':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57115
       name: Arraincourt
       estAssociéeA: 57115
     '1973-12-01':
@@ -106482,7 +106966,8 @@ contents:
     now:
       name: Berviller-en-Moselle
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57460
       name: Berviller-en-Moselle
       estAssociéeA: 57460
     '1974-01-01':
@@ -106557,6 +107042,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 57023
+        détacheCommeSimples:
+          - 57173
     '1973-09-09':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bisping
@@ -106635,6 +107122,9 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Bouzonville
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 57110
     '1974-05-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bouzonville
@@ -106654,7 +107144,8 @@ contents:
     now:
       name: Brettnach
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57106
       name: Brettnach
       estAssociéeA: 57106
     '1974-05-01':
@@ -106679,6 +107170,11 @@ contents:
     '1985-08-04':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Brulange
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 57027
+          - 57328
+          - 57673
     '1973-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Brulange
@@ -106954,7 +107450,8 @@ contents:
     now:
       name: Desseling
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57086
       name: Desseling
       estAssociéeA: 57086
     '1973-09-09':
@@ -106970,6 +107467,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Diane-et-Kerprich
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 57362
     '1972-10-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Diane-Capelle
@@ -107236,7 +107736,8 @@ contents:
     now:
       name: Givrycourt
     '1998-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57011
       name: Givrycourt
       estAssociéeA: 57011
     '1984-01-01':
@@ -107578,7 +108079,8 @@ contents:
     now:
       name: Holacourt
     '1985-08-04':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57115
       name: Holacourt
       estAssociéeA: 57115
     '1973-12-01':
@@ -107648,7 +108150,8 @@ contents:
     now:
       name: Insming
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57011
       name: Insming
       estAssociéeA: 57011
     '1983-03-01':
@@ -107717,7 +108220,8 @@ contents:
     now:
       name: Kerprich-aux-Bois
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57175
       name: Kerprich-aux-Bois
       estAssociéeA: 57175
     '1972-10-01':
@@ -108076,6 +108580,11 @@ contents:
     '1981-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Merten
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 57069
+          - 57570
+          - 57720
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Merten
@@ -108227,7 +108736,8 @@ contents:
     now:
       name: Munster
     '1983-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57011
       name: Munster
       estAssociéeA: 57011
     '1973-07-01':
@@ -108514,7 +109024,8 @@ contents:
         changeDeNomPour: Rémering
       name: Rémering-lès-Hargarten
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57460
       name: Rémering-lès-Hargarten
       estAssociéeA: 57460
     '1974-01-01':
@@ -108542,7 +109053,8 @@ contents:
     now:
       name: Réning
     '1998-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57011
       name: Réning
       estAssociéeA: 57011
     '1984-01-01':
@@ -108949,7 +109461,8 @@ contents:
     now:
       name: Thonville
     '1985-08-04':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57115
       name: Thonville
       estAssociéeA: 57115
     '1973-12-01':
@@ -108963,7 +109476,8 @@ contents:
     now:
       name: Torcheville
     '1998-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57011
       name: Torcheville
       estAssociéeA: 57011
     '1984-01-01':
@@ -109163,7 +109677,8 @@ contents:
     now:
       name: Villing
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 57460
       name: Villing
       estAssociéeA: 57460
     '1974-01-01':
@@ -111444,7 +111959,8 @@ contents:
     now:
       name: Haucourt-en-Cambrésis
     '1997-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 59349
       name: Haucourt-en-Cambrésis
       estAssociéeA: 59349
     '1973-01-01':
@@ -111666,6 +112182,9 @@ contents:
     '1997-03-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Ligny-Haucourt
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 59287
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ligny-en-Cambrésis
@@ -118829,10 +119348,15 @@ contents:
     '2008-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Béthune
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 62847
     '1997-11-20':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Béthune
       évènementDétaillé:
+        détacheCommeSimples:
+          - 62126
         gardeCommeAssociées:
           - 62847
     '1994-01-01':
@@ -118870,7 +119394,8 @@ contents:
     now:
       name: Beuvry
     '1997-11-20':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 62119
       name: Beuvry
       estAssociéeA: 62119
     '1994-01-01':
@@ -121301,7 +121826,8 @@ contents:
     now:
       name: Verquigneul
     '2008-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 62119
       name: Verquigneul
       estAssociéeA: 62119
     '1997-11-20':
@@ -123310,7 +123836,8 @@ contents:
     now:
       name: Arancou
     '1977-11-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64113
       name: Arancou
       estAssociéeA: 64113
     '1973-01-01':
@@ -123579,7 +124106,8 @@ contents:
     now:
       name: Bellocq
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64461
       name: Bellocq
       estAssociéeA: 64461
     '1973-01-01':
@@ -123605,6 +124133,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Bergouey-Arancou-Viellenave
       évènementDétaillé:
+        détacheCommeSimples:
+          - 64031
         gardeCommeAssociées:
           - 64553
     '1973-01-01':
@@ -123719,7 +124249,8 @@ contents:
     now:
       name: Bourdettes
     '1997-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64417
       name: Bourdettes
       estAssociéeA: 64417
     '1973-01-01':
@@ -123857,7 +124388,8 @@ contents:
     now:
       name: Castetner
     '1978-01-20':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64367
       name: Castetner
       estAssociéeA: 64367
     '1973-01-01':
@@ -124186,10 +124718,16 @@ contents:
     '2001-03-11':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Idron-Ousse-Sendets
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 64439
+          - 64518
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Idron-Lée-Ousse-Sendets
       évènementDétaillé:
+        détacheCommeSimples:
+          - 64329
         gardeCommeAssociées:
           - 64439
           - 64518
@@ -124401,7 +124939,8 @@ contents:
     now:
       name: Lée
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64269
       name: Lée
       estAssociéeA: 64269
     '1973-01-01':
@@ -124478,7 +125017,8 @@ contents:
     now:
       name: Loubieng
     '1978-01-20':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64367
       name: Loubieng
       estAssociéeA: 64367
     '1973-01-01':
@@ -124546,6 +125086,10 @@ contents:
     '1978-01-20':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Maslacq
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 64179
+          - 64349
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Maslacq
@@ -124724,6 +125268,9 @@ contents:
     '1997-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Nay-Bourdettes
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 64145
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Nay
@@ -124803,7 +125350,8 @@ contents:
     now:
       name: Ousse
     '2001-03-11':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64269
       name: Ousse
       estAssociéeA: 64269
     '1989-01-01':
@@ -124902,6 +125450,10 @@ contents:
     '1984-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Puyo-Bellocq-Ramous
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 64108
+          - 64462
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Puyoô
@@ -124913,7 +125465,8 @@ contents:
     now:
       name: Ramous
     '1984-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64461
       name: Ramous
       estAssociéeA: 64461
     '1973-01-01':
@@ -125110,7 +125663,8 @@ contents:
     now:
       name: Sendets
     '2001-03-11':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 64269
       name: Sendets
       estAssociéeA: 64269
     '1989-01-01':
@@ -127107,6 +127661,9 @@ contents:
     '1983-11-15':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Canet-en-Roussillon-Saint-Nazaire
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 66186
     '1972-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Canet
@@ -127322,7 +127879,8 @@ contents:
     now:
       name: Llauro
     '1989-09-30':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 66134
       name: Llauro
       estAssociéeA: 66134
     '1973-03-01':
@@ -127333,7 +127891,8 @@ contents:
     now:
       name: Llo
     '1984-03-28':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 66167
       name: Llo
       estAssociéeA: 66167
     '1974-10-08':
@@ -127460,6 +128019,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Osséja
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 66220
     '1972-04-24':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Osséja
@@ -127478,6 +128040,10 @@ contents:
     '1989-09-30':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Passa-Llauro-Tordères
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 66099
+          - 66211
     '1973-03-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Passa
@@ -127611,6 +128177,9 @@ contents:
     '1984-03-28':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saillagouse-Llo
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 66100
     '1974-10-08':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saillagouse
@@ -127691,7 +128260,8 @@ contents:
     now:
       name: Saint-Nazaire
     '1983-11-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 66037
       name: Saint-Nazaire
       estAssociéeA: 66037
     '1972-01-01':
@@ -127784,7 +128354,8 @@ contents:
     now:
       name: Tordères
     '1989-09-30':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 66134
       name: Tordères
       estAssociéeA: 66134
     '1973-03-01':
@@ -127826,7 +128397,8 @@ contents:
     now:
       name: Valcebollère
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 66130
       name: Valcebollère
       estAssociéeA: 66130
     '1972-04-24':
@@ -127943,7 +128515,8 @@ contents:
     now:
       name: Aschbach
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67484
       name: Aschbach
       estAssociéeA: 67484
     '1974-07-01':
@@ -128014,7 +128587,8 @@ contents:
     now:
       name: Bellefosse
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67513
       name: Bellefosse
       estAssociéeA: 67513
     '1975-01-01':
@@ -128030,7 +128604,8 @@ contents:
     now:
       name: Belmont
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67513
       name: Belmont
       estAssociéeA: 67513
     '1975-01-01':
@@ -128154,7 +128729,8 @@ contents:
     now:
       name: Bosselshausen
     '2007-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67242
       name: Bosselshausen
       estAssociéeA: 67242
     '1974-03-01':
@@ -128350,6 +128926,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Duppigheim
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67247
     '1974-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Duppigheim
@@ -128488,7 +129067,8 @@ contents:
     now:
       name: Fouday
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67513
       name: Fouday
       estAssociéeA: 67513
     '1975-01-01':
@@ -128591,6 +129171,9 @@ contents:
     '1986-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Gougenheim
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67406
     '1973-02-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Gougenheim
@@ -128915,6 +129498,9 @@ contents:
     '2007-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Kirrwiller-Bosselshausen
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67057
     '1974-03-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Kirrwiller
@@ -128942,7 +129528,8 @@ contents:
     now:
       name: Kolbsheim
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67108
       name: Kolbsheim
       estAssociéeA: 67108
     '1974-06-01':
@@ -129301,6 +129888,9 @@ contents:
     '1992-12-31':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Oberbronn-Zinswiller
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67558
     '1974-02-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Oberbronn
@@ -129345,7 +129935,8 @@ contents:
     now:
       name: Oberrœdern
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67484
       name: Oberrœdern
       estAssociéeA: 67484
     '1988-01-01':
@@ -129616,7 +130207,8 @@ contents:
     now:
       name: Rohr
     '1986-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67163
       name: Rohr
       estAssociéeA: 67163
     '1973-02-01':
@@ -129945,10 +130537,15 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Stundwiller
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67349
     '1988-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Stundwiller
       évènementDétaillé:
+        détacheCommeSimples:
+          - 67012
         gardeCommeAssociées:
           - 67349
     '1974-07-01':
@@ -130123,6 +130720,11 @@ contents:
     '1992-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'Le Ban-de-la-Roche'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 67026
+          - 67027
+          - 67144
     '1975-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'Le Ban-de-la-Roche'
@@ -130324,7 +130926,8 @@ contents:
     now:
       name: Zinswiller
     '1992-12-31':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 67340
       name: Zinswiller
       estAssociéeA: 67340
     '1974-02-01':
@@ -133449,7 +134052,8 @@ contents:
     now:
       name: Arbecey
     '1977-07-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 70427
       name: Arbecey
       estAssociéeA: 70427
     '1972-12-31':
@@ -133819,6 +134423,9 @@ contents:
     '1989-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Châlonvillars-Mandrevillars
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 70330
     '1972-12-31':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Châlonvillars
@@ -134682,7 +135289,8 @@ contents:
     now:
       name: Mandrevillars
     '1989-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 70117
       name: Mandrevillars
       estAssociéeA: 70117
     '1972-12-31':
@@ -135084,6 +135692,9 @@ contents:
     '1977-07-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Purgerot-Arbecey
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 70025
     '1972-12-31':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Purgerot
@@ -135789,6 +136400,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Autun
       évènementDétaillé:
+        détacheCommeSimples:
+          - 71414
         gardeCommeAssociées:
           - 71467
     '1973-07-15':
@@ -135945,7 +136558,8 @@ contents:
     now:
       name: Branges
     '1979-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 71263
       name: Branges
       estAssociéeA: 71263
     '1973-07-01':
@@ -136698,6 +137312,9 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Louhans
       évènementDétaillé:
+        détacheCommeSimples:
+          - 71056
+          - 71528
         gardeCommeAssociées:
           - 71114
     '1973-07-01':
@@ -137058,7 +137675,8 @@ contents:
     now:
       name: Plottes
     '2001-03-11':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 71543
       name: Plottes
       estAssociéeA: 71543
     '1973-01-01':
@@ -137257,7 +137875,8 @@ contents:
     now:
       name: Saint-Forgeot
     '1985-10-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 71014
       name: Saint-Forgeot
       estAssociéeA: 71014
     '1973-07-15':
@@ -137688,7 +138307,8 @@ contents:
     now:
       name: Sornay
     '1979-03-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 71263
       name: Sornay
       estAssociéeA: 71263
     '1973-07-01':
@@ -137745,6 +138365,9 @@ contents:
     '2001-03-11':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Tournus
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 71353
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Tournus
@@ -139607,6 +140230,9 @@ contents:
     '1988-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Aigueblanche
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 73024
     '1972-07-18':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Aigueblanche
@@ -139765,7 +140391,8 @@ contents:
     now:
       name: 'Les Avanchers-Valmorel'
     '1988-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 73003
       name: 'Les Avanchers'
       estAssociéeA: 73003
     '1972-07-18':
@@ -141493,7 +142120,8 @@ contents:
     now:
       name: Anthy-sur-Léman
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 74281
       name: Anthy-sur-Léman
       estAssociéeA: 74281
     '1974-01-01':
@@ -141917,7 +142545,8 @@ contents:
     now:
       name: Draillant
     '2001-02-19':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 74210
       name: Draillant
       estAssociéeA: 74210
     '1974-01-01':
@@ -142163,7 +142792,8 @@ contents:
     now:
       name: Marin
     '1995-05-25':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 74281
       name: Marin
       estAssociéeA: 74281
     '1983-01-01':
@@ -142334,7 +142964,8 @@ contents:
     now:
       name: Novel
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 74237
       name: Novel
       estAssociéeA: 74237
     '1974-01-01':
@@ -142375,6 +143006,9 @@ contents:
     '2001-02-19':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Perrignier
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 74106
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Perrignier
@@ -142525,6 +143159,9 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Gingolph
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 74203
     '1974-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Gingolph
@@ -142783,10 +143420,15 @@ contents:
     '1995-05-25':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Thonon-les-Bains
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 74166
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Thonon-les-Bains
       évènementDétaillé:
+        détacheCommeSimples:
+          - 74013
         gardeCommeAssociées:
           - 74166
     '1974-01-01':
@@ -143862,7 +144504,8 @@ contents:
     now:
       name: Bihorel
     '2014-01-01':
-      évènement: 'Commune déléguée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76108
       name: Bihorel
       estDéléguéeDe: 76108
     '2012-01-01':
@@ -143936,6 +144579,9 @@ contents:
     '2014-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Bois-Guillaume-Bihorel
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 76095
     '2012-01-01':
       après:
         name: Bois-Guillaume-Bihorel
@@ -144942,6 +145588,9 @@ contents:
     '1976-10-29':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Rocquefort-sur-Héricourt
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 76531
     '1973-04-10':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Héricourt-en-Caux
@@ -145054,7 +145703,8 @@ contents:
     now:
       name: Limpiville
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76755
       name: Limpiville
       estAssociéeA: 76755
     '1973-03-20':
@@ -145572,7 +146222,8 @@ contents:
     now:
       name: Rocquefort
     '1976-10-29':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76355
       name: Rocquefort
       estAssociéeA: 76355
     '1973-04-10':
@@ -145813,7 +146464,8 @@ contents:
     now:
       name: Saint-Lucien
     '2017-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76676
       name: Saint-Lucien
       estAssociéeA: 76676
     '1973-06-01':
@@ -146137,6 +146789,9 @@ contents:
     '2017-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Sigy-en-Bray
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 76601
     '1973-06-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Sigy-en-Bray
@@ -146160,7 +146815,8 @@ contents:
     now:
       name: Sorquainville
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76755
       name: Sorquainville
       estAssociéeA: 76755
     '1973-03-20':
@@ -146197,7 +146853,8 @@ contents:
     now:
       name: Thiétreville
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 76755
       name: Thiétreville
       estAssociéeA: 76755
     '1973-03-20':
@@ -146473,6 +147130,11 @@ contents:
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Michel-en-Caux
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 76386
+          - 76680
+          - 76689
     '1973-03-20':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ypreville-Biville
@@ -147008,7 +147670,8 @@ contents:
     now:
       name: Courquetaine
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 77352
       name: Courquetaine
       estAssociéeA: 77352
     '1973-01-01':
@@ -147894,6 +148557,9 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Ozouer-Courquetaine
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 77136
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ozouer-le-Voulgis
@@ -149508,7 +150174,8 @@ contents:
     now:
       name: Drocourt
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 78246
       name: Drocourt
       estAssociéeA: 78246
     '1973-01-01':
@@ -149710,6 +150377,9 @@ contents:
     '1982-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Fontenay-Saint-Père
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 78202
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Fontenay-Saint-Père
@@ -151826,6 +152496,8 @@ contents:
         gardeCommeAssociées:
           - 79041
           - 79317
+        détacheCommeSimples:
+          - 79047
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Airvault
@@ -152101,7 +152773,8 @@ contents:
     now:
       name: Boismé
     '1983-02-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79049
       name: Boismé
       estAssociéeA: 79049
     '1973-01-01':
@@ -152181,7 +152854,8 @@ contents:
     now:
       name: Boussais
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79005
       name: Boussais
       estAssociéeA: 79005
     '1973-01-01':
@@ -152213,6 +152887,8 @@ contents:
           - 79193
           - 79296
           - 79324
+        détacheCommeSimples:
+          - 79038
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Bressuire
@@ -152283,7 +152959,8 @@ contents:
         devientDéléguéeDe: 79196
       name: Brie
     '1983-02-14':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79196
       name: Brie
       estAssociéeA: 79196
     '1973-01-01':
@@ -152297,7 +152974,8 @@ contents:
     now:
       name: Brion-près-Thouet
     '1983-02-15':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79277
       name: Brion-près-Thouet
       estAssociéeA: 79277
     '1973-01-01':
@@ -152540,6 +153218,8 @@ contents:
           - 79233
           - 79237
           - 79323
+        détacheCommeSimples:
+          - 79235
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Mauléon
@@ -152697,6 +153377,9 @@ contents:
     '1981-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Coulon-Sansais
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 79304
     '1973-03-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Coulon
@@ -153366,6 +154049,8 @@ contents:
         gardeCommeAssociées:
           - 79036
           - 79194
+        détacheCommeSimples:
+          - 79054
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Oiron
@@ -153583,7 +154268,8 @@ contents:
     now:
       name: Saint-Amand-sur-Sèvre
     '1992-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79079
       name: Saint-Amand-sur-Sèvre
       estAssociéeA: 79079
     '1973-01-01':
@@ -153828,6 +154514,9 @@ contents:
     '1983-02-15':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Martin-de-Sanzay
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 79056
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Martin-de-Sanzay
@@ -153993,7 +154682,8 @@ contents:
     now:
       name: Sansais
     '1981-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 79100
       name: Sansais
       estAssociéeA: 79100
     '1973-03-01':
@@ -160380,6 +161070,9 @@ contents:
     '1985-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: 'L''Aiguillon-la-Chaize'
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 85045
     '1974-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: 'L''Aiguillon-sur-Vie'
@@ -160392,6 +161085,9 @@ contents:
     '1979-05-31':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Aizenay
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 85055
     '1972-09-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Aizenay
@@ -160629,7 +161325,8 @@ contents:
     now:
       name: 'La Chaize-Giraud'
     '1985-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 85002
       name: 'La Chaize-Giraud'
       estAssociéeA: 85002
     '1974-04-01':
@@ -160714,7 +161411,8 @@ contents:
     now:
       name: 'La Chapelle-Palluau'
     '1979-05-31':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 85003
       name: 'La Chapelle-Palluau'
       estAssociéeA: 85003
     '1972-09-01':
@@ -162029,7 +162727,8 @@ contents:
     now:
       name: Amberre
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Amberre
       estAssociéeA: 86160
     '1973-01-01':
@@ -162411,7 +163110,8 @@ contents:
     now:
       name: Cherves
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Cherves
       estAssociéeA: 86160
     '1973-01-01':
@@ -162501,7 +163201,8 @@ contents:
     now:
       name: Cuhon
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Cuhon
       estAssociéeA: 86160
     '1973-01-01':
@@ -162754,7 +163455,8 @@ contents:
     now:
       name: Maisonneuve
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Maisonneuve
       estAssociéeA: 86160
     '1973-01-01':
@@ -162788,7 +163490,8 @@ contents:
     now:
       name: Massognes
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Massognes
       estAssociéeA: 86160
     '1973-01-01':
@@ -162842,6 +163545,15 @@ contents:
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Mirebeau
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 86002
+          - 86073
+          - 86089
+          - 86144
+          - 86150
+          - 86277
+          - 86299
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Mirebeau
@@ -163375,7 +164087,8 @@ contents:
         devientDéléguéeDe: 86281
       name: Varennes
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Varennes
       estAssociéeA: 86160
     '1973-01-01':
@@ -163498,7 +164211,8 @@ contents:
     now:
       name: Vouzailles
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 86160
       name: Vouzailles
       estAssociéeA: 86160
     '1973-01-01':
@@ -164467,7 +165181,8 @@ contents:
     now:
       name: Bellefontaine
     '1978-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 88351
       name: Bellefontaine
       estAssociéeA: 88351
     '1973-01-01':
@@ -165595,6 +166310,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Plombières-les-Bains
       évènementDétaillé:
+        détacheCommeSimples:
+          - 88048
         gardeCommeAssociées:
           - 88217
           - 88405
@@ -166255,7 +166972,8 @@ contents:
     now:
       name: Aigremont
     '1985-02-08':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89224
       name: Aigremont
       estAssociéeA: 89224
     '1973-01-01':
@@ -166314,6 +167032,10 @@ contents:
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Annay-sur-Serein
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89259
+          - 89371
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Annay-sur-Serein
@@ -166426,7 +167148,8 @@ contents:
     now:
       name: Bessy-sur-Cure
     '1982-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89233
       name: Bessy-sur-Cure
       estAssociéeA: 89233
     '1973-01-01':
@@ -166497,6 +167220,9 @@ contents:
     '1976-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Brannay-Saint-Sérotin
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89369
     '1972-07-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Brannay
@@ -166512,6 +167238,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 89047
+        détacheCommeSimples:
+          - 89288
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Brienon-sur-Armançon
@@ -166572,6 +167300,9 @@ contents:
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Chailley-Turny
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89425
     '1974-04-15':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Chailley
@@ -166838,6 +167569,9 @@ contents:
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Coulanges-la-Vineuse
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89155
     '1972-12-11':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Coulanges-la-Vineuse
@@ -166989,7 +167723,8 @@ contents:
     now:
       name: Escolives-Sainte-Camille
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89118
       name: Escolives-Sainte-Camille
       estAssociéeA: 89118
     '1972-12-11':
@@ -167298,7 +168033,8 @@ contents:
     now:
       name: Lavau
     '1977-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89344
       name: Lavau
       estAssociéeA: 89344
     '1972-12-01':
@@ -167320,6 +168056,9 @@ contents:
     '1985-02-08':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Lichères-Aigremont
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89002
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Lichères-près-Aigremont
@@ -167362,6 +168101,8 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Lucy-sur-Cure
       évènementDétaillé:
+        détacheCommeSimples:
+          - 89040
         gardeCommeAssociées:
           - 89157
     '1973-01-01':
@@ -167451,7 +168192,8 @@ contents:
     now:
       name: Merry-Sec
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89283
       name: Merry-Sec
       estAssociéeA: 89283
     '1972-12-01':
@@ -167465,7 +168207,8 @@ contents:
     now:
       name: Mézilles
     '1977-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89344
       name: Mézilles
       estAssociéeA: 89344
     '1972-12-01':
@@ -167490,7 +168233,8 @@ contents:
     now:
       name: Môlay
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89010
       name: Môlay
       estAssociéeA: 89010
     '1973-01-01':
@@ -167582,6 +168326,9 @@ contents:
     '1979-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Neuilly
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89457
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Neuilly
@@ -167618,6 +168365,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 89090
+        détacheCommeSimples:
+          - 89252
     '1972-12-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Ouanne
@@ -167645,7 +168394,8 @@ contents:
     now:
       name: Paroy-en-Othe
     '2003-12-31':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89055
       name: Paroy-en-Othe
       estAssociéeA: 89055
     '1973-01-01':
@@ -167768,7 +168518,8 @@ contents:
     now:
       name: Préhy
     '1998-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89341
       name: Préhy
       estAssociéeA: 89341
     '1973-01-01':
@@ -167823,7 +168574,8 @@ contents:
     now:
       name: Ronchères
     '1999-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89344
       name: Ronchères
       estAssociéeA: 89344
     '1977-01-01':
@@ -167837,7 +168589,8 @@ contents:
     now:
       name: Rosoy
     '2008-02-12':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89387
       name: Rosoy
       estAssociéeA: 89387
     '1973-01-01':
@@ -167920,7 +168673,8 @@ contents:
         devientDéléguéeDe: 89420
       name: Sainte-Colombe-sur-Loing
     '1977-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89420
       name: Sainte-Colombe-sur-Loing
       estAssociéeA: 89420
     '1973-01-01':
@@ -167937,6 +168691,9 @@ contents:
     '1998-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Cyr-les-Colons
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89315
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Saint-Cyr-les-Colons
@@ -167968,12 +168725,18 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Fargeau
       évènementDétaillé:
+        détacheCommeSimples:
+          - 89325
         gardeCommeAssociées:
           - 89389
     '1977-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saint-Fargeau
       évènementDétaillé:
+        détacheCommeSimples:
+          - 89220
+          - 89254
+          - 89352
         seScindePourCréerLesAssociées:
           - 89325
           - 89389
@@ -168019,7 +168782,8 @@ contents:
     now:
       name: Saint-Martin-des-Champs
     '1977-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89344
       name: Saint-Martin-des-Champs
       estAssociéeA: 89344
     '1972-12-01':
@@ -168119,7 +168883,8 @@ contents:
     now:
       name: Saint-Sérotin
     '1976-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89054
       name: Saint-Sérotin
       estAssociéeA: 89054
     '1972-07-01':
@@ -168133,7 +168898,8 @@ contents:
     now:
       name: Sainte-Vertu
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89010
       name: Sainte-Vertu
       estAssociéeA: 89010
     '1973-01-01':
@@ -168204,6 +168970,9 @@ contents:
     '2008-02-12':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Sens
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 89326
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Sens
@@ -168408,6 +169177,8 @@ contents:
       évènementDétaillé:
         gardeCommeAssociées:
           - 89293
+        détacheCommeSimples:
+          - 89340
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Treigny
@@ -168439,7 +169210,8 @@ contents:
     now:
       name: Turny
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89069
       name: Turny
       estAssociéeA: 89069
     '1974-04-15':
@@ -168603,7 +169375,8 @@ contents:
         devientDéléguéeDe: 89196
       name: Villemer
     '1979-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 89275
       name: Villemer
       estAssociéeA: 89275
     '1973-01-01':
@@ -168815,6 +169588,9 @@ contents:
     '1978-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Chèvremont-Fontenelle
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 90048
     '1973-04-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Chèvremont
@@ -168845,12 +169621,17 @@ contents:
     '1983-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Delle
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 90056
     '1980-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Delle
       évènementDétaillé:
         gardeCommeAssociées:
           - 90056
+        détacheCommeSimples:
+          - 90063
     '1972-10-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Delle
@@ -168928,7 +169709,8 @@ contents:
     now:
       name: Fontenelle
     '1978-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 90026
       name: Fontenelle
       estAssociéeA: 90026
     '1973-04-01':
@@ -168960,7 +169742,8 @@ contents:
     now:
       name: Joncherey
     '1983-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 90033
       name: Joncherey
       estAssociéeA: 90033
     '1980-01-01':
@@ -168994,7 +169777,8 @@ contents:
     now:
       name: Lebetain
     '1980-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 90033
       name: Lebetain
       estAssociéeA: 90033
     '1972-10-01':
@@ -169036,6 +169820,9 @@ contents:
     '1997-01-01':
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Meroux-Moval
+      évènementDétaillé:
+        détacheCommeSimples:
+          - 90073
     '1972-07-15':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Meroux
@@ -169066,7 +169853,8 @@ contents:
         devientDéléguéeDe: 90068
       name: Moval
     '1997-01-01':
-      évènement: 'Commune associée rétablie comme commune simple'
+      évènement:
+        seSépareDe: 90068
       name: Moval
       estAssociéeA: 90068
     '1972-07-15':
@@ -172885,85 +173673,51 @@ contents:
   97601:
     now:
       name: Acoua
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97602:
     now:
       name: Bandraboua
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97603:
     now:
       name: Bandrele
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97604:
     now:
       name: Bouéni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97605:
     now:
       name: Chiconi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97606:
     now:
       name: Chirongui
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97607:
     now:
       name: Dembeni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97608:
     now:
       name: Dzaoudzi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97609:
     now:
       name: Kani-Kéli
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97610:
     now:
       name: Koungou
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97611:
     now:
       name: Mamoudzou
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97612:
     now:
       name: Mtsamboro
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97613:
     now:
       name: 'M''Tsangamouji'
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97614:
     now:
       name: Ouangani
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97615:
     now:
       name: Pamandzi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97616:
     now:
       name: Sada
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97617:
     now:
       name: Tsingoni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'

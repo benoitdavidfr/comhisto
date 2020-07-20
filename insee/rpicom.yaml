@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-19T16:10:08+00:00'
+created: '2020-07-19T20:12:48+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -163218,85 +163218,51 @@ contents:
   97601:
     now:
       name: Acoua
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97602:
     now:
       name: Bandraboua
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97603:
     now:
       name: Bandrele
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97604:
     now:
       name: Bouéni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97605:
     now:
       name: Chiconi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97606:
     now:
       name: Chirongui
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97607:
     now:
       name: Dembeni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97608:
     now:
       name: Dzaoudzi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97609:
     now:
       name: Kani-Kéli
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97610:
     now:
       name: Koungou
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97611:
     now:
       name: Mamoudzou
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97612:
     now:
       name: Mtsamboro
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97613:
     now:
       name: 'M''Tsangamouji'
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97614:
     now:
       name: Ouangani
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97615:
     now:
       name: Pamandzi
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97616:
     now:
       name: Sada
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'
   97617:
     now:
       name: Tsingoni
-    '2011-03-31':
-      évènement: 'Entre dans le périmètre du référentiel'

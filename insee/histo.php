@@ -6,9 +6,9 @@ doc: |
   Production d'un document Yaml de l'historique de chaque code Insee à partir des données de mouvements Insee et de l'état au 1/1/2020.
   Correction des incohérences constatées et de quelques erreurs flagrantes.
   Fonctionne en 3 étapes:
-    1) fabrication du Rpicom défini par date de fin avec pseudo-date now
-    2) ajout d'évènements détaillés
-    3) construction du fichier histo à partir du Rpicom avec évènements détaillés
+    1) fabrication du Rpicom défini par date de fin avec pseudo-date now, un evt par date et date-bis
+    2) ajout d'évènements détaillés et enregistrement du résultat dans rpicomd
+    3) construction du fichier histo à partir du Rpicom détaillé
 journal: |
   12-14/7/2020:
     - construction de mirroirs
@@ -476,13 +476,8 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
         $unknownDelegVdate = $datev;
       }
     }
-    // Post-traitement no 2 pour indiquer que Mayote est devenu DOM le 31 mars 2011
-    if (substr($id, 0, 3) == '976') {
-      $rpicom['2011-03-31'] = ['évènement' => "Entre dans le périmètre du référentiel"];
-      $rpicoms->$id = $rpicom;
-    }
   }
-  // Post-traitement no 3 pour indiquer que Saint-Martin et Saint-Barthélemy ont été DOM jusqu'au 15 juillet 2007
+  // Post-traitement no 2 pour indiquer que Saint-Martin et Saint-Barthélemy ont été DOM jusqu'au 15 juillet 2007
   foreach (['97123'=> "Saint-Barthélemy", '97127'=> "Saint-Martin"] as $id => $name) {
     $rpicoms->$id = [
       '2007-07-15' => [
@@ -491,7 +486,7 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
       ]
     ];
   }
-  if (1) { // Post-trait. no 4 - supp. du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia
+  if (1) { // Post-trait. no 3 - supp. du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia
     echo "Suppression du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia\n";
     $id = '14114';
     $rpicom = $rpicoms->$id;
@@ -499,7 +494,7 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
     unset($rpicom['2019-12-31']);
     $rpicoms->$id = $rpicom;
   }
-  if (1) { // Post-traitement no 5 pour corriger un Bug INSEE sur 89325 Ronchères
+  if (1) { // Post-traitement no 4 pour corriger un Bug INSEE sur 89325 Ronchères
     // L'évènement d'association du 1972-12-01 et suivi d'un rétablieCommeAssociéeDe de 1977-01-01, c'est impossible !
     // Le site INSEE confirme ces évènements dont l'enchainement est interdit.
     // Je transforme donc l'association (sAssocieA) du 1972-12-01 en fusion (fusionneDans)
@@ -550,7 +545,15 @@ if ($_GET['action'] == 'showRpicom') { // affichage du Rpicom
   die("Fin srpicom ok\n");
 }
 
-// détaille certains évts
+{/*PhpDoc: functions
+name: showRpicom
+title: detailleEvt - détaille les évènements
+doc: |
+  Part de Rpicom produit par brpicom
+  ajoute des évènementsDétaillés
+  remplace les libellés d'évènements rétabli en scission
+  modifie l'objet passé en paramètre et l'enregistre dans rpicomd
+*/}
 function detailleEvt(Base $rpicomBase) {
   /*
   évènement/sAssocieA => évènementDétaillé/prendPourAssociées
@@ -561,10 +564,9 @@ function detailleEvt(Base $rpicomBase) {
   */
   //$rpicomBase = new Base(__DIR__.'/rpicomtest', new Criteria(['not']));
   $rpicoms = $rpicomBase->contents();
-  // supprime des évènementDétaillés et les réinitialise pour les c. déléguées propres
+  // initialise pour les c. déléguées propres
   foreach ($rpicoms as $id => $rpicom) {
     foreach ($rpicom as $dv => $version) {
-      unset($rpicoms[$id][$dv]['évènementDétaillé']);
       if (($version['évènement'] ?? null) == 'Se crée en commune nouvelle avec commune déléguée propre') {
         addValToArray($id, $rpicoms[$id][$dv]['évènementDétaillé']['prendPourDéléguées']);
         $rpicomBase->$id = $rpicoms[$id];
@@ -573,6 +575,11 @@ function detailleEvt(Base $rpicomBase) {
     $rpicomBase->$id = $rpicoms[$id];
   }
   // balaie les c. rattachées ou absorbées pour détailler l'évt de rattachement/absorption sur la c. de ratt./absorbante
+  // On change aussi les noms des évts suivants
+  // rétablieCommeSimpleDe -> crééeCommeSimpleParScissionDe
+  // rétabliCommeArrondissementMunicipalDe -> crééCommeArrondissementMunicipalParScissionDe
+  // rétablieCommeAssociéeDe -> crééeCommeAssociéeParScissionDe
+  // changeDeRattachementPour | perdRattachementPour -> devientDéléguéeDe
   foreach ($rpicoms as $id => $rpicom) {
     foreach ($rpicom as $dv => $version) {
       if ($cratid = $version['évènement']['sAssocieA'] ?? null) {
@@ -585,6 +592,7 @@ function detailleEvt(Base $rpicomBase) {
       }
       if ($cratid = $version['évènement']['fusionneDans'] ?? null) {
         $evt = $rpicoms[$cratid][$dv]['évènement'];
+        // si l'évt mirroir est crééeParFusionSimpleDe alors pas de création de absorbe
         if (!(is_array($evt) && (array_keys($evt)==['crééeParFusionSimpleDe']))) {
           addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['absorbe']);
           $rpicomBase->$cratid = $rpicoms[$cratid];
@@ -614,19 +622,11 @@ function detailleEvt(Base $rpicomBase) {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréer']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
-      if ($cratid = $version['évènement']['crééeCommeSimpleParScissionDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréer']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
       if ($cratid = $version['évènement']['rétabliCommeArrondissementMunicipalDe'] ?? null) {
         // Transformation de rétabliCommeArrondissementMunicipalDe en 
         unset($rpicoms[$id][$dv]['évènement']['rétabliCommeArrondissementMunicipalDe']);
         $rpicoms[$id][$dv]['évènement']['crééCommeArrondissementMunicipalParScissionDe'] = $cratid;
         $rpicomBase->$id = $rpicoms[$id];
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesNouveauxArrondissementsMunicipaux']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
-      if ($cratid = $version['évènement']['crééCommeArrondissementMunicipalParScissionDe'] ?? null) {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesNouveauxArrondissementsMunicipaux']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
@@ -638,10 +638,6 @@ function detailleEvt(Base $rpicomBase) {
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesAssociées']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
-      if ($cratid = $version['évènement']['crééeCommeAssociéeParScissionDe'] ?? null) {
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['seScindePourCréerLesAssociées']);
-        $rpicomBase->$cratid = $rpicoms[$cratid];
-      }
       if (($cratid = $version['évènement']['changeDeRattachementPour'] ?? null)
        || ($cratid = $version['évènement']['perdRattachementPour'] ?? null)) {
         // Transformation de changeDeRattachementPour||perdRattachementPour en devientDéléguéeDe
@@ -650,6 +646,21 @@ function detailleEvt(Base $rpicomBase) {
         $rpicoms[$id][$dv]['évènement']['devientDéléguéeDe'] = $cratid;
         $rpicomBase->$id = $rpicoms[$id];
         addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if (($version['évènement'] ?? null) == "Commune associée rétablie comme commune simple") {
+        $cratid = $version['estAssociéeA'];
+        $rpicoms[$id][$dv]['évènement'] = ['seSépareDe' => $cratid];
+        $rpicomBase->$id = $rpicoms[$id];
+        $dv = substr($dv, 0, 10);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['détacheCommeSimples']);
+        $rpicomBase->$cratid = $rpicoms[$cratid];
+      }
+      if (($version['évènement'] ?? null) == "Commune déléguée rétablie comme commune simple") {
+        $cratid = $version['estDéléguéeDe'];
+        $rpicoms[$id][$dv]['évènement'] = ['seSépareDe' => $cratid];
+        $rpicomBase->$id = $rpicoms[$id];
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['détacheCommeSimples']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
     }
@@ -712,6 +723,8 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
   foreach ($rpicoms->contents() as $cinsee => $rpicom) {
     //if (!in_array($cinsee, ['01015','01079','01283',01217','78001','13201','14513','55273','55386','91001'])) continue;
     //echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 3);
+    if (in_array($cinsee, ['44225','51369']))
+      echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 4, 2);
     
     // transforme estAssociéeA/estDéléguéeDe/estArrondissementMunicipalDe en statut/crat
     // traite aussi le cas di statut mixte Simple + Déléguée
@@ -729,6 +742,10 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
         $val['statut'] = 'COMS';
       unset($val['après']);
       $rpicom[$dfin] = $val;
+    }
+    if (0 && in_array($cinsee, ['55273', '55386'])) { // cas particulier avec date-bis
+      $rpicom['1983-01-01']['statut'] = 'COMA';
+      $rpicom['1983-01-01']['crat'] = '55245';
     }
 
     // transforme évènement + évènementDétaillé -> evts
@@ -749,6 +766,7 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     }
     //echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 3);
     // Transforme les date bis en liste d'évènements
+    // l'état résultant est celui de la date bis
     $dfins = array_keys($rpicom);
     foreach ($dfins as $ikey => $dfin) {
       if (substr($dfin, 10)=='-bis') {
@@ -758,13 +776,18 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
           $evt1 = [ 'label'=> $evt1 ];
         if (!is_array($evt2))
           $evt2 = [ 'label'=> $evt2 ];
+        foreach (['name','statut','crat'] as $key)
+          if (isset($rpicom[$dfin][$key]))
+            $rpicom[$dfins[$ikey-1]][$key] = $rpicom[$dfin][$key];
+          else
+            unset($rpicom[$dfins[$ikey-1]][$key]);
         $rpicom[$dfins[$ikey-1]]['evts'] = array_merge($evt1, $evt2);
         unset($rpicom[$dfins[$ikey]]);
       }
     }
     ksort($rpicom);
-    
-    //echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 3);
+    if (in_array($cinsee, ['44225','51369']))
+      echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 4, 2);
     
     // passe de date de fin en date de début
     $dfins = array_keys($rpicom);
@@ -796,6 +819,11 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     }
     unset($rpicom['now']);
     //echo Yaml::dump(['fin'=> [$cinsee => $rpicom]], 4);
+    
+    // cas particuliers
+    if (0 && in_array($cinsee, ['44225', '49382', '50649']))
+      unset($rpicom['1943-01-01']); // pb de date-bis
+    
     $histos[$cinsee] = $rpicom;
   }
   
@@ -829,20 +857,7 @@ EOT;
   die("Fin bhisto ok, résultat écrit dans histo.yaml\n");
 }
 
-if ($_GET['action'] == 'retaborigin') { // recherche les codes créés par un rétablissement
-  echoHtmlHeader($_GET['action']);
-  $histos = new Base('histo', new Criteria(['not'])); // Lecture de histo.yaml dans $histos
-  foreach ($histos->contents() as $cinsee => $histo) {
-    if (array_keys($histo)[0]=='1943-01-01') continue;
-    $evts0 = array_values($histo)[0]['evts'];
-    //if () continue;
-    if (is_array($evts0) && array_keys($evts0)==['arriveDansLeDépartementAvecLeCode']) continue;
-    echo Yaml::dump([$cinsee => $histo], 4);
-  }
-  die("</pre>Fin retaborigin\n");
-}
-
-if ($_GET['action'] == 'mirroirs') { // construction de la liste des mirroirs
+if ($_GET['action'] == 'mirroirs') { // construction de la liste des évts mirroirs
   class Evts {
     protected $evts;
   

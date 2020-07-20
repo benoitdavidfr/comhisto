@@ -1,1 +1,470 @@
 title: cas particuliers à surveiller
+14764:
+  title: Pont-d'Ouilly (14764) créé par fusion simple de Ouilly-le-Basset (14485) et Saint-Marc-d'Ouilly (14612)
+  abstract: Unique opération crééeParFusionSimpleDe dans laquelle les 2 communes d'origine disparaissent
+  rpicom:
+    14764:
+      now:
+        name: 'Pont-d''Ouilly'
+      '1947-08-27':
+        évènement:
+          crééeParFusionSimpleDe:
+            - 14485
+            - 14612
+    14485:
+      '1947-08-27':
+        évènement:
+          fusionneDans: 14764
+        name: Ouilly-le-Basset
+    14612:
+      '1947-08-27':
+        évènement:
+          fusionneDans: 14764
+        name: 'Saint-Marc-d''Ouilly'
+  histo:
+    14764:
+      '1947-08-27':
+        evts: { crééeParFusionSimpleDe: [14485, 14612] }
+        etat: { name: 'Pont-d''Ouilly', statut: COMS }
+    14485:
+      '1943-01-01':
+        etat: { name: Ouilly-le-Basset, statut: COMS }
+      '1947-08-27':
+        evts: { fusionneDans: 14764 }
+    14612:
+      '1943-01-01':
+        etat: { name: 'Saint-Marc-d''Ouilly', statut: COMS }
+      '1947-08-27':
+        evts: { fusionneDans: 14764 }
+14513/50649:
+  title: Pont-Farcy (14513) absorbe le 1/1/2018 Pleines-Œuvres (14507) et à la même date change de département et devient déléguée
+  abstract: 2*2 évts à la même date représentés par 2 bis dans Rpicom et par un double évt dans histo
+  rpicom:
+    50649:
+      now:
+        name: Pont-Farcy
+        estDéléguéeDe: 50592
+      '2018-01-01':
+        après:
+          name: Pont-Farcy
+          estDéléguéeDe: 50592
+        évènement:
+          devientDéléguéeDe: 50592
+        name: Pont-Farcy
+      2018-01-01-bis:
+        évènement:
+          arriveDansLeDépartementAvecLeCode: 14513
+    14513:
+      '2018-01-01':
+        évènement:
+          quitteLeDépartementEtPrendLeCode: 50649
+        name: Pont-Farcy
+      2018-01-01-bis:
+        après:
+          name: Pont-Farcy
+        évènement: 'Absorbe certaines de ses c. rattachées ou certaines de ses c. associées deviennent déléguées'
+        name: Pont-Farcy
+      '1973-05-01':
+        évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+        name: Pont-Farcy
+    14507:
+      '2018-01-01':
+        évènement:
+          fusionneDans: 14513
+        name: Pleines-Œuvres
+        estAssociéeA: 14513
+      '1973-05-01':
+        évènement:
+          sAssocieA: 14513
+        name: Pleines-Œuvres
+  histo:
+    14513:
+      '1943-01-01':
+        etat: { name: Pont-Farcy, statut: COMS }
+      '1973-05-01':
+        evts: { prendPourAssociées: [14507] }
+        etat: { name: Pont-Farcy, statut: COMS }
+      '2018-01-01':
+        evts: { absorbe: [14507], quitteLeDépartementEtPrendLeCode: 50649 }
+    50649:
+      '2018-01-01':
+        evts: { arriveDansLeDépartementAvecLeCode: 14513, devientDéléguéeDe: 50592 }
+        etat: { name: Pont-Farcy, statut: COMD, crat: 50592 }
+    
+33055:
+  title: Blaignan (33055) s'érige en commune nouvelle en prenant elle-même comme déléguée et en absorbant Prignac-en-Médoc (33338)
+  abstract: cas d'une commune ayant une déléguée propre et dont l'union des déléguées ne forme pas la totalité du territoire
+  rpicom:
+    33055:
+      now:
+        name: Blaignan-Prignac
+        commeDéléguée:
+          name: Blaignan
+      '2019-01-01':
+        après:
+          name: Blaignan-Prignac
+          commeDéléguée:
+            name: Blaignan
+        évènement: 'Se crée en commune nouvelle avec commune déléguée propre'
+        name: Blaignan
+    33338:
+      '2019-01-01':
+        après: {  }
+        évènement:
+          seFondDans: 33055
+        name: Prignac-en-Médoc
+  histo:
+    33055:
+      '1943-01-01':
+        etat: { name: Blaignan, statut: COMS }
+      '2019-01-01':
+        evts: { prendPourDéléguées: [33055], absorbe: [33338] }
+        etat: { name: Blaignan-Prignac, statut: COMM, nomCommeDéléguée: Blaignan }
+    33338:
+      '1943-01-01':
+        etat: { name: Prignac-en-Médoc, statut: COMS }
+      '2019-01-01':
+        evts: { seFondDans: 33055 }
+  zones:
+    s33055@2019-01-01:
+      ref: COG2020s
+      contains:
+        s33055@1943-01-01:
+          sameAs:
+            - r33055@2019-01-01
+          ref: COG2020r
+        s33338@1943-01-01:
+          ref: COG2020ecomp
+89344:
+  title: Saint-Fargeau (89344) prend des associées et absorbe puis les rétablit
+  rpicom:
+    89344:
+      now:
+        name: Saint-Fargeau
+      '1999-01-01':
+        évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+        name: Saint-Fargeau
+      '1977-01-01':
+        évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+        name: Saint-Fargeau
+      '1972-12-01':
+        évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+        name: Saint-Fargeau
+    89220:
+      now:
+        name: Lavau
+      '1977-01-01':
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Lavau
+        estAssociéeA: 89344
+      '1972-12-01':
+        évènement:
+          sAssocieA: 89344
+        name: Lavau
+    89254:
+      now:
+        name: Mézilles
+      '1977-01-01':
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Mézilles
+        estAssociéeA: 89344
+      '1972-12-01':
+        évènement:
+          sAssocieA: 89344
+        name: Mézilles
+    89325:
+      now:
+        name: Ronchères
+      '1999-01-01':
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Ronchères
+        estAssociéeA: 89344
+      '1977-01-01':
+        évènement:
+          rétablieCommeAssociéeDe: 89344
+      '1972-12-01':
+        évènement:
+          fusionneDans: 89344
+        name: Ronchères
+    89352:
+      now:
+        name: Saint-Martin-des-Champs
+      '1977-01-01':
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Saint-Martin-des-Champs
+        estAssociéeA: 89344
+      '1972-12-01':
+        évènement:
+          sAssocieA: 89344
+        name: Saint-Martin-des-Champs
+    89389:
+      now:
+        name: Septfonds
+        estAssociéeA: 89344
+      '1999-01-01':
+        évènement:
+          resteAssociéeA: 89344
+        name: Septfonds
+        estAssociéeA: 89344
+      '1977-01-01':
+        évènement:
+          rétablieCommeAssociéeDe: 89344
+      '1972-12-01':
+        évènement:
+          fusionneDans: 89344
+        name: Septfonds
+  histo:
+    89344:
+      '1943-01-01':
+        etat: { name: Saint-Fargeau, statut: COMS }
+      '1972-12-01':
+        evts: { prendPourAssociées: [89220, 89254, 89352], absorbe: [89325, 89389] }
+        etat: { name: Saint-Fargeau, statut: COMS }
+      '1977-01-01':
+        evts: { détacheCommeSimples: [89220, 89254, 89352], seScindePourCréerLesAssociées: [89325, 89389] }
+        etat: { name: Saint-Fargeau, statut: COMS }
+      '1999-01-01':
+        evts: { détacheCommeSimples: [89325], gardeCommeAssociées: [89389] }
+        etat: { name: Saint-Fargeau, statut: COMS }
+    89220:
+      '1943-01-01':
+        etat: { name: Lavau, statut: COMS }
+      '1972-12-01':
+        evts: { sAssocieA: 89344 }
+        etat: { name: Lavau, statut: COMA, crat: 89344 }
+      '1977-01-01':
+        evts: { seSépareDe: 89344 }
+        etat: { name: Lavau, statut: COMS }
+    89325:
+      '1943-01-01':
+        etat: { name: Ronchères, statut: COMS }
+      '1972-12-01':
+        evts: { fusionneDans: 89344 }
+      '1977-01-01':
+        evts: { crééeCommeAssociéeParScissionDe: 89344 }
+        etat: { name: Ronchères, statut: COMA, crat: 89344 }
+      '1999-01-01':
+        evts: { seSépareDe: 89344 }
+        etat: { name: Ronchères, statut: COMS }
+    89389:
+      '1943-01-01':
+        etat: { name: Septfonds, statut: COMS }
+      '1972-12-01':
+        evts: { fusionneDans: 89344 }
+      '1977-01-01':
+        evts: { crééeCommeAssociéeParScissionDe: 89344 }
+        etat: { name: Septfonds, statut: COMA, crat: 89344 }
+      '1999-01-01':
+        evts: { resteAssociéeA: 89344 }
+        etat: { name: Septfonds, statut: COMA, crat: 89344 }
+14712:
+  histo:
+    14712:
+      '1943-01-01':
+        etat: { name: Troarn, statut: COMS }
+      '1972-07-01':
+        evts: { prendPourAssociées: [14114] }
+        etat: { name: Troarn, statut: COMS }
+      '2017-01-01':
+        evts: { prendPourDéléguées: [14712, 14666], absorbe: [14114] }
+        etat: { name: Saline, statut: COMM, nomCommeDéléguée: Troarn }
+      '2019-12-31':
+        evts: { détacheCommeSimples: [14666] }
+        etat: { name: Troarn, statut: COMS }
+    14114:
+      '1943-01-01':
+        etat: { name: Bures, statut: COMS }
+      '1944-01-01':
+        evts: { changeDeNomPour: Bures-sur-Dives }
+        etat: { name: Bures-sur-Dives, statut: COMS }
+      '1972-07-01':
+        evts: { sAssocieA: 14712 }
+        etat: { name: Bures-sur-Dives, statut: COMA, crat: 14712 }
+      '2017-01-01':
+        evts: { seFondDans: 14712 }
+    14666:
+      '1943-01-01':
+        etat: { name: Sannerville, statut: COMS }
+      '2017-01-01':
+        evts: { devientDéléguéeDe: 14712 }
+        etat: { name: Sannerville, statut: COMD, crat: 14712 }
+      '2019-12-31':
+        evts: { seSépareDe: 14712 }
+        etat: { name: Sannerville, statut: COMS }
+44225:
+  title: date-bis
+  rpicom:
+    49144:
+      '2018-01-01':
+        évènement:
+          quitteLeDépartementEtPrendLeCode: 44225
+        name: Freigné
+    44225:
+      now:
+        name: Freigné
+        estDéléguéeDe: 44180
+      '2018-01-01':
+        après:
+          name: Freigné
+          estDéléguéeDe: 44180
+        évènement:
+          devientDéléguéeDe: 44180
+        name: Freigné
+      2018-01-01-bis:
+        évènement:
+          arriveDansLeDépartementAvecLeCode: 49144
+  histo:
+    49144:
+      '1943-01-01':
+        etat: { name: Freigné, statut: COMS }
+      '2018-01-01':
+        evts: { quitteLeDépartementEtPrendLeCode: 44225 }
+    44225:
+      '2018-01-01':
+        evts: { arriveDansLeDépartementAvecLeCode: 49144, devientDéléguéeDe: 44180 }
+        etat: { name: Freigné, statut: COMD, crat: 44180 }
+49382:
+  title: date-bis
+  rpicom:
+    44060:
+      '2016-01-01':
+        évènement:
+          quitteLeDépartementEtPrendLeCode: 49382
+        name: 'Le Fresne-sur-Loire'
+    49382:
+      now:
+        name: 'Le Fresne-sur-Loire'
+        estDéléguéeDe: 49160
+      '2016-01-01':
+        après:
+          name: 'Le Fresne-sur-Loire'
+          estDéléguéeDe: 49160
+        évènement:
+          devientDéléguéeDe: 49160
+        name: 'Le Fresne-sur-Loire'
+      2016-01-01-bis:
+        évènement:
+          arriveDansLeDépartementAvecLeCode: 44060
+  histo:
+    44060:
+      '1943-01-01':
+        etat: { name: 'Le Fresne-sur-Loire', statut: COMS }
+      '2016-01-01':
+        evts: { quitteLeDépartementEtPrendLeCode: 49382 }
+    49382:
+      '2016-01-01':
+        evts: { arriveDansLeDépartementAvecLeCode: 44060, devientDéléguéeDe: 49160 }
+        etat: { name: 'Le Fresne-sur-Loire', statut: COMD, crat: 49160 }
+55245:
+  title: date-bis
+  rpicom:
+    55245:
+      now:
+        name: Heudicourt-sous-les-Côtes
+      '1983-01-01':
+        évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+        name: Madine
+      '1973-01-01':
+        évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+        name: Heudicourt-sous-les-Côtes
+    55273:
+      now:
+        name: Lamarche-en-Woëvre
+        estAssociéeA: 55386
+      '1983-01-01':
+        évènement:
+          sAssocieA: 55386
+        name: Lamarche-en-Woëvre
+      1983-01-01-bis:
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Lamarche-en-Woëvre
+        estAssociéeA: 55245
+      '1973-01-01':
+        évènement:
+          sAssocieA: 55245
+        name: Lamarche-en-Woëvre
+  rpicomd:
+    55245:
+      now:
+        name: Heudicourt-sous-les-Côtes
+      '1983-01-01':
+        évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+        name: Madine
+        évènementDétaillé:
+          détacheCommeSimples: [55273, 55386]
+      '1973-01-01':
+        évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+        name: Heudicourt-sous-les-Côtes
+        évènementDétaillé:
+          prendPourAssociées: [55273, 55386]
+  histo:
+    55245:
+      '1943-01-01':
+        etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+      '1973-01-01':
+        evts: { prendPourAssociées: [55273, 55386] }
+        etat: { name: Madine, statut: COMS }
+      '1983-01-01':
+        evts: { détacheCommeSimples: [55273, 55386] }
+        etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+    55273:
+      '1943-01-01':
+        etat: { name: Lamarche-en-Woëvre, statut: COMS }
+      '1973-01-01':
+        evts: { sAssocieA: 55245 }
+        etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55245 }
+      '1983-01-01':
+        evts: { seSépareDe: 55245, sAssocieA: 55386 }
+        etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+  zones:
+    s55245@1973-01-01:
+      contains:
+        s55245@1983-01-01:
+          ref: COG2020s
+        s55245@1943-01-01: {  }
+        s55273@1943-01-01:
+          sameAs:
+            - r55273@1973-01-01
+            - r55273@1983-01-01
+          ref: COG2020r
+          parents:
+            - s55386@1983-01-01
+            - s55245@1973-01-01
+        s55386@1943-01-01:
+          sameAs:
+            - r55386@1973-01-01
+          parents:
+            - s55245@1973-01-01
+            - s55386@1983-01-01
+51369:
+  title: traitement d'un date bis
+  rpicom:
+    51369:
+      now:
+        name: Mœurs-Verdey
+      '1966-12-12':
+        évènement:
+          reçoitUnePartieDe: 51606
+        name: Mœurs-Verdey
+      1966-12-12-bis:
+        évènement:
+          changeDeNomPour: Mœurs-Verdey
+        name: Mœurs
+    51606:
+      '1966-12-12':
+        évènement:
+          seDissoutDans: [51235, 51313, 51369]
+        name: Verdey
+  histo:
+    51369:
+      '1943-01-01':
+        etat: { name: Mœurs, statut: COMS }
+      '1966-12-12':
+        evts: { changeDeNomPour: Mœurs-Verdey, reçoitUnePartieDe: 51606 }
+        etat: { name: Mœurs-Verdey, statut: COMS }
+    51606:
+      '1943-01-01':
+        etat: { name: Verdey, statut: COMS }
+      '1966-12-12':
+        evts: { seDissoutDans: [51235, 51313, 51369] }
+eof:

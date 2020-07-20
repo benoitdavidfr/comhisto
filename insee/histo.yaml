@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-07-19T16:18:14+00:00'
+created: '2020-07-20T05:14:34+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -2380,7 +2380,7 @@ contents:
       evts: { sAssocieA: '02524' }
       etat: { name: Chartèves, statut: COMA, crat: '02524' }
     '1978-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '02524' }
       etat: { name: Chartèves, statut: COMS }
   '02167':
     '1943-01-01':
@@ -3569,7 +3569,7 @@ contents:
       evts: { prendPourAssociées: ['02166'] }
       etat: { name: Charmont-sur-Marne, statut: COMS }
     '1978-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['02166'] }
       etat: { name: Charmont-sur-Marne, statut: COMS }
     '1979-06-15':
       evts: { changeDeNomPour: Mont-Saint-Père }
@@ -5648,7 +5648,7 @@ contents:
       evts: { sAssocieA: '04072' }
       etat: { name: Archail, statut: COMA, crat: '04072' }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '04072' }
       etat: { name: Archail, statut: COMS }
   '04010':
     '1943-01-01':
@@ -5931,7 +5931,7 @@ contents:
       evts: { prendPourAssociées: ['04009'] }
       etat: { name: Archail-Draix, statut: COMS }
     '1980-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['04009'] }
       etat: { name: Draix, statut: COMS }
   '04073':
     '1943-01-01':
@@ -6111,7 +6111,7 @@ contents:
       evts: { prendPourAssociées: ['04190'] }
       etat: { name: Manosque, statut: COMS }
     '1980-06-12':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['04190'] }
       etat: { name: Manosque, statut: COMS }
   '04113':
     '1943-01-01':
@@ -6442,7 +6442,7 @@ contents:
       evts: { sAssocieA: '04112' }
       etat: { name: Saint-Martin-les-Eaux, statut: COMA, crat: '04112' }
     '1980-06-12':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '04112' }
       etat: { name: Saint-Martin-les-Eaux, statut: COMS }
   '04191':
     '1943-01-01':
@@ -6775,7 +6775,7 @@ contents:
       evts: { prendPourAssociées: ['05109'] }
       etat: { name: Briançon, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['05109'] }
       etat: { name: Briançon, statut: COMS }
   '05024':
     '1943-01-01':
@@ -7103,7 +7103,7 @@ contents:
       evts: { sAssocieA: '05023' }
       etat: { name: Puy-Saint-Pierre, statut: COMA, crat: '05023' }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '05023' }
       etat: { name: Puy-Saint-Pierre, statut: COMS }
   '05110':
     '1943-01-01':
@@ -7118,7 +7118,7 @@ contents:
       evts: { sAssocieA: '05123' }
       etat: { name: Rabou, statut: COMA, crat: '05123' }
     '1983-02-14':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '05123' }
       etat: { name: Rabou, statut: COMS }
   '05113':
     '1943-01-01':
@@ -7163,7 +7163,7 @@ contents:
       evts: { prendPourAssociées: ['05112'] }
       etat: { name: 'La Roche-des-Arnauds', statut: COMS }
     '1983-02-14':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['05112'] }
       etat: { name: 'La Roche-des-Arnauds', statut: COMS }
   '05124':
     '1943-01-01':
@@ -8377,7 +8377,7 @@ contents:
       evts: { prendPourAssociées: ['07318'] }
       etat: { name: Largentière, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['07318'] }
       etat: { name: Largentière, statut: COMS }
   '07133':
     '1943-01-01':
@@ -9005,7 +9005,7 @@ contents:
       evts: { sAssocieA: '07132' }
       etat: { name: Tauriers, statut: COMA, crat: '07132' }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '07132' }
       etat: { name: Tauriers, statut: COMS }
   '07319':
     '1943-01-01':
@@ -9285,7 +9285,7 @@ contents:
       evts: { sAssocieA: '08352' }
       etat: { name: Barbaise, statut: COMA, crat: '08352' }
     '1991-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '08352' }
       etat: { name: Barbaise, statut: COMS }
   '08048':
     '1943-01-01':
@@ -9618,7 +9618,7 @@ contents:
       evts: { prendPourAssociées: ['08297'] }
       etat: { name: Montcornet-en-Ardenne, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['08297'] }
       etat: { name: Cliron, statut: COMS }
   '08126':
     '1943-01-01':
@@ -10003,7 +10003,7 @@ contents:
       evts: { sAssocieA: '08470' }
       etat: { name: Imécourt, statut: COMA, crat: '08470' }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '08470' }
       etat: { name: Imécourt, statut: COMS }
   '08234':
     '1943-01-01':
@@ -10241,7 +10241,7 @@ contents:
       evts: { sAssocieA: '08125' }
       etat: { name: Montcornet, statut: COMA, crat: '08125' }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '08125' }
       etat: { name: Montcornet, statut: COMS }
   '08298':
     '1943-01-01':
@@ -10444,7 +10444,7 @@ contents:
       evts: { prendPourAssociées: ['08047'] }
       etat: { name: Raillicourt-Barbaise, statut: COMS }
     '1991-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['08047'] }
       etat: { name: Raillicourt, statut: COMS }
   '08353':
     '1943-01-01':
@@ -10868,7 +10868,7 @@ contents:
       evts: { prendPourAssociées: ['08233'] }
       etat: { name: Verpel, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: ['08233'] }
       etat: { name: Verpel, statut: COMS }
   '08471':
     '1943-01-01':
@@ -11298,7 +11298,7 @@ contents:
       evts: { sAssocieA: '09306' }
       etat: { name: Cazenave-Serres-et-Allens, statut: COMA, crat: '09306' }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: '09306' }
       etat: { name: Cazenave-Serres-et-Allens, statut: COMS }
   '09093':
     '1943-01-01':
@@ -12039,7 +12039,7 @@ contents:
       evts: { prendPourAssociées: ['09036', '09092'] }
       etat: { name: Tarascon-sur-Ariège, statut: COMS }
     '1981-01-01':
-      evts: { gardeCommeAssociées: ['09036'] }
+      evts: { gardeCommeAssociées: ['09036'], détacheCommeSimples: ['09092'] }
       etat: { name: Tarascon-sur-Ariège, statut: COMS }
   '09307':
     '1943-01-01':
@@ -13740,7 +13740,7 @@ contents:
       evts: { sAssocieA: 10054 }
       etat: { name: Bercenay-le-Hayer, statut: COMA, crat: 10054 }
     '2000-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 10054 }
       etat: { name: Bercenay-le-Hayer, statut: COMS }
   10039:
     '1943-01-01':
@@ -13761,7 +13761,7 @@ contents:
       evts: { sAssocieA: 10316 }
       etat: { name: Bessy, statut: COMA, crat: 10316 }
     '1990-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 10316 }
       etat: { name: Bessy, statut: COMS }
   10044:
     '1943-01-01':
@@ -13800,7 +13800,7 @@ contents:
       evts: { prendPourAssociées: [10038, 10383] }
       etat: { name: 'Val-d''Orvin', statut: COMS }
     '2000-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [10038, 10383] }
       etat: { name: Bourdenay, statut: COMS }
   10055:
     '1943-01-01':
@@ -14651,7 +14651,7 @@ contents:
       evts: { prendPourAssociées: [10043] }
       etat: { name: Rhèges-Bessy, statut: COMS }
     '1990-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [10043] }
       etat: { name: Rhèges, statut: COMS }
   10317:
     '1943-01-01':
@@ -14863,7 +14863,7 @@ contents:
       evts: { sAssocieA: 10054 }
       etat: { name: Trancault, statut: COMA, crat: 10054 }
     '2000-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 10054 }
       etat: { name: Trancault, statut: COMS }
   10384:
     '1943-01-01':
@@ -15706,7 +15706,7 @@ contents:
       evts: { prendPourAssociées: [11234] }
       etat: { name: Laurabuc-et-Mireval, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [11234] }
       etat: { name: Laurabuc, statut: COMS }
   11196:
     '1943-01-01':
@@ -15838,7 +15838,7 @@ contents:
       evts: { sAssocieA: 11195 }
       etat: { name: Mireval-Lauragais, statut: COMA, crat: 11195 }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 11195 }
       etat: { name: Mireval-Lauragais, statut: COMS }
   11235:
     '1943-01-01':
@@ -16520,7 +16520,7 @@ contents:
       evts: { sAssocieA: 12305 }
       etat: { name: 'Les Albres', statut: COMA, crat: 12305 }
     '1978-12-07':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 12305 }
       etat: { name: 'Les Albres', statut: COMS }
   12004:
     '1943-01-01':
@@ -17581,7 +17581,7 @@ contents:
       evts: { prendPourAssociées: [12003] }
       etat: { name: Viviez-les-Albres, statut: COMS }
     '1978-12-07':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [12003] }
       etat: { name: Viviez, statut: COMS }
   12306:
     '1943-01-01':
@@ -18682,7 +18682,7 @@ contents:
       evts: { prendPourAssociées: [14482] }
       etat: { name: Cesny-aux-Vignes-Ouézy, statut: COMS }
     '2006-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [14482] }
       etat: { name: Cesny-aux-Vignes, statut: COMS }
   14150:
     '1943-01-01':
@@ -19528,7 +19528,7 @@ contents:
       evts: { prendPourAssociées: [14376] }
       etat: { name: Hottot-Longraye, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [14376] }
       etat: { name: Hottot-les-Bagues, statut: COMS }
   14337:
     '1943-01-01':
@@ -19730,7 +19730,7 @@ contents:
       evts: { sAssocieA: 14336 }
       etat: { name: Longraye, statut: COMA, crat: 14336 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 14336 }
       etat: { name: Longraye, statut: COMS }
     '2017-01-01':
       evts: { devientDéléguéeDe: 14011 }
@@ -20238,7 +20238,7 @@ contents:
       evts: { sAssocieA: 14149 }
       etat: { name: Ouézy, statut: COMA, crat: 14149 }
     '2006-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 14149 }
       etat: { name: Ouézy, statut: COMS }
   14483:
     '1943-01-01':
@@ -21085,7 +21085,7 @@ contents:
       evts: { devientDéléguéeDe: 14712 }
       etat: { name: Sannerville, statut: COMD, crat: 14712 }
     '2019-12-31':
-      evts: 'Commune déléguée rétablie comme commune simple'
+      evts: { seSépareDe: 14712 }
       etat: { name: Sannerville, statut: COMS }
   14667:
     '1943-01-01':
@@ -21302,7 +21302,7 @@ contents:
       evts: { prendPourDéléguées: [14712, 14666], absorbe: [14114] }
       etat: { name: Saline, statut: COMM, nomCommeDéléguée: Troarn }
     '2019-12-31':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [14666] }
       etat: { name: Troarn, statut: COMS }
   14713:
     '1943-01-01':
@@ -21548,7 +21548,7 @@ contents:
       evts: { prendPourAssociées: [15024, 15062] }
       etat: { name: Ally, statut: COMS }
     '1985-10-01':
-      evts: { gardeCommeAssociées: [15062] }
+      evts: { détacheCommeSimples: [15024], gardeCommeAssociées: [15062] }
       etat: { name: Ally, statut: COMS }
   15004:
     '1943-01-01':
@@ -21625,7 +21625,7 @@ contents:
       evts: { sAssocieA: 15003 }
       etat: { name: Brageac, statut: COMA, crat: 15003 }
     '1985-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 15003 }
       etat: { name: Brageac, statut: COMS }
   15025:
     '1943-01-01':
@@ -22038,7 +22038,7 @@ contents:
       evts: { prendPourAssociées: [15160] }
       etat: { name: Naucelles-Reilhac, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [15160] }
       etat: { name: Naucelles, statut: COMS }
   15141:
     '1943-01-01':
@@ -22119,7 +22119,7 @@ contents:
       evts: { sAssocieA: 15140 }
       etat: { name: Reilhac, statut: COMA, crat: 15140 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 15140 }
       etat: { name: Reilhac, statut: COMS }
   15161:
     '1943-01-01':
@@ -22640,7 +22640,7 @@ contents:
       evts: { prendPourAssociées: [16063] }
       etat: { name: Brie-Bardenac, statut: COMS }
     '1993-10-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [16063] }
       etat: { name: Bardenac, statut: COMS }
   16030:
     '1943-01-01':
@@ -22772,7 +22772,7 @@ contents:
       evts: { sAssocieA: 16029 }
       etat: { name: Brie-sous-Chalais, statut: COMA, crat: 16029 }
     '1993-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 16029 }
       etat: { name: Brie-sous-Chalais, statut: COMS }
   16064:
     '1943-01-01':
@@ -27452,7 +27452,7 @@ contents:
       evts: { sAssocieA: 19261 }
       etat: { name: Saint-Germain-Lavolps, statut: COMA, crat: 19261 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 19261 }
       etat: { name: Saint-Germain-Lavolps, statut: COMS }
   19207:
     '1943-01-01':
@@ -27634,7 +27634,7 @@ contents:
       evts: { prendPourAssociées: [19206] }
       etat: { name: Sornac-Saint-Germain-Lavolps, statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [19206] }
       etat: { name: Sornac, statut: COMS }
   19262:
     '1943-01-01':
@@ -29821,7 +29821,7 @@ contents:
       evts: { sAssocieA: 21331 }
       etat: { name: Billey, statut: COMA, crat: 21331 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 21331 }
       etat: { name: Billey, statut: COMS }
   21075:
     '1943-01-01':
@@ -30445,7 +30445,7 @@ contents:
       evts: { sAssocieA: 21331 }
       etat: { name: Flagey-lès-Auxonne, statut: COMA, crat: 21331 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 21331 }
       etat: { name: Flagey-lès-Auxonne, statut: COMS }
   21269:
     '1943-01-01':
@@ -30661,7 +30661,7 @@ contents:
       evts: { prendPourAssociées: [21074, 21268] }
       etat: { name: Labergement-lès-Auxonne-Billey-Flagey, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [21074, 21268] }
       etat: { name: Labergement-lès-Auxonne, statut: COMS }
   21332:
     '1943-01-01':
@@ -32305,7 +32305,7 @@ contents:
       evts: { sAssocieA: 22213 }
       etat: { name: Langrolay-sur-Rance, statut: COMA, crat: 22213 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 22213 }
       etat: { name: Langrolay-sur-Rance, statut: COMS }
   22104:
     '1943-01-01':
@@ -32543,7 +32543,7 @@ contents:
       evts: { sAssocieA: 22296 }
       etat: { name: Penguily, statut: COMA, crat: 22296 }
     '1984-07-05':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 22296 }
       etat: { name: Penguily, statut: COMS }
   22166:
     '1943-01-01':
@@ -32597,7 +32597,7 @@ contents:
       evts: { prendPourAssociées: [22201] }
       etat: { name: Fréhel, statut: COMS }
     '2004-10-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [22201] }
       etat: { name: Fréhel, statut: COMS }
   22180:
     '1943-01-01':
@@ -32693,7 +32693,7 @@ contents:
       evts: { sAssocieA: 22179 }
       etat: { name: Plévenon, statut: COMA, crat: 22179 }
     '2004-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 22179 }
       etat: { name: Plévenon, statut: COMS }
   22202:
     '1943-01-01':
@@ -32714,7 +32714,7 @@ contents:
       evts: { prendPourAssociées: [22269] }
       etat: { name: Ploëzal-Runan, statut: COMS }
     '1986-09-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [22269] }
       etat: { name: Ploëzal, statut: COMS }
   22205:
     '1943-01-01':
@@ -32762,7 +32762,7 @@ contents:
       evts: { prendPourAssociées: [22103] }
       etat: { name: Plouër-Langrolay-sur-Rance, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [22103] }
       etat: { name: Plouër-sur-Rance, statut: COMS }
   22214:
     '1943-01-01':
@@ -32961,7 +32961,7 @@ contents:
       evts: { sAssocieA: 22204 }
       etat: { name: Runan, statut: COMA, crat: 22204 }
     '1986-09-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 22204 }
       etat: { name: Runan, statut: COMS }
   22270:
     '1943-01-01':
@@ -33062,7 +33062,7 @@ contents:
       evts: { prendPourAssociées: [22165] }
       etat: { name: Saint-Glen-Penguily, statut: COMS }
     '1984-07-05':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [22165] }
       etat: { name: Saint-Glen, statut: COMS }
   22297:
     '1943-01-01':
@@ -34555,7 +34555,7 @@ contents:
       evts: { prendPourAssociées: [24072, 24315, 24560] }
       etat: { name: 'Le Buisson-de-Cadouin', statut: COMS }
     '1989-02-15':
-      evts: { gardeCommeAssociées: [24072, 24315] }
+      evts: { gardeCommeAssociées: [24072, 24315], détacheCommeSimples: [24560] }
       etat: { name: 'Le Buisson-de-Cadouin', statut: COMS }
   24069:
     '1943-01-01':
@@ -35773,7 +35773,7 @@ contents:
       evts: { sAssocieA: 24450 }
       etat: { name: Saint-Aubin-de-Nabirat, statut: COMA, crat: 24450 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 24450 }
       etat: { name: Saint-Aubin-de-Nabirat, statut: COMS }
   24376:
     '1943-01-01':
@@ -36055,7 +36055,7 @@ contents:
       evts: { prendPourAssociées: [24375] }
       etat: { name: Saint-Martial-et-Saint-Aubin-de-Nabirat, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [24375] }
       etat: { name: Saint-Martial-de-Nabirat, statut: COMS }
   24451:
     '1943-01-01':
@@ -36466,7 +36466,7 @@ contents:
       evts: { sAssocieA: 24068 }
       etat: { name: Urval, statut: COMA, crat: 24068 }
     '1989-02-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 24068 }
       etat: { name: Urval, statut: COMS }
   24561:
     '1943-01-01':
@@ -36617,10 +36617,10 @@ contents:
       evts: { prendPourAssociées: [25017, 25155, 25236, 25359] }
       etat: { name: Amancey, statut: COMS }
     '1979-01-01':
-      evts: { gardeCommeAssociées: [25155, 25236, 25359] }
+      evts: { détacheCommeSimples: [25017], gardeCommeAssociées: [25155, 25236, 25359] }
       etat: { name: Amancey, statut: COMS }
     '1981-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [25155, 25236, 25359] }
       etat: { name: Amancey, statut: COMS }
   25016:
     '1943-01-01':
@@ -36632,7 +36632,7 @@ contents:
       evts: { sAssocieA: 25015 }
       etat: { name: Amondans, statut: COMA, crat: 25015 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25015 }
       etat: { name: Amondans, statut: COMS }
   25018:
     '1943-01-01':
@@ -37141,7 +37141,7 @@ contents:
       evts: { resteAssociéeA: 25015 }
       etat: { name: Cléron, statut: COMA, crat: 25015 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25015 }
       etat: { name: Cléron, statut: COMS }
   25156:
     '1943-01-01':
@@ -37223,7 +37223,7 @@ contents:
       evts: { sAssocieA: 25317 }
       etat: { name: Courchapon, statut: COMA, crat: 25317 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25317 }
       etat: { name: Courchapon, statut: COMS }
   25173:
     '1943-01-01':
@@ -37444,7 +37444,7 @@ contents:
       evts: { resteAssociéeA: 25015 }
       etat: { name: Fertans, statut: COMA, crat: 25015 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25015 }
       etat: { name: Fertans, statut: COMS }
   25237:
     '1943-01-01':
@@ -37737,10 +37737,10 @@ contents:
       evts: { prendPourAssociées: [25172, 25414] }
       etat: { name: Jallerange, statut: COMS }
     '1982-01-01':
-      evts: { gardeCommeAssociées: [25414] }
+      evts: { détacheCommeSimples: [25172], gardeCommeAssociées: [25414] }
       etat: { name: Jallerange, statut: COMS }
     '1986-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [25414] }
       etat: { name: Jallerange, statut: COMS }
   25318:
     '1943-01-01':
@@ -37906,7 +37906,7 @@ contents:
       evts: { resteAssociéeA: 25015 }
       etat: { name: Malans, statut: COMA, crat: 25015 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25015 }
       etat: { name: Malans, statut: COMS }
   25360:
     '1943-01-01':
@@ -37921,7 +37921,7 @@ contents:
       evts: { sAssocieA: 25592 }
       etat: { name: Malpas, statut: COMA, crat: 25592 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25592 }
       etat: { name: Malpas, statut: COMS }
   25363:
     '1943-01-01':
@@ -38114,7 +38114,7 @@ contents:
       evts: { resteAssociéeA: 25317 }
       etat: { name: 'Le Moutherot', statut: COMA, crat: 25317 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 25317 }
       etat: { name: 'Le Moutherot', statut: COMS }
   25415:
     '1943-01-01':
@@ -38784,7 +38784,7 @@ contents:
       evts: { prendPourAssociées: [25362] }
       etat: { name: Vaux-et-Chantegrue-Malpas, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [25362] }
       etat: { name: Vaux-et-Chantegrue, statut: COMS }
   25593:
     '1943-01-01':
@@ -43543,7 +43543,7 @@ contents:
       evts: { prendPourAssociées: [28368] }
       etat: { name: 'La Framboisière-la-Saucelle', statut: COMS }
     '1987-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [28368] }
       etat: { name: 'La Framboisière', statut: COMS }
   28160:
     '1943-01-01':
@@ -43806,7 +43806,7 @@ contents:
       evts: { prendPourAssociées: [28043, 28125, 28351] }
       etat: { name: Maillebois, statut: COMS }
     '1982-01-01':
-      evts: { gardeCommeAssociées: [28043, 28125] }
+      evts: { gardeCommeAssociées: [28043, 28125], détacheCommeSimples: [28351] }
       etat: { name: Maillebois, statut: COMS }
   28227:
     '1943-01-01':
@@ -44272,7 +44272,7 @@ contents:
       evts: { sAssocieA: 28226 }
       etat: { name: Saint-Maixme-Hauterive, statut: COMA, crat: 28226 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 28226 }
       etat: { name: Saint-Maixme-Hauterive, statut: COMS }
   28352:
     '1943-01-01':
@@ -44344,7 +44344,7 @@ contents:
       evts: { sAssocieA: 28159 }
       etat: { name: 'La Saucelle', statut: COMA, crat: 28159 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 28159 }
       etat: { name: 'La Saucelle', statut: COMS }
   28369:
     '1943-01-01':
@@ -47280,7 +47280,7 @@ contents:
       evts: { prendPourAssociées: [31548] }
       etat: { name: Cierp-Gaud-Signac, statut: COMS }
     '1983-02-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [31548] }
       etat: { name: Cierp-Gaud, statut: COMS }
   31145:
     '1943-01-01':
@@ -47776,7 +47776,7 @@ contents:
       evts: { sAssocieA: 31483 }
       etat: { name: Lieoux, statut: COMA, crat: 31483 }
     '2008-02-13':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 31483 }
       etat: { name: Lieoux, statut: COMS }
   31301:
     '1943-01-01':
@@ -48360,7 +48360,7 @@ contents:
       evts: { prendPourAssociées: [31300] }
       etat: { name: Saint-Gaudens, statut: COMS }
     '2008-02-13':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [31300] }
       etat: { name: Saint-Gaudens, statut: COMS }
   31484:
     '1943-01-01':
@@ -48576,7 +48576,7 @@ contents:
       evts: { sAssocieA: 31144 }
       etat: { name: Signac, statut: COMA, crat: 31144 }
     '1983-02-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 31144 }
       etat: { name: Signac, statut: COMS }
   31549:
     '1943-01-01':
@@ -48864,7 +48864,7 @@ contents:
       evts: { prendPourAssociées: [32323] }
       etat: { name: Berdoues-Ponsampère, statut: COMS }
     '1994-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [32323] }
       etat: { name: Berdoues, statut: COMS }
   32046:
     '1943-01-01':
@@ -49756,7 +49756,7 @@ contents:
       evts: { sAssocieA: 32045 }
       etat: { name: Ponsampère, statut: COMA, crat: 32045 }
     '1994-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 32045 }
       etat: { name: Ponsampère, statut: COMS }
   32324:
     '1943-01-01':
@@ -53652,7 +53652,7 @@ contents:
       evts: { prendPourAssociées: [35020, 35317] }
       etat: { name: Hédé, statut: COMS }
     '2008-01-01':
-      evts: { gardeCommeAssociées: [35020] }
+      evts: { gardeCommeAssociées: [35020], détacheCommeSimples: [35317] }
       etat: { name: Hédé, statut: COMS }
     '2011-01-01':
       evts: { absorbe: [35020] }
@@ -54326,7 +54326,7 @@ contents:
       evts: { sAssocieA: 35130 }
       etat: { name: Saint-Symphorien, statut: COMA, crat: 35130 }
     '2008-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 35130 }
       etat: { name: Saint-Symphorien, statut: COMS }
   35318:
     '1943-01-01':
@@ -57720,7 +57720,7 @@ contents:
       evts: { sAssocieA: 38466 }
       etat: { name: Sainte-Marie-du-Mont, statut: COMA, crat: 38466 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 38466 }
       etat: { name: Sainte-Marie-du-Mont, statut: COMS }
   38419:
     '1943-01-01':
@@ -57894,7 +57894,7 @@ contents:
       evts: { prendPourAssociées: [38418] }
       etat: { name: Saint-Vincent-de-Mercuze-Sainte-Marie-du-Mont, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [38418] }
       etat: { name: Saint-Vincent-de-Mercuze, statut: COMS }
   38467:
     '1943-01-01':
@@ -59259,7 +59259,7 @@ contents:
       evts: { sAssocieA: 39439 }
       etat: { name: Grange-de-Vaivre, statut: COMA, crat: 39439 }
     '1987-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 39439 }
       etat: { name: Grange-de-Vaivre, statut: COMS }
   39260:
     '1943-01-01':
@@ -59425,7 +59425,7 @@ contents:
       evts: { prendPourAssociées: [39414] }
       etat: { name: Louvatange-le-Petit-Mercey, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [39414] }
       etat: { name: Louvatange, statut: COMS }
   39303:
     '1943-01-01':
@@ -59881,7 +59881,7 @@ contents:
       evts: { sAssocieA: 39302 }
       etat: { name: 'Le Petit-Mercey', statut: COMA, crat: 39302 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 39302 }
       etat: { name: 'Le Petit-Mercey', statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 39190 }
@@ -59990,7 +59990,7 @@ contents:
       evts: { prendPourAssociées: [39259] }
       etat: { name: Port-Lesney-Grange-de-Vaivre, statut: COMS }
     '1987-03-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [39259] }
       etat: { name: Port-Lesney, statut: COMS }
   39440:
     '1943-01-01':
@@ -60087,7 +60087,7 @@ contents:
       evts: { prendPourAssociées: [39584] }
       etat: { name: Romange-lès-Vriange, statut: COMS }
     '1979-10-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [39584] }
       etat: { name: Romange, statut: COMS }
   39466:
     '1943-01-01':
@@ -60562,7 +60562,7 @@ contents:
       evts: { sAssocieA: 39465 }
       etat: { name: Vriange, statut: COMA, crat: 39465 }
     '1979-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 39465 }
       etat: { name: Vriange, statut: COMS }
   39585:
     '1943-01-01':
@@ -65585,8 +65585,6 @@ contents:
       evts: { crééeCommeSimpleParScissionDe: 44214 }
       etat: { name: 'La Grigonnais', statut: COMS }
   44225:
-    '1943-01-01':
-      etat: { name: Freigné, statut: COMS }
     '2018-01-01':
       evts: { arriveDansLeDépartementAvecLeCode: 49144, devientDéléguéeDe: 44180 }
       etat: { name: Freigné, statut: COMD, crat: 44180 }
@@ -68022,7 +68020,7 @@ contents:
       evts: { prendPourAssociées: [47227] }
       etat: { name: Antagnac, statut: COMS }
     '2001-03-22':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47227] }
       etat: { name: Antagnac, statut: COMS }
   47011:
     '1943-01-01':
@@ -68055,7 +68053,7 @@ contents:
       evts: { sAssocieA: 47209 }
       etat: { name: Bajamont, statut: COMA, crat: 47209 }
     '1983-11-24':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47209 }
       etat: { name: Bajamont, statut: COMS }
   47020:
     '1943-01-01':
@@ -68106,7 +68104,7 @@ contents:
       evts: { sAssocieA: 47048 }
       etat: { name: Boudy-de-Beauregard, statut: COMA, crat: 47048 }
     '1979-04-16':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47048 }
       etat: { name: Boudy-de-Beauregard, statut: COMS }
   47034:
     '1943-01-01':
@@ -68157,7 +68155,7 @@ contents:
       evts: { prendPourAssociées: [47033, 47259] }
       etat: { name: Cancon, statut: COMS }
     '1979-04-16':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47033, 47259] }
       etat: { name: Cancon, statut: COMS }
   47049:
     '1943-01-01':
@@ -68193,7 +68191,7 @@ contents:
       evts: { sAssocieA: 47093 }
       etat: { name: Caubeyres, statut: COMA, crat: 47093 }
     '1983-11-24':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47093 }
       etat: { name: Caubeyres, statut: COMS }
   47059:
     '1943-01-01':
@@ -68307,7 +68305,7 @@ contents:
       evts: { prendPourAssociées: [47058] }
       etat: { name: Fargues-sur-Ourbise, statut: COMS }
     '1983-11-24':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47058] }
       etat: { name: Fargues-sur-Ourbise, statut: COMS }
   47094:
     '1943-01-01':
@@ -68319,7 +68317,7 @@ contents:
       evts: { sAssocieA: 47310 }
       etat: { name: Fauillet, statut: COMA, crat: 47310 }
     '1987-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47310 }
       etat: { name: Fauillet, statut: COMS }
   47096:
     '1943-01-01':
@@ -68537,7 +68535,7 @@ contents:
       evts: { prendPourAssociées: [47163] }
       etat: { name: Marmande, statut: COMS }
     '2003-02-03':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47163] }
       etat: { name: Marmande, statut: COMS }
   47158:
     '1943-01-01':
@@ -68561,7 +68559,7 @@ contents:
       evts: { sAssocieA: 47157 }
       etat: { name: Mauvezin-sur-Gupie, statut: COMA, crat: 47157 }
     '2003-02-03':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47157 }
       etat: { name: Mauvezin-sur-Gupie, statut: COMS }
   47164:
     '1943-01-01':
@@ -68714,7 +68712,7 @@ contents:
       evts: { prendPourAssociées: [47019] }
       etat: { name: Pont-du-Casse, statut: COMS }
     '1983-11-24':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47019] }
       etat: { name: Pont-du-Casse, statut: COMS }
   47210:
     '1943-01-01':
@@ -68768,7 +68766,7 @@ contents:
       evts: { sAssocieA: 47324 }
       etat: { name: Rives, statut: COMA, crat: 47324 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47324 }
       etat: { name: Rives, statut: COMS }
   47224:
     '1943-01-01':
@@ -68786,7 +68784,7 @@ contents:
       evts: { sAssocieA: 47010 }
       etat: { name: Ruffiac, statut: COMA, crat: 47010 }
     '2001-03-22':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47010 }
       etat: { name: Ruffiac, statut: COMS }
   47228:
     '1943-01-01':
@@ -68896,7 +68894,7 @@ contents:
       evts: { sAssocieA: 47048 }
       etat: { name: Saint-Maurice-de-Lestapel, statut: COMA, crat: 47048 }
     '1979-04-16':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 47048 }
       etat: { name: Saint-Maurice-de-Lestapel, statut: COMS }
   47260:
     '1943-01-01':
@@ -69068,7 +69066,7 @@ contents:
       evts: { prendPourAssociées: [47095] }
       etat: { name: Tonneins, statut: COMS }
     '1987-10-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47095] }
       etat: { name: Tonneins, statut: COMS }
   47311:
     '1943-01-01':
@@ -69119,7 +69117,7 @@ contents:
       evts: { prendPourAssociées: [47223] }
       etat: { name: Villeréal, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [47223] }
       etat: { name: Villeréal, statut: COMS }
   47325:
     '1943-01-01':
@@ -72026,8 +72024,6 @@ contents:
     '1943-01-01':
       etat: { name: Yzernay, statut: COMS }
   49382:
-    '1943-01-01':
-      etat: { name: 'Le Fresne-sur-Loire', statut: COMS }
     '2016-01-01':
       evts: { arriveDansLeDépartementAvecLeCode: 44060, devientDéléguéeDe: 49160 }
       etat: { name: 'Le Fresne-sur-Loire', statut: COMD, crat: 49160 }
@@ -72210,7 +72206,7 @@ contents:
       evts: { sAssocieA: 50528 }
       etat: { name: Baudreville, statut: COMA, crat: 50528 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50528 }
       etat: { name: Baudreville, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 50236 }
@@ -72249,7 +72245,7 @@ contents:
       evts: { sAssocieA: 50410 }
       etat: { name: Beauvoir, statut: COMA, crat: 50410 }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50410 }
       etat: { name: Beauvoir, statut: COMS }
   50043:
     '1943-01-01':
@@ -72348,7 +72344,7 @@ contents:
       evts: { resteAssociéeA: 50528 }
       etat: { name: Bolleville, statut: COMA, crat: 50528 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50528 }
       etat: { name: Bolleville, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 50236 }
@@ -72374,10 +72370,10 @@ contents:
       evts: { prendPourAssociées: [50102, 50526, 50532] }
       etat: { name: Jullouville, statut: COMS }
     '1978-01-01':
-      evts: { gardeCommeAssociées: [50102, 50526] }
+      evts: { gardeCommeAssociées: [50102, 50526], détacheCommeSimples: [50532] }
       etat: { name: Jullouville, statut: COMS }
     '2000-01-01':
-      evts: { gardeCommeAssociées: [50526] }
+      evts: { détacheCommeSimples: [50102], gardeCommeAssociées: [50526] }
       etat: { name: Jullouville, statut: COMS }
   50067:
     '1943-01-01':
@@ -72518,7 +72514,7 @@ contents:
       evts: { sAssocieA: 50160 }
       etat: { name: Canville-la-Rocque, statut: COMA, crat: 50160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50160 }
       etat: { name: Canville-la-Rocque, statut: COMS }
   50098:
     '1943-01-01':
@@ -72554,7 +72550,7 @@ contents:
       evts: { resteAssociéeA: 50066 }
       etat: { name: Carolles, statut: COMA, crat: 50066 }
     '2000-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50066 }
       etat: { name: Carolles, statut: COMS }
   50103:
     '1943-01-01':
@@ -72846,7 +72842,7 @@ contents:
       evts: { prendPourAssociées: [50097] }
       etat: { name: Denneville, statut: COMS }
     '1980-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [50097] }
       etat: { name: Denneville, statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 50412 }
@@ -72879,7 +72875,7 @@ contents:
       evts: { prendPourAssociées: [50199, 50439, 50496] }
       etat: { name: Dragey-Tombelaine, statut: COMS }
     '1979-01-01':
-      evts: { gardeCommeAssociées: [50439] }
+      evts: { détacheCommeSimples: [50199, 50496], gardeCommeAssociées: [50439] }
       etat: { name: Dragey, statut: COMS }
     '1979-12-31':
       evts: { changeDeNomPour: Dragey-Ronthon }
@@ -72900,7 +72896,7 @@ contents:
       evts: { sAssocieA: 50609 }
       etat: { name: Écoquenéauville, statut: COMA, crat: 50609 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50609 }
       etat: { name: Écoquenéauville, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 50523 }
@@ -73044,7 +73040,7 @@ contents:
       evts: { sAssocieA: 50167 }
       etat: { name: Genêts, statut: COMA, crat: 50167 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50167 }
       etat: { name: Genêts, statut: COMS }
   50200:
     '1943-01-01':
@@ -73163,7 +73159,7 @@ contents:
       evts: { sAssocieA: 50463 }
       etat: { name: Grimesnil, statut: COMA, crat: 50463 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50463 }
       etat: { name: Grimesnil, statut: COMS }
   50222:
     '1943-01-01':
@@ -73443,7 +73439,7 @@ contents:
       evts: { sAssocieA: 50630 }
       etat: { name: Macey, statut: COMA, crat: 50630 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50630 }
       etat: { name: Macey, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 50410 }
@@ -73602,7 +73598,7 @@ contents:
       evts: { sAssocieA: 50531 }
       etat: { name: 'Le Mesnil-Ozenne', statut: COMA, crat: 50531 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50531 }
       etat: { name: 'Le Mesnil-Ozenne', statut: COMS }
   50318:
     '1943-01-01':
@@ -74032,7 +74028,7 @@ contents:
       evts: { prendPourAssociées: [50017, 50042, 50065, 50141, 50157, 50331, 50392] }
       etat: { name: Pontorson, statut: COMS }
     '1989-01-01':
-      evts: { gardeCommeAssociées: [50017, 50065, 50141, 50157, 50331, 50392] }
+      evts: { gardeCommeAssociées: [50017, 50065, 50141, 50157, 50331, 50392], détacheCommeSimples: [50042] }
       etat: { name: Pontorson, statut: COMS }
     '2016-01-01':
       evts: { prendPourDéléguées: [50410, 50284, 50630], absorbe: [50017, 50065, 50141, 50157, 50331, 50392] }
@@ -74295,7 +74291,7 @@ contents:
       evts: { prendPourAssociées: [50221] }
       etat: { name: Saint-Denis-le-Gast, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [50221] }
       etat: { name: Saint-Denis-le-Gast, statut: COMS }
   50464:
     '1943-01-01':
@@ -74432,7 +74428,7 @@ contents:
       evts: { sAssocieA: 50167 }
       etat: { name: Saint-Jean-le-Thomas, statut: COMA, crat: 50167 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50167 }
       etat: { name: Saint-Jean-le-Thomas, statut: COMS }
   50497:
     '1943-01-01':
@@ -74581,10 +74577,10 @@ contents:
       evts: { prendPourAssociées: [50035, 50063, 50548] }
       etat: { name: Pierrepont-en-Cotentin, statut: COMS }
     '1980-01-01':
-      evts: { gardeCommeAssociées: [50063, 50548] }
+      evts: { détacheCommeSimples: [50035], gardeCommeAssociées: [50063, 50548] }
       etat: { name: Pierrepont-en-Cotentin, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [50063, 50548] }
       etat: { name: Saint-Nicolas-de-Pierrepont, statut: COMS }
   50529:
     '1943-01-01':
@@ -74601,7 +74597,7 @@ contents:
       evts: { prendPourAssociées: [50067, 50317] }
       etat: { name: Saint-Ovin, statut: COMS }
     '1985-01-01':
-      evts: { gardeCommeAssociées: [50067] }
+      evts: { gardeCommeAssociées: [50067], détacheCommeSimples: [50317] }
       etat: { name: Saint-Ovin, statut: COMS }
   50532:
     '1943-01-01':
@@ -74610,7 +74606,7 @@ contents:
       evts: { sAssocieA: 50066 }
       etat: { name: Saint-Pair-sur-Mer, statut: COMA, crat: 50066 }
     '1978-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50066 }
       etat: { name: Saint-Pair-sur-Mer, statut: COMS }
   50533:
     '1943-01-01':
@@ -74693,7 +74689,7 @@ contents:
       evts: { resteAssociéeA: 50528 }
       etat: { name: Saint-Sauveur-de-Pierrepont, statut: COMA, crat: 50528 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50528 }
       etat: { name: Saint-Sauveur-de-Pierrepont, statut: COMS }
   50549:
     '1943-01-01':
@@ -74803,7 +74799,7 @@ contents:
       evts: { sAssocieA: 50609 }
       etat: { name: Sébeville, statut: COMA, crat: 50609 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 50609 }
       etat: { name: Sébeville, statut: COMS }
   50572:
     '1943-01-01':
@@ -74980,7 +74976,7 @@ contents:
       evts: { prendPourAssociées: [50170, 50571] }
       etat: { name: Criqueville-au-Plain, statut: COMS }
     '1980-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [50170, 50571] }
       etat: { name: Turqueville, statut: COMS }
   50610:
     '1943-01-01':
@@ -75076,7 +75072,7 @@ contents:
       evts: { prendPourAssociées: [50284] }
       etat: { name: Vessey, statut: COMS }
     '1980-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [50284] }
       etat: { name: Vessey, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 50410 }
@@ -75186,8 +75182,6 @@ contents:
     '1943-01-01':
       etat: { name: Yvetot-Bocage, statut: COMS }
   50649:
-    '1943-01-01':
-      etat: { name: Pont-Farcy, statut: COMS }
     '2018-01-01':
       evts: { arriveDansLeDépartementAvecLeCode: 14513, devientDéléguéeDe: 50592 }
       etat: { name: Pont-Farcy, statut: COMD, crat: 50592 }
@@ -75659,7 +75653,7 @@ contents:
       evts: { prendPourAssociées: [51201] }
       etat: { name: Châtillon-sur-Marne, statut: COMS }
     '2006-03-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [51201] }
       etat: { name: Châtillon-sur-Marne, statut: COMS }
   51137:
     '1943-01-01':
@@ -75875,7 +75869,7 @@ contents:
       evts: { sAssocieA: 51136 }
       etat: { name: Cuisles, statut: COMA, crat: 51136 }
     '2006-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 51136 }
       etat: { name: Cuisles, statut: COMS }
   51202:
     '1943-01-01':
@@ -76245,7 +76239,7 @@ contents:
       evts: { sAssocieA: 51316 }
       etat: { name: Isle-sur-Marne, statut: COMA, crat: 51316 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 51316 }
       etat: { name: Isle-sur-Marne, statut: COMS }
   51301:
     '1943-01-01':
@@ -76302,7 +76296,7 @@ contents:
       evts: { prendPourAssociées: [51300] }
       etat: { name: Larzicourt-Isle-sur-Marne, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [51300] }
       etat: { name: Larzicourt, statut: COMS }
   51317:
     '1943-01-01':
@@ -76491,7 +76485,7 @@ contents:
       etat: { name: Minaucourt-le-Mesnil-lès-Hurlus, statut: COMS }
   51369:
     '1943-01-01':
-      etat: { name: Mœurs-Verdey, statut: COMS }
+      etat: { name: Mœurs, statut: COMS }
     '1966-12-12':
       evts: { changeDeNomPour: Mœurs-Verdey, reçoitUnePartieDe: 51606 }
       etat: { name: Mœurs-Verdey, statut: COMS }
@@ -76746,7 +76740,7 @@ contents:
       etat: { name: Pomacle, statut: COMS }
   51440:
     '1943-01-01':
-      etat: { name: Pontfaverger-Moronvilliers, statut: COMS }
+      etat: { name: Pontfaverger, statut: COMS }
     '1950-06-17':
       evts: { changeDeNomPour: Pontfaverger-Moronvilliers, reçoitUnePartieDe: 51385 }
       etat: { name: Pontfaverger-Moronvilliers, statut: COMS }
@@ -77548,7 +77542,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Andilly-en-Bassigny, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Andilly-en-Bassigny, statut: COMS }
   52010:
     '1943-01-01':
@@ -77578,7 +77572,7 @@ contents:
       evts: { sAssocieA: 52439 }
       etat: { name: Arbot, statut: COMA, crat: 52439 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52439 }
       etat: { name: Arbot, statut: COMS }
   52017:
     '1943-01-01':
@@ -77587,7 +77581,7 @@ contents:
       evts: { prendPourAssociées: [52022] }
       etat: { name: Arc-en-Barrois, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52022] }
       etat: { name: Arc-en-Barrois, statut: COMS }
   52018:
     '1943-01-01':
@@ -77617,7 +77611,7 @@ contents:
       evts: { sAssocieA: 52017 }
       etat: { name: Aubepierre-sur-Aube, statut: COMA, crat: 52017 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52017 }
       etat: { name: Aubepierre-sur-Aube, statut: COMS }
   52023:
     '1943-01-01':
@@ -77651,7 +77645,7 @@ contents:
       evts: { sAssocieA: 52156 }
       etat: { name: Autigny-le-Petit, statut: COMA, crat: 52156 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52156 }
       etat: { name: Autigny-le-Petit, statut: COMS }
   52031:
     '1943-01-01':
@@ -77660,7 +77654,7 @@ contents:
       evts: { prendPourAssociées: [52278, 52451, 52501] }
       etat: { name: Autreville-sur-la-Renne, statut: COMS }
     '2012-01-01':
-      evts: { gardeCommeAssociées: [52451, 52501] }
+      evts: { détacheCommeSimples: [52278], gardeCommeAssociées: [52451, 52501] }
       etat: { name: Autreville-sur-la-Renne, statut: COMS }
   52032:
     '1943-01-01':
@@ -77678,7 +77672,7 @@ contents:
       evts: { sAssocieA: 52332 }
       etat: { name: Avrecourt, statut: COMA, crat: 52332 }
     '2012-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52332 }
       etat: { name: Avrecourt, statut: COMS }
   52034:
     '1943-01-01':
@@ -77690,7 +77684,7 @@ contents:
       evts: { prendPourAssociées: [52285] }
       etat: { name: Hauts-de-Vingeanne, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52285] }
       etat: { name: Baissey, statut: COMS }
   52036:
     '1943-01-01':
@@ -77705,7 +77699,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Bannes, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Bannes, statut: COMS }
   52038:
     '1943-01-01':
@@ -77729,7 +77723,7 @@ contents:
       evts: { sAssocieA: 52432 }
       etat: { name: Beauchemin, statut: COMA, crat: 52432 }
     '1989-02-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52432 }
       etat: { name: Beauchemin, statut: COMS }
   52043:
     '1943-01-01':
@@ -77826,7 +77820,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Bonnecourt, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Bonnecourt, statut: COMS }
   52060:
     '1943-01-01':
@@ -78039,7 +78033,7 @@ contents:
       evts: { sAssocieA: 52504 }
       etat: { name: Champigny-sous-Varennes, statut: COMA, crat: 52504 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52504 }
       etat: { name: Champigny-sous-Varennes, statut: COMS }
   52104:
     '1943-01-01':
@@ -78051,7 +78045,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Changey, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Changey, statut: COMS }
   52106:
     '1943-01-01':
@@ -78066,7 +78060,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Charmes, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Charmes, statut: COMS }
   52109:
     '1943-01-01':
@@ -78099,7 +78093,7 @@ contents:
       evts: { prendPourAssociées: [52145, 52170, 52228] }
       etat: { name: Chassigny-Aisey, statut: COMS }
     '1990-07-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52145, 52170, 52228] }
       etat: { name: Chassigny, statut: COMS }
   52114:
     '1943-01-01':
@@ -78120,7 +78114,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Chatenay-Vaudin, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Chatenay-Vaudin, statut: COMS }
   52117:
     '1943-01-01':
@@ -78168,7 +78162,7 @@ contents:
       evts: { resteAssociéeA: 52504 }
       etat: { name: Chézeaux, statut: COMA, crat: 52504 }
     '2012-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52504 }
       etat: { name: Chézeaux, statut: COMS }
   52125:
     '1943-01-01':
@@ -78267,7 +78261,7 @@ contents:
       evts: { sAssocieA: 52113 }
       etat: { name: Coublanc, statut: COMA, crat: 52113 }
     '1990-07-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52113 }
       etat: { name: Coublanc, statut: COMS }
   52146:
     '1943-01-01':
@@ -78322,7 +78316,7 @@ contents:
       evts: { prendPourAssociées: [52030] }
       etat: { name: Curel-Autigny, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52030] }
       etat: { name: Curel, statut: COMS }
   52157:
     '1943-01-01':
@@ -78352,7 +78346,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Dampierre, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Dampierre, statut: COMS }
   52164:
     '1943-01-01':
@@ -78385,7 +78379,7 @@ contents:
       evts: { sAssocieA: 52113 }
       etat: { name: Dommarien, statut: COMA, crat: 52113 }
     '1990-07-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52113 }
       etat: { name: Dommarien, statut: COMS }
   52171:
     '1943-01-01':
@@ -78561,7 +78555,7 @@ contents:
       evts: { prendPourAssociées: [52154, 52297] }
       etat: { name: Foulain, statut: COMS }
     '1979-02-01':
-      evts: { gardeCommeAssociées: [52154] }
+      evts: { gardeCommeAssociées: [52154], détacheCommeSimples: [52297] }
       etat: { name: Foulain, statut: COMS }
   52206:
     '1943-01-01':
@@ -78573,7 +78567,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Frécourt, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Frécourt, statut: COMS }
   52208:
     '1943-01-01':
@@ -78642,7 +78636,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Gilley, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Gilley, statut: COMS }
   52224:
     '1943-01-01':
@@ -78674,7 +78668,7 @@ contents:
       evts: { sAssocieA: 52113 }
       etat: { name: Grandchamp, statut: COMA, crat: 52113 }
     '1990-07-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52113 }
       etat: { name: Grandchamp, statut: COMS }
   52229:
     '1943-01-01':
@@ -78731,7 +78725,7 @@ contents:
       evts: { sAssocieA: 52374 }
       etat: { name: Heuilley-le-Grand, statut: COMA, crat: 52374 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52374 }
       etat: { name: Heuilley-le-Grand, statut: COMS }
   52241:
     '1943-01-01':
@@ -78807,7 +78801,7 @@ contents:
       evts: { prendPourAssociées: [52390, 52513] }
       etat: { name: Laferté-sur-Amance, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52390, 52513] }
       etat: { name: Laferté-sur-Amance, statut: COMS }
   52258:
     '1943-01-01':
@@ -78855,7 +78849,7 @@ contents:
       evts: { sAssocieA: 52427 }
       etat: { name: Laneuville-à-Rémy, statut: COMA, crat: 52427 }
     '2012-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52427 }
       etat: { name: Laneuville-à-Rémy, statut: COMS }
   52267:
     '1943-01-01':
@@ -78915,7 +78909,7 @@ contents:
       evts: { sAssocieA: 52031 }
       etat: { name: Lavilleneuve-au-Roi, statut: COMA, crat: 52031 }
     '2012-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52031 }
       etat: { name: Lavilleneuve-au-Roi, statut: COMS }
   52279:
     '1943-01-01':
@@ -78933,7 +78927,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Lecey, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Lecey, statut: COMS }
   52281:
     '1943-01-01':
@@ -78969,7 +78963,7 @@ contents:
       evts: { sAssocieA: 52035 }
       etat: { name: Leuchey, statut: COMA, crat: 52035 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52035 }
       etat: { name: Leuchey, statut: COMS }
   52286:
     '1943-01-01':
@@ -79026,7 +79020,7 @@ contents:
       evts: { sAssocieA: 52205 }
       etat: { name: Luzy-sur-Marne, statut: COMA, crat: 52205 }
     '1979-02-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52205 }
       etat: { name: Luzy-sur-Marne, statut: COMS }
   52298:
     '1943-01-01':
@@ -79080,7 +79074,7 @@ contents:
       evts: { prendPourAssociées: [52392] }
       etat: { name: Marcilly-Plesnoy, statut: COMS }
     '1988-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52392] }
       etat: { name: Marcilly-en-Bassigny, statut: COMS }
   52312:
     '1943-01-01':
@@ -79178,7 +79172,7 @@ contents:
       evts: { prendPourAssociées: [52033, 52186, 52281, 52283, 52317, 52410, 52417, 52418, 52465] }
       etat: { name: Val-de-Meuse, statut: COMS }
     '2012-01-01':
-      evts: { gardeCommeAssociées: [52186, 52281, 52283, 52317, 52410, 52417, 52418] }
+      evts: { détacheCommeSimples: [52033, 52465], gardeCommeAssociées: [52186, 52281, 52283, 52317, 52410, 52417, 52418] }
       etat: { name: Val-de-Meuse, statut: COMS }
   52333:
     '1943-01-01':
@@ -79201,7 +79195,7 @@ contents:
       evts: { sAssocieA: 52420 }
       etat: { name: Montot-sur-Rognon, statut: COMA, crat: 52420 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52420 }
       etat: { name: Montot-sur-Rognon, statut: COMS }
   52336:
     '1943-01-01':
@@ -79259,7 +79253,7 @@ contents:
       evts: { prendPourAssociées: [52009, 52037, 52059, 52105, 52108, 52116, 52163, 52207, 52280, 52363, 52397] }
       etat: { name: Val-de-Gris, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52009, 52037, 52059, 52105, 52108, 52116, 52163, 52207, 52280, 52363, 52397] }
       etat: { name: 'Neuilly-l''Évêque', statut: COMS }
   52349:
     '1943-01-01':
@@ -79292,7 +79286,7 @@ contents:
       evts: { sAssocieA: 52374 }
       etat: { name: Noidant-Chatenoy, statut: COMA, crat: 52374 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52374 }
       etat: { name: Noidant-Chatenoy, statut: COMS }
   52355:
     '1943-01-01':
@@ -79313,7 +79307,7 @@ contents:
       evts: { prendPourAssociées: [52495] }
       etat: { name: Nully-Trémilly, statut: COMS }
     '2005-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52495] }
       etat: { name: Nully, statut: COMS }
   52360:
     '1943-01-01':
@@ -79334,7 +79328,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Orbigny-au-Val, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Orbigny-au-Val, statut: COMS }
   52364:
     '1943-01-01':
@@ -79376,7 +79370,7 @@ contents:
       evts: { prendPourAssociées: [52240, 52354, 52375, 52539] }
       etat: { name: Hauts-Vals-sous-Nouroy, statut: COMS }
     '1992-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52240, 52354, 52375, 52539] }
       etat: { name: 'Le Pailly', statut: COMS }
   52375:
     '1943-01-01':
@@ -79385,7 +79379,7 @@ contents:
       evts: { sAssocieA: 52374 }
       etat: { name: Palaiseul, statut: COMA, crat: 52374 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52374 }
       etat: { name: Palaiseul, statut: COMS }
   52376:
     '1943-01-01':
@@ -79474,7 +79468,7 @@ contents:
       evts: { sAssocieA: 52257 }
       etat: { name: Pisseloup, statut: COMA, crat: 52257 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52257 }
       etat: { name: Pisseloup, statut: COMS }
   52391:
     '1943-01-01':
@@ -79486,7 +79480,7 @@ contents:
       evts: { sAssocieA: 52311 }
       etat: { name: Plesnoy, statut: COMA, crat: 52311 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52311 }
       etat: { name: Plesnoy, statut: COMS }
   52393:
     '1943-01-01':
@@ -79498,7 +79492,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Poinson-lès-Fayl, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Poinson-lès-Fayl, statut: COMS }
   52395:
     '1943-01-01':
@@ -79513,7 +79507,7 @@ contents:
       evts: { sAssocieA: 52348 }
       etat: { name: Poiseul, statut: COMA, crat: 52348 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52348 }
       etat: { name: Poiseul, statut: COMS }
   52398:
     '1943-01-01':
@@ -79563,7 +79557,7 @@ contents:
       evts: { prendPourAssociées: [52223, 52394, 52467, 52493, 52503, 52546] }
       etat: { name: Saint-Pérégrin-sur-Vannon, statut: COMS }
     '1986-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52223, 52394, 52467, 52493, 52503, 52546] }
       etat: { name: Pressigny, statut: COMS }
   52407:
     '1943-01-01':
@@ -79653,7 +79647,7 @@ contents:
       evts: { prendPourAssociées: [52335, 52473, 52523] }
       etat: { name: Reynel, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52335, 52473, 52523] }
       etat: { name: Reynel, statut: COMS }
   52421:
     '1943-01-01':
@@ -79683,7 +79677,7 @@ contents:
       evts: { prendPourAssociées: [52266] }
       etat: { name: Robert-Magny-Laneuville-à-Rémy, statut: COMS }
     '2012-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52266] }
       etat: { name: Robert-Magny, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 52331 }
@@ -79715,7 +79709,7 @@ contents:
       evts: { prendPourAssociées: [52042, 52111, 52270, 52498] }
       etat: { name: Rolampont, statut: COMS }
     '1989-02-15':
-      evts: { gardeCommeAssociées: [52111, 52270, 52498] }
+      evts: { détacheCommeSimples: [52042], gardeCommeAssociées: [52111, 52270, 52498] }
       etat: { name: Rolampont, statut: COMS }
   52433:
     '1943-01-01':
@@ -79748,7 +79742,7 @@ contents:
       evts: { prendPourAssociées: [52016] }
       etat: { name: Rouvres-Arbot, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52016] }
       etat: { name: Rouvres-sur-Aube, statut: COMS }
   52440:
     '1943-01-01':
@@ -79772,7 +79766,7 @@ contents:
       evts: { prendPourAssociées: [52468] }
       etat: { name: Saint-Blin-Semilly, statut: COMS }
     '1997-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52468] }
       etat: { name: Saint-Blin, statut: COMS }
   52445:
     '1943-01-01':
@@ -79884,7 +79878,7 @@ contents:
       evts: { sAssocieA: 52332 }
       etat: { name: Saulxures, statut: COMA, crat: 52332 }
     '2012-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52332 }
       etat: { name: Saulxures, statut: COMS }
   52466:
     '1943-01-01':
@@ -79899,7 +79893,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Savigny, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Savigny, statut: COMS }
   52468:
     '1943-01-01':
@@ -79908,7 +79902,7 @@ contents:
       evts: { sAssocieA: 52444 }
       etat: { name: Semilly, statut: COMA, crat: 52444 }
     '1997-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52444 }
       etat: { name: Semilly, statut: COMS }
   52469:
     '1943-01-01':
@@ -79934,7 +79928,7 @@ contents:
       evts: { sAssocieA: 52420 }
       etat: { name: Signéville, statut: COMA, crat: 52420 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52420 }
       etat: { name: Signéville, statut: COMS }
   52474:
     '1943-01-01':
@@ -80017,7 +80011,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Tornay, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Tornay, statut: COMS }
   52494:
     '1943-01-01':
@@ -80029,7 +80023,7 @@ contents:
       evts: { sAssocieA: 52359 }
       etat: { name: Trémilly, statut: COMA, crat: 52359 }
     '2005-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52359 }
       etat: { name: Trémilly, statut: COMS }
   52496:
     '1943-01-01':
@@ -80080,7 +80074,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Valleroy, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Valleroy, statut: COMS }
   52504:
     '1943-01-01':
@@ -80089,10 +80083,10 @@ contents:
       evts: { prendPourAssociées: [52103, 52124] }
       etat: { name: Terre-Natale, statut: COMS }
     '1986-01-01':
-      evts: { gardeCommeAssociées: [52124] }
+      evts: { détacheCommeSimples: [52103], gardeCommeAssociées: [52124] }
       etat: { name: Terre-Natale, statut: COMS }
     '2012-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [52124] }
       etat: { name: Varennes-sur-Amance, statut: COMS }
   52505:
     '1943-01-01':
@@ -80137,7 +80131,7 @@ contents:
       evts: { sAssocieA: 52257 }
       etat: { name: Velles, statut: COMA, crat: 52257 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52257 }
       etat: { name: Velles, statut: COMS }
   52514:
     '1943-01-01':
@@ -80176,7 +80170,7 @@ contents:
       evts: { sAssocieA: 52420 }
       etat: { name: Vignes-la-Côte, statut: COMA, crat: 52420 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52420 }
       etat: { name: Vignes-la-Côte, statut: COMS }
   52524:
     '1943-01-01':
@@ -80260,7 +80254,7 @@ contents:
       evts: { sAssocieA: 52374 }
       etat: { name: Violot, statut: COMA, crat: 52374 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52374 }
       etat: { name: Violot, statut: COMS }
   52540:
     '1943-01-01':
@@ -80290,7 +80284,7 @@ contents:
       evts: { sAssocieA: 52406 }
       etat: { name: Voncourt, statut: COMA, crat: 52406 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 52406 }
       etat: { name: Voncourt, statut: COMS }
   52547:
     '1943-01-01':
@@ -80317,7 +80311,7 @@ contents:
       evts: { prendPourAssociées: [53070, 53111] }
       etat: { name: Ambrières-les-Vallées, statut: COMS }
     '1987-01-01':
-      evts: { gardeCommeAssociées: [53070] }
+      evts: { gardeCommeAssociées: [53070], détacheCommeSimples: [53111] }
       etat: { name: Ambrières-les-Vallées, statut: COMS }
     '2014-10-15':
       evts: { absorbe: [53070] }
@@ -80739,7 +80733,7 @@ contents:
       evts: { sAssocieA: 53003 }
       etat: { name: 'La Haie-Traversaine', statut: COMA, crat: 53003 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 53003 }
       etat: { name: 'La Haie-Traversaine', statut: COMS }
   53112:
     '1943-01-01':
@@ -81035,7 +81029,7 @@ contents:
       evts: { prendPourAssociées: [53213, 53238] }
       etat: { name: Pontmain, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [53213, 53238] }
       etat: { name: Pontmain, statut: COMS }
   53182:
     '1943-01-01':
@@ -81166,7 +81160,7 @@ contents:
       evts: { sAssocieA: 53181 }
       etat: { name: Saint-Ellier-du-Maine, statut: COMA, crat: 53181 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 53181 }
       etat: { name: Saint-Ellier-du-Maine, statut: COMS }
   53214:
     '1943-01-01':
@@ -81266,7 +81260,7 @@ contents:
       evts: { sAssocieA: 53181 }
       etat: { name: Saint-Mars-sur-la-Futaie, statut: COMA, crat: 53181 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 53181 }
       etat: { name: Saint-Mars-sur-la-Futaie, statut: COMS }
   53239:
     '1943-01-01':
@@ -81852,7 +81846,7 @@ contents:
       evts: { sAssocieA: 54418 }
       etat: { name: Coincourt, statut: COMA, crat: 54418 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 54418 }
       etat: { name: Coincourt, statut: COMS }
   54134:
     '1943-01-01':
@@ -82672,7 +82666,7 @@ contents:
       evts: { sAssocieA: 54418 }
       etat: { name: Mouacourt, statut: COMA, crat: 54418 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 54418 }
       etat: { name: Mouacourt, statut: COMS }
   54389:
     '1943-01-01':
@@ -82732,7 +82726,7 @@ contents:
       evts: { prendPourAssociées: [54523] }
       etat: { name: Ochey-Thuilley, statut: COMS }
     '1987-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [54523] }
       etat: { name: Ochey, statut: COMS }
   54406:
     '1943-01-01':
@@ -82782,7 +82776,7 @@ contents:
       evts: { prendPourAssociées: [54133, 54388, 54601] }
       etat: { name: Parroy, statut: COMS }
     '1987-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [54133, 54388, 54601] }
       etat: { name: Parroy, statut: COMS }
   54419:
     '1943-01-01':
@@ -83123,7 +83117,7 @@ contents:
       evts: { sAssocieA: 54405 }
       etat: { name: Thuilley-aux-Groseilles, statut: COMA, crat: 54405 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 54405 }
       etat: { name: Thuilley-aux-Groseilles, statut: COMS }
   54524:
     '1943-01-01':
@@ -83374,7 +83368,7 @@ contents:
       evts: { sAssocieA: 54418 }
       etat: { name: Xures, statut: COMA, crat: 54418 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 54418 }
       etat: { name: Xures, statut: COMS }
   54602:
     '1997-01-01':
@@ -83516,7 +83510,7 @@ contents:
       evts: { prendPourAssociées: [55103] }
       etat: { name: Baulny-Charpentry, statut: COMS }
     '1986-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55103] }
       etat: { name: Baulny, statut: COMS }
   55034:
     '1943-01-01':
@@ -83528,7 +83522,7 @@ contents:
       evts: { prendPourAssociées: [55352] }
       etat: { name: Bazincourt-Montplonne, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55352] }
       etat: { name: Bazincourt-sur-Saulx, statut: COMS }
   55036:
     '1943-01-01':
@@ -83564,7 +83558,7 @@ contents:
       evts: { sAssocieA: 55570 }
       etat: { name: Belrain, statut: COMA, crat: 55570 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55570 }
       etat: { name: Belrain, statut: COMS }
   55045:
     '1943-01-01':
@@ -83654,7 +83648,7 @@ contents:
       evts: { sAssocieA: 55419 }
       etat: { name: Brabant-en-Argonne, statut: COMA, crat: 55419 }
     '2004-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55419 }
       etat: { name: Brabant-en-Argonne, statut: COMS }
   55069:
     '1943-01-01':
@@ -83663,7 +83657,7 @@ contents:
       evts: { prendPourAssociées: [55560] }
       etat: { name: Brabant-lès-Villers, statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55560] }
       etat: { name: Brabant-le-Roi, statut: COMS }
   55070:
     '1943-01-01':
@@ -83711,7 +83705,7 @@ contents:
       evts: { sAssocieA: 55419 }
       etat: { name: Brocourt-en-Argonne, statut: COMA, crat: 55419 }
     '2004-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55419 }
       etat: { name: Brocourt-en-Argonne, statut: COMS }
   55083:
     '1943-01-01':
@@ -83811,7 +83805,7 @@ contents:
       evts: { sAssocieA: 55033 }
       etat: { name: Charpentry, statut: COMA, crat: 55033 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55033 }
       etat: { name: Charpentry, statut: COMS }
   55104:
     '1943-01-01':
@@ -83874,7 +83868,7 @@ contents:
       evts: { sAssocieA: 55119 }
       etat: { name: Cléry-Grand, statut: COMA, crat: 55119 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55119 }
       etat: { name: Cléry-Grand, statut: COMS }
     '2000-01-01':
       evts: { changeDeNomPour: Cléry-le-Grand }
@@ -83886,7 +83880,7 @@ contents:
       evts: { prendPourAssociées: [55118] }
       etat: { name: Cléry, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55118] }
       etat: { name: Cléry-Petit, statut: COMS }
     '2000-01-01':
       evts: { changeDeNomPour: Cléry-le-Petit }
@@ -84047,7 +84041,7 @@ contents:
       evts: { prendPourAssociées: [55204] }
       etat: { name: Dieue, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55204] }
       etat: { name: Dieue-sur-Meuse, statut: COMS }
   55155:
     '1943-01-01':
@@ -84152,7 +84146,7 @@ contents:
       evts: { prendPourAssociées: [55580] }
       etat: { name: Étraye-Wavrille, statut: COMS }
     '1988-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55580] }
       etat: { name: Étraye, statut: COMS }
   55184:
     '1943-01-01':
@@ -84241,7 +84235,7 @@ contents:
       evts: { sAssocieA: 55154 }
       etat: { name: Génicourt-sur-Meuse, statut: COMA, crat: 55154 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55154 }
       etat: { name: Génicourt-sur-Meuse, statut: COMS }
   55205:
     '1943-01-01':
@@ -84262,7 +84256,7 @@ contents:
       evts: { sAssocieA: 55438 }
       etat: { name: Gesnes-en-Argonne, statut: COMA, crat: 55438 }
     '1987-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55438 }
       etat: { name: Gesnes-en-Argonne, statut: COMS }
   55209:
     '1943-01-01':
@@ -84276,7 +84270,7 @@ contents:
       evts: { sAssocieA: 55570 }
       etat: { name: Gimécourt, statut: COMA, crat: 55570 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55570 }
       etat: { name: Gimécourt, statut: COMS }
   55211:
     '1943-01-01':
@@ -84306,7 +84300,7 @@ contents:
       evts: { sAssocieA: 55535 }
       etat: { name: Gouraincourt, statut: COMA, crat: 55535 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55535 }
       etat: { name: Gouraincourt, statut: COMS }
   55217:
     '1943-01-01':
@@ -84428,7 +84422,7 @@ contents:
       evts: { prendPourAssociées: [55273, 55386] }
       etat: { name: Madine, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55273, 55386] }
       etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
   55246:
     '1943-01-01':
@@ -84531,9 +84525,9 @@ contents:
       etat: { name: Lamarche-en-Woëvre, statut: COMS }
     '1973-01-01':
       evts: { sAssocieA: 55245 }
-      etat: { name: Lamarche-en-Woëvre, statut: COMS }
+      etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55245 }
     '1983-01-01':
-      evts: { label: 'Commune associée rétablie comme commune simple', sAssocieA: 55386 }
+      evts: { seSépareDe: 55245, sAssocieA: 55386 }
       etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
   55274:
     '1943-01-01':
@@ -84589,7 +84583,7 @@ contents:
       evts: { prendPourAssociées: [55395, 55482, 55525] }
       etat: { name: 'Les Quatre-Vents', statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55395, 55482, 55525] }
       etat: { name: Lemmes, statut: COMS }
   55287:
     '1943-01-01':
@@ -84628,7 +84622,7 @@ contents:
       evts: { sAssocieA: 55569 }
       etat: { name: Lisle-en-Barrois, statut: COMA, crat: 55569 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55569 }
       etat: { name: Lisle-en-Barrois, statut: COMS }
   55296:
     '1943-01-01':
@@ -84849,7 +84843,7 @@ contents:
       evts: { sAssocieA: 55035 }
       etat: { name: Montplonne, statut: COMA, crat: 55035 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55035 }
       etat: { name: Montplonne, statut: COMS }
   55353:
     '1943-01-01':
@@ -84914,7 +84908,7 @@ contents:
       evts: { sAssocieA: 55535 }
       etat: { name: Muzeray, statut: COMA, crat: 55535 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55535 }
       etat: { name: Muzeray, statut: COMS }
   55368:
     '1943-01-01':
@@ -84981,9 +84975,9 @@ contents:
       etat: { name: Nonsard, statut: COMS }
     '1973-01-01':
       evts: { sAssocieA: 55245 }
-      etat: { name: Nonsard, statut: COMS }
+      etat: { name: Nonsard, statut: COMA, crat: 55245 }
     '1983-01-01':
-      evts: { label: 'Commune associée rétablie comme commune simple', prendPourAssociées: [55273] }
+      evts: { seSépareDe: 55245, prendPourAssociées: [55273] }
       etat: { name: Nonsard-Lamarche, statut: COMS }
   55387:
     '1943-01-01':
@@ -85031,7 +85025,7 @@ contents:
       evts: { sAssocieA: 55286 }
       etat: { name: Osches, statut: COMA, crat: 55286 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55286 }
       etat: { name: Osches, statut: COMS }
   55396:
     '1943-01-01':
@@ -85082,7 +85076,7 @@ contents:
       evts: { sAssocieA: 55517 }
       etat: { name: Pretz, statut: COMA, crat: 55517 }
     '1990-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55517 }
       etat: { name: Pretz-en-Argonne, statut: COMS }
   55410:
     '1943-01-01':
@@ -85130,7 +85124,7 @@ contents:
       evts: { prendPourAssociées: [55068, 55082] }
       etat: { name: Récicourt, statut: COMS }
     '2004-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55068, 55082] }
       etat: { name: Récicourt, statut: COMS }
   55420:
     '1943-01-01':
@@ -85199,7 +85193,7 @@ contents:
       evts: { prendPourAssociées: [55208] }
       etat: { name: Romagne-Gesnes, statut: COMS }
     '1987-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55208] }
       etat: { name: Romagne-sous-Montfaucon, statut: COMS }
   55439:
     '1943-01-01':
@@ -85244,7 +85238,7 @@ contents:
       evts: { sAssocieA: 55570 }
       etat: { name: Rupt-devant-Saint-Mihiel, statut: COMA, crat: 55570 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55570 }
       etat: { name: Rupt-devant-Saint-Mihiel, statut: COMS }
   55449:
     '1943-01-01':
@@ -85385,7 +85379,7 @@ contents:
       evts: { sAssocieA: 55286 }
       etat: { name: Senoncourt-les-Maujouy, statut: COMA, crat: 55286 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55286 }
       etat: { name: Senoncourt-les-Maujouy, statut: COMS }
   55483:
     '1943-01-01':
@@ -85412,7 +85406,7 @@ contents:
       evts: { prendPourAssociées: [55540] }
       etat: { name: Seuzey-Vaux, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55540] }
       etat: { name: Seuzey, statut: COMS }
   55488:
     '1943-01-01':
@@ -85526,7 +85520,7 @@ contents:
       evts: { prendPourAssociées: [55409, 55480] }
       etat: { name: 'Seuil-d''Argonne', statut: COMS }
     '1990-01-01':
-      evts: { gardeCommeAssociées: [55480] }
+      evts: { détacheCommeSimples: [55409], gardeCommeAssociées: [55480] }
       etat: { name: 'Seuil-d''Argonne', statut: COMS }
   55518:
     '1943-01-01':
@@ -85564,7 +85558,7 @@ contents:
       evts: { sAssocieA: 55286 }
       etat: { name: Vadelaincourt, statut: COMA, crat: 55286 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55286 }
       etat: { name: Vadelaincourt, statut: COMS }
   55526:
     '1943-01-01':
@@ -85606,7 +85600,7 @@ contents:
       evts: { prendPourAssociées: [55216, 55367] }
       etat: { name: 'Les Tilleuls-Vaudoncourt', statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55216, 55367] }
       etat: { name: Vaudoncourt, statut: COMS }
   55536:
     '1943-01-01':
@@ -85636,7 +85630,7 @@ contents:
       evts: { sAssocieA: 55487 }
       etat: { name: Vaux-lès-Palameix, statut: COMA, crat: 55487 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55487 }
       etat: { name: Vaux-lès-Palameix, statut: COMS }
   55541:
     '1943-01-01':
@@ -85702,7 +85696,7 @@ contents:
       evts: { sAssocieA: 55570 }
       etat: { name: Ville-devant-Belrain, statut: COMA, crat: 55570 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55570 }
       etat: { name: Ville-devant-Belrain, statut: COMS }
   55556:
     '1943-01-01':
@@ -85726,7 +85720,7 @@ contents:
       evts: { sAssocieA: 55069 }
       etat: { name: Villers-aux-Vents, statut: COMA, crat: 55069 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55069 }
       etat: { name: Villers-aux-Vents, statut: COMS }
   55561:
     '1943-01-01':
@@ -85761,7 +85755,7 @@ contents:
       evts: { prendPourAssociées: [55295] }
       etat: { name: Vilisle, statut: COMS }
     '1986-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55295] }
       etat: { name: Villotte-devant-Louppy, statut: COMS }
   55570:
     '1943-01-01':
@@ -85770,7 +85764,7 @@ contents:
       evts: { prendPourAssociées: [55044, 55210, 55448, 55555] }
       etat: { name: Villotte-sur-Aire, statut: COMS }
     '1988-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [55044, 55210, 55448, 55555] }
       etat: { name: Villotte-sur-Aire, statut: COMS }
   55571:
     '1943-01-01':
@@ -85820,7 +85814,7 @@ contents:
       evts: { sAssocieA: 55183 }
       etat: { name: Wavrille, statut: COMA, crat: 55183 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 55183 }
       etat: { name: Wavrille, statut: COMS }
   55581:
     '1943-01-01':
@@ -86794,13 +86788,13 @@ contents:
       evts: { prendPourAssociées: [57248, 57346, 57494, 57573, 57675] }
       etat: { name: Albestroff, statut: COMS }
     '1983-03-01':
-      evts: { gardeCommeAssociées: [57248, 57346, 57573, 57675] }
+      evts: { gardeCommeAssociées: [57248, 57346, 57573, 57675], détacheCommeSimples: [57494] }
       etat: { name: Albestroff, statut: COMS }
     '1984-01-01':
-      evts: { gardeCommeAssociées: [57248, 57573, 57675] }
+      evts: { gardeCommeAssociées: [57248, 57573, 57675], détacheCommeSimples: [57346] }
       etat: { name: Albestroff, statut: COMS }
     '1998-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [57248, 57573, 57675] }
       etat: { name: Albestroff, statut: COMS }
   57012:
     '1943-01-01':
@@ -86866,7 +86860,7 @@ contents:
       evts: { sAssocieA: 57115 }
       etat: { name: Arraincourt, statut: COMA, crat: 57115 }
     '1985-08-04':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57115 }
       etat: { name: Arraincourt, statut: COMS }
   57028:
     '1943-01-01':
@@ -87006,7 +87000,7 @@ contents:
       evts: { sAssocieA: 57460 }
       etat: { name: Berviller-en-Moselle, statut: COMA, crat: 57460 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57460 }
       etat: { name: Berviller-en-Moselle, statut: COMS }
   57070:
     '1943-01-01':
@@ -87068,7 +87062,7 @@ contents:
       evts: { prendPourAssociées: [57023, 57173] }
       etat: { name: Belles-Forêts, statut: COMS }
     '1986-01-01':
-      evts: { gardeCommeAssociées: [57023] }
+      evts: { gardeCommeAssociées: [57023], détacheCommeSimples: [57173] }
       etat: { name: Belles-Forêts, statut: COMS }
   57087:
     '1943-01-01':
@@ -87139,7 +87133,7 @@ contents:
       evts: { prendPourAssociées: [57110] }
       etat: { name: Bouzonville, statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [57110] }
       etat: { name: Bouzonville, statut: COMS }
   57107:
     '1943-01-01':
@@ -87157,7 +87151,7 @@ contents:
       evts: { sAssocieA: 57106 }
       etat: { name: Brettnach, statut: COMA, crat: 57106 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57106 }
       etat: { name: Brettnach, statut: COMS }
   57111:
     '1943-01-01':
@@ -87178,7 +87172,7 @@ contents:
       evts: { prendPourAssociées: [57027, 57328, 57673] }
       etat: { name: Brulange, statut: COMS }
     '1985-08-04':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [57027, 57328, 57673] }
       etat: { name: Brulange, statut: COMS }
   57116:
     '1943-01-01':
@@ -87407,7 +87401,7 @@ contents:
       evts: { sAssocieA: 57086 }
       etat: { name: Desseling, statut: COMA, crat: 57086 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57086 }
       etat: { name: Desseling, statut: COMS }
   57174:
     '1943-01-01':
@@ -87419,7 +87413,7 @@ contents:
       evts: { prendPourAssociées: [57362] }
       etat: { name: Diane-et-Kerprich, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [57362] }
       etat: { name: Diane-Capelle, statut: COMS }
   57176:
     '1943-01-01':
@@ -87674,7 +87668,7 @@ contents:
       evts: { resteAssociéeA: 57011 }
       etat: { name: Givrycourt, statut: COMA, crat: 57011 }
     '1998-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57011 }
       etat: { name: Givrycourt, statut: COMS }
   57249:
     '1943-01-01':
@@ -87970,7 +87964,7 @@ contents:
       evts: { sAssocieA: 57115 }
       etat: { name: Holacourt, statut: COMA, crat: 57115 }
     '1985-08-04':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57115 }
       etat: { name: Holacourt, statut: COMS }
   57329:
     '1943-01-01':
@@ -88039,7 +88033,7 @@ contents:
       evts: { resteAssociéeA: 57011 }
       etat: { name: Insming, statut: COMA, crat: 57011 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57011 }
       etat: { name: Insming, statut: COMS }
   57347:
     '1943-01-01':
@@ -88099,7 +88093,7 @@ contents:
       evts: { sAssocieA: 57175 }
       etat: { name: Kerprich-aux-Bois, statut: COMA, crat: 57175 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57175 }
       etat: { name: Kerprich-aux-Bois, statut: COMS }
   57363:
     '1943-01-01':
@@ -88434,7 +88428,7 @@ contents:
       evts: { prendPourAssociées: [57069, 57570, 57720] }
       etat: { name: Merten, statut: COMS }
     '1981-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [57069, 57570, 57720] }
       etat: { name: Merten, statut: COMS }
   57461:
     '1943-01-01':
@@ -88554,7 +88548,7 @@ contents:
       evts: { sAssocieA: 57011 }
       etat: { name: Munster, statut: COMA, crat: 57011 }
     '1983-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57011 }
       etat: { name: Munster, statut: COMS }
   57495:
     '1943-01-01':
@@ -88821,7 +88815,7 @@ contents:
       evts: { sAssocieA: 57460 }
       etat: { name: Rémering-lès-Hargarten, statut: COMA, crat: 57460 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57460 }
       etat: { name: Rémering-lès-Hargarten, statut: COMS }
     '1993-04-01':
       evts: { changeDeNomPour: Rémering }
@@ -88848,7 +88842,7 @@ contents:
       evts: { resteAssociéeA: 57011 }
       etat: { name: Réning, statut: COMA, crat: 57011 }
     '1998-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57011 }
       etat: { name: Réning, statut: COMS }
   57574:
     '1943-01-01':
@@ -89197,7 +89191,7 @@ contents:
       evts: { sAssocieA: 57115 }
       etat: { name: Thonville, statut: COMA, crat: 57115 }
     '1985-08-04':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57115 }
       etat: { name: Thonville, statut: COMS }
   57674:
     '1943-01-01':
@@ -89215,7 +89209,7 @@ contents:
       evts: { resteAssociéeA: 57011 }
       etat: { name: Torcheville, statut: COMA, crat: 57011 }
     '1998-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57011 }
       etat: { name: Torcheville, statut: COMS }
   57676:
     '1943-01-01':
@@ -89386,7 +89380,7 @@ contents:
       evts: { sAssocieA: 57460 }
       etat: { name: Villing, statut: COMA, crat: 57460 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 57460 }
       etat: { name: Villing, statut: COMS }
   57721:
     '1943-01-01':
@@ -91525,7 +91519,7 @@ contents:
       evts: { sAssocieA: 59349 }
       etat: { name: Haucourt-en-Cambrésis, statut: COMA, crat: 59349 }
     '1997-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 59349 }
       etat: { name: Haucourt-en-Cambrésis, statut: COMS }
   59288:
     '1943-01-01':
@@ -91732,7 +91726,7 @@ contents:
       evts: { prendPourAssociées: [59287] }
       etat: { name: Ligny-Haucourt, statut: COMS }
     '1997-03-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [59287] }
       etat: { name: Ligny-en-Cambrésis, statut: COMS }
   59350:
     '1943-01-01':
@@ -97555,10 +97549,10 @@ contents:
       evts: { prendPourAssociées: [62126, 62847] }
       etat: { name: Béthune, statut: COMS }
     '1997-11-20':
-      evts: { gardeCommeAssociées: [62847] }
+      evts: { détacheCommeSimples: [62126], gardeCommeAssociées: [62847] }
       etat: { name: Béthune, statut: COMS }
     '2008-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [62847] }
       etat: { name: Béthune, statut: COMS }
   62120:
     '1943-01-01':
@@ -97585,7 +97579,7 @@ contents:
       evts: { sAssocieA: 62119 }
       etat: { name: Beuvry, statut: COMA, crat: 62119 }
     '1997-11-20':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 62119 }
       etat: { name: Beuvry, statut: COMS }
   62127:
     '1943-01-01':
@@ -99888,7 +99882,7 @@ contents:
       evts: { resteAssociéeA: 62119 }
       etat: { name: Verquigneul, statut: COMA, crat: 62119 }
     '2008-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 62119 }
       etat: { name: Verquigneul, statut: COMS }
   62848:
     '1943-01-01':
@@ -101737,7 +101731,7 @@ contents:
       evts: { sAssocieA: 64113 }
       etat: { name: Arancou, statut: COMA, crat: 64113 }
     '1977-11-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64113 }
       etat: { name: Arancou, statut: COMS }
   64032:
     '1943-01-01':
@@ -101992,7 +101986,7 @@ contents:
       evts: { sAssocieA: 64461 }
       etat: { name: Bellocq, statut: COMA, crat: 64461 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64461 }
       etat: { name: Bellocq, statut: COMS }
   64109:
     '1943-01-01':
@@ -102013,7 +102007,7 @@ contents:
       evts: { prendPourAssociées: [64031, 64553] }
       etat: { name: Bergouey-Arancou-Viellenave, statut: COMS }
     '1977-11-15':
-      evts: { gardeCommeAssociées: [64553] }
+      evts: { détacheCommeSimples: [64031], gardeCommeAssociées: [64553] }
       etat: { name: Bergouey-Viellenave, statut: COMS }
   64114:
     '1943-01-01':
@@ -102121,7 +102115,7 @@ contents:
       evts: { sAssocieA: 64417 }
       etat: { name: Bourdettes, statut: COMA, crat: 64417 }
     '1997-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64417 }
       etat: { name: Bourdettes, statut: COMS }
   64146:
     '1943-01-01':
@@ -102244,7 +102238,7 @@ contents:
       evts: { sAssocieA: 64367 }
       etat: { name: Castetner, statut: COMA, crat: 64367 }
     '1978-01-20':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64367 }
       etat: { name: Castetner, statut: COMS }
   64180:
     '1943-01-01':
@@ -102546,10 +102540,10 @@ contents:
       evts: { prendPourAssociées: [64329, 64439, 64518] }
       etat: { name: Idron-Lée-Ousse-Sendets, statut: COMS }
     '1989-01-01':
-      evts: { gardeCommeAssociées: [64439, 64518] }
+      evts: { détacheCommeSimples: [64329], gardeCommeAssociées: [64439, 64518] }
       etat: { name: Idron-Ousse-Sendets, statut: COMS }
     '2001-03-11':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [64439, 64518] }
       etat: { name: Idron, statut: COMS }
   64270:
     '1943-01-01':
@@ -102747,7 +102741,7 @@ contents:
       evts: { sAssocieA: 64269 }
       etat: { name: Lée, statut: COMA, crat: 64269 }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64269 }
       etat: { name: Lée, statut: COMS }
   64330:
     '1943-01-01':
@@ -102819,7 +102813,7 @@ contents:
       evts: { sAssocieA: 64367 }
       etat: { name: Loubieng, statut: COMA, crat: 64367 }
     '1978-01-20':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64367 }
       etat: { name: Loubieng, statut: COMS }
   64350:
     '1943-01-01':
@@ -102882,7 +102876,7 @@ contents:
       evts: { prendPourAssociées: [64179, 64349] }
       etat: { name: Maslacq, statut: COMS }
     '1978-01-20':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [64179, 64349] }
       etat: { name: Maslacq, statut: COMS }
   64368:
     '1943-01-01':
@@ -103047,7 +103041,7 @@ contents:
       evts: { prendPourAssociées: [64145] }
       etat: { name: Nay-Bourdettes, statut: COMS }
     '1997-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [64145] }
       etat: { name: Nay, statut: COMS }
   64418:
     '1943-01-01':
@@ -103125,7 +103119,7 @@ contents:
       evts: { resteAssociéeA: 64269 }
       etat: { name: Ousse, statut: COMA, crat: 64269 }
     '2001-03-11':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64269 }
       etat: { name: Ousse, statut: COMS }
   64440:
     '1943-01-01':
@@ -103209,7 +103203,7 @@ contents:
       evts: { prendPourAssociées: [64108, 64462] }
       etat: { name: Puyo-Bellocq-Ramous, statut: COMS }
     '1984-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [64108, 64462] }
       etat: { name: Puyoô, statut: COMS }
   64462:
     '1943-01-01':
@@ -103218,7 +103212,7 @@ contents:
       evts: { sAssocieA: 64461 }
       etat: { name: Ramous, statut: COMA, crat: 64461 }
     '1984-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64461 }
       etat: { name: Ramous, statut: COMS }
   64463:
     '1943-01-01':
@@ -103407,7 +103401,7 @@ contents:
       evts: { resteAssociéeA: 64269 }
       etat: { name: Sendets, statut: COMA, crat: 64269 }
     '2001-03-11':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 64269 }
       etat: { name: Sendets, statut: COMS }
   64519:
     '1943-01-01':
@@ -105256,7 +105250,7 @@ contents:
       evts: { prendPourAssociées: [66186] }
       etat: { name: Canet-en-Roussillon-Saint-Nazaire, statut: COMS }
     '1983-11-15':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [66186] }
       etat: { name: Canet-en-Roussillon, statut: COMS }
   66038:
     '1943-01-01':
@@ -105465,7 +105459,7 @@ contents:
       evts: { sAssocieA: 66134 }
       etat: { name: Llauro, statut: COMA, crat: 66134 }
     '1989-09-30':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 66134 }
       etat: { name: Llauro, statut: COMS }
   66100:
     '1943-01-01':
@@ -105474,7 +105468,7 @@ contents:
       evts: { sAssocieA: 66167 }
       etat: { name: Llo, statut: COMA, crat: 66167 }
     '1984-03-28':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 66167 }
       etat: { name: Llo, statut: COMS }
   66101:
     '1943-01-01':
@@ -105587,7 +105581,7 @@ contents:
       evts: { prendPourAssociées: [66220] }
       etat: { name: Osséja, statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [66220] }
       etat: { name: Osséja, statut: COMS }
   66132:
     '1943-01-01':
@@ -105602,7 +105596,7 @@ contents:
       evts: { prendPourAssociées: [66099, 66211] }
       etat: { name: Passa-Llauro-Tordères, statut: COMS }
     '1989-09-30':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [66099, 66211] }
       etat: { name: Passa, statut: COMS }
   66135:
     '1943-01-01':
@@ -105723,7 +105717,7 @@ contents:
       evts: { prendPourAssociées: [66100] }
       etat: { name: Saillagouse-Llo, statut: COMS }
     '1984-03-28':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [66100] }
       etat: { name: Saillagouse, statut: COMS }
   66168:
     '1943-01-01':
@@ -105798,7 +105792,7 @@ contents:
       evts: { sAssocieA: 66037 }
       etat: { name: Saint-Nazaire, statut: COMA, crat: 66037 }
     '1983-11-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 66037 }
       etat: { name: Saint-Nazaire, statut: COMS }
   66187:
     '1943-01-01':
@@ -105887,7 +105881,7 @@ contents:
       evts: { sAssocieA: 66134 }
       etat: { name: Tordères, statut: COMA, crat: 66134 }
     '1989-09-30':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 66134 }
       etat: { name: Tordères, statut: COMS }
   66212:
     '1943-01-01':
@@ -105925,7 +105919,7 @@ contents:
       evts: { sAssocieA: 66130 }
       etat: { name: Valcebollère, statut: COMA, crat: 66130 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 66130 }
       etat: { name: Valcebollère, statut: COMS }
   66221:
     '1943-01-01':
@@ -106023,7 +106017,7 @@ contents:
       evts: { sAssocieA: 67484 }
       etat: { name: Aschbach, statut: COMA, crat: 67484 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67484 }
       etat: { name: Aschbach, statut: COMS }
   67013:
     '1943-01-01':
@@ -106085,7 +106079,7 @@ contents:
       evts: { sAssocieA: 67513 }
       etat: { name: Bellefosse, statut: COMA, crat: 67513 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67513 }
       etat: { name: Bellefosse, statut: COMS }
   67027:
     '1943-01-01':
@@ -106097,7 +106091,7 @@ contents:
       evts: { sAssocieA: 67513 }
       etat: { name: Belmont, statut: COMA, crat: 67513 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67513 }
       etat: { name: Belmont, statut: COMS }
   67028:
     '1943-01-01':
@@ -106202,7 +106196,7 @@ contents:
       evts: { sAssocieA: 67242 }
       etat: { name: Bosselshausen, statut: COMA, crat: 67242 }
     '2007-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67242 }
       etat: { name: Bosselshausen, statut: COMS }
   67058:
     '1943-01-01':
@@ -106379,7 +106373,7 @@ contents:
       evts: { prendPourAssociées: [67247] }
       etat: { name: Duppigheim, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67247] }
       etat: { name: Duppigheim, statut: COMS }
   67109:
     '1943-01-01':
@@ -106505,7 +106499,7 @@ contents:
       evts: { sAssocieA: 67513 }
       etat: { name: Fouday, statut: COMA, crat: 67513 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67513 }
       etat: { name: Fouday, statut: COMS }
   67145:
     '1943-01-01':
@@ -106583,7 +106577,7 @@ contents:
       evts: { prendPourAssociées: [67406] }
       etat: { name: Gougenheim, statut: COMS }
     '1986-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67406] }
       etat: { name: Gougenheim, statut: COMS }
   67164:
     '1943-01-01':
@@ -106867,7 +106861,7 @@ contents:
       evts: { prendPourAssociées: [67057] }
       etat: { name: Kirrwiller-Bosselshausen, statut: COMS }
     '2007-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67057] }
       etat: { name: Kirrwiller, statut: COMS }
   67243:
     '1943-01-01':
@@ -106891,7 +106885,7 @@ contents:
       evts: { sAssocieA: 67108 }
       etat: { name: Kolbsheim, statut: COMA, crat: 67108 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67108 }
       etat: { name: Kolbsheim, statut: COMS }
   67248:
     '1943-01-01':
@@ -107216,7 +107210,7 @@ contents:
       evts: { prendPourAssociées: [67558] }
       etat: { name: Oberbronn-Zinswiller, statut: COMS }
     '1992-12-31':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67558] }
       etat: { name: Oberbronn, statut: COMS }
   67341:
     '1943-01-01':
@@ -107258,7 +107252,7 @@ contents:
       evts: { resteAssociéeA: 67484 }
       etat: { name: Oberrœdern, statut: COMA, crat: 67484 }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67484 }
       etat: { name: Oberrœdern, statut: COMS }
   67350:
     '1943-01-01':
@@ -107473,7 +107467,7 @@ contents:
       evts: { sAssocieA: 67163 }
       etat: { name: Rohr, statut: COMA, crat: 67163 }
     '1986-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67163 }
       etat: { name: Rohr, statut: COMS }
   67407:
     '1943-01-01':
@@ -107752,10 +107746,10 @@ contents:
       evts: { prendPourAssociées: [67012, 67349] }
       etat: { name: Stundwiller, statut: COMS }
     '1988-01-01':
-      evts: { gardeCommeAssociées: [67349] }
+      evts: { détacheCommeSimples: [67012], gardeCommeAssociées: [67349] }
       etat: { name: Stundwiller, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67349] }
       etat: { name: Stundwiller, statut: COMS }
   67485:
     '1943-01-01':
@@ -107881,7 +107875,7 @@ contents:
       evts: { prendPourAssociées: [67026, 67027, 67144] }
       etat: { name: 'Le Ban-de-la-Roche', statut: COMS }
     '1992-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [67026, 67027, 67144] }
       etat: { name: Waldersbach, statut: COMS }
   67514:
     '1943-01-01':
@@ -108045,7 +108039,7 @@ contents:
       evts: { sAssocieA: 67340 }
       etat: { name: Zinswiller, statut: COMA, crat: 67340 }
     '1992-12-31':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 67340 }
       etat: { name: Zinswiller, statut: COMS }
   67559:
     '1943-01-01':
@@ -110576,7 +110570,7 @@ contents:
       evts: { sAssocieA: 70427 }
       etat: { name: Arbecey, statut: COMA, crat: 70427 }
     '1977-07-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 70427 }
       etat: { name: Arbecey, statut: COMS }
   70026:
     '1943-01-01':
@@ -110907,7 +110901,7 @@ contents:
       evts: { prendPourAssociées: [70330] }
       etat: { name: Châlonvillars-Mandrevillars, statut: COMS }
     '1989-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [70330] }
       etat: { name: Châlonvillars, statut: COMS }
   70118:
     '1943-01-01':
@@ -111668,7 +111662,7 @@ contents:
       evts: { sAssocieA: 70117 }
       etat: { name: Mandrevillars, statut: COMA, crat: 70117 }
     '1989-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 70117 }
       etat: { name: Mandrevillars, statut: COMS }
   70331:
     '1943-01-01':
@@ -112017,7 +112011,7 @@ contents:
       evts: { prendPourAssociées: [70025] }
       etat: { name: Purgerot-Arbecey, statut: COMS }
     '1977-07-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [70025] }
       etat: { name: Purgerot, statut: COMS }
   70428:
     '1943-01-01':
@@ -112625,7 +112619,7 @@ contents:
       evts: { prendPourAssociées: [71414, 71467] }
       etat: { name: Autun, statut: COMS }
     '1985-10-01':
-      evts: { gardeCommeAssociées: [71467] }
+      evts: { détacheCommeSimples: [71414], gardeCommeAssociées: [71467] }
       etat: { name: Autun, statut: COMS }
     '2013-01-01':
       evts: { absorbe: [71467] }
@@ -112773,7 +112767,7 @@ contents:
       evts: { sAssocieA: 71263 }
       etat: { name: Branges, statut: COMA, crat: 71263 }
     '1979-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 71263 }
       etat: { name: Branges, statut: COMS }
   71057:
     '1943-01-01':
@@ -113461,7 +113455,7 @@ contents:
       evts: { prendPourAssociées: [71056, 71114, 71528] }
       etat: { name: Louhans, statut: COMS }
     '1979-03-01':
-      evts: { gardeCommeAssociées: [71114] }
+      evts: { détacheCommeSimples: [71056, 71528], gardeCommeAssociées: [71114] }
       etat: { name: Louhans, statut: COMS }
     '2013-01-01':
       evts: { absorbe: [71114] }
@@ -113777,7 +113771,7 @@ contents:
       evts: { sAssocieA: 71543 }
       etat: { name: Plottes, statut: COMA, crat: 71543 }
     '2001-03-11':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 71543 }
       etat: { name: Plottes, statut: COMS }
   71354:
     '1943-01-01':
@@ -113969,7 +113963,7 @@ contents:
       evts: { sAssocieA: 71014 }
       etat: { name: Saint-Forgeot, statut: COMA, crat: 71014 }
     '1985-10-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 71014 }
       etat: { name: Saint-Forgeot, statut: COMS }
   71415:
     '1943-01-01':
@@ -114367,7 +114361,7 @@ contents:
       evts: { sAssocieA: 71263 }
       etat: { name: Sornay, statut: COMA, crat: 71263 }
     '1979-03-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 71263 }
       etat: { name: Sornay, statut: COMS }
   71529:
     '1943-01-01':
@@ -114420,7 +114414,7 @@ contents:
       evts: { prendPourAssociées: [71353] }
       etat: { name: Tournus, statut: COMS }
     '2001-03-11':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [71353] }
       etat: { name: Tournus, statut: COMS }
   71544:
     '1943-01-01':
@@ -115948,7 +115942,7 @@ contents:
       evts: { prendPourAssociées: [73024] }
       etat: { name: Aigueblanche, statut: COMS }
     '1988-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [73024] }
       etat: { name: Aigueblanche, statut: COMS }
     '2019-01-01':
       evts: { prendPourDéléguées: [73003, 73045, 73266] }
@@ -116048,7 +116042,7 @@ contents:
       evts: { sAssocieA: 73003 }
       etat: { name: 'Les Avanchers', statut: COMA, crat: 73003 }
     '1988-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 73003 }
       etat: { name: 'Les Avanchers-Valmorel', statut: COMS }
   73025:
     '1943-01-01':
@@ -117329,7 +117323,7 @@ contents:
       evts: { sAssocieA: 74281 }
       etat: { name: Anthy-sur-Léman, statut: COMA, crat: 74281 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 74281 }
       etat: { name: Anthy-sur-Léman, statut: COMS }
   74014:
     '1943-01-01':
@@ -117689,7 +117683,7 @@ contents:
       evts: { sAssocieA: 74210 }
       etat: { name: Draillant, statut: COMA, crat: 74210 }
     '2001-02-19':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 74210 }
       etat: { name: Draillant, statut: COMS }
   74107:
     '1943-01-01':
@@ -117910,7 +117904,7 @@ contents:
       evts: { resteAssociéeA: 74281 }
       etat: { name: Marin, statut: COMA, crat: 74281 }
     '1995-05-25':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 74281 }
       etat: { name: Marin, statut: COMS }
   74167:
     '1943-01-01':
@@ -118044,7 +118038,7 @@ contents:
       evts: { sAssocieA: 74237 }
       etat: { name: Novel, statut: COMA, crat: 74237 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 74237 }
       etat: { name: Novel, statut: COMS }
   74204:
     '1943-01-01':
@@ -118076,7 +118070,7 @@ contents:
       evts: { prendPourAssociées: [74106] }
       etat: { name: Perrignier, statut: COMS }
     '2001-02-19':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [74106] }
       etat: { name: Perrignier, statut: COMS }
   74211:
     '1943-01-01':
@@ -118196,7 +118190,7 @@ contents:
       evts: { prendPourAssociées: [74203] }
       etat: { name: Saint-Gingolph, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [74203] }
       etat: { name: Saint-Gingolph, statut: COMS }
   74238:
     '1943-01-01':
@@ -118397,10 +118391,10 @@ contents:
       evts: { prendPourAssociées: [74013, 74166] }
       etat: { name: Thonon-les-Bains, statut: COMS }
     '1983-01-01':
-      evts: { gardeCommeAssociées: [74166] }
+      evts: { détacheCommeSimples: [74013], gardeCommeAssociées: [74166] }
       etat: { name: Thonon-les-Bains, statut: COMS }
     '1995-05-25':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [74166] }
       etat: { name: Thonon-les-Bains, statut: COMS }
   74282:
     '1943-01-01':
@@ -119335,7 +119329,7 @@ contents:
       evts: { devientDéléguéeDe: 76108 }
       etat: { name: Bihorel, statut: COMD, crat: 76108 }
     '2014-01-01':
-      evts: 'Commune déléguée rétablie comme commune simple'
+      evts: { seSépareDe: 76108 }
       etat: { name: Bihorel, statut: COMS }
   76096:
     '1943-01-01':
@@ -119394,7 +119388,7 @@ contents:
       evts: { prendPourDéléguées: [76108, 76095] }
       etat: { name: Bois-Guillaume-Bihorel, statut: COMS }
     '2014-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [76095] }
       etat: { name: Bois-Guillaume, statut: COMS }
   76109:
     '1943-01-01':
@@ -120245,7 +120239,7 @@ contents:
       evts: { prendPourAssociées: [76531] }
       etat: { name: Rocquefort-sur-Héricourt, statut: COMS }
     '1976-10-29':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [76531] }
       etat: { name: Héricourt-en-Caux, statut: COMS }
   76356:
     '1943-01-01':
@@ -120350,7 +120344,7 @@ contents:
       evts: { sAssocieA: 76755 }
       etat: { name: Limpiville, statut: COMA, crat: 76755 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 76755 }
       etat: { name: Limpiville, statut: COMS }
   76387:
     '1943-01-01':
@@ -120821,7 +120815,7 @@ contents:
       evts: { sAssocieA: 76355 }
       etat: { name: Rocquefort, statut: COMA, crat: 76355 }
     '1976-10-29':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 76355 }
       etat: { name: Rocquefort, statut: COMS }
   76532:
     '1943-01-01':
@@ -121054,7 +121048,7 @@ contents:
       evts: { sAssocieA: 76676 }
       etat: { name: Saint-Lucien, statut: COMA, crat: 76676 }
     '2017-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 76676 }
       etat: { name: Saint-Lucien, statut: COMS }
   76602:
     '1943-01-01':
@@ -121319,7 +121313,7 @@ contents:
       evts: { prendPourAssociées: [76601] }
       etat: { name: Sigy-en-Bray, statut: COMS }
     '2017-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [76601] }
       etat: { name: Sigy-en-Bray, statut: COMS }
   76677:
     '1943-01-01':
@@ -121337,7 +121331,7 @@ contents:
       evts: { sAssocieA: 76755 }
       etat: { name: Sorquainville, statut: COMA, crat: 76755 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 76755 }
       etat: { name: Sorquainville, statut: COMS }
   76681:
     '1943-01-01':
@@ -121372,7 +121366,7 @@ contents:
       evts: { sAssocieA: 76755 }
       etat: { name: Thiétreville, statut: COMA, crat: 76755 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 76755 }
       etat: { name: Thiétreville, statut: COMS }
   76690:
     '1943-01-01':
@@ -121608,7 +121602,7 @@ contents:
       evts: { prendPourAssociées: [76386, 76680, 76689] }
       etat: { name: Saint-Michel-en-Caux, statut: COMS }
     '1979-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [76386, 76680, 76689] }
       etat: { name: Ypreville-Biville, statut: COMS }
   76756:
     '1943-01-01':
@@ -122096,7 +122090,7 @@ contents:
       evts: { sAssocieA: 77352 }
       etat: { name: Courquetaine, statut: COMA, crat: 77352 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 77352 }
       etat: { name: Courquetaine, statut: COMS }
   77137:
     '1943-01-01':
@@ -122853,7 +122847,7 @@ contents:
       evts: { prendPourAssociées: [77136] }
       etat: { name: Ozouer-Courquetaine, statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [77136] }
       etat: { name: Ozouer-le-Voulgis, statut: COMS }
   77353:
     '1943-01-01':
@@ -124372,7 +124366,7 @@ contents:
       evts: { sAssocieA: 78246 }
       etat: { name: Drocourt, statut: COMA, crat: 78246 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 78246 }
       etat: { name: Drocourt, statut: COMS }
   78203:
     '1943-01-01':
@@ -124568,7 +124562,7 @@ contents:
       evts: { prendPourAssociées: [78202] }
       etat: { name: Fontenay-Saint-Père, statut: COMS }
     '1982-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [78202] }
       etat: { name: Fontenay-Saint-Père, statut: COMS }
   78247:
     '1943-01-01':
@@ -126579,7 +126573,7 @@ contents:
       evts: { prendPourAssociées: [79041, 79047, 79317] }
       etat: { name: Airvault, statut: COMS }
     '1985-01-01':
-      evts: { gardeCommeAssociées: [79041, 79317] }
+      evts: { gardeCommeAssociées: [79041, 79317], détacheCommeSimples: [79047] }
       etat: { name: Airvault, statut: COMS }
     '2019-01-01':
       evts: { prendPourDéléguées: [79005, 79041, 79317, 79325] }
@@ -126755,7 +126749,7 @@ contents:
       evts: { sAssocieA: 79049 }
       etat: { name: Boismé, statut: COMA, crat: 79049 }
     '1983-02-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79049 }
       etat: { name: Boismé, statut: COMS }
   79039:
     '1943-01-01':
@@ -126808,7 +126802,7 @@ contents:
       evts: { sAssocieA: 79005 }
       etat: { name: Boussais, statut: COMA, crat: 79005 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79005 }
       etat: { name: Boussais, statut: COMS }
   79048:
     '1943-01-01':
@@ -126826,7 +126820,7 @@ contents:
       evts: { prendPourAssociées: [79028, 79038, 79052, 79065, 79093, 79192, 79193, 79296, 79324] }
       etat: { name: Bressuire, statut: COMS }
     '1983-02-15':
-      evts: { gardeCommeAssociées: [79028, 79052, 79065, 79093, 79192, 79193, 79296, 79324] }
+      evts: { gardeCommeAssociées: [79028, 79052, 79065, 79093, 79192, 79193, 79296, 79324], détacheCommeSimples: [79038] }
       etat: { name: Bressuire, statut: COMS }
   79050:
     '1943-01-01':
@@ -126859,7 +126853,7 @@ contents:
       evts: { sAssocieA: 79196 }
       etat: { name: Brie, statut: COMA, crat: 79196 }
     '1983-02-14':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79196 }
       etat: { name: Brie, statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 79196 }
@@ -126874,7 +126868,7 @@ contents:
       evts: { sAssocieA: 79277 }
       etat: { name: Brion-près-Thouet, statut: COMA, crat: 79277 }
     '1983-02-15':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79277 }
       etat: { name: Brion-près-Thouet, statut: COMS }
   79057:
     '1943-01-01':
@@ -127011,7 +127005,7 @@ contents:
       evts: { prendPourAssociées: [79073, 79155, 79186, 79233, 79235, 79237, 79323] }
       etat: { name: Mauléon, statut: COMS }
     '1992-01-01':
-      evts: { gardeCommeAssociées: [79073, 79155, 79186, 79233, 79237, 79323] }
+      evts: { gardeCommeAssociées: [79073, 79155, 79186, 79233, 79237, 79323], détacheCommeSimples: [79235] }
       etat: { name: Mauléon, statut: COMS }
   79080:
     '1943-01-01':
@@ -127117,7 +127111,7 @@ contents:
       evts: { prendPourAssociées: [79304] }
       etat: { name: Coulon-Sansais, statut: COMS }
     '1981-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [79304] }
       etat: { name: Coulon, statut: COMS }
   79101:
     '1943-01-01':
@@ -127561,7 +127555,7 @@ contents:
       evts: { prendPourAssociées: [79036, 79054, 79194] }
       etat: { name: Oiron, statut: COMS }
     '1983-02-14':
-      evts: { gardeCommeAssociées: [79036, 79194] }
+      evts: { gardeCommeAssociées: [79036, 79194], détacheCommeSimples: [79054] }
       etat: { name: Oiron, statut: COMS }
     '2014-01-01':
       evts: { absorbe: [79036, 79194] }
@@ -127737,7 +127731,7 @@ contents:
       evts: { sAssocieA: 79079 }
       etat: { name: Saint-Amand-sur-Sèvre, statut: COMA, crat: 79079 }
     '1992-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79079 }
       etat: { name: Saint-Amand-sur-Sèvre, statut: COMS }
   79236:
     '1943-01-01':
@@ -127919,7 +127913,7 @@ contents:
       evts: { prendPourAssociées: [79056] }
       etat: { name: Saint-Martin-de-Sanzay, statut: COMS }
     '1983-02-15':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [79056] }
       etat: { name: Saint-Martin-de-Sanzay, statut: COMS }
   79278:
     '1943-01-01':
@@ -128037,7 +128031,7 @@ contents:
       evts: { sAssocieA: 79100 }
       etat: { name: Sansais, statut: COMA, crat: 79100 }
     '1981-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 79100 }
       etat: { name: Sansais, statut: COMS }
   79305:
     '1943-01-01':
@@ -133838,7 +133832,7 @@ contents:
       evts: { prendPourAssociées: [85045] }
       etat: { name: 'L''Aiguillon-la-Chaize', statut: COMS }
     '1985-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [85045] }
       etat: { name: 'L''Aiguillon-sur-Vie', statut: COMS }
   85003:
     '1943-01-01':
@@ -133847,7 +133841,7 @@ contents:
       evts: { prendPourAssociées: [85055] }
       etat: { name: Aizenay, statut: COMS }
     '1979-05-31':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [85055] }
       etat: { name: Aizenay, statut: COMS }
   85004:
     '1943-01-01':
@@ -134019,7 +134013,7 @@ contents:
       evts: { sAssocieA: 85002 }
       etat: { name: 'La Chaize-Giraud', statut: COMA, crat: 85002 }
     '1985-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 85002 }
       etat: { name: 'La Chaize-Giraud', statut: COMS }
   85046:
     '1943-01-01':
@@ -134076,7 +134070,7 @@ contents:
       evts: { sAssocieA: 85003 }
       etat: { name: 'La Chapelle-Palluau', statut: COMA, crat: 85003 }
     '1979-05-31':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 85003 }
       etat: { name: 'La Chapelle-Palluau', statut: COMS }
   85056:
     '1943-01-01':
@@ -135080,7 +135074,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Amberre, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Amberre, statut: COMS }
   86003:
     '1943-01-01':
@@ -135369,7 +135363,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Cherves, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Cherves, statut: COMS }
   86074:
     '1943-01-01':
@@ -135435,7 +135429,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Cuhon, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Cuhon, statut: COMS }
   86090:
     '1943-01-01':
@@ -135642,7 +135636,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Maisonneuve, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Maisonneuve, statut: COMS }
   86145:
     '1943-01-01':
@@ -135669,7 +135663,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Massognes, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Massognes, statut: COMS }
   86151:
     '1943-01-01':
@@ -135714,7 +135708,7 @@ contents:
       evts: { prendPourAssociées: [86002, 86073, 86089, 86144, 86150, 86277, 86299] }
       etat: { name: Mirebeau, statut: COMS }
     '1980-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [86002, 86073, 86089, 86144, 86150, 86277, 86299] }
       etat: { name: Mirebeau, statut: COMS }
   86161:
     '1943-01-01':
@@ -136155,7 +136149,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Varennes, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Varennes, statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 86281 }
@@ -136247,7 +136241,7 @@ contents:
       evts: { sAssocieA: 86160 }
       etat: { name: Vouzailles, statut: COMA, crat: 86160 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 86160 }
       etat: { name: Vouzailles, statut: COMS }
   86300:
     '1943-01-01':
@@ -137102,7 +137096,7 @@ contents:
       evts: { sAssocieA: 88351 }
       etat: { name: Bellefontaine, statut: COMA, crat: 88351 }
     '1978-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 88351 }
       etat: { name: Bellefontaine, statut: COMS }
   88049:
     '1943-01-01':
@@ -138119,7 +138113,7 @@ contents:
       evts: { prendPourAssociées: [88048, 88217, 88405] }
       etat: { name: Plombières-les-Bains, statut: COMS }
     '1978-01-01':
-      evts: { gardeCommeAssociées: [88217, 88405] }
+      evts: { détacheCommeSimples: [88048], gardeCommeAssociées: [88217, 88405] }
       etat: { name: Plombières-les-Bains, statut: COMS }
     '1991-06-01':
       evts: { absorbe: [88217, 88405] }
@@ -138727,7 +138721,7 @@ contents:
       evts: { sAssocieA: 89224 }
       etat: { name: Aigremont, statut: COMA, crat: 89224 }
     '1985-02-08':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89224 }
       etat: { name: Aigremont, statut: COMS }
   89003:
     '1943-01-01':
@@ -138766,7 +138760,7 @@ contents:
       evts: { prendPourAssociées: [89259, 89371] }
       etat: { name: Annay-sur-Serein, statut: COMS }
     '1979-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89259, 89371] }
       etat: { name: Annay-sur-Serein, statut: COMS }
   89011:
     '1943-01-01':
@@ -138873,7 +138867,7 @@ contents:
       evts: { sAssocieA: 89233 }
       etat: { name: Bessy-sur-Cure, statut: COMA, crat: 89233 }
     '1982-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89233 }
       etat: { name: Bessy-sur-Cure, statut: COMS }
   89041:
     '1943-01-01':
@@ -138930,7 +138924,7 @@ contents:
       evts: { prendPourAssociées: [89369] }
       etat: { name: Brannay-Saint-Sérotin, statut: COMS }
     '1976-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89369] }
       etat: { name: Brannay, statut: COMS }
   89055:
     '1943-01-01':
@@ -138939,7 +138933,7 @@ contents:
       evts: { prendPourAssociées: [89047, 89288] }
       etat: { name: Brienon-sur-Armançon, statut: COMS }
     '2003-12-31':
-      evts: { gardeCommeAssociées: [89047] }
+      evts: { gardeCommeAssociées: [89047], détacheCommeSimples: [89288] }
       etat: { name: Brienon-sur-Armançon, statut: COMS }
   89056:
     '1943-01-01':
@@ -138990,7 +138984,7 @@ contents:
       evts: { prendPourAssociées: [89425] }
       etat: { name: Chailley-Turny, statut: COMS }
     '1979-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89425] }
       etat: { name: Chailley, statut: COMS }
   89070:
     '1943-01-01':
@@ -139188,7 +139182,7 @@ contents:
       evts: { prendPourAssociées: [89155] }
       etat: { name: Coulanges-la-Vineuse, statut: COMS }
     '1979-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89155] }
       etat: { name: Coulanges-la-Vineuse, statut: COMS }
   89119:
     '1943-01-01':
@@ -139322,7 +139316,7 @@ contents:
       evts: { sAssocieA: 89118 }
       etat: { name: Escolives-Sainte-Camille, statut: COMA, crat: 89118 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89118 }
       etat: { name: Escolives-Sainte-Camille, statut: COMS }
   89156:
     '1943-01-01':
@@ -139566,7 +139560,7 @@ contents:
       evts: { sAssocieA: 89344 }
       etat: { name: Lavau, statut: COMA, crat: 89344 }
     '1977-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89344 }
       etat: { name: Lavau, statut: COMS }
   89221:
     '1943-01-01':
@@ -139584,7 +139578,7 @@ contents:
       evts: { prendPourAssociées: [89002] }
       etat: { name: Lichères-Aigremont, statut: COMS }
     '1985-02-08':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89002] }
       etat: { name: Lichères-près-Aigremont, statut: COMS }
   89225:
     '1943-01-01':
@@ -139620,7 +139614,7 @@ contents:
       evts: { prendPourAssociées: [89040, 89157] }
       etat: { name: Lucy-sur-Cure, statut: COMS }
     '1982-01-01':
-      evts: { gardeCommeAssociées: [89157] }
+      evts: { détacheCommeSimples: [89040], gardeCommeAssociées: [89157] }
       etat: { name: Lucy-sur-Cure, statut: COMS }
   89234:
     '1943-01-01':
@@ -139692,7 +139686,7 @@ contents:
       evts: { sAssocieA: 89283 }
       etat: { name: Merry-Sec, statut: COMA, crat: 89283 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89283 }
       etat: { name: Merry-Sec, statut: COMS }
   89253:
     '1943-01-01':
@@ -139704,7 +139698,7 @@ contents:
       evts: { sAssocieA: 89344 }
       etat: { name: Mézilles, statut: COMA, crat: 89344 }
     '1977-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89344 }
       etat: { name: Mézilles, statut: COMS }
   89255:
     '1943-01-01':
@@ -139727,7 +139721,7 @@ contents:
       evts: { sAssocieA: 89010 }
       etat: { name: Môlay, statut: COMA, crat: 89010 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89010 }
       etat: { name: Môlay, statut: COMS }
   89260:
     '1943-01-01':
@@ -139795,7 +139789,7 @@ contents:
       evts: { prendPourAssociées: [89457] }
       etat: { name: Neuilly, statut: COMS }
     '1979-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89457] }
       etat: { name: Neuilly, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 89196 }
@@ -139828,7 +139822,7 @@ contents:
       evts: { prendPourAssociées: [89090, 89252] }
       etat: { name: Ouanne, statut: COMS }
     '1980-01-01':
-      evts: { gardeCommeAssociées: [89090] }
+      evts: { gardeCommeAssociées: [89090], détacheCommeSimples: [89252] }
       etat: { name: Ouanne, statut: COMS }
   89284:
     '1943-01-01':
@@ -139852,7 +139846,7 @@ contents:
       evts: { sAssocieA: 89055 }
       etat: { name: Paroy-en-Othe, statut: COMA, crat: 89055 }
     '2003-12-31':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89055 }
       etat: { name: Paroy-en-Othe, statut: COMS }
   89289:
     '1943-01-01':
@@ -139958,7 +139952,7 @@ contents:
       evts: { sAssocieA: 89341 }
       etat: { name: Préhy, statut: COMA, crat: 89341 }
     '1998-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89341 }
       etat: { name: Préhy, statut: COMS }
   89316:
     '1943-01-01':
@@ -140005,7 +139999,7 @@ contents:
       evts: { crééeCommeAssociéeParScissionDe: 89344 }
       etat: { name: Ronchères, statut: COMA, crat: 89344 }
     '1999-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89344 }
       etat: { name: Ronchères, statut: COMS }
   89326:
     '1943-01-01':
@@ -140014,7 +140008,7 @@ contents:
       evts: { sAssocieA: 89387 }
       etat: { name: Rosoy, statut: COMA, crat: 89387 }
     '2008-02-12':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89387 }
       etat: { name: Rosoy, statut: COMS }
   89327:
     '1943-01-01':
@@ -140074,7 +140068,7 @@ contents:
       evts: { sAssocieA: 89420 }
       etat: { name: Sainte-Colombe-sur-Loing, statut: COMA, crat: 89420 }
     '1977-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89420 }
       etat: { name: Sainte-Colombe-sur-Loing, statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 89420 }
@@ -140086,7 +140080,7 @@ contents:
       evts: { prendPourAssociées: [89315] }
       etat: { name: Saint-Cyr-les-Colons, statut: COMS }
     '1998-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89315] }
       etat: { name: Saint-Cyr-les-Colons, statut: COMS }
   89342:
     '1943-01-01':
@@ -140107,10 +140101,10 @@ contents:
       evts: { prendPourAssociées: [89220, 89254, 89352], absorbe: [89325, 89389] }
       etat: { name: Saint-Fargeau, statut: COMS }
     '1977-01-01':
-      evts: { seScindePourCréerLesAssociées: [89325, 89389] }
+      evts: { détacheCommeSimples: [89220, 89254, 89352], seScindePourCréerLesAssociées: [89325, 89389] }
       etat: { name: Saint-Fargeau, statut: COMS }
     '1999-01-01':
-      evts: { gardeCommeAssociées: [89389] }
+      evts: { détacheCommeSimples: [89325], gardeCommeAssociées: [89389] }
       etat: { name: Saint-Fargeau, statut: COMS }
   89345:
     '1943-01-01':
@@ -140143,7 +140137,7 @@ contents:
       evts: { sAssocieA: 89344 }
       etat: { name: Saint-Martin-des-Champs, statut: COMA, crat: 89344 }
     '1977-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89344 }
       etat: { name: Saint-Martin-des-Champs, statut: COMS }
   89353:
     '1943-01-01':
@@ -140221,7 +140215,7 @@ contents:
       evts: { sAssocieA: 89054 }
       etat: { name: Saint-Sérotin, statut: COMA, crat: 89054 }
     '1976-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89054 }
       etat: { name: Saint-Sérotin, statut: COMS }
   89370:
     '1943-01-01':
@@ -140233,7 +140227,7 @@ contents:
       evts: { sAssocieA: 89010 }
       etat: { name: Sainte-Vertu, statut: COMA, crat: 89010 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89010 }
       etat: { name: Sainte-Vertu, statut: COMS }
   89372:
     '1943-01-01':
@@ -140293,7 +140287,7 @@ contents:
       evts: { prendPourAssociées: [89326] }
       etat: { name: Sens, statut: COMS }
     '2008-02-12':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [89326] }
       etat: { name: Sens, statut: COMS }
   89388:
     '1943-01-01':
@@ -140429,7 +140423,7 @@ contents:
       evts: { prendPourAssociées: [89293, 89340] }
       etat: { name: Treigny, statut: COMS }
     '1977-01-01':
-      evts: { gardeCommeAssociées: [89293] }
+      evts: { gardeCommeAssociées: [89293], détacheCommeSimples: [89340] }
       etat: { name: Treigny, statut: COMS }
     '2019-01-01':
       evts: { prendPourDéléguées: [89420, 89293, 89340] }
@@ -140456,7 +140450,7 @@ contents:
       evts: { sAssocieA: 89069 }
       etat: { name: Turny, statut: COMA, crat: 89069 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89069 }
       etat: { name: Turny, statut: COMS }
   89426:
     '1943-01-01':
@@ -140583,7 +140577,7 @@ contents:
       evts: { sAssocieA: 89275 }
       etat: { name: Villemer, statut: COMA, crat: 89275 }
     '1979-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 89275 }
       etat: { name: Villemer, statut: COMS }
     '2016-01-01':
       evts: { devientDéléguéeDe: 89196 }
@@ -140772,7 +140766,7 @@ contents:
       evts: { prendPourAssociées: [90048] }
       etat: { name: Chèvremont-Fontenelle, statut: COMS }
     '1978-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [90048] }
       etat: { name: Chèvremont, statut: COMS }
   90027:
     '1943-01-01':
@@ -140799,10 +140793,10 @@ contents:
       evts: { prendPourAssociées: [90056, 90063] }
       etat: { name: Delle, statut: COMS }
     '1980-01-01':
-      evts: { gardeCommeAssociées: [90056] }
+      evts: { gardeCommeAssociées: [90056], détacheCommeSimples: [90063] }
       etat: { name: Delle, statut: COMS }
     '1983-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [90056] }
       etat: { name: Delle, statut: COMS }
   90034:
     '1943-01-01':
@@ -140866,7 +140860,7 @@ contents:
       evts: { sAssocieA: 90026 }
       etat: { name: Fontenelle, statut: COMA, crat: 90026 }
     '1978-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 90026 }
       etat: { name: Fontenelle, statut: COMS }
   90049:
     '1943-01-01':
@@ -140899,7 +140893,7 @@ contents:
       evts: { resteAssociéeA: 90033 }
       etat: { name: Joncherey, statut: COMA, crat: 90033 }
     '1983-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 90033 }
       etat: { name: Joncherey, statut: COMS }
   90057:
     '1943-01-01':
@@ -140926,7 +140920,7 @@ contents:
       evts: { sAssocieA: 90033 }
       etat: { name: Lebetain, statut: COMA, crat: 90033 }
     '1980-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 90033 }
       etat: { name: Lebetain, statut: COMS }
   90064:
     '1943-01-01':
@@ -140950,7 +140944,7 @@ contents:
       evts: { prendPourAssociées: [90073] }
       etat: { name: Meroux-Moval, statut: COMS }
     '1997-01-01':
-      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      evts: { détacheCommeSimples: [90073] }
       etat: { name: Meroux, statut: COMS }
     '2019-01-01':
       evts: { prendPourDéléguées: [90068, 90073] }
@@ -140974,7 +140968,7 @@ contents:
       evts: { sAssocieA: 90068 }
       etat: { name: Moval, statut: COMA, crat: 90068 }
     '1997-01-01':
-      evts: 'Commune associée rétablie comme commune simple'
+      evts: { seSépareDe: 90068 }
       etat: { name: Moval, statut: COMS }
     '2019-01-01':
       evts: { devientDéléguéeDe: 90068 }
@@ -143639,70 +143633,53 @@ contents:
       evts: { crééeCommeSimpleParScissionDe: 97414 }
       etat: { name: Cilaos, statut: COMS }
   97601:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Acoua, statut: COMS }
   97602:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Bandraboua, statut: COMS }
   97603:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Bandrele, statut: COMS }
   97604:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Bouéni, statut: COMS }
   97605:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Chiconi, statut: COMS }
   97606:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Chirongui, statut: COMS }
   97607:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Dembeni, statut: COMS }
   97608:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Dzaoudzi, statut: COMS }
   97609:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Kani-Kéli, statut: COMS }
   97610:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Koungou, statut: COMS }
   97611:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Mamoudzou, statut: COMS }
   97612:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Mtsamboro, statut: COMS }
   97613:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: 'M''Tsangamouji', statut: COMS }
   97614:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Ouangani, statut: COMS }
   97615:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Pamandzi, statut: COMS }
   97616:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Sada, statut: COMS }
   97617:
-    '2011-03-31':
-      evts: 'Entre dans le périmètre du référentiel'
+    '1943-01-01':
       etat: { name: Tsingoni, statut: COMS }

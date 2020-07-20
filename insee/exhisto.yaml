@@ -1,5 +1,5 @@
 title: définition du schéma du référentiel historique des codes INSEE des communes avec illustration
-modified: '2020-07-14'
+modified: '2020-07-19'
 description: |
   Le champ $schema contient le schéma du référentiel.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
@@ -30,23 +30,15 @@ $schema:
         $ref: '#/definitions/codeInsee'
     evts:
       description: évènements de création/modification/suppression 
-      anyOf: # le vérificateur n'arrive pas à détecter que les sous-schémas sont exclusifs
+      oneOf: # le vérificateur n'arrive pas à détecter que les sous-schémas sont exclusifs
         - description: cas où l'évènement est défini par son libellé
           type: string
           enum:
-            - Entre dans le périmètre du référentiel # Cas des c. de Mayotte qui devient DOM le 31/03/2011
             - Sort du périmètre du référentiel # Cas de Saint-Martin et Saint-Barthélémy
-            - Commune associée rétablie comme commune simple
-            - Commune déléguée rétablie comme commune simple
-            - Commune rétablissant des c. rattachées ou fusionnées
         - description: cas où l'évènement est défini par un objet
           type: object
           additionalProperties: false
           properties:
-            label:
-              type: string
-              enum:
-                - Commune associée rétablie comme commune simple
             changeDeNomPour:
               description: changeDeNomPour - commune change de nom avec indication du nouveau nom
               type: string
@@ -90,6 +82,12 @@ $schema:
               $ref: '#/definitions/codeInsee'
             prendPourAssociées:
               description: c. prenant des associées avec ids des c. associées
+              $ref: '#/definitions/listeDeCodesInsee'
+            seSépareDe:
+              description: c. associées ou déléguées se sépare de sa c. de rattachement et devient c. simple
+              $ref: '#/definitions/codeInsee'
+            détacheCommeSimples:
+              description: la c. de rattachement se sépare certaines de ses c. associées ou déléguées comme c. simples
               $ref: '#/definitions/listeDeCodesInsee'
             devientDéléguéeDe:
               description: c. devenant déléguée lors de la création/évolution d'une c. nouv. avec id de la c. de rattachement
@@ -272,7 +270,7 @@ contents:
       evts: { sAssocieA: 55245 }
       etat: { name: Lamarche-en-Woëvre, statut: COMS }
     '1983-01-01':
-      evts: { label: 'Commune associée rétablie comme commune simple', sAssocieA: 55386 }
+      evts: { seSépareDe: 55245, sAssocieA: 55386 }
       etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
   55245:
     '1943-01-01':
@@ -290,7 +288,8 @@ contents:
       evts: { sAssocieA: 55245 }
       etat: { name: Nonsard, statut: COMS }
     '1983-01-01':
-      evts: { label: 'Commune associée rétablie comme commune simple', prendPourAssociées: [55273] }
+      evts: { seSépareDe: 55245, prendPourAssociées: [55273] }
+      etat: { name: Nonsard-Lamarche, statut: COMS }
       etat: { name: Nonsard-Lamarche, statut: COMS }
   78001:
     '1943-01-01':
