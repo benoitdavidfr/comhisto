@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-19T20:12:48+00:00'
+created: '2020-07-20T13:55:14+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -162803,7 +162803,8 @@ contents:
       name: Port-Louis
   97123:
     '2007-07-15':
-      évènement: 'Sort du périmètre du référentiel'
+      évènement:
+        sortDuPérimètreDuRéférentiel: null
       name: Saint-Barthélemy
   97124:
     now:
@@ -162816,7 +162817,8 @@ contents:
       name: Saint-Louis
   97127:
     '2007-07-15':
-      évènement: 'Sort du périmètre du référentiel'
+      évènement:
+        sortDuPérimètreDuRéférentiel: null
       name: Saint-Martin
   97128:
     now:

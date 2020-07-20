@@ -1,4 +1,4 @@
-title: cas particuliers à surveiller
+title: cas particuliers à surveiller, notamment les date bis et les cas complexes
 14764:
   title: Pont-d'Ouilly (14764) créé par fusion simple de Ouilly-le-Basset (14485) et Saint-Marc-d'Ouilly (14612)
   abstract: Unique opération crééeParFusionSimpleDe dans laquelle les 2 communes d'origine disparaissent
@@ -90,7 +90,6 @@ title: cas particuliers à surveiller
       '2018-01-01':
         evts: { arriveDansLeDépartementAvecLeCode: 14513, devientDéléguéeDe: 50592 }
         etat: { name: Pont-Farcy, statut: COMD, crat: 50592 }
-    
 33055:
   title: Blaignan (33055) s'érige en commune nouvelle en prenant elle-même comme déléguée et en absorbant Prignac-en-Médoc (33338)
   abstract: cas d'une commune ayant une déléguée propre et dont l'union des déléguées ne forme pas la totalité du territoire
@@ -136,7 +135,7 @@ title: cas particuliers à surveiller
         s33338@1943-01-01:
           ref: COG2020ecomp
 89344:
-  title: Saint-Fargeau (89344) prend des associées et absorbe puis les rétablit
+  title: Saint-Fargeau (89344) prend des associées, les absorbe puis les rétablit
   rpicom:
     89344:
       now:
@@ -258,6 +257,7 @@ title: cas particuliers à surveiller
         evts: { resteAssociéeA: 89344 }
         etat: { name: Septfonds, statut: COMA, crat: 89344 }
 14712:
+  title: exemple de détacheCommeSimples/seSépareDe
   histo:
     14712:
       '1943-01-01':
@@ -467,4 +467,80 @@ title: cas particuliers à surveiller
         etat: { name: Verdey, statut: COMS }
       '1966-12-12':
         evts: { seDissoutDans: [51235, 51313, 51369] }
+51440:
+  rpicom:
+    51440:
+      now:
+        name: Pontfaverger-Moronvilliers
+      '1950-06-17':
+        évènement:
+          reçoitUnePartieDe: 51385
+        name: Pontfaverger-Moronvilliers
+      1950-06-17-bis:
+        évènement:
+          changeDeNomPour: Pontfaverger-Moronvilliers
+        name: Pontfaverger
+  histo:
+    51440:
+      '1943-01-01':
+        etat: { name: Pontfaverger, statut: COMS }
+      '1950-06-17':
+        evts: { changeDeNomPour: Pontfaverger-Moronvilliers, reçoitUnePartieDe: 51385 }
+        etat: { name: Pontfaverger-Moronvilliers, statut: COMS }
+55273:
+  title: date-bis
+  rpicom:
+    55273:
+      now:
+        name: Lamarche-en-Woëvre
+        estAssociéeA: 55386
+      '1983-01-01':
+        évènement:
+          sAssocieA: 55386
+        name: Lamarche-en-Woëvre
+      1983-01-01-bis:
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Lamarche-en-Woëvre
+        estAssociéeA: 55245
+      '1973-01-01':
+        évènement:
+          sAssocieA: 55245
+        name: Lamarche-en-Woëvre
+  histo:
+    55273:
+      '1943-01-01':
+        etat: { name: Lamarche-en-Woëvre, statut: COMS }
+      '1973-01-01':
+        evts: { sAssocieA: 55245 }
+        etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55245 }
+      '1983-01-01':
+        evts: { seSépareDe: 55245, sAssocieA: 55386 }
+        etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+55386:
+  title: date-bis
+  rpicom:
+    55386:
+      now:
+        name: Nonsard-Lamarche
+      '1983-01-01':
+        évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+        name: Nonsard
+      1983-01-01-bis:
+        évènement: 'Commune associée rétablie comme commune simple'
+        name: Nonsard
+        estAssociéeA: 55245
+      '1973-01-01':
+        évènement:
+          sAssocieA: 55245
+        name: Nonsard
+  histo:
+    55386:
+      '1943-01-01':
+        etat: { name: Nonsard, statut: COMS }
+      '1973-01-01':
+        evts: { sAssocieA: 55245 }
+        etat: { name: Nonsard, statut: COMA, crat: 55245 }
+      '1983-01-01':
+        evts: { seSépareDe: 55245, prendPourAssociées: [55273] }
+        etat: { name: Nonsard-Lamarche, statut: COMS }
 eof:

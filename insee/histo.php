@@ -481,7 +481,7 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
   foreach (['97123'=> "Saint-Barthélemy", '97127'=> "Saint-Martin"] as $id => $name) {
     $rpicoms->$id = [
       '2007-07-15' => [
-        'évènement' => "Sort du périmètre du référentiel",
+        'évènement' => ['sortDuPérimètreDuRéférentiel'=> null],
         'name'=> $name,
       ]
     ];
@@ -723,8 +723,6 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
   foreach ($rpicoms->contents() as $cinsee => $rpicom) {
     //if (!in_array($cinsee, ['01015','01079','01283',01217','78001','13201','14513','55273','55386','91001'])) continue;
     //echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 3);
-    if (in_array($cinsee, ['44225','51369']))
-      echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 4, 2);
     
     // transforme estAssociéeA/estDéléguéeDe/estArrondissementMunicipalDe en statut/crat
     // traite aussi le cas di statut mixte Simple + Déléguée
@@ -742,10 +740,6 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
         $val['statut'] = 'COMS';
       unset($val['après']);
       $rpicom[$dfin] = $val;
-    }
-    if (0 && in_array($cinsee, ['55273', '55386'])) { // cas particulier avec date-bis
-      $rpicom['1983-01-01']['statut'] = 'COMA';
-      $rpicom['1983-01-01']['crat'] = '55245';
     }
 
     // transforme évènement + évènementDétaillé -> evts
@@ -786,8 +780,6 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
       }
     }
     ksort($rpicom);
-    if (in_array($cinsee, ['44225','51369']))
-      echo Yaml::dump(['2'=> [$cinsee => $rpicom]], 4, 2);
     
     // passe de date de fin en date de début
     $dfins = array_keys($rpicom);
@@ -795,7 +787,10 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
       $etat = ['name'=> $rpicom[$dfins[0]]['name'], 'statut'=> $rpicom[$dfins[0]]['statut']];
       if (isset($rpicom[$dfins[0]]['crat']))
         $etat['crat'] = $rpicom[$dfins[0]]['crat'];
-      $rpicom['1943-01-01'] = ['etat' => $etat];
+      if (substr($cinsee, 0, 3)<>'976')
+        $rpicom['1943-01-01'] = ['etat' => $etat];
+      else
+        $rpicom['2011-03-31'] = ['etat' => $etat]; // date à laquelle Mayotte est devenu un département français
       unset($rpicom[$dfins[0]]['name']);
       unset($rpicom[$dfins[0]]['statut']);
       unset($rpicom[$dfins[0]]['crat']);
@@ -819,11 +814,7 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     }
     unset($rpicom['now']);
     //echo Yaml::dump(['fin'=> [$cinsee => $rpicom]], 4);
-    
-    // cas particuliers
-    if (0 && in_array($cinsee, ['44225', '49382', '50649']))
-      unset($rpicom['1943-01-01']); // pb de date-bis
-    
+        
     $histos[$cinsee] = $rpicom;
   }
   

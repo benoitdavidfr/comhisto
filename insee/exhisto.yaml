@@ -1,7 +1,7 @@
 title: définition du schéma du référentiel historique des codes INSEE des communes avec illustration
 modified: '2020-07-19'
 description: |
-  Le champ $schema contient le schéma du référentiel.
+  Le schéma du référentiel est contenu dans le champ $schema de ce document.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
   Journal:
     11/7/2020:
@@ -14,7 +14,9 @@ $schema:
     Le référentiel historique des codes INSEE des communes est principalement constitué d'un dictionnaire des codes INSEE des communes
     ayant existé depuis le 1/1/1943 associant à chaque code des infos versionnées indexées par la date de la version.
     Chaque version correspond à:
-      - des évènements de création/modification/suppression de la version, sauf pour la version initiale datée du 1/1/1943,
+      - des évènements de création/modification/suppression de la version, sauf pour la version initiale généralement datée du 1/1/1943,
+        sauf pour les communes de Mayotte, dont l'état initial est le 31/3/2011, date à laquelle Mayotte est devenu un département
+        francais,
       - l'état résultant des évènements de l'entité associée au code, valide à partir de la date de la version jusqu'à la date
         de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
         si les évènements conduisent à une suppression de l'entité alors le champ d'état est absent.
@@ -29,99 +31,108 @@ $schema:
       items:
         $ref: '#/definitions/codeInsee'
     evts:
-      description: évènements de création/modification/suppression 
-      oneOf: # le vérificateur n'arrive pas à détecter que les sous-schémas sont exclusifs
-        - description: cas où l'évènement est défini par son libellé
+      description: |
+        évènements de création/modification/suppression, la plupart des évènements prennent en paramètres un code INSEE ou une liste.
+        Dans ce cas les codes INSEE ciblés portent à la même un date un évènement appelé mirroir.
+      type: object
+      additionalProperties: false
+      properties:
+        changeDeNomPour:
+          description: changeDeNomPour - commune change de nom avec indication du nouveau nom (pas d'evt. mirroir)
           type: string
-          enum:
-            - Sort du périmètre du référentiel # Cas de Saint-Martin et Saint-Barthélémy
-        - description: cas où l'évènement est défini par un objet
-          type: object
-          additionalProperties: false
-          properties:
-            changeDeNomPour:
-              description: changeDeNomPour - commune change de nom avec indication du nouveau nom
-              type: string
-            arriveDansLeDépartementAvecLeCode:
-              description: arriveDansLeDépartementAvecLeCode - c. changeant de département avec précédent id
-              $ref: '#/definitions/codeInsee'
-            quitteLeDépartementEtPrendLeCode:
-              description: quitteLeDépartementEtPrendLeCode - c. changeant d'id lors d'un changement de département avec nouvel id
-              $ref: '#/definitions/codeInsee'
-            reçoitUnePartieDe:
-              description: reçoitUnePartieDe - c. recevant un territoire d'une c. supprimée avec l'id de la c. supprimée
-              $ref: '#/definitions/codeInsee'
-            seDissoutDans:
-              description: seDissoutDans - c. supprimée avec ids des c. dans lesquelles son territoire est réparti
-              $ref: '#/definitions/listeDeCodesInsee'
-            contribueA:
-              description: contribueA - commune contribuant à la création d'une commune avec l'id de la c. créée
-              $ref: '#/definitions/codeInsee'
-            crééeAPartirDe:
-              description: crééeAPartirDe - c. créée avec liste des id des communes dont provient son territoire
-              $ref: '#/definitions/listeDeCodesInsee'
-            seFondDans:
-              description: seFondDans - c. absorbée par une c. nouv. sans c. dél. avec id de la c. aborbante
-              $ref: '#/definitions/codeInsee'
-            absorbe:
-              $ref: '#/definitions/listeDeCodesInsee'
-            fusionneDans:
-              description: fusionneDans - c. fusionnant par fusion-association dans une autre commune
-              $ref: '#/definitions/codeInsee'
-            crééeParFusionSimpleDe:
-              description: c. créée par fusion de c. supprimées, un nouvel id est créé, avec liste des id des c. supprimées
-              $ref: '#/definitions/listeDeCodesInsee'
-            crééeCommeSimpleParScissionDe:
-              description: c. simple créée par scission d'un c. existante avec id de la c. existante
-              $ref: '#/definitions/codeInsee'
-            seScindePourCréer:
-              description: c. simple se scindant pour créer une c. avec id de la c. créée
-              $ref: '#/definitions/listeDeCodesInsee'
-            sAssocieA:
-              description: c. s'associant par fusion-association à une commune de rattachement
-              $ref: '#/definitions/codeInsee'
-            prendPourAssociées:
-              description: c. prenant des associées avec ids des c. associées
-              $ref: '#/definitions/listeDeCodesInsee'
-            seSépareDe:
-              description: c. associées ou déléguées se sépare de sa c. de rattachement et devient c. simple
-              $ref: '#/definitions/codeInsee'
-            détacheCommeSimples:
-              description: la c. de rattachement se sépare certaines de ses c. associées ou déléguées comme c. simples
-              $ref: '#/definitions/listeDeCodesInsee'
-            devientDéléguéeDe:
-              description: c. devenant déléguée lors de la création/évolution d'une c. nouv. avec id de la c. de rattachement
-              $ref: '#/definitions/codeInsee'
-            prendPourDéléguées:
-              description: c. prenant des déléguées lors de la création/évolution d'une c. nouv. avec ids des c. déléguées
-              $ref: '#/definitions/listeDeCodesInsee'
-            changedAssociéeEnDéléguéeDe:
-              description: c. associée devient déléguée avec id de la c. de rattachement
-              $ref: '#/definitions/codeInsee'
-            resteAssociéeA:
-              description: c. restant associée à l'occasion d'une modification de l'association
-              $ref: '#/definitions/codeInsee'
-            gardeCommeAssociées:
-              description: c. associante listant les c. restant associées à l'occasion d'une modification de l'association
-              $ref: '#/definitions/listeDeCodesInsee'
-            resteDéléguéeDe:
-              description: c. restant déléguée à l'occasion d'une modification de la commune nouvelle
-              $ref: '#/definitions/codeInsee'
-            gardeCommeDéléguées:
-              description: c. nouvelle listant les c. restant déléguées à l'occasion d'une modification de cette c. n.
-              $ref: '#/definitions/listeDeCodesInsee'
-            crééCommeArrondissementMunicipalParScissionDe:
-              description: arrondissement municipal créé avec id de celui dont il est issu
-              $ref: '#/definitions/codeInsee'
-            seScindePourCréerLesNouveauxArrondissementsMunicipaux:
-              description: arrondissements municipaux créés avec id de ceux créés
-              $ref: '#/definitions/listeDeCodesInsee'
-            crééeCommeAssociéeParScissionDe:
-              description: c. associée créée avec id de la c. dont elle est issue
-              $ref: '#/definitions/codeInsee'
-            seScindePourCréerLesAssociées:
-              description: c. associées créées avec id des c. créées
-              $ref: '#/definitions/listeDeCodesInsee'
+        quitteLeDépartementEtPrendLeCode:
+          description: c. changeant d'id lors d'un changement de département avec nouvel id (mirroir arriveDansLeDépartementAvecLeCode)
+          $ref: '#/definitions/codeInsee'
+        arriveDansLeDépartementAvecLeCode:
+          description: c. changeant de département avec précédent id (mirroir quitteLeDépartementEtPrendLeCode)
+          $ref: '#/definitions/codeInsee'
+        sortDuPérimètreDuRéférentiel:
+          description: la commune sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+          type: 'null'
+        seDissoutDans:
+          description: c. supprimée avec ids des c. dans lesquelles son territoire est réparti (mirroir reçoitUnePartieDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        reçoitUnePartieDe:
+          description: c. recevant une partie du territoire d'une c. supprimée avec l'id de la c. supprimée (mirroir seDissoutDans)
+          $ref: '#/definitions/codeInsee'
+        contribueA:
+          description: commune contribuant à la création d'une commune avec l'id de la c. créée (mirroir crééeAPartirDe)
+          $ref: '#/definitions/codeInsee'
+        crééeAPartirDe:
+          description: c. créée avec liste des id des communes dont provient son territoire (mirroir contribueA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        seFondDans:
+          description: c. absorbée par une c. nouvelle sans c. déléguée avec id de la c. nouvelle (mirroir absorbe)
+          $ref: '#/definitions/codeInsee'
+        absorbe:
+          description: c. nouvelle absorbant des c. (m. seFondDans) ou c. absorbant des c. dans le cas d'une fusion (m. fusionneDans)
+          $ref: '#/definitions/listeDeCodesInsee'
+        fusionneDans:
+          description: |
+            c. fusionnant par fusion-association dans une autre commune (mirroir absorbe) ou c. fusionnant pour créer une nouvelle
+            commune (mirroir crééeParFusionSimpleDe)
+          $ref: '#/definitions/codeInsee'
+        crééeParFusionSimpleDe:
+          description: |
+            c. créée par fusion de c. supprimées avec création d'un nouvel id, avec liste des id des c. supprimées,
+            1 seul cas (mirroir fusionneDans)
+          $ref: '#/definitions/listeDeCodesInsee'
+        crééeCommeSimpleParScissionDe:
+          description: c. simple créée par scission d'un c. existante avec id de la c. existante (mirroir seScindePourCréer)
+          $ref: '#/definitions/codeInsee'
+        seScindePourCréer:
+          description: c. simple se scindant pour créer une c. avec id de la c. créée (mirroir crééeCommeSimpleParScissionDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        sAssocieA:
+          description: c. s'associant par fusion-association à une commune de rattachement (mirroir prendPourAssociées)
+          $ref: '#/definitions/codeInsee'
+        prendPourAssociées:
+          description: c. prenant des associées avec ids des c. associées (mirroir sAssocieA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        seSépareDe:
+          description: c. associées ou déléguées se sépare de sa c. de rattachement et devient c. simple (mirroir détacheCommeSimples)
+          $ref: '#/definitions/codeInsee'
+        détacheCommeSimples:
+          description: la c. de rattachement se sépare certaines de ses c. associées ou déléguées comme c. simples (m. seSépareDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        devientDéléguéeDe:
+          description: c. devenant déléguée lors de la création/évolution d'une c. nouv. avec id de c. de ratt (m. prendPourDéléguées)
+          $ref: '#/definitions/codeInsee'
+        prendPourDéléguées:
+          description: |
+            3 cas:
+              - c. prenant comme c. déléguées des c. simples lors de la création/évolution d'une c. nouv. avec ids des c. déléguées
+                (mirroir devientDéléguéeDe),
+              - c. de ratt. et c. déléguée peuvent avoir même code INSEE, l'évt mirroir est alors lui-même,
+              - c. prenant comme c. déléguée des c. déjà associées (mirroir changedAssociéeEnDéléguéeDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        changedAssociéeEnDéléguéeDe:
+          description: c. associée devient déléguée avec id de la c. de rattachement (mirroir prendPourDéléguées)
+          $ref: '#/definitions/codeInsee'
+        resteAssociéeA:
+          description: c. restant associée à l'occasion d'une modification de l'association (mirroir gardeCommeAssociées)
+          $ref: '#/definitions/codeInsee'
+        gardeCommeAssociées:
+          description: c. associante listant les c. restant associées à lors d'une modification de l'association (m. resteAssociéeA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        resteDéléguéeDe:
+          description: c. restant déléguée à l'occasion d'une modification de la commune nouvelle (mirroir gardeCommeDéléguées)
+          $ref: '#/definitions/codeInsee'
+        gardeCommeDéléguées:
+          description: c. nouvelle listant les c. restant déléguées à l'occasion d'une modif. de cette c. nouv. (m. resteDéléguéeDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        crééCommeArrondissementMunicipalParScissionDe:
+          description: arrdt municipal créé avec id de celui dont il est issu (m. seScindePourCréerLesNouveauxArrondissementsMunicipaux)
+          $ref: '#/definitions/codeInsee'
+        seScindePourCréerLesNouveauxArrondissementsMunicipaux:
+          description: arrondissements municipaux créés avec id de ceux créés (m. crééCommeArrondissementMunicipalParScissionDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        crééeCommeAssociéeParScissionDe:
+          description: c. associée créée avec id de la c. dont elle est issue (mirroir seScindePourCréerLesAssociées)
+          $ref: '#/definitions/codeInsee'
+        seScindePourCréerLesAssociées:
+          description: c. associées créées avec id des c. créées (mirroir crééeCommeAssociéeParScissionDe)
+          $ref: '#/definitions/listeDeCodesInsee'
     etat:
       description: |
         état résultant des évènements et valide à partir de la date de la version jusqu'à la date de version suivante s'il y en a une,
@@ -130,10 +141,10 @@ $schema:
       required: [name, statut]
       properties:
         name:
-          description: nom pour cette version
+          description: nom de l'entité pour cette version
           type: string
         statut:
-          description: statut de la commune
+          description: statut de l'entité
           type: string
           enum:
             - COMS # commune simple
@@ -201,9 +212,9 @@ $schema:
           patternProperties:
             '^\d\d\d\d-\d\d-\d\d$': # date
               description: |
-                Version est composée d'une part d'évènements de création/modification/suppression (sauf pour la version du 1/1/1943
-                qui est la version intiale) et, d'autre part, de l'état résultant des évènements valide à partir de la date de la
-                version jusqu'à la date de version suivante, sauf en cas d'évènement de suppression pour lequel l'état n'existe pas.
+                Version est composée d'une part d'évènements de création/modification/suppression (sauf pour la version  intiale) et,
+                d'autre part, de l'état, résultant des évènements, valide à partir de la date de la version jusqu'à la date de version
+                suivante, sauf en cas d'évènement de suppression pour lequel il n'existe pas d'état résultant.
               type: object
               additionalProperties: false
               properties:
@@ -289,7 +300,6 @@ contents:
       etat: { name: Nonsard, statut: COMS }
     '1983-01-01':
       evts: { seSépareDe: 55245, prendPourAssociées: [55273] }
-      etat: { name: Nonsard-Lamarche, statut: COMS }
       etat: { name: Nonsard-Lamarche, statut: COMS }
   78001:
     '1943-01-01':

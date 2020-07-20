@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-07-20T05:14:34+00:00'
+created: '2020-07-20T13:55:38+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -143251,7 +143251,7 @@ contents:
     '1943-01-01':
       etat: { name: Saint-Barthélemy, statut: COMS }
     '2007-07-15':
-      evts: 'Sort du périmètre du référentiel'
+      evts: { sortDuPérimètreDuRéférentiel: null }
   97124:
     '1943-01-01':
       etat: { name: Saint-Claude, statut: COMS }
@@ -143265,7 +143265,7 @@ contents:
     '1943-01-01':
       etat: { name: Saint-Martin, statut: COMS }
     '2007-07-15':
-      evts: 'Sort du périmètre du référentiel'
+      evts: { sortDuPérimètreDuRéférentiel: null }
   97128:
     '1943-01-01':
       etat: { name: Sainte-Anne, statut: COMS }
@@ -143633,53 +143633,53 @@ contents:
       evts: { crééeCommeSimpleParScissionDe: 97414 }
       etat: { name: Cilaos, statut: COMS }
   97601:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Acoua, statut: COMS }
   97602:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Bandraboua, statut: COMS }
   97603:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Bandrele, statut: COMS }
   97604:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Bouéni, statut: COMS }
   97605:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Chiconi, statut: COMS }
   97606:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Chirongui, statut: COMS }
   97607:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Dembeni, statut: COMS }
   97608:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Dzaoudzi, statut: COMS }
   97609:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Kani-Kéli, statut: COMS }
   97610:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Koungou, statut: COMS }
   97611:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Mamoudzou, statut: COMS }
   97612:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Mtsamboro, statut: COMS }
   97613:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: 'M''Tsangamouji', statut: COMS }
   97614:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Ouangani, statut: COMS }
   97615:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Pamandzi, statut: COMS }
   97616:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Sada, statut: COMS }
   97617:
-    '1943-01-01':
+    '2011-03-31':
       etat: { name: Tsingoni, statut: COMS }
