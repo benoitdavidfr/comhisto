@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-20T13:55:14+00:00'
+created: '2020-07-23T13:07:01+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -9,7 +9,7 @@ ydADscrBhv:
   buildName:
     AdministrativeArea: "if (isset($item['now']['name']))\n  return $item['now']['name'].\" ($skey)\";\nelse\n  return '<s>'.array_values($item)[0]['name'].\" ($skey)</s>\";"
   writePserReally: true
-évènementsDétaillésAjoutés: '2020-07-20T13:55:36+00:00'
+évènementsDétaillésAjoutés: '2020-07-23T13:07:16+00:00'
 contents:
   '01001':
     now:
@@ -21206,12 +21206,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Ammeville
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Ammeville
       estAssociéeA: 14624
     '1973-01-01':
@@ -21599,12 +21599,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Berville
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Berville
       estAssociéeA: 14624
     '1973-01-01':
@@ -22714,12 +22714,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Écots
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Écots
       estAssociéeA: 14624
     '1973-01-01':
@@ -23058,12 +23058,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Garnetot
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Garnetot
       estAssociéeA: 14624
     '1973-01-01':
@@ -23174,12 +23174,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Grandmesnil
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Grandmesnil
       estAssociéeA: 14624
     '1973-01-01':
@@ -23555,12 +23555,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Lieury
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Lieury
       estAssociéeA: 14624
     '1973-01-01':
@@ -24195,12 +24195,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Montpinçon
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Montpinçon
       estAssociéeA: 14624
     '1973-01-01':
@@ -24358,7 +24358,7 @@ contents:
       évènement: 'Commune rattachée devient commune de rattachement'
       name: Notre-Dame-de-Fresnay
       évènementDétaillé:
-        prendPourDéléguées:
+        prendLeRattachementDe:
           - 14010
           - 14067
           - 14234
@@ -24370,7 +24370,7 @@ contents:
           - 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        changeDeRattachementPour: 14697
       name: Notre-Dame-de-Fresnay
       estAssociéeA: 14624
     '1973-01-01':
@@ -25482,12 +25482,12 @@ contents:
       estAssociéeA: 14472
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        changeDeRattachementPour: 14472
       name: Saint-Martin-de-Fresnay
       estAssociéeA: 14697
     '1990-02-01':
       évènement:
-        devientDéléguéeDe: 14697
+        perdRattachementPour: 14697
       name: 'L''Oudon'
     '1973-01-01':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
@@ -26042,13 +26042,13 @@ contents:
       estAssociéeA: 14624
     '2014-01-07':
       évènement:
-        devientDéléguéeDe: 14472
+        perdRattachementPour: 14472
       name: 'L''Oudon'
     '1990-02-01':
       évènement: 'Commune rattachée devient commune de rattachement'
       name: Tôtes
       évènementDétaillé:
-        prendPourDéléguées:
+        prendLeRattachementDe:
           - 14010
           - 14067
           - 14234
@@ -83751,7 +83751,6 @@ contents:
           - 49031
           - 49079
           - 49097
-          - 49101
           - 49116
           - 49128
           - 49143
@@ -83762,6 +83761,8 @@ contents:
           - 49315
           - 49372
           - 49380
+        prendLeRattachementDe:
+          - 49101
     '2013-01-01':
       après:
         name: Baugé-en-Anjou
@@ -84198,7 +84199,7 @@ contents:
       estDéléguéeDe: 49080
     '2019-01-01':
       évènement:
-        devientDéléguéeDe: 49080
+        perdRattachementPour: 49080
       name: 'Les Hauts d''Anjou'
       commeDéléguée:
         name: Champigné
@@ -84391,12 +84392,13 @@ contents:
         prendPourDéléguées:
           - 49080
           - 49051
-          - 49065
           - 49096
           - 49105
           - 49189
           - 49254
           - 49335
+        prendLeRattachementDe:
+          - 49065
   49081:
     now:
       name: Châtelais
@@ -84655,7 +84657,7 @@ contents:
       estDéléguéeDe: 49018
     '2016-01-01':
       évènement:
-        devientDéléguéeDe: 49018
+        perdRattachementPour: 49018
       name: 'Clefs-Val d''Anjou'
       commeDéléguée:
         name: Clefs
@@ -85083,7 +85085,7 @@ contents:
       estDéléguéeDe: 49261
     '2018-01-01':
       évènement:
-        devientDéléguéeDe: 49261
+        perdRattachementPour: 49261
       name: 'Gennes-Val de Loire'
       commeDéléguée:
         name: Gennes
@@ -86228,11 +86230,12 @@ contents:
         prendPourDéléguées:
           - 49261
           - 49094
-          - 49149
           - 49154
           - 49279
           - 49304
           - 49346
+        prendLeRattachementDe:
+          - 49149
     '1993-04-01':
       évènement:
         changeDeNomPour: 'Les Rosiers-sur-Loire'
@@ -132959,12 +132962,20 @@ contents:
   69123:
     now:
       name: Lyon
+    '1964-08-12':
+      évènement:
+        créationDUneRattachéeParScissionDe: 69385
+      name: Lyon
     '1963-08-07':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
       name: Lyon
       évènementDétaillé:
         absorbe:
           - 69232
+    '1959-02-08':
+      évènement:
+        créationDUneRattachéeParScissionDe: 69387
+      name: Lyon
   69124:
     now:
       name: Marchampt

@@ -12,7 +12,8 @@ $schema:
   $schema: http://json-schema.org/draft-07/schema#
   description: |
     Le référentiel historique des codes INSEE des communes est principalement constitué d'un dictionnaire des codes INSEE des communes
-    ayant existé depuis le 1/1/1943 associant à chaque code des infos versionnées indexées par la date de la version.
+    simples et des entités rattachées (communes associées, communes déléguées et arrondissements municipaux) ayant existé depuis le
+    1/1/1943 associant à chaque code des infos versionnées indexées par la date de la version.
     Chaque version correspond à:
       - des évènements de création/modification/suppression de la version, sauf pour la version initiale généralement datée du 1/1/1943,
         sauf pour les communes de Mayotte, dont l'état initial est le 31/3/2011, date à laquelle Mayotte est devenu un département
@@ -38,17 +39,17 @@ $schema:
       additionalProperties: false
       properties:
         changeDeNomPour:
-          description: changeDeNomPour - commune change de nom avec indication du nouveau nom (pas d'evt. mirroir)
+          description: commune changeant de nom avec indication du nouveau nom (pas d'evt. mirroir)
           type: string
+        sortDuPérimètreDuRéférentiel:
+          description: commune sortant du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+          type: 'null'
         quitteLeDépartementEtPrendLeCode:
           description: c. changeant d'id lors d'un changement de département avec nouvel id (mirroir arriveDansLeDépartementAvecLeCode)
           $ref: '#/definitions/codeInsee'
         arriveDansLeDépartementAvecLeCode:
           description: c. changeant de département avec précédent id (mirroir quitteLeDépartementEtPrendLeCode)
           $ref: '#/definitions/codeInsee'
-        sortDuPérimètreDuRéférentiel:
-          description: la commune sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
-          type: 'null'
         seDissoutDans:
           description: c. supprimée avec ids des c. dans lesquelles son territoire est réparti (mirroir reçoitUnePartieDe)
           $ref: '#/definitions/listeDeCodesInsee'
@@ -113,7 +114,7 @@ $schema:
           description: c. restant associée à l'occasion d'une modification de l'association (mirroir gardeCommeAssociées)
           $ref: '#/definitions/codeInsee'
         gardeCommeAssociées:
-          description: c. associante listant les c. restant associées à lors d'une modification de l'association (m. resteAssociéeA)
+          description: c. associante listant les c. restant associées lors d'une modification de l'association (m. resteAssociéeA)
           $ref: '#/definitions/listeDeCodesInsee'
         resteDéléguéeDe:
           description: c. restant déléguée à l'occasion d'une modification de la commune nouvelle (mirroir gardeCommeDéléguées)
@@ -121,6 +122,15 @@ $schema:
         gardeCommeDéléguées:
           description: c. nouvelle listant les c. restant déléguées à l'occasion d'une modif. de cette c. nouv. (m. resteDéléguéeDe)
           $ref: '#/definitions/listeDeCodesInsee'
+        perdRattachementPour:
+          description: la c. de rattachement devient c. rattachée d'une de ses c. rattachées qui est indiquée (m. prendLeRattachementDe)
+          $ref: '#/definitions/codeInsee'
+        prendLeRattachementDe:
+          description: c. rattachée prenant le rtchmt avec en param. les rattachées (m. perdRattachementPour+changeDeRattachementPour)
+          $ref: '#/definitions/listeDeCodesInsee'
+        changeDeRattachementPour:
+          description: c. rattachée changeant de rattachement avec en param. la nouv. c. de rattchmt (m. prendLeRattachementDe)
+          $ref: '#/definitions/codeInsee'
         crééCommeArrondissementMunicipalParScissionDe:
           description: arrdt municipal créé avec id de celui dont il est issu (m. seScindePourCréerLesNouveauxArrondissementsMunicipaux)
           $ref: '#/definitions/codeInsee'
@@ -133,6 +143,9 @@ $schema:
         seScindePourCréerLesAssociées:
           description: c. associées créées avec id des c. créées (mirroir crééeCommeAssociéeParScissionDe)
           $ref: '#/definitions/listeDeCodesInsee'
+        créationDUneRattachéeParScissionDe:
+          description: création d'une e. rattachée vue de la c. simple en indiquant l'e. qui se scinde
+          $ref: '#/definitions/codeInsee'
     etat:
       description: |
         état résultant des évènements et valide à partir de la date de la version jusqu'à la date de version suivante s'il y en a une,
@@ -210,16 +223,16 @@ $schema:
           type: object
           additionalProperties: false
           patternProperties:
-            '^\d\d\d\d-\d\d-\d\d$': # date
+            '^\d\d\d\d-\d\d-\d\d$': # date de la version
               description: |
-                Version est composée d'une part d'évènements de création/modification/suppression (sauf pour la version  intiale) et,
+                Version composée d'une part d'évènements de création/modification/suppression (sauf pour la version  intiale) et,
                 d'autre part, de l'état, résultant des évènements, valide à partir de la date de la version jusqu'à la date de version
                 suivante, sauf en cas d'évènement de suppression pour lequel il n'existe pas d'état résultant.
               type: object
               additionalProperties: false
               properties:
                 evts:
-                  description: liste d'évènements
+                  description: liste d'évènements de création/modification/suppression
                   $ref: '#/definitions/evts'
                 etat:
                   description: nouvel état résultant des évènements

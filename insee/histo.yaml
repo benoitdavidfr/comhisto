@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo/'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-07-20T13:55:38+00:00'
+created: '2020-07-23T13:07:18+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -18069,10 +18069,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Ammeville, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Ammeville, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Ammeville, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -18315,10 +18315,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Berville, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Berville, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Berville, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -19075,10 +19075,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Écots, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Écots, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Écots, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -19329,10 +19329,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Garnetot, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Garnetot, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Garnetot, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -19417,10 +19417,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Grandmesnil, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Grandmesnil, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Grandmesnil, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -19662,10 +19662,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Lieury, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Lieury, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Lieury, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -20057,10 +20057,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Montpinçon, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Montpinçon, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Montpinçon, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -20173,10 +20173,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Notre-Dame-de-Fresnay, statut: COMA, crat: 14624 }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { changeDeRattachementPour: 14697 }
       etat: { name: Notre-Dame-de-Fresnay, statut: COMS }
     '2014-01-07':
-      evts: { prendPourDéléguées: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697] }
+      evts: { prendLeRattachementDe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697] }
       etat: { name: 'L''Oudon', statut: COMS }
     '2017-01-01':
       evts: { devientDéléguéeDe: 14654 }
@@ -20890,10 +20890,10 @@ contents:
       evts: { prendPourAssociées: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14697] }
       etat: { name: 'L''Oudon', statut: COMS }
     '1990-02-01':
-      evts: { devientDéléguéeDe: 14697 }
+      evts: { perdRattachementPour: 14697 }
       etat: { name: Saint-Martin-de-Fresnay, statut: COMA, crat: 14697 }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { changeDeRattachementPour: 14472 }
       etat: { name: Saint-Martin-de-Fresnay, statut: COMA, crat: 14472 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -21231,10 +21231,10 @@ contents:
       evts: { sAssocieA: 14624 }
       etat: { name: Tôtes, statut: COMS }
     '1990-02-01':
-      evts: { prendPourDéléguées: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624] }
+      evts: { prendLeRattachementDe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624] }
       etat: { name: 'L''Oudon', statut: COMS }
     '2014-01-07':
-      evts: { devientDéléguéeDe: 14472 }
+      evts: { perdRattachementPour: 14472 }
       etat: { name: Tôtes, statut: COMA, crat: 14624 }
     '2017-01-01':
       evts: { seFondDans: 14654 }
@@ -70059,7 +70059,7 @@ contents:
       evts: { prendPourDéléguées: [49018, 49213, 49245, 49303, 49372] }
       etat: { name: Baugé-en-Anjou, statut: COMS }
     '2016-01-01':
-      evts: { prendPourDéléguées: [49018, 49031, 49079, 49097, 49101, 49116, 49128, 49143, 49157, 49213, 49245, 49303, 49315, 49372, 49380] }
+      evts: { prendPourDéléguées: [49018, 49031, 49079, 49097, 49116, 49128, 49143, 49157, 49213, 49245, 49303, 49315, 49372, 49380], prendLeRattachementDe: [49101] }
       etat: { name: Baugé-en-Anjou, statut: COMM, nomCommeDéléguée: Baugé }
   49019:
     '1943-01-01':
@@ -70299,7 +70299,7 @@ contents:
       evts: { prendPourDéléguées: [49065, 49051, 49096, 49105, 49189, 49254, 49335] }
       etat: { name: 'Les Hauts d''Anjou', statut: COMM, nomCommeDéléguée: Champigné }
     '2019-01-01':
-      evts: { devientDéléguéeDe: 49080 }
+      evts: { perdRattachementPour: 49080 }
       etat: { name: Champigné, statut: COMD, crat: 49080 }
   49066:
     '1943-01-01':
@@ -70386,7 +70386,7 @@ contents:
     '1943-01-01':
       etat: { name: Châteauneuf-sur-Sarthe, statut: COMS }
     '2019-01-01':
-      evts: { prendPourDéléguées: [49080, 49051, 49065, 49096, 49105, 49189, 49254, 49335] }
+      evts: { prendPourDéléguées: [49080, 49051, 49096, 49105, 49189, 49254, 49335], prendLeRattachementDe: [49065] }
       etat: { name: 'Les Hauts-d''Anjou', statut: COMM, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
   49081:
     '1943-01-01':
@@ -70518,7 +70518,7 @@ contents:
       evts: { prendPourDéléguées: [49101, 49380] }
       etat: { name: 'Clefs-Val d''Anjou', statut: COMM, nomCommeDéléguée: Clefs }
     '2016-01-01':
-      evts: { devientDéléguéeDe: 49018 }
+      evts: { perdRattachementPour: 49018 }
       etat: { name: Clefs, statut: COMD, crat: 49018 }
   49102:
     '1943-01-01':
@@ -70770,7 +70770,7 @@ contents:
       evts: { prendPourDéléguées: [49149, 49094, 49154, 49279, 49346], absorbe: [49357] }
       etat: { name: 'Gennes-Val de Loire', statut: COMM, nomCommeDéléguée: Gennes }
     '2018-01-01':
-      evts: { devientDéléguéeDe: 49261 }
+      evts: { perdRattachementPour: 49261 }
       etat: { name: Gennes, statut: COMD, crat: 49261 }
   49150:
     '1943-01-01':
@@ -71388,7 +71388,7 @@ contents:
       evts: { changeDeNomPour: 'Les Rosiers-sur-Loire' }
       etat: { name: 'Les Rosiers-sur-Loire', statut: COMS }
     '2018-01-01':
-      evts: { prendPourDéléguées: [49261, 49094, 49149, 49154, 49279, 49304, 49346] }
+      evts: { prendPourDéléguées: [49261, 49094, 49154, 49279, 49304, 49346], prendLeRattachementDe: [49149] }
       etat: { name: Gennes-Val-de-Loire, statut: COMM, nomCommeDéléguée: 'Les Rosiers-sur-Loire' }
   49262:
     '1943-01-01':
@@ -109779,8 +109779,14 @@ contents:
   69123:
     '1943-01-01':
       etat: { name: Lyon, statut: COMS }
+    '1959-02-08':
+      evts: { créationDUneRattachéeParScissionDe: 69387 }
+      etat: { name: Lyon, statut: COMS }
     '1963-08-07':
       evts: { absorbe: [69232] }
+      etat: { name: Lyon, statut: COMS }
+    '1964-08-12':
+      evts: { créationDUneRattachéeParScissionDe: 69385 }
       etat: { name: Lyon, statut: COMS }
   69124:
     '1943-01-01':

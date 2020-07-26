@@ -511,17 +511,26 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
     $rpicom['1972-12-01']['évènement'] = ['fusionneDans' => $rpicom['1972-12-01']['évènement']['sAssocieA']];
     $rpicoms->$id = $rpicom;
   }
-  if (1) { // Ajout des 2 Evts de scission des arrdts mun. de Lyon
-    echo "Ajout des 2 Evts de scission des arrdts mun. de Lyon\n";
-    foreach ([69385 => '1964-08-12', 69387 => '1959-02-08'] as $id => $devt) {
-      $rpicom = $rpicoms->$id;
+  if (1) { // Ajout des 2 Evts de scission des arrdts mun. de Lyon + mirroirs
+    echo "Ajout des Evts de scission des arrdts mun. de Lyon + mirroirs\n";
+    $idrat = '69123';
+    $rpicomrat = $rpicoms->$idrat;
+    foreach ([69387 => '1959-02-08', 69385 => '1964-08-12'] as $idr => $devt) {
+      $rpicom = $rpicoms->$idr;
       $rpicom[$devt] = [
         'name'=> $rpicom['now']['name'],
         'estArrondissementMunicipalDe'=> $rpicom['now']['estArrondissementMunicipalDe'],
         'évènement'=> "Se scinde pour créer un nouvel arrondissement municipal",
       ];
-      $rpicoms->$id = $rpicom;
+      $rpicoms->$idr = $rpicom;
+      // L'évènement est mentionné sur la c. de rattachement
+      $rpicomrat[$devt] = [
+        'évènement'=> ['créationDUneRattachéeParScissionDe'=> $idr],
+        'name'=> $rpicomrat['now']['name'],
+      ];
     }
+    krsort($rpicomrat);
+    $rpicoms->$idrat = $rpicomrat;
   }
   if (0)
     $rpicoms->showExtractAsYaml(5, 2);
@@ -640,12 +649,7 @@ function detailleEvt(Base $rpicomBase) {
       }
       if (($cratid = $version['évènement']['changeDeRattachementPour'] ?? null)
        || ($cratid = $version['évènement']['perdRattachementPour'] ?? null)) {
-        // Transformation de changeDeRattachementPour||perdRattachementPour en devientDéléguéeDe
-        unset($rpicoms[$id][$dv]['évènement']['changeDeRattachementPour']);
-        unset($rpicoms[$id][$dv]['évènement']['perdRattachementPour']);
-        $rpicoms[$id][$dv]['évènement']['devientDéléguéeDe'] = $cratid;
-        $rpicomBase->$id = $rpicoms[$id];
-        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendPourDéléguées']);
+        addValToArray($id, $rpicoms[$cratid][$dv]['évènementDétaillé']['prendLeRattachementDe']);
         $rpicomBase->$cratid = $rpicoms[$cratid];
       }
       if (($version['évènement'] ?? null) == "Commune associée rétablie comme commune simple") {

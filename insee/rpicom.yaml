@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-20T13:55:14+00:00'
+created: '2020-07-23T13:07:01+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -124804,8 +124804,16 @@ contents:
   69123:
     now:
       name: Lyon
+    '1964-08-12':
+      évènement:
+        créationDUneRattachéeParScissionDe: 69385
+      name: Lyon
     '1963-08-07':
       évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Lyon
+    '1959-02-08':
+      évènement:
+        créationDUneRattachéeParScissionDe: 69387
       name: Lyon
   69124:
     now:
