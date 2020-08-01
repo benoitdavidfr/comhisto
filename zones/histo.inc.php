@@ -11,6 +11,8 @@ doc: |
   Ces relations topologiques permettront dans la classe Zone de construire les zones géographiques
   et les relations d'inclusion entre elles.
 journal: |
+  1/8/2020:
+    - adaptation au nouveau modèle d'histo
   21/7/2020:
     - reprise à partir de ../../rpicom/rpigeo/bzone.php
 */
@@ -198,6 +200,7 @@ class Version {
     // définition de la relation entre la version courante et la version qui suit dans le temps
     if (is_null($this->evtsFin)) return;
 
+    echo "traitements keys=",$this->evtsFin,"\n";
     switch ($this->evtsFin->keys()) {
       // Il n'y a pas d'entité suivante
       case ['sortDuPérimètreDuRéférentiel']: break;
@@ -208,22 +211,25 @@ class Version {
       case ['sAssocieA']:
       case ['resteAssociéeA']:
       case ['resteDéléguéeDe']:
-      case ['changedAssociéeEnDéléguéeDe']:
-      case ['gardeCommeDéléguées']: // cas de 22183@2016-01-01,
-      case ['seSépareDe']:
-      case ['seSépareDe','sAssocieA']:
-      case ['créationDUneRattachéeParScissionDe']:
-      case ['changeDeRattachementPour']: {
+      case ['gardeCommeDéléguées']:
+      case ['seDétacheDe']:
+      case ['seDétacheDe','sAssocieA']: 
+      case ['seDétacheDe','devientDéléguéeDe']: {
         Zone::sameAs($this->id(), $this->next()->id());
         break;
       }
       
       // l'entité courante est incluse dans l'entité absorbante
-      case ['seFondDans']:
       case ['fusionneDans']: {
         if ($this->statut == 's') {
-          $crat = $this->evtsFin->asArray()[$this->evtsFin->keys()[0]];
-          Zone::includes("s$crat@$this->dFin", $this->id());
+          $cratId = $this->evtsFin->fusionneDans;
+          $crat = Histo::$all[$cratId]->version($this->dFin);
+          if (!$crat) {
+            $cratPrev = Histo::$all[$cratId]->versionParDateDeFin($this->dFin);
+            $nextCode = $cratPrev->evtsFin->changeDeCodePour;
+            $crat = Histo::$all[$nextCode]->version($this->dFin);
+          }
+          Zone::includes($crat->id(), $this->id());
         }
         break;
       }
@@ -238,25 +244,32 @@ class Version {
       }
       
       case ['absorbe']:
+      case ['absorbe','changeDeCodePour']:
       case ['absorbe','gardeCommeAssociées']:
       case ['gardeCommeAssociées','absorbe']: {
         //echo Yaml::dump(['this'=> $this->asArray()]);
         $statuts = [];
-        foreach ($this->evtsFin->__get('absorbe') as $cinseeAbsorbee) {
+        foreach ($this->evtsFin->absorbe as $cinseeAbsorbee) {
           $absorbee = Histo::$all[$cinseeAbsorbee]->versionParDateDeFin($this->dFin);
           $statuts[$absorbee->statut] = 1;
         }
-        if (isset($statuts['s'])) { // si au moins une des absorbée est une c.s. alors l'absorbante grossit
-          Zone::includes($this->next()->id(), $this->id());
-          //echo "  Zone::includes(",$this->next()->id(),", ",$this->id(),");\n";
+        $next = $this->next();
+        if (!$next) {
+          $nextCode = $this->evtsFin->changeDeCodePour;
+          $next = Histo::$all[$nextCode]->version($this->dFin);
+        }
+        if (isset($statuts['s'])) { // si au moins une des absorbées est une c.s. alors l'absorbante grossit
+          Zone::includes($next->id(), $this->id());
+          //echo "  Zone::includes(",$next->id(),", ",$this->id(),");\n";
         }
         else { // sinon l'absorbante est identique avant et après
-          Zone::sameAs($this->next()->id(), $this->id());
-          //echo "  Zone::sameAs(",$this->next()->id(),", ",$this->id(),");\n";
+          Zone::sameAs($next->id(), $this->id());
+          //echo "  Zone::sameAs(",$next->id(),", ",$this->id(),");\n";
         }
         break;
       }
       
+      // la rattachante grossit
       case ['prendPourAssociées']:
       case ['prendPourDéléguées']:
       case ['absorbe','prendPourAssociées']:
@@ -265,71 +278,39 @@ class Version {
       case ['prendPourDéléguées','gardeCommeDéléguées']:
       case ['gardeCommeDéléguées','prendPourDéléguées']:
       case ['prendPourDéléguées','absorbe','gardeCommeDéléguées']:
-      case ['seSépareDe','prendPourAssociées']: { // la rattachante grossit
+      case ['seDétacheDe','prendPourAssociées']:
+      case ['estModifiéeIndirectementPar']: { // dans le cas de figure la suivante est plus grosse
         Zone::includes($this->next()->id(), $this->id());
         break;
       }
       
-      case ['délègueA']: {
-        $deleguees = $this->evtFin->asArray()[$this->evtsFin->keys()[0]];
-        if ($deleguees == [$this->cinsee])
-          // cas très particulier où la seule déléguée est elle-même, ce qui ne doit jamais exister
-          Zone::sameAs($this->next()->id(), $this->id());
-        else {
-          // la commune rattachante s'agrandit
-          Zone::includes($this->next()->id(), $this->id());
-          if (in_array($this->cinsee, $deleguees)) { // si auto-déléguée
-            // la version actuelle est égale à l'auto-déléguée créée
-            Zone::sameAs($this->id(), 'r'.$this->cinsee.'@'.$this->dFin);
-            //echo "Zone::sameAs(d",$this->cinsee.'@'.$this->dFin,', ', $this->id(),");\n";
-          }
+      case ['contribueA']: {
+        Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
+        break;
+      }
+      
+      case ['seScindePourCréer']:
+      case ['détacheCommeSimples']:
+      case ['détacheCommeSimples','seScindePourCréer']:
+      case ['gardeCommeAssociées','détacheCommeSimples']:
+      case ['détacheCommeSimples','gardeCommeAssociées']:
+      case ['détacheCommeSimples','sAssocieA']:
+      case ['détacheCommeSimples','devientDéléguéeDe']: {
+        Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
+        if ($détacheCommeSimples = $this->evtsFin->détacheCommeSimples) {
+          foreach ($détacheCommeSimples as $nvCinsee) // chaque c. créée est incluse dans la version courante
+            Zone::includes($this->id(), Histo::$all[$nvCinsee]->version($this->dFin)->id());
+        }
+        if ($seScindePourCréer = $this->evtsFin->seScindePourCréer) {
+          foreach ($seScindePourCréer as $nvCinsee) // chaque c. créée est incluse dans la version courante
+            Zone::includes($this->id(), Histo::$all[$nvCinsee]->version($this->dFin)->id());
         }
         break;
       }
       
-      case ['contribueA']:
-      case ['détacheCommeSimples']:
-      case ['gardeCommeAssociées','détacheCommeSimples']:
-      case ['détacheCommeSimples','gardeCommeAssociées']: 
-      case ['détacheCommeSimples','seScindePourCréerLesAssociées']: {
-        Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
-        break;
-      }
-
-      case ['seScindePourCréer']: {
-        Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
-        foreach ($this->evtsFin->asArray()['seScindePourCréer'] as $nvCinsee)
-          Zone::includes($this->id(), "s$nvCinsee@".$this->dFin); // chaque c. créée est incluse dans la version courante
-        break;
-      }
-      
-      case ['seScindePourCréerLesNouveauxArrondissementsMunicipaux']: {
-        Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
-        foreach ($this->evtsFin->asArray()['seScindePourCréerLesNouveauxArrondissementsMunicipaux'] as $nvCinsee)
-          Zone::includes($this->id(), "r$nvCinsee@".$this->dFin); // chaque e. créée est incluse dans la version courante
-        break;
-      }
-      
-      case ['prendLeRattachementDe']: {
-        break;
-      }
-      
-      case ['perdRattachementPour']: {
-        // la zone de la c. actuelle est identique à celle de la future rattachante
-        $nlleRat = $this->evtsFin->asArray()['perdRattachementPour'];
-        Zone::sameAs($this->id(), "s$nlleRat@".$this->dFin);
-        // la future zone de la c. actuelle est identique à la zone de la commune au 1/1/1943
-        // Cela permet de donner cette relation avec la version avant associations
-        Zone::sameAs('r'.$this->cinsee.'@'.$this->dFin, 's'.$this->cinsee.'@1943-01-01');
-        break;
-      }
-      
-      // {"absorbe":[14507],"quitteLeDépartementEtPrendLeCode":50649}
-      case ['absorbe', 'quitteLeDépartementEtPrendLeCode'] :
-      case ['quitteLeDépartementEtPrendLeCode']: {
-        $nvCinsee = $this->evtsFin->__get('quitteLeDépartementEtPrendLeCode');
+      case ['changeDeCodePour']: {
+        $nvCinsee = $this->evtsFin->changeDeCodePour;
         Zone::sameAs($this->id(), Histo::$all[$nvCinsee]->version($this->dFin)->id());
-        //echo "Zone::sameAs(",$this->id(),", ",Rpicom::idByCinseeAndDate($nvCinsee, $this->dFin),");\n";
         break;
       }
       
