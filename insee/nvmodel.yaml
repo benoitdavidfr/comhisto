@@ -98,7 +98,7 @@ casParticuliers:
       - B.prendLeRattachementDe.A -> B.seDétacheDe.A, B.prendPourAssociées.(A,C,D,E)
       - (C,D,E).changeDeRattachementPour.B -> (C,D,E).sAssocieA.B
 
-exhisto:
+exhisto(avant20200727):
   evts:
     description: |
       évènements de création/modification/suppression, la plupart des évènements prennent en paramètres un code INSEE ou une liste.
@@ -106,6 +106,58 @@ exhisto:
     type: object
     additionalProperties: false
     properties:
+      changeDeNomPour:
+        description: commune changeant de nom avec indication du nouveau nom (pas d'evt. mirroir)
+        type: string
+      sortDuPérimètreDuRéférentiel:
+        description: commune sortant du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+        type: 'null'
+      quitteLeDépartementEtPrendLeCode:
+        description: c. changeant d'id lors d'un changement de département avec nouvel id (mirroir arriveDansLeDépartementAvecLeCode)
+        $ref: '#/definitions/codeInsee'
+      arriveDansLeDépartementAvecLeCode:
+        description: c. changeant de département avec précédent id (mirroir quitteLeDépartementEtPrendLeCode)
+        $ref: '#/definitions/codeInsee'
+      seDissoutDans:
+        description: c. supprimée avec ids des c. dans lesquelles son territoire est réparti (mirroir reçoitUnePartieDe)
+        $ref: '#/definitions/listeDeCodesInsee'
+      reçoitUnePartieDe:
+        description: c. recevant une partie du territoire d'une c. supprimée avec l'id de la c. supprimée (mirroir seDissoutDans)
+        $ref: '#/definitions/codeInsee'
+      contribueA:
+        description: commune contribuant à la création d'une commune avec l'id de la c. créée (mirroir crééeAPartirDe)
+        $ref: '#/definitions/codeInsee'
+      crééeAPartirDe:
+        description: c. créée avec liste des id des communes dont provient son territoire (mirroir contribueA)
+        $ref: '#/definitions/listeDeCodesInsee'
+      seFondDans:
+        description: c. absorbée par une c. nouvelle sans c. déléguée avec id de la c. nouvelle (mirroir absorbe)
+        $ref: '#/definitions/codeInsee'
+      absorbe:
+        description: c. nouvelle absorbant des c. (m. seFondDans) ou c. absorbant des c. dans le cas d'une fusion (m. fusionneDans)
+        $ref: '#/definitions/listeDeCodesInsee'
+      fusionneDans:
+        description: |
+          c. fusionnant par fusion-association dans une autre commune (mirroir absorbe) ou c. fusionnant pour créer une nouvelle
+          commune (mirroir crééeParFusionSimpleDe)
+        $ref: '#/definitions/codeInsee'
+      crééeParFusionSimpleDe:
+        description: |
+          c. créée par fusion de c. supprimées avec création d'un nouvel id, avec liste des id des c. supprimées,
+          1 seul cas (mirroir fusionneDans)
+        $ref: '#/definitions/listeDeCodesInsee'
+      crééeCommeSimpleParScissionDe:
+        description: c. simple créée par scission d'un c. existante avec id de la c. existante (mirroir seScindePourCréer)
+        $ref: '#/definitions/codeInsee'
+      seScindePourCréer:
+        description: c. simple se scindant pour créer une c. avec id de la c. créée (mirroir crééeCommeSimpleParScissionDe)
+        $ref: '#/definitions/listeDeCodesInsee'
+      sAssocieA:
+        description: c. s'associant par fusion-association à une commune de rattachement (mirroir prendPourAssociées)
+        $ref: '#/definitions/codeInsee'
+      prendPourAssociées:
+        description: c. prenant des associées avec ids des c. associées (mirroir sAssocieA)
+        $ref: '#/definitions/listeDeCodesInsee'
       seSépareDe:
         description: c. associées ou déléguées se sépare de sa c. de rattachement et devient c. simple (mirroir détacheCommeSimples)
         $ref: '#/definitions/codeInsee'
@@ -147,20 +199,37 @@ exhisto:
       changeDeRattachementPour:
         description: c. rattachée changeant de rattachement avec en param. la nouv. c. de rattchmt (m. prendLeRattachementDe)
         $ref: '#/definitions/codeInsee'
+      crééCommeArrondissementMunicipalParScissionDe:
+        description: arrdt municipal créé avec id de celui dont il est issu (m. seScindePourCréerLesNouveauxArrondissementsMunicipaux)
+        $ref: '#/definitions/codeInsee'
+      seScindePourCréerLesNouveauxArrondissementsMunicipaux:
+        description: arrondissements municipaux créés avec id de ceux créés (m. crééCommeArrondissementMunicipalParScissionDe)
+        $ref: '#/definitions/listeDeCodesInsee'
+      crééeCommeAssociéeParScissionDe:
+        description: c. associée créée avec id de la c. dont elle est issue (mirroir seScindePourCréerLesAssociées)
+        $ref: '#/definitions/codeInsee'
+      seScindePourCréerLesAssociées:
+        description: c. associées créées avec id des c. créées (mirroir crééeCommeAssociéeParScissionDe)
+        $ref: '#/definitions/listeDeCodesInsee'
       créationDUneRattachéeParScissionDe:
         description: création d'une e. rattachée vue de la c. simple en indiquant l'e. qui se scinde
         $ref: '#/definitions/codeInsee'
+  
 nouvHisto:
   evts:
     description: |
-      Les opérations sur les entités sont décrites par des évènements de création/modification/suppression qui s'appliquent
-      sur un code Insee, et dont la plupart prennent en paramètres un code INSEE ou une liste.
-      Dans ce cas les codes INSEE ciblés portent à la même un date un évènement appelé mirroir.
+      Les opérations sur les entités sont décrites par des évènements de création/modification/suppression s'appliquant
+      sur un code Insee ; la plupart prennent en paramètres un code INSEE ou une liste et, dans ce cas, les codes INSEE ciblés
+      portent à la même un date un évènement appelé mirroir.
+      La définition de ces types d'évènement respecte les principes suivants:
+        - restriction du nombre pour faciliter la compréhension du modèle
+        - définition de l'état issu d'un évènement par l'état précédent ainsi que les infos portées par l'évènement
+        - facilité pour un humain de comprendre l'évolution de l'entité(s) associée(s) à un code Insee
     type: object
     additionalProperties: false
     properties:
       changeDeNomPour:
-        description: entité changeant de nom avec indication du nouveau nom (pas d'evt. mirroir)
+        description: entité changeant de nom avec indication en paramètre du nouveau nom (pas d'evt. mirroir)
         type: string
       sortDuPérimètreDuRéférentiel:
         description: entité sortant du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
@@ -217,7 +286,27 @@ nouvHisto:
       prendPourAssociées:
         description: c. simple prenant des associées avec code des c. associées (mirroir sAssocieA)
         $ref: '#/definitions/listeDeCodesInsee'
-      
+      devientDéléguéeDe:
+        description: |
+          e. devenant déléguée lors de la création/évolution d'une c. nouv. avec code de cette c. (m. prendPourDéléguées)
+          La commune de rattachement B doit être une commune simple.
+          Si A était rattachée à une autre CS alors elle s'en détache au préalable
+          Si A avait des ER alors elles doivent simultanément soit se détacher soit se rattacher à une autre CS
+          Si A était mixte alors son ER est rattachée à B et la CS disparait.
+        $ref: '#/definitions/codeInsee'
+      prendPourDéléguées:
+        description: |
+          CS prenant comme déléguées des entités lors de la création/évolution d'une c. nouv. avec codes des nouvelles c. déléguées
+          (mirroir devientDéléguéeDe)
+          Si la c. de ratt. et la c. déléguée ont même code alors il n'y a pas d'evt devientDéléguéeDe
+        $ref: '#/definitions/listeDeCodesInsee'
+      seSépareDe:
+        description: c. associées ou déléguées se sépare de sa c. de rattachement et devient c. simple (mirroir détacheCommeSimples)
+        $ref: '#/definitions/codeInsee'
+      détacheCommeSimples:
+        description: la c. de rattachement se sépare de certaines de ses c. associées ou déléguées comme c. simples (m. seSépareDe)
+        $ref: '#/definitions/listeDeCodesInsee'
+
       
 avant2020-07-24:
   entités:
