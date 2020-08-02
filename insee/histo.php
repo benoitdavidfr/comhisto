@@ -10,6 +10,10 @@ doc: |
     2) ajout d'évènements détaillés et enregistrement du résultat dans rpicomd
     3) construction du fichier histo à partir du Rpicom détaillé
 journal: |
+  2/8/2020:
+    - nécessité restructuration
+    - il est trop complexe d'effectuer des corrections avec des données dérivées
+    - idée de construire un fichier histo en distinguant clairement les données dérivées pour pouvoir les refabriquer après correction
   12/7-1/8/2020:
     - construction de mirroirs
     - amélioration de la sémantique de histo.yaml, mise au point de exhisto.yaml
@@ -78,6 +82,12 @@ $menu = new Menu([
     'argNames'=> [],
     'actions'=> [
       "génère les mirroirs"=> [],
+    ],
+  ],
+  'verifCond'=> [
+    'argNames'=> [],
+    'actions'=> [
+      "Vérifie pré/post-conditions"=> [],
     ],
   ],
 ], $argc ?? 0, $argv ?? []);
@@ -943,6 +953,7 @@ if ($_GET['action'] == 'mirroirs') { // construction de la liste des évts mirro
       foreach ($this->evts as $key => $vals) {
         if ($key == 'changeDeNomPour') continue;
         //echo Yaml::dump(['$vals'=> $vals]);
+        if (is_null($vals)) continue;
         if (is_string($vals) || is_numeric($vals)) {
           if ($key=='label') continue;
           if (!$histos->$vals) {
@@ -1031,5 +1042,148 @@ if ($_GET['action'] == 'mirroirs') { // construction de la liste des évts mirro
   die("Fin mirroirs ok\n");
 }
 
+class Verif {
+  protected $cinsee;
+  protected $dcrea;
+  protected $etatPrec;
+  protected $version;
+  
+  function __construct(string $cinsee, string $dcrea, array $etatPrec, array $version) {
+    $this->cinsee = $cinsee;
+    $this->dcrea = $dcrea;
+    $this->etatPrec = $etatPrec;
+    $this->version = $version;
+  }
+  
+  function warning(string $message) {
+    echo "$message pour ",
+         Yaml::dump([$this->cinsee => [ $this->dcrea => [ 'evts'=> $this->version['evts'] ?? [] ] ]], 0),"\n";
+  }
+  
+  function error(string $message) {
+    echo "<b>$message</b> pour ",
+         Yaml::dump([$this->cinsee => [
+           $this->dcrea => [
+             'prec'=> $this->etatPrec,
+             'evts'=> $this->version['evts'] ?? [],
+             'suiv'=> $this->version['etat'] ?? []
+           ]
+         ]], 3);
+  }
+  
+  // Teste les pré- et post-conditions des évènements
+  // en cas d'erreur mineure effectue des corrections de la version et affiche une alerte
+  // signale les erreurs majeures
+  function prePostCond(): array {
+    
+    $evts = $this->version['evts'] ?? [];
+    $etatSuiv = $this->version['etat'] ?? [];
+    switch (array_keys($evts)) {
+      case [] : { // entrée dans le référentiel
+        // l'état préc. n'existe pas
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        // l'état suivant correspond à une commune simple ou à un arrondissement
+        if (!($etatSuiv && in_array($etatSuiv['statut'], ['COMS', 'ARDM'])))
+          $this->error("L'état suivant devrait être une commune simple ou à un arrondissement pour ");
+        return $this->version;
+      }
+      
+      case ['changeDeNomPour']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent devrait exister");
+        if (!($etatSuiv && ($etatSuiv['name']==$evts['changeDeNomPour'])))
+          $this->error("l'état suivant devrait exister et son nom devrait être celui fourni");
+        return $this->version;
+      }
+      
+      case ['fusionneDans']: {
+        if (!($this->etatPrec && in_array($this->etatPrec['statut'], ['COMS','COMA','COMD'])))
+          $this->error("l'état précédent devrait être une commune simple, associée ou déléguée");
+        if ($etatSuiv)
+          $this->error("l'état suivant ne devrait pas exister");
+        return $this->version;
+      }
+      
+      case ['sAssocieA']: {
+        if (!($this->etatPrec && ($this->etatPrec['statut']=='COMS'))) {
+          if (($this->etatPrec['statut']=='COMA') && ($this->etatPrec['crat']==$evts['sAssocieA'])) {
+            $this->warning("modif evt sAssocieA en resteAssociéeA");
+            $this->version['evts'] = ['resteAssociéeA'=> $evts['sAssocieA']];
+          }
+          else
+            $this->error("l'état précédent devrait être une commune simple");
+        }
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMA'))) {
+          if ($etatSuiv['statut']=='COMS') {
+            $this->warning("modif statut en COMA et affect crat");
+            $this->version['etat']['statut'] = 'COMA';
+            $this->version['etat']['crat'] = $evts['sAssocieA'];
+          }
+          else
+            $this->error("l'état suivant devrait être une commune associée");
+        }
+        return $this->version;
+      }
+      
+      case ['prendPourDéléguées']: {
+        if (!($this->etatPrec && in_array($this->etatPrec['statut'], ['COMS','COMM'])))
+          $this->error("l'état précédent devrait être une commune simple ou mixte");
+        
+        foreach ($evts['prendPourDéléguées'] as $del) {
+          if (in_array($del, $this->etatPrec['aPourDéléguées'] ?? []))
+            $this->error("$del est déjà déléguée");
+        }
+        
+        $this->version['etat']['aPourDéléguées'] =
+          array_merge($this->version['etat']['aPourDéléguées'] ?? [], $evts['prendPourDéléguées']);
+          
+        if (in_array($this->cinsee, $evts['prendPourDéléguées'])) {
+          if (!($etatSuiv && ($etatSuiv['statut']=='COMM'))) {
+            $this->warning("l'état suivant devrait être une commune mixte");
+            $this->version['etat']['statut'] = 'COMM';
+          }
+        }
+        else {
+          if (!($etatSuiv && ($etatSuiv['statut']=='COMS')))
+            $this->error("l'état suivant devrait être une commune simple");
+        }
+        return $this->version;
+      }
+      
+      default: {
+        //echo "Evts ",Yaml::dump($evts, 0)," non  traité\n";
+        return $this->version;
+      }
+    }
+
+  }
+  
+};
+
+if ($_GET['action'] == 'verifCond') { // test les pré-conditions et post-conditions
+  /*class Evts {
+    protected $evts; // array
+  
+    function __construct($evts) { $this->evts = $evts; }
+    function keys(): array { return array_keys($this->evts); }
+    function __get(string $key) { return $this->evts[$key] ?? null; }
+    function asArray(): array { return $this->evts; }
+    function __toString(): string { return json_encode($this->evts, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); }
+  }*/
+
+  echoHtmlHeader($_GET['action']);
+  $histos = new Base('histo', new Criteria(['not'])); // Lecture de histo.yaml dans $histos
+  $histos = $histos->contents();
+  foreach ($histos as $cinsee => &$histo) {
+    $etatPrec = [];
+    foreach ($histo as $dcrea => &$version) {
+      $verif = new Verif($cinsee, $dcrea, $etatPrec, $version);
+      $version = $verif->prePostCond();
+      $etatPrec = $version['etat'] ?? [];
+    }
+  }
+  die("Fin verifCond ok\n");
+}
 
 die("Aucune commande $_GET[action]\n");

@@ -281,6 +281,9 @@ class Version {
       case ['seDétacheDe','prendPourAssociées']:
       case ['estModifiéeIndirectementPar']: { // dans le cas de figure la suivante est plus grosse
         Zone::includes($this->next()->id(), $this->id());
+        // si une c. prend elle même pour déléguée alors cette déléguée est identique à la version précédente
+        // Pb j'ai des erreurs et j'ai constaté qu'il existe des cas où je prend plusieurs fois elle-même comme déléguée
+        xxx
         break;
       }
       
