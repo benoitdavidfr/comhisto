@@ -1,0 +1,27 @@
+title: 'cas particulier d''evts gardeCommeDéléguées - pas clair'
+abstract: "22183 est-il toujours déléguée d'elle-même ? A priori non, mais les évts ne l'explicite pas !\nIl manque un type d'évt pour expliciter \n"
+contents:
+  - 22183
+  - 22058
+updated: '2020-08-04T20:24:47+00:00'
+histov:
+  22183:
+    '1943-01-01':
+      etat: { name: Plémet, statut: COMS }
+    '2016-01-01':
+      evts: { devientDéléguéeDe: 22183, prendPourDéléguées: [22058, 22183] }
+      etat: { name: 'Les Moulins', statut: COMM, nomCommeDéléguée: Plémet }
+      erat: { aPourDéléguées: [22058, 22183] }
+    '2017-12-25':
+      evts: { gardeCommeDéléguées: [22058] }
+      etat: { name: Plémet, statut: COMS }
+      erat: { aPourDéléguées: [22058] }
+  22058:
+    '1943-01-01':
+      etat: { name: 'La Ferrière', statut: COMS }
+    '2016-01-01':
+      evts: { devientDéléguéeDe: 22183 }
+      etat: { name: 'La Ferrière', statut: COMD, crat: 22183 }
+    '2017-12-25':
+      evts: { resteDéléguéeDe: 22183 }
+      etat: { name: 'La Ferrière', statut: COMD, crat: 22183 }

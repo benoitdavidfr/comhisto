@@ -13,6 +13,10 @@ journal: |
   2-4/8/2020:
     - restructuration pour simplidier les corrections
     - on distingue clairement les données dérivées pour pouvoir les refabriquer après correction
+    - reste 2 pbs
+      - gestion de Lyon / pose not. pb. de déduction d'erat lorsque les ardm ne change pas en même temps que la crat
+      - manque un evt explicitant la supp. d'une com. déléguée propre, iluustré par 22183
+      
   12/7-1/8/2020:
     - construction de mirroirs
     - amélioration de la sémantique de histo.yaml, mise au point de exhisto.yaml
@@ -87,6 +91,12 @@ $menu = new Menu([
     'argNames'=> [],
     'actions'=> [
       "Vérifie pré/post-conditions"=> [],
+    ],
+  ],
+  'beg'=> [
+    'argNames'=> [],
+    'actions'=> [
+      "construit exemples"=> [],
     ],
   ],
 ], $argc ?? 0, $argv ?? []);
@@ -992,7 +1002,6 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
   $histos[49346]['2018-01-01']['evts'] = ['seDétacheDe'=> 49149, 'devientDéléguéeDe'=> 49261];
 
 
-
   deduitEvt($histos);
   deduitEtat($histos);
   
@@ -1463,6 +1472,35 @@ if ($_GET['action'] == 'verifCond') { // test les pré-conditions et post-condit
   $histos = new Base(array_merge($metadata, ['contents'=> $histos]));
   $histos->writeAsYaml('histov');
   die("Fin verifCond ok, fichier histov écrit\n");
+}
+
+if ($_GET['action'] == 'beg') { // met à jour les exemples
+  echoHtmlHeader($_GET['action']);
+  $rpicoms = new Base('rpicomd', new Criteria(['not'])); // Lecture de rpicomd.yaml dans $histos
+  $histos = new Base('histov', new Criteria(['not'])); // Lecture de histov.yaml dans $histos
+  foreach (readfiles('.') as $fname => $file) {
+    if (!preg_match('!^eg[^.]+.yaml$!', $fname)) continue;
+    $fileContents = Yaml::parseFile($fname);
+    echo "$fname: $fileContents[title]\n";
+    $fileContents['updated'] = date(DATE_ATOM);
+    $fileContents['histov'] = [];
+    if (!isset($fileContents['contents'])) {
+      echo "<b>erreur champ contents absent/n";
+      continue;
+    }
+    if (array_key_exists('rpicomd', $fileContents)) {
+      foreach($fileContents['contents'] as $cinsee) {
+        $fileContents['rpicomd'][$cinsee] = $rpicoms->$cinsee;
+      }
+    }
+    if (array_key_exists('histov', $fileContents)) {
+      foreach($fileContents['contents'] as $cinsee) {
+        $fileContents['histov'][$cinsee] = $histos->$cinsee;
+      }
+    }
+    file_put_contents($fname, Yaml::dump($fileContents, 4, 2));
+  }
+  die("Fin beg ok\n");
 }
 
 die("Aucune commande $_GET[action]\n");

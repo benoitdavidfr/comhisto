@@ -1,0 +1,95 @@
+title: '55273 change de rattachement'
+contents:
+  - 55273
+  - 55245
+  - 55386
+rpicomd:
+  55273:
+    now:
+      name: Lamarche-en-Woëvre
+      estAssociéeA: 55386
+    '1983-01-01':
+      évènement: { sAssocieA: 55386 }
+      name: Lamarche-en-Woëvre
+    1983-01-01-bis:
+      évènement: { seDétacheDe: 55245 }
+      name: Lamarche-en-Woëvre
+      estAssociéeA: 55245
+    '1973-01-01':
+      évènement: { sAssocieA: 55245 }
+      name: Lamarche-en-Woëvre
+  55245:
+    now:
+      name: Heudicourt-sous-les-Côtes
+    '1983-01-01':
+      évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+      name: Madine
+      évènementDétaillé: { détacheCommeSimples: [55273, 55386] }
+    '1973-01-01':
+      évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Heudicourt-sous-les-Côtes
+      évènementDétaillé: { prendPourAssociées: [55273, 55386] }
+  55386:
+    now:
+      name: Nonsard-Lamarche
+    '1983-01-01':
+      évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Nonsard
+      évènementDétaillé: { prendPourAssociées: [55273] }
+    1983-01-01-bis:
+      évènement: { seDétacheDe: 55245 }
+      name: Nonsard
+      estAssociéeA: 55245
+    '1973-01-01':
+      évènement: { sAssocieA: 55245 }
+      name: Nonsard
+histo:
+  55273:
+    '1943-01-01':
+      etat: { name: Lamarche-en-Woëvre, statut: COMS }
+    '1973-01-01':
+      evts: { sAssocieA: 55245 }
+      etat: { name: Lamarche-en-Woëvre, statut: COMS }
+    '1983-01-01':
+      evts: { label: 'Commune associée rétablie comme commune simple', sAssocieA: 55386 }
+      etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+  55245:
+    '1943-01-01':
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+    '1973-01-01':
+      evts: { prendPourAssociées: [55273, 55386] }
+      etat: { name: Madine, statut: COMS }
+    '1983-01-01':
+      evts: 'Commune rétablissant des c. rattachées ou fusionnées'
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+histov:
+  55273:
+    '1943-01-01':
+      etat: { name: Lamarche-en-Woëvre, statut: COMS }
+    '1973-01-01':
+      evts: { sAssocieA: 55245 }
+      etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55245 }
+    '1983-01-01':
+      evts: { seDétacheDe: 55245, sAssocieA: 55386 }
+      etat: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+  55245:
+    '1943-01-01':
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+    '1973-01-01':
+      evts: { prendPourAssociées: [55273, 55386] }
+      etat: { name: Madine, statut: COMS }
+      erat: { aPourAssociées: [55273, 55386] }
+    '1983-01-01':
+      evts: { détacheCommeSimples: [55273, 55386] }
+      etat: { name: Heudicourt-sous-les-Côtes, statut: COMS }
+  55386:
+    '1943-01-01':
+      etat: { name: Nonsard, statut: COMS }
+    '1973-01-01':
+      evts: { sAssocieA: 55245 }
+      etat: { name: Nonsard, statut: COMA, crat: 55245 }
+    '1983-01-01':
+      evts: { seDétacheDe: 55245, prendPourAssociées: [55273] }
+      etat: { name: Nonsard-Lamarche, statut: COMS }
+      erat: { aPourAssociées: [55273] }
+updated: '2020-08-04T20:24:46+00:00'

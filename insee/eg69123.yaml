@@ -1,0 +1,193 @@
+title: 'Cas de Lyon, 2 pbs'
+abstract: "Le 7/8/1963 69232 est absorbé dans dans le 5ème arrdt, opération non prévue.\nLe 8/2/1959 le 7ème arrdt se scinde en 2 pour créer le 8ème arrdt ; il faudrait une opération mirroir sur Lyon.\nMême pb pour le 5ème ardt qui se scinde en 2 le 12/8/1964 pour créer le 9ème arrdt.\nCependant, ce n'est pas une opération mirroir car 3 entités sont en jeu:\n  - le 7ème qui se scinde\n  - le 8ème qui est créé\n  - Lyon qui englobe les 2\n"
+contents:
+  - 69123
+  - 69232
+  - 69381
+  - 69382
+  - 69383
+  - 69384
+  - 69385
+  - 69386
+  - 69387
+  - 69388
+  - 69389
+rpicom:
+  69123:
+    now:
+      name: Lyon
+    '1964-08-12':
+      évènement: 'Une des rattachées se scinde'
+      name: Lyon
+    '1963-08-07':
+      évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Lyon
+    '1959-02-08':
+      évènement: 'Une des rattachées se scinde'
+      name: Lyon
+  69232:
+    '1963-08-07':
+      évènement: { fusionneDans: 69123 }
+      name: 'Saint-Rambert-l''Île-Barbe'
+  6938i:
+    i: '1,2,3,4,6'
+    now:
+      name: 'Lyon ier Arrondissement'
+      estArrondissementMunicipalDe: 69123
+  69385:
+    now:
+      name: 'Lyon 5e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1964-08-12':
+      name: 'Lyon 5e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+      évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
+  69387:
+    now:
+      name: 'Lyon 7e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1959-02-08':
+      name: 'Lyon 7e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+      évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
+  69388:
+    now:
+      name: 'Lyon 8e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1959-02-08':
+      après: { name: 'Lyon 8e Arrondissement' }
+      évènement: { rétabliCommeArrondissementMunicipalDe: 69387 }
+  69389:
+    now:
+      name: 'Lyon 9e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1964-08-12':
+      après: { name: 'Lyon 9e Arrondissement' }
+      évènement: { rétabliCommeArrondissementMunicipalDe: 69385 }
+rpicomd:
+  69123:
+    now:
+      name: Lyon
+    '1964-08-12':
+      évènement: { estModifiéeIndirectementPar: [69385] }
+      name: Lyon
+    '1963-08-07':
+      évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Lyon
+      évènementDétaillé: { absorbe: [69232] }
+    '1959-02-08':
+      évènement: { estModifiéeIndirectementPar: [69387] }
+      name: Lyon
+  69232:
+    '1963-08-07':
+      évènement: { fusionneDans: 69123 }
+      name: 'Saint-Rambert-l''Île-Barbe'
+  69384:
+    now:
+      name: 'Lyon 4e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+  69385:
+    now:
+      name: 'Lyon 5e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1964-08-12':
+      name: 'Lyon 5e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+      évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
+      évènementDétaillé: { seScindePourCréer: [69389] }
+  69387:
+    now:
+      name: 'Lyon 7e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1959-02-08':
+      name: 'Lyon 7e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+      évènement: 'Se scinde pour créer un nouvel arrondissement municipal'
+      évènementDétaillé: { seScindePourCréer: [69388] }
+  69388:
+    now:
+      name: 'Lyon 8e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1959-02-08':
+      après: { name: 'Lyon 8e Arrondissement' }
+      évènement: { crééCommeArrondissementMunicipalParScissionDe: 69387 }
+  69389:
+    now:
+      name: 'Lyon 9e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+    '1964-08-12':
+      après: { name: 'Lyon 9e Arrondissement' }
+      évènement: { crééCommeArrondissementMunicipalParScissionDe: 69385 }
+  69381:
+    now:
+      name: 'Lyon 1er Arrondissement'
+      estArrondissementMunicipalDe: 69123
+  69382:
+    now:
+      name: 'Lyon 2e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+  69383:
+    now:
+      name: 'Lyon 3e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+  69386:
+    now:
+      name: 'Lyon 6e Arrondissement'
+      estArrondissementMunicipalDe: 69123
+histov:
+  69123:
+    '1943-01-01':
+      etat: { name: Lyon, statut: COMS }
+      erat: { aPourArdm: [69381, 69382, 69383, 69384, 69385, 69386, 69387] }
+    '1959-02-08':
+      evts: { estModifiéeIndirectementPar: [69387] }
+      etat: { name: Lyon, statut: COMS }
+      erat: { aPourArdm: [69387, 69388] }
+    '1963-08-07':
+      evts: { absorbe: [69232] }
+      etat: { name: Lyon, statut: COMS }
+    '1964-08-12':
+      evts: { estModifiéeIndirectementPar: [69385] }
+      etat: { name: Lyon, statut: COMS }
+      erat: { aPourArdm: [69385, 69389] }
+  69232:
+    '1943-01-01':
+      etat: { name: 'Saint-Rambert-l''Île-Barbe', statut: COMS }
+    '1963-08-07':
+      evts: { fusionneDans: 69123 }
+  69381:
+    '1943-01-01':
+      etat: { name: 'Lyon 1er Arrondissement', statut: ARDM, crat: 69123 }
+  69382:
+    '1943-01-01':
+      etat: { name: 'Lyon 2e Arrondissement', statut: ARDM, crat: 69123 }
+  69383:
+    '1943-01-01':
+      etat: { name: 'Lyon 3e Arrondissement', statut: ARDM, crat: 69123 }
+  69384:
+    '1943-01-01':
+      etat: { name: 'Lyon 4e Arrondissement', statut: ARDM, crat: 69123 }
+  69385:
+    '1943-01-01':
+      etat: { name: 'Lyon 5e Arrondissement', statut: ARDM, crat: 69123 }
+    '1964-08-12':
+      evts: { seScindePourCréer: [69389] }
+      etat: { name: 'Lyon 5e Arrondissement', statut: ARDM, crat: 69123 }
+  69386:
+    '1943-01-01':
+      etat: { name: 'Lyon 6e Arrondissement', statut: ARDM, crat: 69123 }
+  69387:
+    '1943-01-01':
+      etat: { name: 'Lyon 7e Arrondissement', statut: ARDM, crat: 69123 }
+    '1959-02-08':
+      evts: { seScindePourCréer: [69388] }
+      etat: { name: 'Lyon 7e Arrondissement', statut: ARDM, crat: 69123 }
+  69388:
+    '1959-02-08':
+      evts: { crééCommeArrondissementMunicipalParScissionDe: 69387 }
+      etat: { name: 'Lyon 8e Arrondissement', statut: ARDM, crat: 69123 }
+  69389:
+    '1964-08-12':
+      evts: { crééCommeArrondissementMunicipalParScissionDe: 69385 }
+      etat: { name: 'Lyon 9e Arrondissement', statut: ARDM, crat: 69123 }
+updated: '2020-08-04T20:24:47+00:00'

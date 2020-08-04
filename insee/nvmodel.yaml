@@ -1,14 +1,14 @@
 title: réflexion sur un nouveau modèle - refonte 24-26/7/2020
 codeInsee:
   - un code Insee peut correspondre
-    - à une commune simple (CS)
+    - à une commune simple (COMS)
     - à une entité rattachée (ER)
-      - commune associée (CA)
-      - commune déléguée (CD)
-      - arrondissement municipal
-    - à une commune double (ou mixte), c'est à dire simultanément CS+CD
+      - commune associée (COMA)
+      - commune déléguée (COMD)
+      - arrondissement municipal (ARDM)
+    - simultanément COMS+COMD que l'on appelle une commune mixte (COMM)
       - par défaut le code Insee désigne la commune simple
-  - entités (E) = CS union ER
+  - entités (E) = COMS union ER
 facettes:
   - logique topologique, chaque entité correspond à une géométrie et certaines opérations sont exprimées sur ces géométries
     - exemple A.fusionneDans.B

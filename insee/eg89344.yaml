@@ -1,0 +1,145 @@
+title: 89344
+contents:
+  - 89344
+  - 89220
+  - 89254
+  - 89352
+  - 89325
+  - 89389
+updated: '2020-08-04T20:24:46+00:00'
+rpicomd:
+  89344:
+    now:
+      name: Saint-Fargeau
+    '1999-01-01':
+      évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+      name: Saint-Fargeau
+      évènementDétaillé: { détacheCommeSimples: [89325], gardeCommeAssociées: [89389] }
+    '1977-01-01':
+      évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
+      name: Saint-Fargeau
+      évènementDétaillé: { détacheCommeSimples: [89220, 89254, 89352], seScindePourCréer: [89325, 89389] }
+    '1972-12-01':
+      évènement: 'Prend des c. associées et/ou absorbe des c. fusionnées'
+      name: Saint-Fargeau
+      évènementDétaillé: { prendPourAssociées: [89220, 89254, 89352], absorbe: [89325, 89389] }
+  89220:
+    now:
+      name: Lavau
+    '1977-01-01':
+      évènement: { seDétacheDe: 89344 }
+      name: Lavau
+      estAssociéeA: 89344
+    '1972-12-01':
+      évènement: { sAssocieA: 89344 }
+      name: Lavau
+  89254:
+    now:
+      name: Mézilles
+    '1977-01-01':
+      évènement: { seDétacheDe: 89344 }
+      name: Mézilles
+      estAssociéeA: 89344
+    '1972-12-01':
+      évènement: { sAssocieA: 89344 }
+      name: Mézilles
+  89352:
+    now:
+      name: Saint-Martin-des-Champs
+    '1977-01-01':
+      évènement: { seDétacheDe: 89344 }
+      name: Saint-Martin-des-Champs
+      estAssociéeA: 89344
+    '1972-12-01':
+      évènement: { sAssocieA: 89344 }
+      name: Saint-Martin-des-Champs
+  89325:
+    now:
+      name: Ronchères
+    '1999-01-01':
+      évènement: { seDétacheDe: 89344 }
+      name: Ronchères
+      estAssociéeA: 89344
+    '1977-01-01':
+      évènement: { crééeCommeAssociéeParScissionDe: 89344 }
+    '1972-12-01':
+      évènement: { fusionneDans: 89344 }
+      name: Ronchères
+  89389:
+    now:
+      name: Septfonds
+      estAssociéeA: 89344
+    '1999-01-01':
+      évènement: { resteAssociéeA: 89344 }
+      name: Septfonds
+      estAssociéeA: 89344
+    '1977-01-01':
+      évènement: { crééeCommeAssociéeParScissionDe: 89344 }
+    '1972-12-01':
+      évènement: { fusionneDans: 89344 }
+      name: Septfonds
+histov:
+  89344:
+    '1943-01-01':
+      etat: { name: Saint-Fargeau, statut: COMS }
+    '1972-12-01':
+      evts: { prendPourAssociées: [89220, 89254, 89352], absorbe: [89325, 89389] }
+      etat: { name: Saint-Fargeau, statut: COMS }
+      erat: { aPourAssociées: [89220, 89254, 89352] }
+    '1977-01-01':
+      evts: { détacheCommeSimples: [89220, 89254, 89352], seScindePourCréer: [89325, 89389] }
+      etat: { name: Saint-Fargeau, statut: COMS }
+      erat: { aPourAssociées: [89325, 89389] }
+    '1999-01-01':
+      evts: { détacheCommeSimples: [89325], gardeCommeAssociées: [89389] }
+      etat: { name: Saint-Fargeau, statut: COMS }
+      erat: { aPourAssociées: [89389] }
+  89220:
+    '1943-01-01':
+      etat: { name: Lavau, statut: COMS }
+    '1972-12-01':
+      evts: { sAssocieA: 89344 }
+      etat: { name: Lavau, statut: COMA, crat: 89344 }
+    '1977-01-01':
+      evts: { seDétacheDe: 89344 }
+      etat: { name: Lavau, statut: COMS }
+  89254:
+    '1943-01-01':
+      etat: { name: Mézilles, statut: COMS }
+    '1972-12-01':
+      evts: { sAssocieA: 89344 }
+      etat: { name: Mézilles, statut: COMA, crat: 89344 }
+    '1977-01-01':
+      evts: { seDétacheDe: 89344 }
+      etat: { name: Mézilles, statut: COMS }
+  89352:
+    '1943-01-01':
+      etat: { name: Saint-Martin-des-Champs, statut: COMS }
+    '1972-12-01':
+      evts: { sAssocieA: 89344 }
+      etat: { name: Saint-Martin-des-Champs, statut: COMA, crat: 89344 }
+    '1977-01-01':
+      evts: { seDétacheDe: 89344 }
+      etat: { name: Saint-Martin-des-Champs, statut: COMS }
+  89325:
+    '1943-01-01':
+      etat: { name: Ronchères, statut: COMS }
+    '1972-12-01':
+      evts: { fusionneDans: 89344 }
+    '1977-01-01':
+      evts: { crééeCommeAssociéeParScissionDe: 89344 }
+      etat: { name: Ronchères, statut: COMA, crat: 89344 }
+    '1999-01-01':
+      evts: { seDétacheDe: 89344 }
+      etat: { name: Ronchères, statut: COMS }
+  89389:
+    '1943-01-01':
+      etat: { name: Septfonds, statut: COMS }
+    '1972-12-01':
+      evts: { fusionneDans: 89344 }
+    '1977-01-01':
+      evts: { crééeCommeAssociéeParScissionDe: 89344 }
+      etat: { name: Septfonds, statut: COMA, crat: 89344 }
+    '1999-01-01':
+      evts: { resteAssociéeA: 89344 }
+      etat: { name: Septfonds, statut: COMA, crat: 89344 }
