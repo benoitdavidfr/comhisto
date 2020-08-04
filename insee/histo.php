@@ -10,10 +10,9 @@ doc: |
     2) ajout d'évènements détaillés et enregistrement du résultat dans rpicomd
     3) construction du fichier histo à partir du Rpicom détaillé
 journal: |
-  2/8/2020:
-    - nécessité restructuration
-    - il est trop complexe d'effectuer des corrections avec des données dérivées
-    - idée de construire un fichier histo en distinguant clairement les données dérivées pour pouvoir les refabriquer après correction
+  2-4/8/2020:
+    - restructuration pour simplidier les corrections
+    - on distingue clairement les données dérivées pour pouvoir les refabriquer après correction
   12/7-1/8/2020:
     - construction de mirroirs
     - amélioration de la sémantique de histo.yaml, mise au point de exhisto.yaml
@@ -132,8 +131,7 @@ function conv2Csv(array $rec): array {
 name: addValToArray
 title: "function addValToArray($val, &$array): void - ajoute $val à $array, si $array existe alors $val est ajouté, sinon $array est créé à [ $val ]"
 doc: |
-  $array n'existe pas ou contient un array
-  Le paramètre $array n'existe pas forcément. Par exemple si $a = [] on peut utiliser $a['key'] comme paramètre.
+  $array est une référence à un array qui peut ne pas exister. Par exemple si $a = [] on peut utiliser $a['key'] comme paramètre.
 */}
 function addValToArray($val, &$array): void {
   if (!isset($array))
@@ -146,12 +144,13 @@ function addValToArray($val, &$array): void {
 name: addScalarToArrayOrScalar
 title: "function addScalarToArrayOrScalar($scalar, &$arrayOrScalar): void - ajoute $scalar à $arrayOrScalar"
 doc: |
-  Dans cette version, $scalar est un scalaire et $arrayOrScalar n'existe pas ou contient un scalaire ou un array
-  si $arrayOrScalar n'existe pas alors il prend la valeur $scalar
-  Sinon si $arrayOrScalar est un scalaire alors il devient un array contenant l'ancienne valeur et la nouvelle
-  sinon si $arrayOrScalar est un array alors $scalar lui est ajouté
+  Dans cette version, $scalar est un scalaire et $arrayOrScalar est une référence à un scalaire ou un array
+  si $arrayOrScalar ne contient aucune valeur alors elle prend la valeur $scalar
+  Sinon si $arrayOrScalar contient un scalaire alors il devient un array contenant l'ancienne valeur et la nouvelle
+  sinon si $arrayOrScalar contient un array alors $scalar lui est ajouté
   sinon exception
-  Le paramètre $arrayOrScalar n'existe pas forcément. Par exemple si $a = [] on peut utiliser $a['key'] comme paramètre.
+  La référence $arrayOrScalar peut ne référencer aucune valeur.
+  Ainsi par exemple si $a=[] alors la réf. $a['key'] peut être utilisée comme paramètre.
 */}
 function addScalarToArrayOrScalar($scalar, &$arrayOrScalar): void {
   if (!is_scalar($scalar))
@@ -208,14 +207,14 @@ if (0) { // Test de union_keys()
 
 {/*PhpDoc: functions
 name: readfiles
-title: function readfiles($dir, $recursive=false) - Lecture des fichiers locaux du répertoire $dir
+title: "function readfiles($dir, $recursive=false): array - Lecture des fichiers locaux du répertoire $dir"
 doc: |
   Le système d'exploitation utilise ISO 8859-1, toutes les données sont gérées en UTF-8
   Si recursive est true alors renvoie l'arbre
 */}
-function readfiles($dir, $recursive=false) { // lecture du nom, du type et de la date de modif des fichiers d'un rép.
+function readfiles(string $dir, bool $recursive=false): array { // lecture du nom, du type et de la date de modif des fichiers du rép.
   if (!$dh = opendir(utf8_decode($dir)))
-    die("Ouverture de $dir impossible");
+    throw new Exception("Erreur, Ouverture de $dir impossible");
   $files = [];
   while (($filename = readdir($dh)) !== false) {
     if (in_array($filename, ['.','..']))
@@ -234,13 +233,27 @@ function readfiles($dir, $recursive=false) { // lecture du nom, du type et de la
   return $files;
 }
 
+{/*PhpDoc: functions
+name: ypath
+title: "function ypath(array $yaml, array $path) - descend dans la structure $yaml en utilisant itérativement les clés"
+*/}
 function ypath(array $yaml, array $path) {
-  if (!$path)
-    return $yaml;
-  else {
+  while (is_array($yaml) && count($yaml)) {
     $key0 = array_shift($path);
-    return ypath($yaml[$key0], $path);
+    if (!isset($yaml[$key0]))
+      return null;
+    else
+      $yaml = $yaml[$key0];
   }
+  return $yaml;
+}
+if (0) {
+  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>test ypath</title></head><body><pre>\n";
+  //echo Yaml::dump(ypath(['a'=>['b'=>'c']], ['a']));
+  //echo Yaml::dump(ypath(['a'=>['b'=>'c']], ['a','b']));
+  //echo Yaml::dump(ypath(['a'=>['b'=>'c']], ['b']));
+  echo Yaml::dump(ypath([['b'=>'c']], [0,'b']));
+  die("\n<b>Fin test ypath</b>\n");
 }
 
 function echoHtmlHeader(string $title, string $start='<pre>'): void {
@@ -566,27 +579,28 @@ if ($_GET['action'] == 'showRpicom') { // affichage du Rpicom
 
 {/*PhpDoc: functions
 name: detailleEvt
-title: detailleEvt - détaille les évènements et en modifie certains
+title: "function detailleEvt(array &$rpicoms): void - détaille les évènements et en modifie certains"
 doc: |
   Part de Rpicom produit par brpicom sous la forme d'un dictionnaire [cinsee => rpicom]
   remplace les clés de certains types d'évènement
   ajoute des évènementsDétaillés aux évènements mirroirs qui sont définis par une chaine de caractères
   modifie l'objet passé en paramètre et l'enregistre dans rpicomd
 */}
-function detailleEvt(array &$rpicoms) {
+function detailleEvt(array &$rpicoms): void {
   // initialise pour les c. déléguées propres
-  foreach ($rpicoms as $id => &$rpicom) {
+  foreach ($rpicoms as $cinsee => &$rpicom) {
     foreach ($rpicom as $dv => &$version) {
       if (($version['évènement'] ?? null) == 'Se crée en commune nouvelle avec commune déléguée propre') {
-        addValToArray($id, $version['évènementDétaillé']['prendPourDéléguées']);
+        $version['évènementDétaillé']['devientDéléguéeDe'] = $cinsee;
+        addValToArray($cinsee, $version['évènementDétaillé']['prendPourDéléguées']);
       }
     }
   }
-  // Modification des clés de certains types d'évènements
+  // Renommage des clés de certains types d'évènements
   $keyModifs = [
     'quitteLeDépartementEtPrendLeCode'=>'changeDeCodePour', // utilisation du chgt de code pour exprimer la fusion de 2 entités
     'arriveDansLeDépartementAvecLeCode'=>'avaitPourCode',
-    'seFondDans'=>'fusionneDans', // j'abandonne la distinction entre ces 2 types
+    'seFondDans'=>'fusionneDans', // j'abandonne la distinction entre ces 2 types d'évts
     //'seSépareDe'=>'seDétacheDe',
     'rétablieCommeSimpleDe'=>'crééeCommeSimpleParScissionDe', // je préfère scission à rétablissemnt parfois incorrect
     'rétablieCommeAssociéeDe'=>'crééeCommeAssociéeParScissionDe',
@@ -666,28 +680,6 @@ function detailleEvt(array &$rpicoms) {
     }
   }
   
-  // Suppression des perdRattachementPour/prendLeRattachementDe/changeDeRattachementPour
-  // On ne peut pas le faire à ce stade
-  if (0)
-  foreach ($rpicoms as $id => &$rpicom) {
-    foreach ($rpicom as $dv => &$version) {
-      if (is_array($version['évènement'] ?? null) && (array_keys($version['évènement'])==['perdRattachementPour'])) {
-        echo Yaml::Dump([$id => [ $dv => $version]], 3);
-        $ncrat = $version['évènement']['perdRattachementPour'];
-        echo "ncrat=$ncrat\n";
-        echo Yaml::dump([$ncrat => [$dv => $rpicoms[$ncrat][$dv]]], 3);
-        if ($rpicoms[$ncrat][$dv]['évènement'] == "Commune rattachée devient commune de rattachement") {
-          // cas de transfert du rattachement entre commmunes rattachées
-        }
-        elseif ($rpicoms[$ncrat][$dv]['évènement'] == "Se crée en commune nouvelle avec commune déléguée propre") {
-          // cas de rattachament d'une c. nouvelle à une autre
-        }
-        else throw new Exception("Cas inconnu");
-        echo "\n";
-      }
-    }
-  }
-  
   if (0)
   foreach ($rpicoms as $id => $rpicom) { // affiche les évènementsDétaillés
     foreach ($rpicom as $dv => $version) {
@@ -718,6 +710,85 @@ function detailleEvt(array &$rpicoms) {
     ], 4, 2));
 }
 
+{/*PhpDoc: functions
+name: deduitEvt
+title: "function deduitEvt(array &$rpicoms): void - recalcule les évènements déduits sur histo"
+doc: |
+  Part de Histo produit par bhisto sous la forme d'un dictionnaire [cinsee => histo]
+  et recalcule les évts déduits
+*/}
+function deduitEvt(array &$histos): void {
+  $evtsDeduits = [ // [déduit => [primaire]]
+    'seDissoutDans'=>['reçoitUnePartieDe'],
+    'crééeAPartirDe'=>['contribueA'],
+    'absorbe'=>['fusionneDans'],
+    'seScindePourCréer'=>[
+      'crééeCommeSimpleParScissionDe',
+      'crééeCommeAssociéeParScissionDe',
+      'crééCommeArrondissementMunicipalParScissionDe'
+    ],
+    'prendPourAssociées'=>['sAssocieA'],
+    'prendPourDéléguées'=>['devientDéléguéeDe'],
+    'détacheCommeSimples'=>['seDétacheDe'],
+    'gardeCommeAssociées'=>['resteAssociéeA'],
+    'gardeCommeDéléguées'=>['resteDéléguéeDe'],
+  ];
+  // 1) efface tous les évts déduits
+  foreach ($histos as $cinsee => &$histo) {
+    foreach ($histo as $dv => &$version) {
+      foreach (array_keys($evtsDeduits) as $evtsDeduit)
+        if (isset($version['evts'][$evtsDeduit]))
+          $version['evts'][$evtsDeduit] = [];
+    }
+  }
+  //return;
+  
+  // 2) je les recrée
+  $evtsPrimaires = []; // [primaire => deduit]
+  foreach ($evtsDeduits as $evtDeduit => $primaires)
+    foreach ($primaires as $primaire)
+      $evtsPrimaires[$primaire] = $evtDeduit;
+  foreach ($histos as $cinsee => &$histo) {
+    foreach ($histo as $dv => &$version) {
+      foreach ($version['evts'] ?? [] as $verbe => $objets) {
+        if ($evtDeduit = $evtsPrimaires[$verbe] ?? null) {
+          addValToArray($cinsee, $histos[$objets][$dv]['evts'][$evtDeduit]);
+        }
+      }
+    }
+  }
+}
+
+{/*PhpDoc: functions
+name: deduitEtat
+title: "function deduitEtat(array &$rpicoms): void - recalcule les propriétés d'état déduites sur histo"
+doc: |
+  Part de Histo produit par bhisto sous la forme d'un dictionnaire [cinsee => histo]
+  et recalcule les entités rattachées
+*/}
+function deduitEtat(array &$histos): void {
+  // 1) j'efface les états déduits
+  foreach ($histos as $cinsee => &$histo) {
+    foreach ($histo as $dv => &$version) {
+      unset($version['erat']);
+    }
+  }
+  //return;
+  
+  // 2) je les recrée
+  foreach ($histos as $cinsee => &$histo) {
+    foreach ($histo as $dv => &$version) {
+      if (!isset($version['etat'])) continue;
+      switch ($version['etat']['statut']) {
+        case 'COMA': { addValToArray($cinsee, $histos[$version['etat']['crat']][$dv]['erat']['aPourAssociées']); break; }
+        case 'COMD': { addValToArray($cinsee, $histos[$version['etat']['crat']][$dv]['erat']['aPourDéléguées']); break; }
+        case 'ARDM': { addValToArray($cinsee, $histos[$version['etat']['crat']][$dv]['erat']['aPourArdm']); break; }
+        case 'COMM': { addValToArray($cinsee, $version['erat']['aPourDéléguées']); break; }
+      }
+    }
+  }
+}
+
 {/*PhpDoc: screens
 name: bhisto
 title: bhisto - construction du fichier histo
@@ -743,7 +814,7 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     //echo Yaml::dump(['initial'=> [$cinsee => $rpicom]], 3);
     
     // transforme estAssociéeA/estDéléguéeDe/estArrondissementMunicipalDe en statut/crat
-    // traite aussi le cas di statut mixte Simple + Déléguée
+    // traite aussi le cas du statut mixte Simple + Déléguée
     foreach ($rpicom as $dfin => $val) {
       foreach (['estAssociéeA'=>'COMA', 'estDéléguéeDe'=>'COMD', 'estArrondissementMunicipalDe'=>'ARDM'] as $key => $statut) {
         if (isset($val[$key])) {
@@ -836,6 +907,7 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     $histos[$cinsee] = $rpicom;
   }
   
+
   // réécriture des perdRattachementPour de 14624/14697/14472, ...
   // dans cette association le chef-lieu est d'abord 14624 puis le 1/2/1990 14697 puis le 7/1/2014 14472
   $perdRattachementsPour = [
@@ -908,6 +980,22 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
   $histos[14485]['1947-08-27']['evts'] = ['absorbe'=> [14612], 'changeDeCodePour'=> 14764];
   $histos[14764]['1947-08-27']['evts'] = ['avaitPourCode'=> 14485];
   
+  // correction d'erreurs
+  // il manque un détachement avant devientDéléguéeDe
+  // 49094: {'2018-01-01': {evts: { devientDéléguéeDe: 49261 }}}
+  $histos[49094]['2018-01-01']['evts'] = ['seDétacheDe'=> 49149, 'devientDéléguéeDe'=> 49261];
+  // 49154: {'2018-01-01': {evts: { devientDéléguéeDe: 49261 }}}
+  $histos[49154]['2018-01-01']['evts'] = ['seDétacheDe'=> 49149, 'devientDéléguéeDe'=> 49261];
+  // 49279: {'2018-01-01': {evts: { devientDéléguéeDe: 49261 }}}
+  $histos[49279]['2018-01-01']['evts'] = ['seDétacheDe'=> 49149, 'devientDéléguéeDe'=> 49261];
+  // 49346: {'2018-01-01': {evts: { devientDéléguéeDe: 49261 }}}
+  $histos[49346]['2018-01-01']['evts'] = ['seDétacheDe'=> 49149, 'devientDéléguéeDe'=> 49261];
+
+
+
+  deduitEvt($histos);
+  deduitEtat($histos);
+  
   // code Php intégré dans le document pour définir l'affichage résumé de la commune
   $buildNameAdministrativeArea = <<<'EOT'
     $ckey = array_keys($item)[0];
@@ -920,8 +1008,8 @@ EOT;
     __DIR__.'/histo.yaml',
     Yaml::dump([
       'title'=> "Référentiel historique des communes",
-      '@id'=> 'http://id.georef.eu/comhisto/insee/histo/',
-      'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto",
+      '@id'=> 'http://id.georef.eu/comhisto/insee/histo',
+      'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/comhisto",
       'created'=> date(DATE_ATOM),
       'valid'=> '2020-01-01',
       '$schema'=> 'http://id.georef.eu/comhisto/insee/exhisto/$schema',
@@ -1042,16 +1130,23 @@ if ($_GET['action'] == 'mirroirs') { // construction de la liste des évts mirro
   die("Fin mirroirs ok\n");
 }
 
+{/*PhpDoc: classes
+name: Verif
+title: class Verif - utilisée pour la vérification des pré/post conditions
+methods:
+*/}
 class Verif {
   protected $cinsee;
   protected $dcrea;
   protected $etatPrec;
+  protected $eratPrec;
   protected $version;
   
-  function __construct(string $cinsee, string $dcrea, array $etatPrec, array $version) {
+  function __construct(string $cinsee, string $dcrea, array $etatPrec, array $eratPrec, array $version) {
     $this->cinsee = $cinsee;
     $this->dcrea = $dcrea;
     $this->etatPrec = $etatPrec;
+    $this->eratPrec = $eratPrec;
     $this->version = $version;
   }
   
@@ -1071,15 +1166,19 @@ class Verif {
          ]], 3);
   }
   
-  // Teste les pré- et post-conditions des évènements
-  // en cas d'erreur mineure effectue des corrections de la version et affiche une alerte
-  // signale les erreurs majeures
   function prePostCond(): array {
-    
+    {/*PhpDoc: methods
+    name: prePostCond
+    title: "function prePostCond(): array - vérifie les pré- et post-conditions des évènements"
+    doc: |
+      en cas d'erreur mineure effectue des corrections de la version et affiche une alerte
+      signale les erreurs majeures
+    */}
     $evts = $this->version['evts'] ?? [];
     $etatSuiv = $this->version['etat'] ?? [];
     switch (array_keys($evts)) {
-      case [] : { // entrée dans le référentiel
+      // entrée dans le référentiel
+      case [] : {
         // l'état préc. n'existe pas
         if ($this->etatPrec)
           $this->error("L'état précédent ne devrait pas exister");
@@ -1089,6 +1188,7 @@ class Verif {
         return $this->version;
       }
       
+      // changeDeNomPour
       case ['changeDeNomPour']: {
         if (!$this->etatPrec)
           $this->error("l'état précédent devrait exister");
@@ -1096,7 +1196,51 @@ class Verif {
           $this->error("l'état suivant devrait exister et son nom devrait être celui fourni");
         return $this->version;
       }
+
+      // sortDuPérimètreDuRéférentiel
+      // changeDeCodePour
+      case ['changeDeCodePour']:
+      case ['absorbe','changeDeCodePour']:
+      case ['sortDuPérimètreDuRéférentiel']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent devrait exister");
+        if ($etatSuiv)
+          $this->error("l'état suivant ne devrait pas exister");
+        return $this->version;
+      }
       
+      // avaitPourCode
+      case ['avaitPourCode']: {
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        if (!$etatSuiv)
+          $this->error("l'état suivant devrait exister");
+        return $this->version;
+      }
+      
+      case ['avaitPourCode','devientDéléguéeDe']: {
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMD')))
+          $this->error("l'état suivant devrait être une commune déléguée");
+        return $this->version;
+      }
+      
+      // reçoitUnePartieDe - contribueA
+      case ['reçoitUnePartieDe']:
+      case ['changeDeNomPour','reçoitUnePartieDe']:
+      case ['contribueA']: {
+        if (!($this->etatPrec && ($this->etatPrec['statut']=='COMS')))
+          $this->error("l'état précédent devrait exister et être une commune simple");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMS')))
+          $this->error("l'état suivant devrait exister et être une commune simple");
+        return $this->version;
+      }
+      // seDissoutDans - crééeAPartirDe
+      case ['seDissoutDans']: return $this->version; // evt déduit
+      case ['crééeAPartirDe']: return $this->version; // evt déduit
+      
+      // fusionneDans
       case ['fusionneDans']: {
         if (!($this->etatPrec && in_array($this->etatPrec['statut'], ['COMS','COMA','COMD'])))
           $this->error("l'état précédent devrait être une commune simple, associée ou déléguée");
@@ -1104,8 +1248,48 @@ class Verif {
           $this->error("l'état suivant ne devrait pas exister");
         return $this->version;
       }
+      // absorbe
+      case ['absorbe']: return $this->version; // evt déduit
+      case ['absorbe','gardeCommeAssociées']: return $this->version; // evts déduits
+      case ['gardeCommeAssociées','absorbe']: return $this->version; // evts déduits
+      case ['absorbe','prendPourAssociées']: return $this->version; // evts déduits
       
-      case ['sAssocieA']: {
+      // crééeCommeSimpleParScissionDe
+      case ['crééeCommeSimpleParScissionDe']: {
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMS')))
+          $this->error("l'état suivant devrait être une commune simple");
+        return $this->version;
+      }
+      
+      // crééeCommeAssociéeParScissionDe
+      case ['crééeCommeAssociéeParScissionDe']: {
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMA')))
+          $this->error("l'état suivant devrait être une commune associée");
+        return $this->version;
+      }
+
+      // crééCommeArrondissementMunicipalParScissionDe
+      case ['crééCommeArrondissementMunicipalParScissionDe']: {
+        if ($this->etatPrec)
+          $this->error("L'état précédent ne devrait pas exister");
+        if (!($etatSuiv && ($etatSuiv['statut']=='ARDM')))
+          $this->error("l'état suivant devrait être un arrondissement municipal");
+        return $this->version;
+      }
+      
+      // seScindePourCréer
+      case ['seScindePourCréer']: return $this->version; // evts déduits
+      
+      // estModifiéeIndirectementPar
+      case ['estModifiéeIndirectementPar']: return $this->version;
+      
+      // sAssocieA
+      case ['sAssocieA']:
+      case ['détacheCommeSimples','sAssocieA']: {
         if (!($this->etatPrec && ($this->etatPrec['statut']=='COMS'))) {
           if (($this->etatPrec['statut']=='COMA') && ($this->etatPrec['crat']==$evts['sAssocieA'])) {
             $this->warning("modif evt sAssocieA en resteAssociéeA");
@@ -1126,64 +1310,159 @@ class Verif {
         return $this->version;
       }
       
-      case ['prendPourDéléguées']: {
-        if (!($this->etatPrec && in_array($this->etatPrec['statut'], ['COMS','COMM'])))
-          $this->error("l'état précédent devrait être une commune simple ou mixte");
+      // prendPourAssociées
+      case ['prendPourAssociées']: return $this->version; // evt déduit
+      case ['prendPourAssociées','absorbe']: return $this->version; // evt déduit
         
-        foreach ($evts['prendPourDéléguées'] as $del) {
-          if (in_array($del, $this->etatPrec['aPourDéléguées'] ?? []))
-            $this->error("$del est déjà déléguée");
+      // resteAssociéeA
+      case ['resteAssociéeA']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent de resteAssociéeA devrait exister");
+        if (!($this->etatPrec['statut']=='COMA'))
+          $this->error("l'état précédent devrait être une commune associée");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMA')))
+          $this->error("l'état suivant devrait être une commune associée");
+        return $this->version;
+      }
+      // gardeCommeAssociées
+      case ['gardeCommeAssociées','détacheCommeSimples']: return $this->version; // evt déduit
+      case ['détacheCommeSimples','gardeCommeAssociées']: return $this->version; // evt déduit
+  
+      // devientDéléguéeDe
+      case ['devientDéléguéeDe']:
+      case ['devientDéléguéeDe','prendPourDéléguées']:
+      case ['devientDéléguéeDe','prendPourDéléguées','gardeCommeDéléguées']:
+      case ['devientDéléguéeDe','prendPourDéléguées','absorbe']:
+      case ['devientDéléguéeDe','prendPourDéléguées','absorbe','gardeCommeDéléguées']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent de devientDéléguéeDe devrait exister");
+        if (($this->etatPrec['statut']=='COMD') && ($this->etatPrec['crat']==$evts['devientDéléguéeDe'])) {
+          $this->warning("modif evt devientDéléguéeDe en resteDéléguéeDe");
+          $this->version['evts']['resteDéléguéeDe'] = $evts['devientDéléguéeDe'];
+          unset($this->version['evts']['devientDéléguéeDe']);
         }
-        
-        $this->version['etat']['aPourDéléguées'] =
-          array_merge($this->version['etat']['aPourDéléguées'] ?? [], $evts['prendPourDéléguées']);
-          
-        if (in_array($this->cinsee, $evts['prendPourDéléguées'])) {
-          if (!($etatSuiv && ($etatSuiv['statut']=='COMM'))) {
-            $this->warning("l'état suivant devrait être une commune mixte");
-            $this->version['etat']['statut'] = 'COMM';
+        elseif (!(($this->etatPrec['statut']=='COMS')
+              || (($this->etatPrec['statut']=='COMA') && ($this->etatPrec['crat']==$evts['devientDéléguéeDe'])))) {
+          $this->error("l'état précédent devrait être une commune simple ou une commune associée à la commune déléguante");
+        }
+        if (!$etatSuiv)
+          $this->error("l'état suivant devrait exister");
+        if ($etatSuiv['statut']=='COMS') {
+          if ($evts['devientDéléguéeDe']==$this->cinsee) {
+            $this->warning("modif statut en COMM");
+            $etatSuiv['statut'] = 'COMM';
+          }
+          else {
+            $this->warning("modif statut en COMD et affect crat");
+            $etatSuiv['statut'] = 'COMD';
+            $etatSuiv['crat'] = $evts['devientDéléguéeDe'];
           }
         }
-        else {
-          if (!($etatSuiv && ($etatSuiv['statut']=='COMS')))
-            $this->error("l'état suivant devrait être une commune simple");
+        elseif (!in_array($etatSuiv['statut'], ['COMD','COMM'])) {
+          $this->error("l'état suivant devrait être une commune déléguée ou mixte");
         }
         return $this->version;
       }
       
+      case ['détacheCommeSimples','devientDéléguéeDe']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent de devrait exister");
+        $deleguees = []; // [ deleguee => 1]
+        foreach ($this->eratPrec['aPourDéléguées'] as $deleguee)
+          $deleguees[$deleguee] = 1;
+        foreach ($evts['détacheCommeSimples'] as $deleguee)
+          unset($deleguees[$deleguee]);
+        if (!in_array($deleguees, [[], [$this->cinsee=>1]]))
+          $this->error("toutes les déléguées devraient être détachées");
+        if (!($etatSuiv['statut']=='COMD'))
+          $this->error("l'état suivant devrait être une commune déléguée");
+        return $this->version;
+      }
+      
+      // prendPourDéléguées
+      case ['prendPourDéléguées']: return $this->version; // evt déduit
+      case ['prendPourDéléguées','absorbe']: return $this->version; // evt déduit
+      case ['prendPourDéléguées','gardeCommeDéléguées']: return $this->version; // evt déduit
+      case ['gardeCommeDéléguées','prendPourDéléguées']: return $this->version; // evt déduit
+  
+      // resteDéléguéeDe
+      case ['resteDéléguéeDe']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent de devrait exister");
+        if (!($this->etatPrec['statut']=='COMD'))
+          $this->error("l'état précédent devrait être une commune déléguée");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMD')))
+          $this->error("l'état suivant devrait être une commune déléguée");
+        return $this->version;
+      }
+      // gardeCommeDéléguées
+      case ['gardeCommeDéléguées']: return $this->version; // evt déduit
+
+      // seDétacheDe
+      case ['seDétacheDe']:
+      case ['seDétacheDe','prendPourAssociées']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent devrait exister");
+        if (!(in_array($this->etatPrec['statut'], ['COMA','COMD'])))
+          $this->error("l'état précédent devrait être une commune rattachée");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMS')))
+          $this->error("l'état suivant devrait être une commune simple");
+        return $this->version;
+      }
+      
+      case ['seDétacheDe','sAssocieA']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent devrait exister");
+        if (!(in_array($this->etatPrec['statut'], ['COMA','COMD'])))
+          $this->error("l'état précédent devrait être une commune rattachée");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMA')))
+          $this->error("l'état suivant devrait être une commune associée");
+        return $this->version;
+      }
+      
+      case ['seDétacheDe','devientDéléguéeDe']: {
+        if (!$this->etatPrec)
+          $this->error("l'état précédent devrait exister");
+        if (!(in_array($this->etatPrec['statut'], ['COMA','COMD'])))
+          $this->error("l'état précédent devrait être une commune rattachée");
+        if (!($etatSuiv && ($etatSuiv['statut']=='COMD')))
+          $this->error("l'état suivant devrait être une commune déléguée");
+        return $this->version;
+      }
+
+      // détacheCommeSimples
+      case ['détacheCommeSimples']: return $this->version; // evt déduit
+      case ['détacheCommeSimples','seScindePourCréer']: return $this->version; // evt déduit
+      
       default: {
-        //echo "Evts ",Yaml::dump($evts, 0)," non  traité\n";
+        echo "Evts ",Yaml::dump($evts, 0)," non  traité\n";
         return $this->version;
       }
     }
-
   }
-  
 };
 
 if ($_GET['action'] == 'verifCond') { // test les pré-conditions et post-conditions
-  /*class Evts {
-    protected $evts; // array
-  
-    function __construct($evts) { $this->evts = $evts; }
-    function keys(): array { return array_keys($this->evts); }
-    function __get(string $key) { return $this->evts[$key] ?? null; }
-    function asArray(): array { return $this->evts; }
-    function __toString(): string { return json_encode($this->evts, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); }
-  }*/
-
   echoHtmlHeader($_GET['action']);
   $histos = new Base('histo', new Criteria(['not'])); // Lecture de histo.yaml dans $histos
+  $metadata = $histos->metadata();
   $histos = $histos->contents();
   foreach ($histos as $cinsee => &$histo) {
     $etatPrec = [];
+    $eratPrec = [];
     foreach ($histo as $dcrea => &$version) {
-      $verif = new Verif($cinsee, $dcrea, $etatPrec, $version);
+      $verif = new Verif($cinsee, $dcrea, $etatPrec, $eratPrec, $version);
       $version = $verif->prePostCond();
       $etatPrec = $version['etat'] ?? [];
+      $eratPrec = $version['erat'] ?? [];
     }
   }
-  die("Fin verifCond ok\n");
+  deduitEvt($histos);
+  deduitEtat($histos);
+  $metadata['created'] = date(DATE_ATOM);
+  $histos = new Base(array_merge($metadata, ['contents'=> $histos]));
+  $histos->writeAsYaml('histov');
+  die("Fin verifCond ok, fichier histov écrit\n");
 }
 
 die("Aucune commande $_GET[action]\n");
