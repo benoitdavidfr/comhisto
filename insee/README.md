@@ -58,7 +58,7 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - évènements
     - A.seDissoutDans.(Bi)
     - B.reçoitUnePartieDe.A
-  - exemple:
+  - exemples:
         51606: { seDissoutDans: [51235, 51313, 51369] }
         51235: { reçoitUnePartieDe: 51606 }
         51313: { reçoitUnePartieDe: 51606 }
