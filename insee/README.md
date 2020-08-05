@@ -39,72 +39,41 @@ Les opérations seront exprimées sous la forme d'évènements:
 - s'appliquant à un code Insee,
 - avec généralement comme paramètres un code Insee ou une liste de codes Insee.
 
-Par exemple, l'opération de fusion de la commune d'Amareins (01003) dans la commune de Amareins-Francheleins-Cesseins (01165)
-s'exprime par:
+Par exemple, l'opération de fusion de la commune d'Amareins (01003)
+dans la commune de Amareins-Francheleins-Cesseins (01165) s'exprime en Yaml par:
 
-    '01003':
-      '1983-01-01':
-        fusionneDans: '01165'
+    '01003': {fusionneDans: '01165'}
+
+Pour cet évènement de fusion, un évènement `absorbe`, appelé *mirroir*, est défini sur l'objet de l'évènement de fusion
+et s'exprime par:
+
+    '01165': {absorbe: ['01003']}
 
 
+Les types d'opérations, et les types d'évènements correspondants, sont les suivants:
 
-Les types d'opérations sont les suivants:
+#### opérations topologiques
 
-
+- dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi  
+  - A.seDissoutDans.(Bi)
+  - B.reçoitUnePartieDe.A
+- création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
+  - A.crééeAPartirDe.(Bi)
+  - B.contribueA.A
+- suppression d'une entité A par fusion de son territoire dans celui d'une autre B
+  - A.fusionneDans.B
+  - B.absorbe.(A)
+- fusionDe2EntitésPourEnCréerUneNouvelle:
+    title: 2 entités fusionnent pour en créer une nouvelle qui prend un code Insee différent de ceux des 2 entités fusionnées
+    comment: peut être formalisée comme fusionDuneEntitéDansUneAutre + changementDeCode
+- 1 entité A se scinde en 2 pour en créer une nouvelle B, les mouvements définissent le type de l'entités créée
+  - A.seScindePourCréer.(B)
+  - B.crééeCommeSimpleParScissionDe.A
+  - B.crééeCommeAssociéeParScissionDe.A
+  - B.crééCommeArrondissementMunicipalParScissionDe.A
 
 # SUITE
 
-facettes:
-  - logique topologique, chaque entité correspond à une géométrie et certaines opérations sont exprimées sur ces géométries
-    - exemple A.fusionneDans.B
-  - logique ensembliste, chaque ER est rattachée à une et une seule CS, chaque CS correspond à un ens. de ER, évt vide
-    - opérations ensemblistes
-    - exemple A.devientDéléguéeDe.B
-  - autres opérations
-    - changement de nom
-    - changement de code
-    - sort du référentiel
-formalisme:
-  - Toutes les opérations sont exprimées par des évènements,
-    - chacun défini sur un code Insee
-    - avec généralement un ou des paramètres, généralement un code Insee ou une liste de codes Insee
-  - le type d'évènement impose un type d'état
-listeOpérationsTopologiques:
-  dissolutionDUneEntitéAuProfitDePlusieursAutres:
-    title: dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi
-    opérationsElementaires:
-      - A.seDissoutDans.(Bi)
-      - B.reçoitUnePartieDe.A
-  créationDuneEntitéAuDétrimentDePlusieursAutres:
-    title: création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
-    opérationsElementaires:
-      - A.crééeAPartirDe.(Bi)
-      - B.contribueA.A
-  fusionDuneEntitéDansUneAutre:
-    title: suppression d'une entité A par fusion de son territoire dans celui d'une autre B
-    comment: cas particulier de dissolutionDUneEntitéAuProfitDePlusieursAutres avec une seule autre
-    opérationsElementaires:
-      - A.fusionneDans.B
-      - B.absorbe.(A)
-  fusionDe2EntitésPourEnCréerUneNouvelle:
-    title: 2 entités fusionnent pour en créer une nouvelle qui prend un code Insee différent de ceux des 2 entités fusionnées
-    comment: peut être formalisée comme fusionDuneEntitéDansUneAutre + changementDeCode
-  scissionDuneEntitéEn2PourEnCréerUneNouvelle:
-    title: 1 entité A se scinde en 2 pour en créer une nouvelle B, les mouvements définissent le type de l'entités créée
-    comment: cas particulier de créationDuneEntitéAuDétrimentDePlusieursAutres avec une seule autre
-    opérationsElementaires:
-      - A.seScindePourCréer.(B)
-      - B.crééeCommeSimpleParScissionDe.A
-      - B.crééeCommeAssociéeParScissionDe.A
-      - B.crééCommeArrondissementMunicipalParScissionDe.A
-    casParticuliers:
-      - une CS peut se scinder pour créer une de ses c. associées,
-        - ex.
-          89344: {'1977-01-01': {evts: {seScindePourCréerLesAssociées: [89325, 89389]}}}
-          89325:
-            '1977-01-01':
-              evts: { crééeCommeAssociéeParScissionDe: 89344 }
-              etat: { name: Ronchères, statut: COMA, crat: 89344 }
 
 listeOpérationsEnsemblistes:
   rattache:

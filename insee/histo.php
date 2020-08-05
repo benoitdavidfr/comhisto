@@ -1470,7 +1470,7 @@ if ($_GET['action'] == 'verifCond') { // test les pré-conditions et post-condit
   deduitEtat($histos);
   $metadata['created'] = date(DATE_ATOM);
   $histos = new Base(array_merge($metadata, ['contents'=> $histos]));
-  $histos->writeAsYaml('histov');
+  $histos->writeAsYaml('histov', [], 3);
   die("Fin verifCond ok, fichier histov écrit\n");
 }
 

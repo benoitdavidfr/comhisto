@@ -280,7 +280,7 @@ class Base {
     return file_put_contents("$filepath.pser", serialize(array_merge($metadata, ['contents'=> $this->contents])));
   }
 
-  function writeAsYaml(string $filepath='', array $metadata=[]) {
+  function writeAsYaml(string $filepath='', array $metadata=[], int $level=99, int $indent=2) {
     {/*PhpDoc: methods
     name: writeAsYaml
     title: function writeAsYaml(string $filepath='', array $metadata=[]) - enregistre le contenu de la base dans un fichier Yaml
@@ -307,9 +307,9 @@ class Base {
     else
       $this->metadata = $metadata;
     if ($filepath)
-      return file_put_contents("$filepath.yaml", Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), 99, 2));
+      return file_put_contents("$filepath.yaml", Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), $level, $indent));
     else
-      echo Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), 99, 2);
+      echo Yaml::dump(array_merge($metadata, ['contents'=> $this->contents]), $level, $indent);
   }
 
   // démarre la constitution avec les enr. modifiés d'un extrait qui sera terminé et affiché par showExtractAsYaml()
