@@ -72,12 +72,21 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 #### Les opérations ensemblistes
 
-- une entité A se rattache à une COMS B
+- une entité A se rattache à (s'associe ou devient déléguée) une COMS B
   - *évènements*: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
 - une entité A se détache à une COMS B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
 - une entité A reste attachée à une COMS B
   - évènements: `A.resteAssociéeA.B / B.gardeCommeAssociées.(A), A.resteDéléguéeDe.B / B.gardeCommeDéléguées.(A)`
+
+#### Les autres opérations
+
+- l'entrée d'une entité dans le référentiel est exprimé par une absence d'évènement ;
+  l'entrée est généralement effectuée au 1/1/1943 sauf pour les communes de Mayotte, dont l'entrée est datée du 31/3/2011,
+  date à laquelle Mayotte est devenu un département francais,
+- la sortie du référentiel existe mais est exceptionnelle, il s'agit de Saint-Martin et de Saint-Barthélémy 
+  - exemple: `97123: { sortDuPérimètreDuRéférentiel: null }`
+
 
 # SUITE
 
