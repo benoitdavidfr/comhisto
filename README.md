@@ -49,7 +49,7 @@ Le fichier Insee des mouvements est complété de certaines données manquantes
 (comme par exemple la prise en compte des communes de Mayotte devenu un DOM le 31/3/2011)
 et corrigé de quelques erreurs manifestes.
 
-Cette étape est documenté plus en détail ici.
+Cette étape est [documentée plus en détail ici](blob/master/insee/README.md).
 
 ## 2ème étape - organisation des entités versionnées en zones
 On appelle dans la suite entité une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
