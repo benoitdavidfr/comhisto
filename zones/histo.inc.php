@@ -155,6 +155,7 @@ class Version {
   function evtsFin(): ?Evts { return $this->evtsFin; }
   function evtsCreation(): ?Evts { return $this->evtsCreation; }
   function id(): string { return $this->statut.$this->cinsee.'@'.$this->dCreation; }
+  function rid(): string { return 'r'.$this->cinsee.'@'.$this->dCreation; }
   function isValid(): bool { return is_null($this->dFin); }
 
   function asArray(): array {
@@ -275,17 +276,26 @@ class Version {
       case ['absorbe','prendPourAssociées']:
       case ['prendPourAssociées','absorbe']:
       case ['prendPourDéléguées','absorbe']:
+      case ['prendPourAssociées','gardeCommeAssociées']:
       case ['prendPourDéléguées','gardeCommeDéléguées']:
       case ['gardeCommeDéléguées','prendPourDéléguées']:
       case ['prendPourDéléguées','absorbe','gardeCommeDéléguées']:
       case ['seDétacheDe','prendPourAssociées']:
       case ['estModifiéeIndirectementPar']: { // dans le cas de figure la suivante est plus grosse
         Zone::includes($this->next()->id(), $this->id());
-        // si une c. prend elle même pour déléguée alors cette déléguée est identique à la version précédente
-        // Pb j'ai des erreurs et j'ai constaté qu'il existe des cas où je prend plusieurs fois elle-même comme déléguée
-        xxx
         break;
       }
+      
+      // la rattachante grossit et l'ancienne cs est identique à la nouvelle déléguée propre
+      case ['devientDéléguéeDe','prendPourDéléguées']:
+      case ['devientDéléguéeDe','prendPourDéléguées','absorbe']: 
+      case ['devientDéléguéeDe','prendPourDéléguées','gardeCommeDéléguées']: 
+      case ['devientDéléguéeDe','prendPourDéléguées','absorbe','gardeCommeDéléguées']: {
+        Zone::includes($this->next()->id(), $this->id());
+        Zone::sameAs($this->next()->rid(), $this->id());
+        break;
+      }
+      
       
       case ['contribueA']: {
         Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante

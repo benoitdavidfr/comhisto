@@ -62,7 +62,7 @@ class Stats {
 if ((php_sapi_name() == 'cli') || (isset($_GET['action']) && ($_GET['action']=='bzones'))) {
   if (php_sapi_name() <> 'cli')
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body><pre>\n";
-  Histo::load('../insee/histo');
+  Histo::load('../insee/histov');
   Histo::buildAllZones();
   echo "title: Liste des zones\n";
   echo "creator: bzones.php\n";

@@ -1,4 +1,9 @@
-title: réflexion sur un nouveau modèle - refonte 24-26/7/2020
+title: réflexion sur un nouveau modèle - refonte 24/7-4/8/2020
+pbs:
+  2-4/8/2020:
+    - reste 2 pbs
+      - gestion de Lyon / pose not. pb. de déduction d'erat lorsque les ardm ne change pas en même temps que la crat
+      - manque un evt explicitant la supp. d'une com. déléguée propre, illustré par 22183
 codeInsee:
   - un code Insee peut correspondre
     - à une commune simple (COMS)
