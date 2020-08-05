@@ -152,7 +152,7 @@ $schema:
       description: |
         Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
         date, soit, sinon, valide à la date de validité du référentiel. Dans le premier cas on dit que la version est périmée, dans
-        le second qu'il s'agit de la version courante.
+        le second qu'elle est valide.
       type: object
       required: [name, statut]
       properties:
@@ -177,7 +177,7 @@ $schema:
     erat:
       description: |
         Enregistre la liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux) pour les communes
-        simples en ayant. Ces infos sont déduites du statut et crat des entités rrattachées.
+        simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
         Cette propriété est absente si ces infos ne sont pas déduites.
       type: object
       properties:

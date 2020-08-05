@@ -8,7 +8,8 @@ Sa structure est formellement définie par un [schéma JSON](https://json-schema
 
 Après avoir défini, dans une première partie, la notion d'évènement,
 ce document présente, dans une seconde, la structuration du référentiel historique des codes Insee.
-Enfin, un extrait illustre cette structuration.
+Puis quelques cas particuliers sont listés.
+Enfin, un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
 
@@ -139,13 +140,18 @@ l'information déduite est absente alors l'objet de l'évènement est une liste 
 
 Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
 date, soit, sinon, valide à la date de validité du référentiel. Dans le premier cas on dit que la version est périmée, dans
-le second qu'il s'agit de la version courante.
+le second qu'elle est valide.
 
-### Erat
+### Liste des entités rattachées
 
-Erat
+Le champ `erat` enregistre la liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux)
+pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
+Cette propriété est absente si ces infos ne sont pas déduites.
 
 ## Cas particuliers
+
+Quelques cas particuliers sont listés ci-dessous:
+
 - [Cas unique de création d''une nouvelle commune avec un nouveau code par fusion de 2 anciennes communes](eg14764.yaml)
 
 ## Extrait
