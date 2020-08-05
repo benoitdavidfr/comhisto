@@ -85,8 +85,10 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   l'entrée est généralement effectuée au 1/1/1943 sauf pour les communes de Mayotte, dont l'entrée est datée du 31/3/2011,
   date à laquelle Mayotte est devenu un département francais,
 - la sortie du référentiel existe mais est exceptionnelle, il s'agit de Saint-Martin et de Saint-Barthélémy 
-  - exemple: `97123: { sortDuPérimètreDuRéférentiel: null }`
-
+  - exemple: `{97123: {sortDuPérimètreDuRéférentiel: null }}`
+- dans certains cas, une entité peut changer de code, notamment quand elle change de département
+  - évènements: A.changeDeCodePour.B / B.avaitPourCode.A
+  - exemple: `{2A004: {avaitPourCode: 20004}, 20004: {changeDeCodePour: 2A004}}`
 
 # SUITE
 
