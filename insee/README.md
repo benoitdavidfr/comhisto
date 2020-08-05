@@ -70,12 +70,20 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - évènements: `A.seScindePourCréer.(B), B.crééeCommeSimpleParScissionDe.A, B.crééeCommeAssociéeParScissionDe.A, B.crééCommeArrondissementMunicipalParScissionDe.A`
   - exemple: `{97414: { seScindePourCréer: [97424] }, 97424: { crééeCommeSimpleParScissionDe: 97414 }}`
 
+#### Les opérations ensemblistes
+
+- une entité A se rattache à une COMS B
+  - évènements: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
+- une entité A se détache à une COMS B
+  - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
+- une entité A reste attachée à une COMS B
+  - évènements: `A.resteAssociéeA.B / B.gardeCommeAssociées.(A), A.resteDéléguéeDe.B / B.gardeCommeDéléguées.(A)`
+
 # SUITE
 
 
 listeOpérationsEnsemblistes:
   rattache:
-    title: une entité A se rattache à une CS B
     comment:
       - si A était rattachée à une autre CS alors elle s'en détache au préalable
       - si A avait des ER alors elles doivent simultanément soit se détacher soit se rattacher à une autre CS
@@ -87,11 +95,6 @@ listeOpérationsEnsemblistes:
       - B.prendPourAssociées.(A)
       - A.devientDéléguéeDe.B
       - B.prendPourDéléguées.(A)
-  détache:
-    title: une entité A se détache de sa crat B et devient CS
-    opérationsElementaires:
-      - A.seDétacheDe.B
-      - B.détache.(A)
 autres:
   - A.changeDeNomPour.NouveauNom
   - A.sortDuRéférentiel
@@ -102,10 +105,39 @@ plus:
   - lorsque A est rattachée à B et que A seScinde ou fusionne alors cela modifie B, B doit donc porter un mouvement
   - B.estModifiéeIndirectementPar.A
   
-casParticuliers:
-  perdRattachementPour:
-    situation: A a pour associées B,C,D,E
-    opérations:
-      - A.perdRattachementPour.B -> A.sAssocieA.B
-      - B.prendLeRattachementDe.A -> B.seDétacheDe.A, B.prendPourAssociées.(A,C,D,E)
-      - (C,D,E).changeDeRattachementPour.B -> (C,D,E).sAssocieA.B
+
+schema:
+properties:
+  changeDeNomPour:
+    description: le sujet change de nom avec comme objet le nouveau nom (pas d'evt. mirroir)
+    type: string
+  sortDuPérimètreDuRéférentiel:
+    description: le sujet sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+    type: 'null'
+  changeDeCodePour:
+    description: le sujet change de code, en général lors d'un chgt de dépt, avec comme objet le nouv code (mirroir avaitPourCode)
+    $ref: '#/definitions/codeInsee'
+  avaitPourCode:
+    description: |
+      le sujet est le nouveau code, en général lors d'un changement de département, avec comme objet l'ancien code
+      (mirroir changeDeCodePour)
+    $ref: '#/definitions/codeInsee'
+  estModifiéeIndirectementPar:
+    description: |
+      CS modifiée par un évt intervenant sur ses ER avec codes de ces ER
+      Type d'évt utilisé uniquement pour la commune de Lyon à l'occasion de la fusion de la commune de Saint-Rambert-l'Île-Barbe
+      dans le 5ème arrondissement de Lyon.
+    $ref: '#/definitions/listeDeCodesInsee'
+  resteAssociéeA:
+    description: c. associée le reste à l'occasion d'une évolution de l'association (mirroir gardeCommeAssociées)
+    $ref: '#/definitions/codeInsee'
+  gardeCommeAssociées:
+    description: CS ayant des c. associées en garde certaines à l'occas. d'une évol. de l'assos (mirroir déduit de resteAssociéeA)
+    $ref: '#/definitions/listeDeCodesInsee'
+  resteDéléguéeDe:
+    description: c. déléguée le reste à l'occasion d'une évolution des déléguées (mirroir gardeCommeDéléguées)
+    $ref: '#/definitions/codeInsee'
+  gardeCommeDéléguées:
+    description: CS ayant des c. déléguées en garde certaines à l'occas. d'une évol. des dél. (mirroir déduit de resteDéléguéeDe)
+    $ref: '#/definitions/listeDeCodesInsee'
+  
