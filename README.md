@@ -30,9 +30,11 @@ et associant à chacun les versions successives permettant de retrouver l'état 
 Ainsi les codes INSEE intégrés un jour dans une base restent valables et peuvent être utilisés par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
-et peut être géocodé à partir des informations d'Admin-Express publiées par l'IGN.
+et peut être partiellement géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
 La suite de ce document détaille les principes retenus pour définir ce nouveau référentiel.
+
+Attention, la production de ce référentiel est en cours et toutes les données ne sont pas disponibles.
 
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
