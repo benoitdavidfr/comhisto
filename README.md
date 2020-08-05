@@ -36,10 +36,10 @@ La suite de ce document détaille les principes retenus pour définir ce nouveau
 
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
-l'historique de chaque code Insee sous la forme pour chaque code Insee de versions datées
+l'historique de chaque code Insee sous la forme de versions datées pour chaque code Insee
 présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
 
-Une première version de ce [fichier appelé histo.yaml est disponible ici](insee/histo.yaml).
+Une première version de ce [fichier appelé histov.yaml est disponible ici](insee/histov.yaml).
 Sa structuration est spécifiée par un schéma JSON défini dans le champ $schema du fichier [exhisto.yaml](insee/exhisto.yaml) ;
 le champ contents donnant des exemples d'enregistrements.
 
@@ -66,7 +66,7 @@ Les relations entre entités versionnées permettent de définir des zones, qui 
 ayant même extension géographique et permettent aussi de définir la relation d'inclusion entre elles.
 Par exemple, on peut déduire que la zone associée à la commune nouvelle est composée des zones correspond à ses communes déléguées.
 
-Une zone correspondant à plusieurs versions, on choisit pour identifier une zone l'identifiant de la version la plus ancienne.
+Une zone correspondant a plusieurs versions, on choisit pour identifier une zone l'identifiant de la version la plus ancienne.
 
 Pour reprendre l'exemple d'Arboys en Bugey, la zone `s01015@2016-01-01` correspond au territoire de la commune nouvelle,
 elle est composée de chacune des 2 communes déléguées.
@@ -93,7 +93,7 @@ et si non en déduire en général une zone majorante de la zone recherchée.
 
 Les 2 étapes suivantes vont permettre de géoréférencer plus précisément chaque zone.
 
-## 3ème étape - géoréférencement des entités valides en utilisant les données IGN 
+## 3ème étape - géoréférencement des entités valides à partir des données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
 ou à une entité rattachée valide au 1/1/2020.
 
@@ -102,7 +102,7 @@ périmée, par exemple fusionnée dans une autre.
 
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
-## 4ème étape - construction d'un géoréférencement approché des entités périmées
+## 4ème étape -  géoréférencement approché des entités périmées
 Il existe un certain nombre d'entités périmées pour lesquelles les données dont nous disposons ne permettent pas de définir
 leur géoréférencement.
 L'idée est dans ce cas de définir un géoréférencement approché en partant de la localisation ponctuelle des chefs-lieux
