@@ -54,9 +54,11 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 #### opérations topologiques
 
-- dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi  
-  - A.seDissoutDans.(Bi)
-  - B.reçoitUnePartieDe.A
+- dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi
+  - évènements
+    - A.seDissoutDans.(Bi)
+    - B.reçoitUnePartieDe.A
+  - exemple: `51606: { seDissoutDans: [51235, 51313, 51369] }`
 - création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
   - A.crééeAPartirDe.(Bi)
   - B.contribueA.A
