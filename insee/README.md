@@ -1,13 +1,15 @@
 # Référentiel historique des codes Insee
 
-L'Insee publie l'état du COG au 1er janvier ainsi que les évolutions des communes depuis le 1/1/1943.  
-Ce sous-projet consiste à produire un document reprenant ces informations et les restructurant afin d'en faciliter la réutilisation.
-Ce document ([disponible ici](histov.yaml)) est structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
-(par un humain et une machine) et à exploiter (par une machine).
-Sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
+L'Insee publie la situation des communes au 1er janvier ainsi que les évolutions depuis le 1/1/1943.  
+Ce sous-projet consiste à restructurer ces informations afin d'en faciliter la réutilisation
+sous la forme d'un document structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
+(par un humain et une machine) et à exploiter (par une machine). 
+
+Le document est [disponible ici](histov.yaml) ;
+sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
 
 Après avoir défini, dans une première partie, la notion d'évènement,
-ce document présente, dans une seconde, la structuration du référentiel historique des codes Insee.
+cette page présente, dans une seconde, la structuration du référentiel.
 Puis quelques cas particuliers sont listés ainsi que des problèmes restants connus.
 Enfin, la liste des modifications apportées aux données Insee est listée et un extrait illustre la structuration du référentiel.
 
@@ -78,10 +80,13 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 - rattachement (par association ou délégation) d'une entité A à une COMS B
   - *évènements*: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
+  - exemple: `{ '02166': { sAssocieA: '02524' }, '02524': { prendPourAssociées: ['02166'] }}`
 - détachement d'une entité A d'une COMS B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
+  - exemple: `{'02166': { seDétacheDe: '02524' }, '02524': { détacheCommeSimples: ['02166'] }}`
 - attachement conservée d'une entité A à une COMS B
   - évènements: `A.resteAssociéeA.B / B.gardeCommeAssociées.(A), A.resteDéléguéeDe.B / B.gardeCommeDéléguées.(A)`
+  - exemple: `{'01070': { resteAssociéeA: '01165' }, '01165': { gardeCommeAssociées: ['01070'] }}`
 
 #### Les autres opérations
 
@@ -93,7 +98,7 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - exemple: `{97123: {sortDuPérimètreDuRéférentiel: null }}`
 - changement de code d'une entité, dans certains cas, notamment quand elle change de département
   - évènements: A.changeDeCodePour.B / B.avaitPourCode.A
-  - exemple: `{2A004: {avaitPourCode: 20004}, 20004: {changeDeCodePour: 2A004}}`
+  - exemple: `{20004: {changeDeCodePour: 2A004}, 2A004: {avaitPourCode: 20004}}`
 - changement de nom d'une entité pour un autre nom
   - évènement: `A.changeDeNomPour.NouveauNom`
   - exemple: `{'01053': { changeDeNomPour: Bourg-en-Bresse }}`
