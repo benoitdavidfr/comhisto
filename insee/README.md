@@ -8,8 +8,8 @@ Sa structure est formellement définie par un [schéma JSON](https://json-schema
 
 Après avoir défini, dans une première partie, la notion d'évènement,
 ce document présente, dans une seconde, la structuration du référentiel historique des codes Insee.
-Puis quelques cas particuliers sont listés ainsi que des problèmes connus.
-Enfin, un extrait illustre la structuration du référentiel.
+Puis quelques cas particuliers sont listés ainsi que des problèmes restants connus.
+Enfin, la liste des modifications apportées aux données Insee est listée et un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
 
@@ -169,6 +169,22 @@ Quelques cas particuliers complexes sont listés ci-dessous:
 
 - gestion de Lyon / pose not. pb. de déduction d'erat lorsque les ardm ne change pas en même temps que la crat
 - manque un evt explicitant la supp. d'une com. déléguée propre, illustré par 22183
+
+
+## Liste des modifications apportées aux données Insee
+
+### Saint-Martin et Saint-Barthélemy
+Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM
+
+### Suppression du rétablissement de Bures-sur-Dives (14114)
+Ce rétablissement est ambigü dans les informations fournies par l'Insee et est contredit par IGN et wikipédia.
+
+### Correction des mouvements sur Ronchères (89325)
+Sur Ronchères (89325) les mouvements définis par l'Insee d'association le 1972-12-01 et de rétablieCommeAssociéeDe le 1977-01-01
+sont incompatibles.  
+L'association est transformée en fusion.
+
+### Idem sur Septfonds (89389)
 
 
 ## Extrait
