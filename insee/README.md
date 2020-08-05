@@ -4,7 +4,6 @@ L'Insee publie la situation des communes au 1er janvier ainsi que les évolution
 Ce sous-projet consiste à restructurer ces informations afin d'en faciliter la réutilisation
 sous la forme d'un document structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
 (par un humain et une machine) et à exploiter (par une machine). 
-
 Le document est [disponible ici](histov.yaml) ;
 sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
 
