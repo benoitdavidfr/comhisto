@@ -85,70 +85,13 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   l'entrée est généralement effectuée au 1/1/1943 sauf pour les communes de Mayotte, dont l'entrée est datée du 31/3/2011,
   date à laquelle Mayotte est devenu un département francais,
 - la sortie du référentiel existe mais est exceptionnelle, il s'agit de Saint-Martin et de Saint-Barthélémy 
+  - évènement: `A.sortDuPérimètreDuRéférentiel.null`
   - exemple: `{97123: {sortDuPérimètreDuRéférentiel: null }}`
 - dans certains cas, une entité peut changer de code, notamment quand elle change de département
   - évènements: A.changeDeCodePour.B / B.avaitPourCode.A
   - exemple: `{2A004: {avaitPourCode: 20004}, 20004: {changeDeCodePour: 2A004}}`
-
-# SUITE
-
-
-listeOpérationsEnsemblistes:
-  rattache:
-    comment:
-      - si A était rattachée à une autre CS alors elle s'en détache au préalable
-      - si A avait des ER alors elles doivent simultanément soit se détacher soit se rattacher à une autre CS
-      - si A était double alors son ER est rattachée à B, la CS disparait,
-        - les autres ER doivent simultanément soit se détacher soit se rattacher à une autre CS
-      - A et B peuvent correspondre au même code
-    opérationsElementaires:
-      - A.sAssocieA.B
-      - B.prendPourAssociées.(A)
-      - A.devientDéléguéeDe.B
-      - B.prendPourDéléguées.(A)
-autres:
-  - A.changeDeNomPour.NouveauNom
-  - A.sortDuRéférentiel
-  - A.changeDeCodePour.B
-  - B.avaitPourCode.A
-
-plus:
-  - lorsque A est rattachée à B et que A seScinde ou fusionne alors cela modifie B, B doit donc porter un mouvement
-  - B.estModifiéeIndirectementPar.A
-  
-
-schema:
-properties:
-  changeDeNomPour:
-    description: le sujet change de nom avec comme objet le nouveau nom (pas d'evt. mirroir)
-    type: string
-  sortDuPérimètreDuRéférentiel:
-    description: le sujet sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
-    type: 'null'
-  changeDeCodePour:
-    description: le sujet change de code, en général lors d'un chgt de dépt, avec comme objet le nouv code (mirroir avaitPourCode)
-    $ref: '#/definitions/codeInsee'
-  avaitPourCode:
-    description: |
-      le sujet est le nouveau code, en général lors d'un changement de département, avec comme objet l'ancien code
-      (mirroir changeDeCodePour)
-    $ref: '#/definitions/codeInsee'
-  estModifiéeIndirectementPar:
-    description: |
-      CS modifiée par un évt intervenant sur ses ER avec codes de ces ER
-      Type d'évt utilisé uniquement pour la commune de Lyon à l'occasion de la fusion de la commune de Saint-Rambert-l'Île-Barbe
-      dans le 5ème arrondissement de Lyon.
-    $ref: '#/definitions/listeDeCodesInsee'
-  resteAssociéeA:
-    description: c. associée le reste à l'occasion d'une évolution de l'association (mirroir gardeCommeAssociées)
-    $ref: '#/definitions/codeInsee'
-  gardeCommeAssociées:
-    description: CS ayant des c. associées en garde certaines à l'occas. d'une évol. de l'assos (mirroir déduit de resteAssociéeA)
-    $ref: '#/definitions/listeDeCodesInsee'
-  resteDéléguéeDe:
-    description: c. déléguée le reste à l'occasion d'une évolution des déléguées (mirroir gardeCommeDéléguées)
-    $ref: '#/definitions/codeInsee'
-  gardeCommeDéléguées:
-    description: CS ayant des c. déléguées en garde certaines à l'occas. d'une évol. des dél. (mirroir déduit de resteDéléguéeDe)
-    $ref: '#/definitions/listeDeCodesInsee'
-  
+- une entité change de nom pour un autre
+  - évènement: `A.changeDeNomPour.NouveauNom`
+  - exemple: `{'01053': { changeDeNomPour: Bourg-en-Bresse }}`
+- une commune simple peut être modifiée par la modification d'une de ses entités rattachées
+  - évènement: `estModifiéeIndirectementPar`
