@@ -27,7 +27,7 @@ Dans la suite le terme *entité* désignera une commune simple ou une entité ra
 
 3 types d'opérations sur entités sont définis:
 
-- le premier type correspond aux opérations *topologiques*, dans lesquelles chaque entité est vue comme une zone géométrique
+- le premier type correspond aux opérations *topologiques*, dans lesquelles chaque entité est vue comme une zone géométrique,  
   par exemple l'opération de fusion d'une entité dans une autre
 - le second type correspond aux opérations *ensemblistes*, dans lesquelles chaque entité 
 
