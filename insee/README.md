@@ -145,6 +145,9 @@ le second qu'il s'agit de la version courante.
 
 Erat
 
+## Cas particuliers
+- [Cas unique de création d''une nouvelle commune avec un nouveau code par fusion de 2 anciennes communes](eg14764.yaml)
+
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
 
