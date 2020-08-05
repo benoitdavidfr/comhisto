@@ -76,11 +76,11 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 #### Les opérations ensemblistes
 
-- une entité A se rattache à (s'associe ou devient déléguée) une COMS B
+- rattachement (par association ou délégation) d'une entité A à une COMS B
   - *évènements*: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
-- une entité A se détache à une COMS B
+- détachement d'une entité A d'une COMS B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
-- une entité A reste attachée à une COMS B
+- attachement conservée d'une entité A à une COMS B
   - évènements: `A.resteAssociéeA.B / B.gardeCommeAssociées.(A), A.resteDéléguéeDe.B / B.gardeCommeDéléguées.(A)`
 
 #### Les autres opérations
@@ -91,10 +91,10 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 - la sortie du référentiel est exceptionnelle, il s'agit de Saint-Martin et de Saint-Barthélémy 
   - évènement: `A.sortDuPérimètreDuRéférentiel.null`
   - exemple: `{97123: {sortDuPérimètreDuRéférentiel: null }}`
-- dans certains cas, une entité peut changer de code, notamment quand elle change de département
+- changement de code d'une entité, dans certains cas, notamment quand elle change de département
   - évènements: A.changeDeCodePour.B / B.avaitPourCode.A
   - exemple: `{2A004: {avaitPourCode: 20004}, 20004: {changeDeCodePour: 2A004}}`
-- une entité change de nom pour un autre
+- changement de nom d'une entité pour un autre nom
   - évènement: `A.changeDeNomPour.NouveauNom`
   - exemple: `{'01053': { changeDeNomPour: Bourg-en-Bresse }}`
 - une commune simple peut être modifiée par la modification d'une de ses entités rattachées
@@ -105,15 +105,15 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 Le référentiel historique des codes INSEE des communes est principalement constitué d'un dictionnaire des codes INSEE des communes
 simples et des entités rattachées (communes associées, communes déléguées et arrondissements municipaux) ayant existé depuis le
 1/1/1943 associant à chaque code des infos versionnées indexées par la date de la version.  
-Outre cette date, chaque version correspond à:
+Outre cette date, chaque version correspond:
 
-- un ou des évènement(s) de création/modification/suppression de la version, sauf pour la version initiale datée du 1/1/1943,
-  sauf pour les communes de Mayotte, dont l'état initial est daté du 31/3/2011, date à laquelle Mayotte est devenu un département
-  francais,
-- l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version jusqu'à la date
-  de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
-  cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité,
-- s'il y en a, la liste des entités rattachées, déduites de l'état de ces entités rattachées.
+- dans un champ `évts` à un ou des évènement(s) de création/modification/suppression de la version, 
+  sauf pour la version initiale datée du 1/1/1943, sauf pour les communes de Mayotte,
+  dont l'état initial est daté du 31/3/2011, date à laquelle Mayotte est devenu un département francais,
+- dans un champ `état` à l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version
+  jusqu'à la date de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
+  cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité (ex. fusion),
+- dans un champ `erat`, s'il y en a, la liste des entités rattachées, déduites de l'état de ces entités rattachées.
 
 Certaines informations peuvent être déduites des informations primaires ; cela est alors signalé dans les commentaires du schéma.  
 Outre ce dictionnaire défini dans le champs contents, le document contient différentes champs,
@@ -121,31 +121,24 @@ notamment des propriétés Dublin Core (`title`, `description`, `created`, `modi
 ainsi qu'un champ `$schema` contenant une référence vers son schema JSON
 et un champ `ydADscrBhv` peut être utilisé pour afficher le fichier.
 
-### Les évènements
+### Les évènements (champ évts)
 
 Les opérations sur les entités sont décrites par des évènements de création/modification/suppression s'appliquant à un code Insee ;
 la plupart prennent en objet un code INSEE ou une liste et, dans ce cas, les codes INSEE objets portent à la même un date un évènement
-appelé mirroir.  
-La définition de ces types d'évènement respecte les principes suivants:
-
-- le nombre de types d'évènements est limité afin de faciliter la compréhension du modèle
-- l'état issu d'un évènement doit être défini par l'état précédent ainsi que les infos portées par l'évènement,
-  sauf pour les changements de nom,
-- le fichier doit permettre à un humain de comprendre facilement l'évolution de(s) l'entité(s) associée(s) à un code Insee
-
+appelé mirroir.
 Certains évènements, comme mentionnés dans les commentaires, peuvent être déduits de leurs évènements mirroirs. Lorsque
 l'information déduite est absente alors l'objet de l'évènement est une liste vide.
 
-### L'état
+### L'état (champ état)
 
 Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
 date, soit, sinon, valide à la date de validité du référentiel.
 Dans le premier cas on dit que la version est périmée, dans le second qu'elle est valide.
 
-### Liste des entités rattachées
+### Liste des entités rattachées (champ erat)
 
 La liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux)
-est définie dans le champ `erat` pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
+est définie pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
 Cette propriété est absente si ces infos ne sont pas déduites.
 
 ## Cas particuliers
@@ -174,18 +167,22 @@ Quelques cas particuliers complexes sont listés ci-dessous:
 ## Liste des modifications apportées aux données Insee
 
 ### Saint-Martin et Saint-Barthélemy
-Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM
+Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
 
 ### Suppression du rétablissement de Bures-sur-Dives (14114)
 Ce rétablissement est ambigü dans les informations fournies par l'Insee et est contredit par IGN et wikipédia.
 
-### Correction des mouvements sur Ronchères (89325)
-Sur Ronchères (89325) les mouvements définis par l'Insee d'association le 1972-12-01 et de rétablieCommeAssociéeDe le 1977-01-01
-sont incompatibles.  
-L'association est transformée en fusion.
+### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
+Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
+et de rétablissement le 1977-01-01 sont incompatibles.  
+Les associations sont transformées en fusions.
 
-### Idem sur Septfonds (89389)
+### Redéfinition des évènements sur les arrondissements de Lyon
+Pour intégrer:
 
+- la scission en 2 du 7ème arrdt le 8/2/1959 pour créer le 8ème arrdt,
+- l'absorbtion de Saint-Rambert-l'Île-Barbe (69232) le 7/8/1963 dans dans le 5ème arrdt,
+- la scission en 2 du 5ème arrdt le 12/8/1964 pour créer le 9ème arrdt.
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
