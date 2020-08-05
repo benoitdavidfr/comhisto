@@ -58,7 +58,12 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - évènements
     - A.seDissoutDans.(Bi)
     - B.reçoitUnePartieDe.A
-  - exemple: `51606: { seDissoutDans: [51235, 51313, 51369] }`
+  - exemple:
+      51606: { seDissoutDans: [51235, 51313, 51369] }
+      51235: { reçoitUnePartieDe: 51606 }
+      51313: { reçoitUnePartieDe: 51606 }
+      51369: { reçoitUnePartieDe: 51606 }
+    
 - création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
   - A.crééeAPartirDe.(Bi)
   - B.contribueA.A
