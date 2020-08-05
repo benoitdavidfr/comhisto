@@ -73,7 +73,7 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 #### Les opérations ensemblistes
 
 - une entité A se rattache à une COMS B
-  - évènements: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
+  - *évènements*: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
 - une entité A se détache à une COMS B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
 - une entité A reste attachée à une COMS B
