@@ -1468,6 +1468,7 @@ if ($_GET['action'] == 'verifCond') { // test les pré-conditions et post-condit
   }
   deduitEvt($histos);
   deduitEtat($histos);
+  $metadata['@id'] = 'http://id.georef.eu/comhisto/insee/histov';
   $metadata['created'] = date(DATE_ATOM);
   $histos = new Base(array_merge($metadata, ['contents'=> $histos]));
   $histos->writeAsYaml('histov', [], 4);
