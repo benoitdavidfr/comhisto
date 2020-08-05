@@ -8,7 +8,7 @@ Sa structure est formellement définie par un [schéma JSON](https://json-schema
 
 Après avoir défini, dans une première partie, la notion d'évènement,
 ce document présente, dans une seconde, la structuration du référentiel historique des codes Insee.
-Puis quelques cas particuliers sont listés.
+Puis quelques cas particuliers sont listés ainsi que des problèmes connus.
 Enfin, un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
@@ -113,7 +113,7 @@ Outre cette date, chaque version correspond à:
 - l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version jusqu'à la date
   de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
   cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité,
-- s'il y en a, la liste des entités rattachées, déduites de l'état de ces entités réttachées.
+- s'il y en a, la liste des entités rattachées, déduites de l'état de ces entités rattachées.
 
 Certaines informations peuvent être déduites des informations primaires ; cela est alors signalé dans les commentaires du schéma.  
 Outre ce dictionnaire défini dans le champs contents, le document contient différentes champs,
@@ -139,20 +139,37 @@ l'information déduite est absente alors l'objet de l'évènement est une liste 
 ### L'état
 
 Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
-date, soit, sinon, valide à la date de validité du référentiel. Dans le premier cas on dit que la version est périmée, dans
-le second qu'elle est valide.
+date, soit, sinon, valide à la date de validité du référentiel.
+Dans le premier cas on dit que la version est périmée, dans le second qu'elle est valide.
 
 ### Liste des entités rattachées
 
-Le champ `erat` enregistre la liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux)
-pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
+La liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux)
+est définie dans le champ `erat` pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
 Cette propriété est absente si ces infos ne sont pas déduites.
 
 ## Cas particuliers
 
-Quelques cas particuliers sont listés ci-dessous:
+Quelques cas particuliers complexes sont listés ci-dessous:
 
-- [Cas unique de création d''une nouvelle commune avec un nouveau code par fusion de 2 anciennes communes](eg14764.yaml)
+- [Cas unique de création d'une nouvelle commune avec un nouveau code par fusion de 2 anciennes communes](eg14764.yaml)
+- [Cas simple de changement de rattachement](eg55273.yaml)
+- [Exemple de Saint-Fargeau (89344) qui grossit puis rétrécit](eg89344.yaml)
+- [Cas de L'Oudon, chef-lieu tournant au sein des associées](eg14624.yaml)
+- [Cas 22183 illustrant la nécessité d'un évènement de suppression de la commune délégué propre](eg22183.yaml)
+- [Cas de regroupement des 2 communes nouvelles 49018 et 49101 en une seule](eg49018.yaml)
+- [Cas d'intégration dans la commune nouvelle Les Hauts d''Anjou (49065) de Châteauneuf-sur-Sarthe (49080)
+  qui prend le chef-lieu](eg49080.yaml)
+- [Cas d'intégration dans la commune nouvelle Gennes-Val de Loire (49149) de Les Rosiers-sur-Loire (49261)
+  qui prend le chef-lieu](eg49261.yaml)
+- [Cas de Lyon non traité](eg69123.yaml)
+
+
+## Probèmes non résolus
+
+- gestion de Lyon / pose not. pb. de déduction d'erat lorsque les ardm ne change pas en même temps que la crat
+- manque un evt explicitant la supp. d'une com. déléguée propre, illustré par 22183
+
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
