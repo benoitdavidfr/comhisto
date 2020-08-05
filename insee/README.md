@@ -25,11 +25,32 @@ Dans la suite le terme *entité* désignera une commune simple ou une entité ra
 
 ### Opérations sur les entités
 
-3 types d'opérations sur entités sont définis:
+3 catégories d'opérations sur entités sont définis:
 
-- le premier type correspond aux opérations *topologiques*, dans lesquelles chaque entité est vue comme une zone géométrique,  
-  par exemple l'opération de fusion d'une entité dans une autre
-- le second type correspond aux opérations *ensemblistes*, dans lesquelles chaque entité 
+- la première correspond aux opérations *topologiques*, dans lesquelles chaque entité est vue comme une zone géométrique,  
+  par exemple l'opération de fusion d'une entité A dans une autre B ;
+- la seconde correspond aux opérations *ensemblistes* entre entités rattachées et communes simples,
+  chaque commune simple étant associée à un ensemble d'entités rattachées,
+  par ex. l'opération par laquelle une entité A devient commune déléguée d'une entité B ;
+- enfin, la troisième catégorie d'opérations correspondent à une entrée ou une sortie du référentiel
+  ou à un changement de code ou de nom d'une entité.
+  
+Les opérations seront exprimées sous la forme d'évènements:
+- s'appliquant à un code Insee,
+- avec généralement comme paramètres un code Insee ou une liste de codes Insee.
+
+Par exemple, l'opération de fusion de la commune d'Amareins (01003) dans la commune de Amareins-Francheleins-Cesseins (01165)
+s'exprime par:
+
+    '01003':
+      '1983-01-01':
+        fusionneDans: '01165'
+
+
+
+Les types d'opérations sont les suivants:
+
+
 
 # SUITE
 
