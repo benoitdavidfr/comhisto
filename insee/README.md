@@ -14,12 +14,12 @@ Ce document dans une première partie présente cette structure et dans une seco
 
 Un code Insee à une date donnée peut correspondre:
 
-  - à une commune simple (COMS),
-  - à une entité rattachée (ER) à une commune simple qui peut être:
-    - une commune associée (COMA),
-    - une commune déléguée (COMD),
-    - un arrondissement municipal (ARDM),
-  - simultanément à une commune simple et à une commune déléguée, que j'appelle commune mixte (COMM).
+- à une commune simple (COMS),
+- à une entité rattachée (ER) à une commune simple qui peut être:
+  - une commune associée (COMA),
+  - une commune déléguée (COMD),
+  - un arrondissement municipal (ARDM),
+- simultanément à une commune simple et à une commune déléguée, que j'appelle commune mixte (COMM).
 
 Dans la suite le terme `entité` désignera une commune simple ou une entité rattachée.
 
