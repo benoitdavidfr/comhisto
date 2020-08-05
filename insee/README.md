@@ -21,14 +21,15 @@ Un code Insee à une date donnée peut correspondre:
   - un arrondissement municipal (ARDM),
 - simultanément à une commune simple et à une commune déléguée, que j'appelle commune mixte (COMM).
 
-Dans la suite le terme `entité` désignera une commune simple ou une entité rattachée.
+Dans la suite le terme *entité* désignera une commune simple ou une entité rattachée.
 
 ### Opérations sur les entités
 
 3 types d'opérations sur entités sont définis:
 
-- le premier type correspond aux opérations topologiques, dans lesquelles chaque entité est vue comme une zone géométrique
-- le second type
+- le premier type correspond aux opérations *topologiques*, dans lesquelles chaque entité est vue comme une zone géométrique
+  par exemple l'opération de fusion d'une entité dans une autre
+- le second type correspond aux opérations *ensemblistes*, dans lesquelles chaque entité 
 
 # SUITE
 
