@@ -4,13 +4,13 @@ L'Insee publie l'état du COG au 1er janvier ainsi que les évolutions des commu
 Ce sous-projet consiste à produire un document reprenant ces informations et les restructurant afin d'en faciliter la réutilisation.
 Ce document ([disponible ici](histov.yaml)) est structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
 (par un humain et une machine) et à exploiter (par une machine).
-Sa structure est définie formellement par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
+Sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
 
-Ce document dans une première partie présente cette structure et dans une seconde résume la méthode de sa production.
+Ce document dans une première partie définit la notion d'évènement et dans une seconde présente la structuration du fichier.
 
-## Structuration du fichier historique des codes Insee
+## Définition des évènements sur les codes Insee
 
-### Distinction entre code Insee et entité administrative
+### Liens entre codes Insee et entités administratives
 
 Un code Insee à une date donnée peut correspondre:
 
@@ -23,7 +23,7 @@ Un code Insee à une date donnée peut correspondre:
 
 Dans la suite le terme *entité* désignera une commune simple ou une entité rattachée.
 
-### Opérations sur les entités
+### Définition des opérations sur les entités et des évènements sur les codes Insee
 
 3 catégories d'opérations sur entités sont définis:
 
