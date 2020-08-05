@@ -19,21 +19,19 @@ Un code Insee à une date donnée peut correspondre:
     - une commune associée (COMA),
     - une commune déléguée (COMD),
     - un arrondissement municipal (ARDM),
-  - simultanément à une commune simple et à une commune déléguée que j'appelle commune mixte (COMM).
+  - simultanément à une commune simple et à une commune déléguée, que j'appelle commune mixte (COMM).
+
+Dans la suite le terme `entité` désignera une commune simple ou une entité rattachée.
+
+### Opérations sur les entités
+
+3 types d'opérations sur entités sont définis:
+
+- le premier type correspond aux opérations topologiques, dans lesquelles chaque entité est vue comme une zone géométrique
+- le second type
 
 # SUITE
 
-title: réflexion sur un nouveau modèle - refonte 24/7-4/8/2020
-codeInsee:
-  - un code Insee peut correspondre
-    - à une commune simple (COMS)
-    - à une entité rattachée (ER)
-      - commune associée (COMA)
-      - commune déléguée (COMD)
-      - arrondissement municipal (ARDM)
-    - simultanément COMS+COMD que l'on appelle une commune mixte (COMM)
-      - par défaut le code Insee désigne la commune simple
-  - entités (E) = COMS union ER
 facettes:
   - logique topologique, chaque entité correspond à une géométrie et certaines opérations sont exprimées sur ces géométries
     - exemple A.fusionneDans.B
