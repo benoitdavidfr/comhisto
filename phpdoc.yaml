@@ -3,15 +3,35 @@ path: /yamldoc/pub/comhisto
 doc: |
   Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
   Restructuration du code produit dans rpicom, renommage du projet.
+  Résultats:
+    - historique des codes Insee -> insee/histov.yaml, son schéma et sa doc
+    - fichier CSV permettant de convertir un code historique en un code Insee 2020, avec les champs suivants
+      sr: 's' ou 'r'
+      cinsee: code Insee ayant existé
+      debut: date de début sous la forme AAAA-MM-DD
+      fin: date de fin sous la forme AAAA-MM-DD ou null
+      nom: nom associé
+      s2020p: égalité (=) ou inclusion stricte (<) / commune simple du COG2020
+      s2020c: code Insee d'une commune simple du COG2020
+      r2020p: égalité (=) ou inclusion stricte (<) / entité rattachée du COG2020
+      r2020c: évt. code Insee d'une entité rattachée du COG2020
+    - fichier SIG permettant de géocoder n'importe quel code Insee, avec les champs suivants
+      sr: 's' ou 'r'
+      cinsee: code Insee ayant existé
+      debut: date de début sous la forme AAAA-MM-DD
+      fin: date de fin sous la forme AAAA-MM-DD ou null
+      nom: nom associé
+      géo: multi-ploygone associé
+      
   Les étapes:
     1ère étape(insee):
       - à partir des données de mouvements Insee et de l'état au 1/1/2020, produire un document Yaml facile à consulter (par un humain
         et une machine) et à exploiter (par une machine) de l'historique de chaque code Insee
       - corriger ces données des incohérences constatées et de quelques erreurs flagrantes
       - ajuster à la marge au périmètre choisi (a priori Métropole + DOM, par la suite évent. extension à StBarth, StMartin, StP&M)
-      - le résultat est un document insee.yaml avec éventuellement plusieurs états et structurations en séquence
+      - le résultat est un document histov.yaml, son schéma dans exhisto.yaml et la doc dans README.md
     2ème étape(zones):
-      - en utilisant la topologie définie par l'Insee produire à partir de insee.yaml un document Yaml des zones
+      - en utilisant la topologie définie par l'Insee restructurée histov.yaml produire un document Yaml des zones
       - une zone correspond aux différentes versions ayant même extension géographique
       - la définition des zones inclus la relation d'inclusion entre elles
       - (gérer complètement les transferts entre commmunes dans un second temps)
@@ -45,6 +65,8 @@ journal: |
 submodules:
   - /yamldoc/pub/comhisto/data
   - /yamldoc/pub/comhisto/insee
+  - /yamldoc/pub/comhisto/zones
+  - /yamldoc/pub/comhisto/ign
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:

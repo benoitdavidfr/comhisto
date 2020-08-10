@@ -1,0 +1,33 @@
+title: comhisto/ign - construire dans PGis une version généralisée des CS et ER de AE2020COG
+path: /yamldoc/pub/comhisto/ign
+doc: |
+  Part de AE2020COG chargé dans PgSql dans 3 tables commune_carto, entite_rattachee_carto et chef_lieu_carto
+  corrigées des erreurs constatées (/data/aegeofla):
+      - Pb d'encodage de caractères dans Ae2020Cog, ex PAIMBOEUF -> Paimb½uf
+      - répétitions dans entite_rattachee_carto
+      - absence dans commune_carto des 4 communes simples:
+          22016: { name: Île-de-Bréhat }
+          29083: { name: Île-de-Sein }
+          29155: { name: Ouessant }
+          85113: { name: L'Île-d'Yeu }
+  La principale difficulté est de mettre en cohérence topologique entite_rattachee_carto avec commune_carto.
+  L'autre difficulté est d'effectuer une généralisation des géométries.
+  La couche entite_rattachee_carto mise en cohérence topologique avec commune_carto est stockée dans eratcorrb/eratcorrb.shp
+  
+  Le résultat est une table eadming3 contenant les éléments administratifs (c. simples non rattachantes + entités rattachées + entités
+  complémentaires) constituant un pavage du territoire, avec une géométrie généralisée avec une résolution de  1.0 e-3 degrés,
+  soit env. 100 m
+
+journal: |
+  6/8/2020:
+    - création à la suite de rpicom pour réécrire le code
+submodules:
+sqlDBs:
+  - name: ae2020cog
+    title: base de données contenant AE2020COG
+    doc: Base PostGis utilisée pour les traitements
+sqlFiles:
+  - /yamldoc/pub/comhisto/ign/errorcorr.sql
+phpScripts:
+phpIncludes:
+htmlFiles:

@@ -1,0 +1,14 @@
+title: comhisto/zones - production du fichier des zones
+path: /yamldoc/pub/comhisto/zones
+doc: |
+  Consomme le fichier ../insee/histov.yaml pour en déduire le fichier zones.yaml
+journal: |
+  6/8/2020:
+    - création à la suite de rpicom pour réécrire le code
+submodules:
+phpScripts:
+  - /yamldoc/pub/comhisto/zones/bzones.php
+phpIncludes:
+  - /yamldoc/pub/comhisto/zones/histo.inc.php
+  - /yamldoc/pub/comhisto/zones/zone.inc.php
+htmlFiles:

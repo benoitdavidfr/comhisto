@@ -32,6 +32,11 @@ l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
 et peut être partiellement géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
+Ce référentiel sera mis à disposition en 2 versions:
+
+- un fichier CSV permettant de convertir un ancien code en un code valide au 1/1/2020,
+- un fichier SIG permettant de géocoder un ancien code.
+
 La suite de ce document détaille les principes retenus pour définir ce nouveau référentiel.
 
 Attention, la production de ce référentiel est en cours et toutes les données ne sont pas disponibles.
@@ -77,7 +82,7 @@ elle est composée de chacune des 2 communes déléguées.
 La commune déléguée d'Arbignieu correspond à une zone identifiée par `s01015@1943-01-01` et qui correspond aussi à `r01015@2016-01-01`.
 L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par `s01340@1943-01-01`
 qui correspond aussi à `r01340@2016-01-01`.  
-On exprime l'existence de ces 3 zone par l'extrait suivant en Yaml :
+On exprime l'existence de ces 3 zones par l'extrait suivant en Yaml :
 
     s01015@2016-01-01:
       contains:
