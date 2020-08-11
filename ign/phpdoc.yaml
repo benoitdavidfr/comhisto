@@ -14,12 +14,12 @@ doc: |
   L'autre difficulté est d'effectuer une généralisation des géométries.
   La couche entite_rattachee_carto mise en cohérence topologique avec commune_carto est stockée dans eratcorrb/eratcorrb.shp
   
-  Le résultat est une table eadming3 contenant les éléments administratifs (c. simples non rattachantes + entités rattachées + entités
-  complémentaires) constituant un pavage du territoire, avec une géométrie généralisée avec une résolution de  1.0 e-3 degrés,
+  Le résultat est une table eadminpolg3 contenant les éléments administratifs (c. simples non rattachantes + entités rattachées
+  + entités complémentaires) constituant un pavage du territoire, avec une géométrie généralisée avec une résolution de  1e-3 degrés,
   soit env. 100 m
 
 journal: |
-  6/8/2020:
+  6-9/8/2020:
     - création à la suite de rpicom pour réécrire le code
 submodules:
 sqlDBs:
@@ -27,7 +27,9 @@ sqlDBs:
     title: base de données contenant AE2020COG
     doc: Base PostGis utilisée pour les traitements
 sqlFiles:
+  - /yamldoc/pub/comhisto/ign/ign.sql
   - /yamldoc/pub/comhisto/ign/errorcorr.sql
+  - /yamldoc/pub/comhisto/ign/exterior.sql
 phpScripts:
 phpIncludes:
 htmlFiles:

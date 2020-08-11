@@ -1,0 +1,12 @@
+title: comhisto/join - génère la couche du référentiel à partir d'une part de la liste des zones et d'autre part d'AE2020COG
+path: /yamldoc/pub/comhisto/join
+doc: |
+journal: |
+  10/8/2020:
+    - création
+submodules:
+sqlFiles:
+phpScripts:
+  - /yamldoc/pub/comhisto/join/join.php
+phpIncludes:
+htmlFiles:

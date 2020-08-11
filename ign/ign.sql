@@ -277,3 +277,9 @@ delete from eadminpolg3 where num in (
     and del.geom && eq.geom and ST_Equals(del.geom, eq.geom) and del.eid <> eq.eid  
 );
   
+create table eadming3 as
+  select eid, ST_Collect(geom) as geom
+  from eadminpolg3
+  group by eid;
+-- 37231 ligne(s) affectée(s).
+  
