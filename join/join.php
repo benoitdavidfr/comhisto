@@ -4,20 +4,35 @@ name: join.php
 title: join.php - croise la liste des zones avec la table eadming3 pour générer la couche du référentiel
 screens:
 doc: |
-  Produit le code SQL pour générer la couche du référentiel à partir de la table eadming3
-  Test sur le dept 01 - semble ok
+  Construit la couche du référentiel à partir de la table eadming3 en construiant des ordres SQL fondés sur la liste des zones
+  
 journal:
   10-11/8/2020:
-    - création
+    - création - Test sur le dept 01 - semble ok
+    - test sur FR, erreurs provenant des cXXXXX - 293 erreurs d'insertion sur 44679 soit 0.7%
 */
 ini_set('memory_limit', '1G');
 
 require_once __DIR__.'/../../../vendor/autoload.php';
+require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>join</title></head><body><pre>\n";
+if (php_sapi_name() <> 'cli')
+  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>join</title></head><body><pre>\n";
+
+PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+
+PgSql::query("drop table if exists comhisto");
+PgSql::query("create table comhisto(
+  type char(1), -- 's' ou 'r'
+  cinsee char(5), -- code Insee
+  debut char(10), -- date de début
+  fin char(10), -- date de fin
+  dnom varchar(256), -- dernier nom
+  geom geometry -- géométrie
+)");
 
 class Histo {
   static $all;
@@ -85,18 +100,9 @@ class Version {
 
 Histo::load('../insee/histov.yaml');
 
-$create = "drop table if exists comhisto;
-create table comhisto(
-  type char(1), -- 's' ou 'r'
-  cinsee char(5), -- code Insee
-  debut char(10), -- date de début
-  fin char(10), -- date de fin
-  dnom varchar(256), -- dernier nom
-  geom geometry -- géométrie
-);\n";
-echo $create;
-
 class Zone {
+  static $errors=0;
+  static $inserts=0; // nbre d'insertions effectuées
   protected $id; // string
   protected $sameAs; // [ id ]
   protected $ref; // string
@@ -125,45 +131,58 @@ class Zone {
     return $array;
   }
   
-  // Génère le code SQL pour la zone et ses sous-zones
+  // Génère et exécute le code SQL pour la zone et ses sous-zones
   function gensql(): void {
-    if ($this->ref) {
-      echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
-      $ids = array_merge([$this->id], $this->sameAs);
+    if ($this->ref && (substr($this->ref,0,7)=='COG2020')) {
+      //echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
       $idEAdmins = $this->idEAdmins();
       if (count($idEAdmins) > 1) {
-        echo "-- <b>$this->id composed of [",implode(',',$idEAdmins),"]</b>\n";
+        //echo "-- <b>$this->id composed of [",implode(',',$idEAdmins),"]</b>\n";
+        $geomsql = "ST_Union(geom) from eadming3 where eid in ('".implode("','",$idEAdmins)."')";
       }
+      else {
+        $geomsql = "geom from eadming3 where eid='".$idEAdmins[0]."'";
+      }
+      $ids = array_merge([$this->id], $this->sameAs);
       foreach ($ids as $id) {
         $version = Histo::getVersion($id);
         $fin = $version->fin();
         $dnom = $version->name(substr($id,0,1));
-        echo "insert into comhisto(type, cinsee, debut, fin, dnom, geom)\n";
-        echo "select '",substr($id,0,1),"','",substr($id,1,5),"','",$version->debut(),"',",
-              $fin ? "'".$fin."'," : 'null,',
-              "'",str_replace("'","''", $dnom),"',",
-              (count($idEAdmins) == 1) ?
-                "geom from eadming3 where eid='".$idEAdmins[0]."';\n"
-              : "ST_Union(geom) from eadming3 where eid in ('".implode("','",$idEAdmins)."');\n";
+        $sql  = "insert into comhisto(type, cinsee, debut, fin, dnom, geom)\n";
+        $sql .= "select '".substr($id,0,1)."','".substr($id,1,5)."','".$version->debut()."',"
+                .($fin ? "'".$fin."'," : 'null,')
+                ."'".str_replace("'","''", $dnom)."',$geomsql";
+        $result = PgSql::query($sql);
+        //echo "result=",$result->affected_rows(),"\n";
+        if ($result->affected_rows() <> 1) {
+          echo "Erreur sur id=$id, sql=$sql\n";
+          self::$errors++;
+        }
+        self::$inserts++;
       }
     }
     foreach ($this->contains as $zone)
       $zone->gensql();
   }
   
-  // Renvoie la liste des id d'élts admin. correspondant à la zone
+  // Renvoie la liste des id d'élts admin. du COG2020 correspondant à la zone
   function idEAdmins(): array {
     if (!$this->contains) { // Si la zone ne contient pas de sous-zones
+      //echo "la zone ne contient pas de sous-zones\n";
       return [$this->idCog()];
     }
     else {
       $subZones = [];
       foreach ($this->contains as $id => $subZone) {
-        if ($subZone->ref)
+        if ($subZone->ref && (substr($subZone->ref,0,7)=='COG2020')) {
+          //echo "subZone $subZone->id est définie dans le COG\n";
           $subZones[] = $subZone->idCog();
+        }
       }
-      if (count($subZones) == 0) // aucune des sous-zones n'est définie dans le COG
+      if (count($subZones) == 0) { // aucune des sous-zones n'est définie dans le COG
+        //echo "aucune des sous-zones n'est définie dans le COG\n";
         return [$this->idCog()];
+      }
       elseif (count($subZones) == count($this->contains))
         return $subZones;
       else
@@ -171,8 +190,10 @@ class Zone {
     }
   }
   
-  // fournit l'id du Cog de la zone
+  // fournit l'id du Cog2020 de la zone
   function idCog(): string {
+    if (!$this->ref || (substr($this->ref,0,7)<>'COG2020')) 
+      throw new Exception("Ref incorrect dans idCog() sur $this->id");
     if ($this->ref == 'COG2020ecomp')
       return 'c'.substr($this->id, 1, 5);
     // Si non je cherche la version valide
@@ -191,17 +212,14 @@ $yaml = Yaml::parseFile('../zones/zones.yaml');
 //print_r($yaml);
 
 foreach ($yaml as $id => $zone) {
-  if (!is_array($zone)) {
-    //echo "$id: $zone\n";
-    continue;
-  }
-  if (substr($id, 1, 2) <> '01') {
-    die("-- Fin 01\n");
-  }
+  if (!is_array($zone)) continue;
+  //if (substr($id, 1, 2) <> '01') die("-- Fin 01\n");
   //echo "$id: "; print_r($zone);
   $zone = new Zone($id, $zone);
   //echo "$id: "; print_r($zone);
   $zone->gensql();
 }
+echo Zone::$errors," erreurs d'insertion sur ",Zone::$inserts,"\n";
+die("-- Fin ok\n");
 
 
