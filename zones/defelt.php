@@ -38,7 +38,7 @@ if (php_sapi_name() <> 'cli') {
   if (!isset($_GET['action'])) {
     echo "</pre><a href='?action=showSimplif'>affiche la simplification</a><br>\n";
     echo "<a href='?action=affiche une version intermédiaire'>showF1</a><br>\n";
-    echo "<a href='?action=showF2'>affiche les zones</a><br>\n";
+    echo "<a href='?action=showF2'>affiche la version finale</a><br>\n";
     die();
   }
 }
@@ -327,7 +327,7 @@ class Version {
       $this->evts = ['fusionneDans'=> Simplif::DISSOLUTIONS[$this->cinsee]];
       return true;
     }
-    if (array_keys($this->evts) == ['reçoitUnePartieDe']) {
+    if (isset($this->evts['reçoitUnePartieDe'])) {
       $this->evtsSrc = $this->evts;
       if ($this->cinsee == Simplif::DISSOLUTIONS[$this->evts['reçoitUnePartieDe']])
         $this->evts = ['absorbe'=> [$this->evts['reçoitUnePartieDe']]];
