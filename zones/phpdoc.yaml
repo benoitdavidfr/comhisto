@@ -6,6 +6,7 @@ doc: |
 journal: |
   16/8/2020:
     - ajout de la définition d'éléments
+    - ajout d'une phase de simplifications dans defelt.php
   6/8/2020:
     - création à la suite de rpicom pour réécrire le code
 submodules:

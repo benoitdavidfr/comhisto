@@ -11,9 +11,10 @@ doc: |
   Ces relations topologiques permettront dans la classe Zone de construire les zones géographiques
   et les relations d'inclusion entre elles.
 
-  Il existe 6 dissolutions.
-  Elles sont assimilées ici à des fusions en définissant une commune principale de dissolution dans Histo::DISSOLUTIONS
 journal: |
+  16/8/2020:
+    - transfert des paramètres de simplifications dans simplif.inc.php pour les partager avec defelt.php
+    - récriture de Histo::testAllerRetourRattachante() utilisant la définition des versions en elts
   13/8/2020:
     - traitement des 6 dissolutions assimilées à des fusions par définition d'une commune principale
     - gestion des absorbtion dans Version::idNonRattachante()
@@ -24,19 +25,12 @@ journal: |
   21/7/2020:
     - reprise à partir de ../../rpicom/rpigeo/bzone.php
 */
+require_once __DIR__.'/simplif.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class Histo {
-  const DISSOLUTIONS = [ // [cinsee se dissolvant => cinsee on considère que la dissolution est effectuée]
-    '08227' => '08454', // le hameau de Hocmont (08227) est maintenant sur la commune de Touligny (08454)
-    '45117' => '45093', // le hameau Creuzy (45117) est maintenant sur la commune de Chevilly (45093)
-    '51606' => '51369', // Verdey (51606) -> Mœurs-Verdey (51369)
-    '51385' => '51440', // Moronvilliers (51385) -> Pontfaverger-Moronvilliers (51440)
-    '60606' => '60509',
-    '77362' => '77444',
-  ];
   static $all=[]; // [cinsee => Histo] - tous les Histo par leur code Insee
   protected $cinsee;
   protected $versions=[]; // [ dCreation => Version ] - triées dans l'ordre chronologique
@@ -109,10 +103,7 @@ class Histo {
   static function buildAllZones(): void {
     foreach (self::$all as $cinsee => $histo)
       $histo->buildZones();
-    
-    // Cas particuliers
-    Zone::sameAs('s14712@1972-07-01', 's14712@2019-12-31');
-    
+  
     Zone::traiteInclusions();
   }
   
@@ -155,8 +146,26 @@ class Histo {
   }
   
   // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité avant/après (ajout 12/8)
-  // Je ne teste  les AR que par rapport à la V0. J'ai des cas d'AR depuis une version intermédiaire, eg 14712 corrigé à la main
+  // réécriture 16/8: utilise les élts
   function testAllerRetourRattachante(): void {
+    foreach ($this->versions as $dv => $version) {
+      if (is_null($evtsFin = $version->evtsFin()))
+        continue;
+      foreach ($evtsFin->asArray() as $evtVerb => $evtObjects) {
+        // A chaque evt de diminution je teste si la version courante est identique à une version précédente
+        if (in_array($evtVerb, ['seScindePourCréer','détacheCommeSimples'])) {
+          $eltsCourants = $version->elts();
+          foreach ($this->versions as $dvp => $versionp) {
+            if ($dvp >= $dv)
+              break;
+            if ($versionp->elts() == $eltsCourants)
+              Zone::SameAs($version->id(), $versionp->id());
+          }
+        }
+      }
+    }
+  }
+  /*function testAllerRetourRattachantePERMIMEE(): void {
     $erat = []; // entités rattachées
     $efus = []; // entités fusionnées
     //echo "testAllerRetourRattachante $this->cinsee\n";
@@ -220,7 +229,7 @@ class Histo {
       }
     }
     //die("die testAllerRetourRattachante");
-  }
+  }*/
 };
 
 class Version {
@@ -230,6 +239,7 @@ class Version {
   protected $statut; // statut simplifié - 's' pour simple, 'r' pour rattachée
   protected $crat; // null ssi s sinon code insee de la commune de rattachement
   protected $erat; // liste des entités rattachées
+  protected $elts; // déf comme elts
   protected $nom; // nom
   protected $evtsCreation; // evts de création ou null
   protected $evtsFin; // evts de fin : null si version valide, Evts si version périmée
@@ -242,6 +252,7 @@ class Version {
     $this->statut = in_array($record['etat']['statut'], ['COMS','COMM']) ? 's' : 'r';
     $this->crat = $record['etat']['crat'] ?? null;
     $this->erat = $record['erat']['aPourDéléguées'] ?? ($record['erat']['aPourAssociées'] ?? []);
+    $this->elts = $record['elts'];
     $this->nom = $record['etat']['name'];
     $this->nomCDeleguee = $record['etat']['nomCommeDéléguée'] ?? null;
     $this->evtsCreation = isset($record['evts']) ? new Evts($record['evts']) : null;
@@ -252,6 +263,7 @@ class Version {
   function dCreation(): string { return $this->dCreation; }
   function statut(): string { return $this->statut; }
   function evtsFin(): ?Evts { return $this->evtsFin; }
+  function elts(): string { return $this->elts; }
   function evtsCreation(): ?Evts { return $this->evtsCreation; }
   function id(): string { return $this->statut.$this->cinsee.'@'.$this->dCreation; }
   function rid(): string { return 'r'.$this->cinsee.'@'.$this->dCreation; }
