@@ -148,10 +148,11 @@ class Histo {
   // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité avant/après (ajout 12/8)
   // réécriture 16/8: utilise les élts
   function testAllerRetourRattachante(): void {
+    //echo "Histo::testAllerRetourRattachante()\n";
     foreach ($this->versions as $dv => $version) {
-      if (is_null($evtsFin = $version->evtsFin()))
+      if (is_null($evtsCreation = $version->evtsCreation()))
         continue;
-      foreach ($evtsFin->asArray() as $evtVerb => $evtObjects) {
+      foreach ($evtsCreation->asArray() as $evtVerb => $evtObjects) {
         // A chaque evt de diminution je teste si la version courante est identique à une version précédente
         if (in_array($evtVerb, ['seScindePourCréer','détacheCommeSimples'])) {
           $eltsCourants = $version->elts();

@@ -65,6 +65,7 @@ if ((php_sapi_name() == 'cli') || (isset($_GET['action']) && ($_GET['action']=='
   if (php_sapi_name() <> 'cli')
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body><pre>\n";
   Histo::load('histelt');
+  //Histo::load('histelttest');
   Histo::buildAllZones();
   echo "title: Liste des zones\n";
   echo "creator: bzones.php\n";

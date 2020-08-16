@@ -7,6 +7,8 @@ doc: |
   Construit la couche du référentiel à partir de la table eadming3 en construiant des ordres SQL fondés sur la liste des zones
   
 journal: |
+  16/8/2020:
+    - ajout de la déf des elts -> 21 erreurs d'insertion sur 44911
   13/8/2020:
     - 3e correction des zones - 54 erreurs d'insertion sur 44799
     - 4e correction des zones - 29 erreurs d'insertion sur 44742
