@@ -4,7 +4,7 @@ name: histo.inc.php
 title: histo.inc.php - def. des classes Histo, Version et Evt pour gérer le fichier Histo
 screens:
 doc: |
-  Charge le fichier Histo version Insee
+  Charge le fichier Histo avec les élts
   Traduit les relations entre versions en relations topologiques entre zones géographiques:
     - sameAs pour identité des zones géographiques entre 2 versions
     - includes(a,b) pour inclusion de b dans a
@@ -364,9 +364,9 @@ class Version {
         '1968-03-02':
           evts: { seDissoutDans: ['08203', '08454'] }*/
       case ['seDissoutDans']: {
-        if (!isset(Histo::DISSOLUTIONS[$this->cinsee]))
+        if (!isset(Simplif::DISSOLUTIONS[$this->cinsee]))
           throw new Exception("Erreur cinsee de dissolution non définie pour $this->cinsee");
-        $cratId = Histo::DISSOLUTIONS[$this->cinsee];
+        $cratId = Simplif::DISSOLUTIONS[$this->cinsee];
         $crat = Histo::$all[$cratId]->version($this->dFin);
         Zone::includes($crat->id(), $this->id());
         break;
@@ -382,9 +382,9 @@ class Version {
       case ['reçoitUnePartieDe']:
       case ['changeDeNomPour','reçoitUnePartieDe']: {
         $cdissoute = $this->evtsFin->reçoitUnePartieDe;
-        if (!isset(Histo::DISSOLUTIONS[$cdissoute]))
+        if (!isset(Simplif::DISSOLUTIONS[$cdissoute]))
           throw new Exception("Erreur cinsee de dissolution non définie pour $cdissoute");
-        if (Histo::DISSOLUTIONS[$cdissoute] == $this->cinsee)
+        if (Simplif::DISSOLUTIONS[$cdissoute] == $this->cinsee)
           // Si le c. courante est la principale commune de dissolution alors elle grossit
           Zone::includes($this->next()->id(), $this->id());
         else

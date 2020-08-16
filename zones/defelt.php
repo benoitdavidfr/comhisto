@@ -17,10 +17,13 @@ journal: |
     - chgt de déf. des élts pour simplifier le code source
   14/8/2020:
     - création
+includes:
+  - simplif.inc.php
 */
 ini_set('memory_limit', '1G');
 
 require_once __DIR__.'/../../../vendor/autoload.php';
+require_once __DIR__.'/simplif.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -160,25 +163,6 @@ class EltSet {
 
 // Historique d'un code Insee
 class Histo {
-  // [cinsee se dissolvant => cinsee on considère que la dissolution est effectuée]
-  const DISSOLUTIONS = [
-    '08227' => '08454', // le hameau de Hocmont (08227) est maintenant sur la commune de Touligny (08454)
-    '45117' => '45093', // le hameau Creuzy (45117) est maintenant sur la commune de Chevilly (45093)
-    '51606' => '51369', // Verdey (51606) -> Mœurs-Verdey (51369)
-    '51385' => '51440', // Moronvilliers (51385) -> Pontfaverger-Moronvilliers (51440)
-    '60606' => '60509',
-    '77362' => '77444',
-  ];
-  // cinsee se créant => cinsee de la principale commune contributive
-  const CREATIONS = [
-    '27701' => '27528', // Val-de-Reuil (27701) est principalement issue de Le Vaudreuil (27528)
-    '29302' => '29231',
-    '38567' => '38422',
-    '46339' => '46251',
-    '57766' => '57206',
-    '91692' => '91122',
-  ];
-  
   static $all; // [cinsee => Histo]
   protected $cinsee; // code Insee
   protected $versions; // [dv => Version]
@@ -363,7 +347,7 @@ class Version {
         
         case 'reçoitUnePartieDe': {
           $cdel = $evtObjects; // commune dissoute
-          if ($this->cinsee == Histo::DISSOLUTIONS[$cdel]) // si c'est la commune principale alors elle est augmentée
+          if ($this->cinsee == Simplif::DISSOLUTIONS[$cdel]) // si c'est la commune principale alors elle est augmentée
             $elts->addVId(Histo::get($cdel)->versionParDateDeFin($this->debut)->id());
           break;
         }
@@ -373,9 +357,9 @@ class Version {
         case 'contribueA': {
           //echo '<b>',Yaml::dump([$this->cinsee => [$this->debut => $this->asArray()]], 3, 2),"</b>";
           $ccree = $evtObjects; // commune créée
-          if (!isset(Histo::CREATIONS[$ccree]))
+          if (!isset(Simplif::CREATIONS[$ccree]))
             throw new Exception("Manque CREATIONS de $ccree");
-          if ($this->cinsee == Histo::CREATIONS[$ccree])
+          if ($this->cinsee == Simplif::CREATIONS[$ccree])
             $elts->remVId(Histo::get($ccree)->version($this->debut)->id());
           break;
         }

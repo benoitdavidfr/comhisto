@@ -20,6 +20,8 @@ doc: |
   Ce script produit le fichier zones.yaml
 
 journal:
+  16/8/2020:
+    - utilisation des éléments produits par defelt.php
   20/7/2020:
     - fork de ../../rpicom/rpigeo/bzone.php
 */
@@ -62,7 +64,7 @@ class Stats {
 if ((php_sapi_name() == 'cli') || (isset($_GET['action']) && ($_GET['action']=='bzones'))) {
   if (php_sapi_name() <> 'cli')
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body><pre>\n";
-  Histo::load('../insee/histov');
+  Histo::load('histelt');
   Histo::buildAllZones();
   echo "title: Liste des zones\n";
   echo "creator: bzones.php\n";

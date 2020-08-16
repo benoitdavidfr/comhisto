@@ -67,6 +67,7 @@ submodules:
   - /yamldoc/pub/comhisto/insee
   - /yamldoc/pub/comhisto/zones
   - /yamldoc/pub/comhisto/ign
+  - /yamldoc/pub/comhisto/join
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:
