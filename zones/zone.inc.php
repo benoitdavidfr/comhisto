@@ -4,9 +4,9 @@ name: zone.inc.php
 title: zone.inc.php - def. la classe Zone
 screens:
 doc: |
-  La classe Zone a pour objectif de restructurer le Rpicom en zones pour faciliter son appariement avec sa géographie.
+  La classe Zone a pour objectif de restructurer le référentiel en zones pour faciliter son appariement avec sa géographie.
   Une zone correspond à un surface géographique (MultiPolygon).
-  Une même zone correspond à plusieurs versionnnées du Rpicom.
+  Une même zone correspond à plusieurs versions de Histo.
   L'objectif est:
     1) de construire l'ensemble des zones qui sont les classes d'équivalence pour la relation d'égalité géographique
     2) de structurer ces zones selon un treillis d'inclusion
@@ -15,18 +15,20 @@ doc: |
    - xxx
 
   Chaque zone est identifiée par la version d'entité la plus ancienne.
-  Ces identifiants sont de la forme {statut}{cinsee}@{dateDeCréation}où:
+  Ces identifiants sont de la forme {statut}{cinsee}@{dateDeCréation} où:
     - {statut} est une des valeurs 's' pour simple ou 'r' pour rattachée
     - {cinsee} est un code INSEE
     - {dateDeCréation} est la date de création de la version sous la forme YYYY-MM-DD ou YYYY
 
   L'ensemble des zones est construit en déduisant des infos Insee les inclusions et les égalités définis sur les identifiants
-  d'entités versionnées. Cette déduction est définie dans rpicom.inc.php.
+  d'entités versionnées. Cette déduction est définie dans histo.inc.php.
   Cette classe permet
     - de stocker les inclusions et égalités entre identifiants
     - puis de construire à partir de ces informations les zones 
 
 journal:
+  12/8/2020:
+    - ajout déf union + modif ecomp
   28/6/2020:
     - appariement des zones du COG2020 ok
   25/6/2020:
@@ -244,33 +246,18 @@ class Zone {
     self::$includes = [];
     
     // recherche du référentiel dans lequel la zone est définie
-    // Les zones définies dans COG2020
+    // Les zones valides sont définies dans COG2020
     foreach (self::$all as $id => $zone) {
       if ($idv = $zone->isValid()) {
-        if (substr($idv, 0, 1)=='s') {
-          $zone->ref = 'COG2020s';
-          Stats::incr('COG2020s');
-        }
-        else {
-          $zone->ref = 'COG2020r';
-          Stats::incr('COG2020r');
-        }
+        $zone->ref = 'COG2020'.substr($idv, 0, 1);
+        Stats::incr($zone->ref);
       }
     }
-    // Les ecomp définies en creux dans COG2020
+    
+    // les unions de zones définies dans COG2020
     foreach (self::$all as $id => $zone) {
-      if (!$zone->ref && $zone->parents) {
-        $parent = $zone->parents[0];
-        $nbreNonRef = 0; // nbre d'enfants non géoréférencés
-        foreach ($parent->children as $child) {
-          if (!$child->ref)
-            $nbreNonRef++;
-        }
-        if ($nbreNonRef == 1) {
-          $zone->ref = 'COG2020ecomp';
-          Stats::incr('COG2020ecomp');
-        }
-      }
+      if (!$zone->parents)
+        $zone->defCog2020();
     }
     
     ksort(self::$all);
@@ -301,7 +288,31 @@ class Zone {
     Stats::set('nbreSansRef', $nbreSansRef);
     //die("Fin sansref nbreSansRef=$nbreSansRef\n");
   }
-    
+  
+  /* Renvoie true ssi
+    - soit elle est définie dans le COG2020 comme s ou r
+    - soit ses enfants sont définis comme s/r/union du COG2020
+      - et dans ce cas marque la zone comme union
+    - soit exactement un de ses enfants est non défini et les autres sont définis comme s/r/union du COG2020
+      - et dans ce cas marque la zone comme union et marque l'enfant comme ecomp
+  */
+  function defCog2020(): bool {
+    if (!$this->children)
+      return (in_array($this->ref, ['COG2020s','COG2020r']));
+    $undefs = []; // les enfants non définis dans COG2020
+    foreach ($this->children as $child) {
+      if (!in_array($child->ref, ['COG2020s','COG2020r']) && !$child->defCog2020())
+        $undefs[] = $child;
+    }
+    if (count($undefs) > 1)
+      return false;
+    if (count($undefs) == 1)
+      $undefs[0]->ref = 'COG2020ecomp';
+    if (!$this->ref)
+      $this->ref = 'COG2020union';
+    return true;
+  }
+  
   function id(): string { return $this->vids[0]; }
   function vids(): array { return $this->vids; }
   function ref(): ?string { return $this->ref; }

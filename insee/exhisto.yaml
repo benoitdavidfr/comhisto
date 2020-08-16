@@ -4,6 +4,8 @@ description: |
   Le schéma du référentiel est contenu dans le champ $schema de ce document.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
   Journal:
+    16/8/2020:
+      Ajout de la propriété elts pour histelt.yaml
     2/8/2020:
       Introduction de la distinction entre info primaire et info déduite, ajout de aPourAssociées et de aPourDéléguées
     27/7/2020:
@@ -247,10 +249,11 @@ $schema:
           patternProperties:
             '^\d\d\d\d-\d\d-\d\d$': # date de la version
               description: |
-                Version composée d'une part d'évènements de création/modification/suppression (sauf pour la version  intiale) et,
-                d'autre part, de l'état, résultant des évènements, valide à partir de la date de la version jusqu'à la date de version
-                suivante, sauf en cas d'évènement de suppression pour lequel il n'existe pas d'état résultant car le code n'est plus
-                valide.
+                Version composée essentiellement d'une part d'évènements de création/modification/suppression (sauf pour la version
+                intiale) et, d'autre part, de l'état, résultant des évènements, valide à partir de la date de la version jusqu'à la
+                date de version suivante, sauf en cas d'évènement de suppression pour lequel il n'existe pas d'état résultant
+                car le code n'est plus valide.
+                En plus erat contient évent. la liste des entités rattachées et elts contient évent. la défition sus forme d'élts. 
               type: object
               additionalProperties: false
               properties:
@@ -263,6 +266,9 @@ $schema:
                 erat:
                   description: éventuellement entités rattachées ; champ distinct pour améliorer la lisibilité du fichier
                   $ref: '#/definitions/erat'
+                elts:
+                  description: définition du territoire sous la forme d'éléments
+                  type: string
     eof:
       type: 'null'
 ydADscrBhv:

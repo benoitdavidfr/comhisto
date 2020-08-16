@@ -6,7 +6,13 @@ screens:
 doc: |
   Construit la couche du référentiel à partir de la table eadming3 en construiant des ordres SQL fondés sur la liste des zones
   
-journal:
+journal: |
+  13/8/2020:
+    - 3e correction des zones - 54 erreurs d'insertion sur 44799
+    - 4e correction des zones - 29 erreurs d'insertion sur 44742
+  12/8/2020:
+    - correction des zones et adaptation de join.php - 232 erreurs d'insertion sur 45019
+    - 2nd correction des zones - 82 erreurs d'insertion sur 44805
   10-11/8/2020:
     - création - Test sur le dept 01 - semble ok
     - test sur FR, erreurs provenant des cXXXXX - 293 erreurs d'insertion sur 44679 soit 0.7%
@@ -101,21 +107,21 @@ class Version {
 Histo::load('../insee/histov.yaml');
 
 class Zone {
-  static $errors=0;
+  static $errors=0; // nbre d'erreurs
   static $inserts=0; // nbre d'insertions effectuées
   protected $id; // string
   protected $sameAs; // [ id ]
   protected $ref; // string
-  protected $contains; // [ id => Zone ]
+  protected $children; // [ id => Zone ]
   
   function __construct(string $id, array $zone) {
     $this->id = $id;
     $this->sameAs = $zone['sameAs'] ?? [];
     $this->ref = $zone['ref'] ?? '';
-    $this->contains = [];
+    $this->children = [];
     if (isset($zone['contains']))
       foreach ($zone['contains'] as $id => $zone)
-        $this->contains[$id] = new Zone($id, $zone);
+        $this->children[$id] = new Zone($id, $zone);
   }
   
   function asArray(): array {
@@ -124,8 +130,8 @@ class Zone {
       $array['sameAs'] = $this->sameAs;
     if ($this->ref)
       $array['ref'] = $this->ref;
-    if ($this->contains) {
-      foreach ($this->contains as $id => $zone)
+    if ($this->children) {
+      foreach ($this->children as $id => $zone)
         $array['contains'][$id] = $zone->asArray();
     }
     return $array;
@@ -135,13 +141,13 @@ class Zone {
   function gensql(): void {
     if ($this->ref && (substr($this->ref,0,7)=='COG2020')) {
       //echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
-      $idEAdmins = $this->idEAdmins();
-      if (count($idEAdmins) > 1) {
+      $eltIds = $this->eltIds();
+      if (count($eltIds) > 1) {
         //echo "-- <b>$this->id composed of [",implode(',',$idEAdmins),"]</b>\n";
-        $geomsql = "ST_Union(geom) from eadming3 where eid in ('".implode("','",$idEAdmins)."')";
+        $geomsql = "ST_Union(geom) from eadming3 where eid in ('".implode("','",$eltIds)."')";
       }
       else {
-        $geomsql = "geom from eadming3 where eid='".$idEAdmins[0]."'";
+        $geomsql = "geom from eadming3 where eid='".$eltIds[0]."'";
       }
       $ids = array_merge([$this->id], $this->sameAs);
       foreach ($ids as $id) {
@@ -161,32 +167,31 @@ class Zone {
         self::$inserts++;
       }
     }
-    foreach ($this->contains as $zone)
+    foreach ($this->children as $zone)
       $zone->gensql();
   }
   
-  // Renvoie la liste des id d'élts admin. du COG2020 correspondant à la zone
-  function idEAdmins(): array {
-    if (!$this->contains) { // Si la zone ne contient pas de sous-zones
+  // Renvoie la liste des id d'élts admin. du COG2020 correspondant à la zone définie dans le COG2020
+  function eltIds(): array {
+    if (!$this->children) { // Si la zone ne contient pas de sous-zones
       //echo "la zone ne contient pas de sous-zones\n";
       return [$this->idCog()];
     }
     else {
-      $subZones = [];
-      foreach ($this->contains as $id => $subZone) {
-        if ($subZone->ref && (substr($subZone->ref,0,7)=='COG2020')) {
-          //echo "subZone $subZone->id est définie dans le COG\n";
-          $subZones[] = $subZone->idCog();
+      $eltIds = [];
+      foreach ($this->children as $id => $child) {
+        switch ($child->ref) {
+          case '': break;
+          case 'COG2020s':
+          case 'COG2020r':
+          case 'COG2020ecomp': $eltIds[] = $child->idCog(); break;
+          case 'COG2020union': $eltIds = array_merge($eltIds, $child->eltIds()); break;
         }
       }
-      if (count($subZones) == 0) { // aucune des sous-zones n'est définie dans le COG
-        //echo "aucune des sous-zones n'est définie dans le COG\n";
+      if (count($eltIds)) // au moins une sous-zones n'est définie dans le COG
+        return $eltIds;
+      else // aucune des sous-zones n'est définie dans le COG
         return [$this->idCog()];
-      }
-      elseif (count($subZones) == count($this->contains))
-        return $subZones;
-      else
-        return array_merge(['c'.substr($this->id, 1, 5)], $subZones);
     }
   }
   

@@ -10,7 +10,15 @@ doc: |
     - includes(a,b) pour inclusion de b dans a
   Ces relations topologiques permettront dans la classe Zone de construire les zones géographiques
   et les relations d'inclusion entre elles.
+
+  Il existe 6 dissolutions.
+  Elles sont assimilées ici à des fusions en définissant une commune principale de dissolution dans Histo::DISSOLUTIONS
 journal: |
+  13/8/2020:
+    - traitement des 6 dissolutions assimilées à des fusions par définition d'une commune principale
+    - gestion des absorbtion dans Version::idNonRattachante()
+  12/8/2020:
+    - correction signalée
   1/8/2020:
     - adaptation au nouveau modèle d'histo
   21/7/2020:
@@ -21,6 +29,14 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class Histo {
+  const DISSOLUTIONS = [ // [cinsee se dissolvant => cinsee on considère que la dissolution est effectuée]
+    '08227' => '08454', // le hameau de Hocmont (08227) est maintenant sur la commune de Touligny (08454)
+    '45117' => '45093', // le hameau Creuzy (45117) est maintenant sur la commune de Chevilly (45093)
+    '51606' => '51369', // Verdey (51606) -> Mœurs-Verdey (51369)
+    '51385' => '51440', // Moronvilliers (51385) -> Pontfaverger-Moronvilliers (51440)
+    '60606' => '60509',
+    '77362' => '77444',
+  ];
   static $all=[]; // [cinsee => Histo] - tous les Histo par leur code Insee
   protected $cinsee;
   protected $versions=[]; // [ dCreation => Version ] - triées dans l'ordre chronologique
@@ -56,8 +72,10 @@ class Histo {
     return $array;
   }
   
+  // accès à une version par sa date de création
   function version(string $dCreation): ?Version { return $this->versions[$dCreation] ?? null; }
 
+  // accès à une version par sa date de fin
   function versionParDateDeFin(string $dFin): ?Version {
     foreach ($this->versions as $version) {
       if ($version->dFin() == $dFin)
@@ -78,8 +96,10 @@ class Histo {
     }
     else {
       $dCreation = substr($id, 7);
-      if (!isset(self::$all[$cinsee]->versions[$dCreation]))
-        throw new Exception("Version $dCreation du Rpicom $cinsee n'existe pas");
+      if (!isset(self::$all[$cinsee]->versions[$dCreation])) {
+        echo "Version $dCreation du Histo $cinsee n'existe pas\n";
+        throw new Exception("get impossible");
+      }
       //echo "get($id)->"; print_r(self::$all[$cinsee]->versions[$dCreation]);
       return self::$all[$cinsee]->versions[$dCreation];
     }
@@ -89,13 +109,27 @@ class Histo {
   static function buildAllZones(): void {
     foreach (self::$all as $cinsee => $histo)
       $histo->buildZones();
+    
+    // Cas particuliers
+    Zone::sameAs('s14712@1972-07-01', 's14712@2019-12-31');
+    
     Zone::traiteInclusions();
   }
   
   // Fabrique les zones corr. à un Histo
   function buildZones(): void {
     //echo Yaml::dump([$this->cinsee => $this->asArray()], 3, 2);
-    /* gère dans un premier temps le cas illustré par 27111 de fusion suivie d'un rétablissement
+    
+    foreach ($this->versions as $version) {
+      $version->buildZones();
+    }
+    
+    $this->testAllerRetourFusionnee();
+    $this->testAllerRetourRattachante();
+  }
+  
+  function testAllerRetourFusionnee() {
+    /* gère le cas illustré par 27111 de fusion suivie d'un rétablissement
       27111:
         '1943-01-01':
           etat: { name: Bretagnolles, statut: COMS }
@@ -118,11 +152,74 @@ class Histo {
         }
       }
     }
-    //return;
-    
+  }
+  
+  // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité avant/après (ajout 12/8)
+  // Je ne teste  les AR que par rapport à la V0. J'ai des cas d'AR depuis une version intermédiaire, eg 14712 corrigé à la main
+  function testAllerRetourRattachante(): void {
+    $erat = []; // entités rattachées
+    $efus = []; // entités fusionnées
+    //echo "testAllerRetourRattachante $this->cinsee\n";
+    $version0 = array_values($this->versions)[0];
     foreach ($this->versions as $version) {
-      $version->buildZones();
+      if (is_null($evtsFin = $version->evtsFin()))
+        continue;
+      //echo "  evtsFin=$evtsFin\n";
+      foreach ($evtsFin->asArray() as $evtKey => $evtObjects) {
+        switch ($evtKey) {
+          case 'changeDeNomPour': break;
+
+          case 'fusionneDans': break;
+          case 'absorbe': $efus = array_merge($efus, $evtObjects); break;
+          case 'seScindePourCréer': {
+            $newefus = [];
+            foreach ($efus as $fus) {
+              if (!in_array($fus, $evtObjects))
+                $newefus[] = $fus;
+            }
+            $efus = $newefus;
+            if (!$erat && !$efus) {
+              Zone::sameAs($version0->id(), $version->next()->id());
+            }
+            break;
+          }
+          
+          case 'sAssocieA':
+          case 'devientDéléguéeDe': break;
+          case 'seDétacheDe': break;
+          
+          case 'prendPourAssociées': 
+          case 'prendPourDéléguées': $erat = array_merge($erat, $evtObjects); break;
+          case 'détacheCommeSimples': {
+            $newerat = [];
+            foreach ($erat as $rat) {
+              if (!in_array($rat, $evtObjects))
+                $newerat[] = $rat;
+            }
+            $erat = $newerat;
+            if (!$erat && !$efus) {
+              Zone::sameAs($version0->id(), $version->next()->id());
+            }
+            break;
+          }
+
+          case 'resteAssociéeA': break;
+          case 'resteDéléguéeDe': break;
+          case 'gardeCommeAssociées': break;
+          case 'gardeCommeDéléguées': break;
+          
+          case 'changeDeCodePour': return;
+          case 'reçoitUnePartieDe': return;
+          case 'seDissoutDans': return;
+          case 'contribueA': return;
+          case 'estModifiéeIndirectementPar': return;
+          case 'sortDuPérimètreDuRéférentiel': return;
+          
+          default: throw new Exception("$evtsFin , version=$version");
+        }
+      }
     }
+    //die("die testAllerRetourRattachante");
   }
 };
 
@@ -132,6 +229,7 @@ class Version {
   protected $dFin; // date de fin ssi périmée sinon null
   protected $statut; // statut simplifié - 's' pour simple, 'r' pour rattachée
   protected $crat; // null ssi s sinon code insee de la commune de rattachement
+  protected $erat; // liste des entités rattachées
   protected $nom; // nom
   protected $evtsCreation; // evts de création ou null
   protected $evtsFin; // evts de fin : null si version valide, Evts si version périmée
@@ -143,6 +241,7 @@ class Version {
     $this->dFin = $nextDCrea;
     $this->statut = in_array($record['etat']['statut'], ['COMS','COMM']) ? 's' : 'r';
     $this->crat = $record['etat']['crat'] ?? null;
+    $this->erat = $record['erat']['aPourDéléguées'] ?? ($record['erat']['aPourAssociées'] ?? []);
     $this->nom = $record['etat']['name'];
     $this->nomCDeleguee = $record['etat']['nomCommeDéléguée'] ?? null;
     $this->evtsCreation = isset($record['evts']) ? new Evts($record['evts']) : null;
@@ -158,6 +257,24 @@ class Version {
   function rid(): string { return 'r'.$this->cinsee.'@'.$this->dCreation; }
   function isValid(): bool { return is_null($this->dFin); }
 
+  // retourne l'id de la version courante ou précédente non ratachante
+  // Vérifie de plus si l'evt de fin contient un absorbe des entités rattachées - correction 13/8/2020
+  function idNonRattachante(): string {
+    if (!$this->erat)
+      return $this->id();
+    if (in_array('absorbe', $this->evtsFin->keys())) {
+      $absorbees = $this->evtsFin->absorbe;
+      sort($absorbees);
+      $erat = $this->erat;
+      sort($erat);
+      if ($absorbees == $erat)
+        return $this->id();
+    }
+    if (!($previous = $this->previous()))
+      throw new Exception("Erreur dans idNonRattachante() sur ".$this->id());
+    return $previous->idNonRattachante();
+  }
+  
   function asArray(): array {
     $array = [
       'nom'=> $this->nom,
@@ -180,6 +297,10 @@ class Version {
   
   function next(): ?Version { // version suivante dans le temps
     return Histo::$all[$this->cinsee]->version($this->dFin);
+  }
+  
+  function previous(): ?Version { // version précédente dans le temps
+    return Histo::$all[$this->cinsee]->versionParDateDeFin($this->dCreation);
   }
 
   function buildZones(): void { // construit les zones correspondant à une version
@@ -235,12 +356,40 @@ class Version {
         break;
       }
       
-      // A améliorer, il faudrait définir les différents morceaux transférés dans différentes communes
-      case ['seDissoutDans']: break; // il n'y a plus rien après
+      // J'assimile une dissolution à une fusion dans une des communes définie dans Histo::DISSOLUTION
+      /*Proto
+      '08227':
+        '1943-01-01':
+          etat: { name: Hocmont, statut: COMS }
+        '1968-03-02':
+          evts: { seDissoutDans: ['08203', '08454'] }*/
+      case ['seDissoutDans']: {
+        if (!isset(Histo::DISSOLUTIONS[$this->cinsee]))
+          throw new Exception("Erreur cinsee de dissolution non définie pour $this->cinsee");
+        $cratId = Histo::DISSOLUTIONS[$this->cinsee];
+        $crat = Histo::$all[$cratId]->version($this->dFin);
+        Zone::includes($crat->id(), $this->id());
+        break;
+      }
       
+      /*Proto:
+      '08203':
+        '1943-01-01':
+          etat: { name: Guignicourt-sur-Vence, statut: COMS }
+        '1968-03-02':
+          evts: { reçoitUnePartieDe: '08227' }
+          etat: { name: Guignicourt-sur-Vence, statut: COMS }*/
       case ['reçoitUnePartieDe']:
       case ['changeDeNomPour','reçoitUnePartieDe']: {
-        Zone::includes($this->next()->id(), $this->id()); // la version suivante inclus la version courante
+        $cdissoute = $this->evtsFin->reçoitUnePartieDe;
+        if (!isset(Histo::DISSOLUTIONS[$cdissoute]))
+          throw new Exception("Erreur cinsee de dissolution non définie pour $cdissoute");
+        if (Histo::DISSOLUTIONS[$cdissoute] == $this->cinsee)
+          // Si le c. courante est la principale commune de dissolution alors elle grossit
+          Zone::includes($this->next()->id(), $this->id());
+        else
+          // Sinon elle est identique
+          Zone::sameAs($this->next()->id(), $this->id());
         break;
       }
       
@@ -286,13 +435,15 @@ class Version {
         break;
       }
       
-      // la rattachante grossit et l'ancienne cs est identique à la nouvelle déléguée propre
+      // la rattachante grossit
+      // et la nouvelle déléguée propre est identique à l'ancienne CS d'origine (l'ancienne CS peut déjà être rattachante)
+      // correction 12/8/2020
       case ['devientDéléguéeDe','prendPourDéléguées']:
       case ['devientDéléguéeDe','prendPourDéléguées','absorbe']: 
       case ['devientDéléguéeDe','prendPourDéléguées','gardeCommeDéléguées']: 
       case ['devientDéléguéeDe','prendPourDéléguées','absorbe','gardeCommeDéléguées']: {
         Zone::includes($this->next()->id(), $this->id());
-        Zone::sameAs($this->next()->rid(), $this->id());
+        Zone::sameAs($this->next()->rid(), $this->idNonRattachante());
         break;
       }
       
