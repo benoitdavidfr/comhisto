@@ -195,6 +195,9 @@ class Zone {
       self::$includes[$small] = $stdbigs;
     }
     
+    // cas particuliers
+    self::includes('s35130@2008-01-01', 's35130@1943-01-01');
+    
     // suppression des inclusions aussi présentes de manière transitive
     // a -> b + b -> c + a -> c => delete(a->c)
     // passe de 243 à 55
