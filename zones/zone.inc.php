@@ -195,8 +195,11 @@ class Zone {
       self::$includes[$small] = $stdbigs;
     }
     
-    // cas particuliers
+    // cas particuliers de communes se rétractant
     self::includes('s35130@2008-01-01', 's35130@1943-01-01');
+    self::includes('s53003@1987-01-01', 's53003@1943-01-01');
+    self::includes('s71014@1985-10-01', 's71014@1943-01-01');
+    self::includes('s71263@1979-03-01', 's71263@1943-01-01');
     
     // suppression des inclusions aussi présentes de manière transitive
     // a -> b + b -> c + a -> c => delete(a->c)

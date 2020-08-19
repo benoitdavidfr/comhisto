@@ -8,8 +8,9 @@ doc: |
   
 journal: |
   19/8/2020:
-    - modif sur s33055@2019-01-01
-    - 22 erreurs d'insertion sur 44841
+    - modif sur s33055@2019-01-01 -> 22 erreurs d'insertion sur 44841
+    - modif 49080 dans ../insee/histo.php -> 15 erreurs d'insertion sur 44839
+    - ajout cas particuliers 53003, 71014 et 71263 dans zones.inc.php -> 0 erreurs d'insertion sur 44833
   16/8/2020:
     - ajout de la déf des elts -> 21 erreurs d'insertion sur 44911
   13/8/2020:
