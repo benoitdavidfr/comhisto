@@ -11,14 +11,13 @@ doc: |
     1) de construire l'ensemble des zones qui sont les classes d'équivalence pour la relation d'égalité géographique
     2) de structurer ces zones selon un treillis d'inclusion
   Ce treillis n'est pas une forêt car certaines zones changent de rattachement et ont donc plusieurs parents.
-  Dans cette logique on ignore:
-   - xxx
+  Dans cette logique on adopte les simplifications définies dans ../zones/simplif.inc.php
 
   Chaque zone est identifiée par la version d'entité la plus ancienne.
   Ces identifiants sont de la forme {statut}{cinsee}@{dateDeCréation} où:
     - {statut} est une des valeurs 's' pour simple ou 'r' pour rattachée
     - {cinsee} est un code INSEE
-    - {dateDeCréation} est la date de création de la version sous la forme YYYY-MM-DD ou YYYY
+    - {dateDeCréation} est la date de création de la version sous la forme YYYY-MM-DD
 
   L'ensemble des zones est construit en déduisant des infos Insee les inclusions et les égalités définis sur les identifiants
   d'entités versionnées. Cette déduction est définie dans histo.inc.php.
@@ -27,6 +26,8 @@ doc: |
     - puis de construire à partir de ces informations les zones 
 
 journal:
+  19/8/2020:
+    - modif déf union + ecomp
   12/8/2020:
     - ajout déf union + modif ecomp
   28/6/2020:
@@ -78,7 +79,7 @@ class Zone {
   
   // affirme que $bigId inclus $smallId, ne crée pas les zones correspondantes
   static function includes(string $bigId, string $smallId): void {
-    echo "<b>includes($bigId, $smallId)</b>\n";
+    //echo "<b>includes($bigId, $smallId)</b>\n";
     if (!isset(self::$includes[$smallId]))
       self::$includes[$smallId] = [$bigId];
     elseif (!in_array($bigId, self::$includes[$smallId]))
@@ -115,7 +116,7 @@ class Zone {
   
   // affirme que les zones sont identiques, parent et children ne sont pas définis, retourne le nouvel idStd
   static function sameAs(string $id1, string $id2): string {
-    echo "<b>sameAs($id1, $id2)</b>\n";
+    //echo "<b>sameAs($id1, $id2)</b>\n";
     if ($id1 == $id2) return $id1;
     if (isset(self::$sameAs[$id1]) && (self::$sameAs[$id1]==$id2)) return $id2;
     if (isset(self::$sameAs[$id2]) && (self::$sameAs[$id2]==$id1)) return $id1;
@@ -246,7 +247,7 @@ class Zone {
     self::$includes = [];
     
     // recherche du référentiel dans lequel la zone est définie
-    // Les zones valides sont définies dans COG2020
+    // Les zones valides sont définies dans COG2020s ou COG2020r
     foreach (self::$all as $id => $zone) {
       if ($idv = $zone->isValid()) {
         $zone->ref = 'COG2020'.substr($idv, 0, 1);
@@ -257,8 +258,12 @@ class Zone {
     // les unions de zones définies dans COG2020
     foreach (self::$all as $id => $zone) {
       if (!$zone->parents)
-        $zone->defCog2020();
+        $zone->defCog2020union();
     }
+
+    // les ecomp de zones définies dans COG2020
+    foreach (self::$all as $id => $zone)
+      $zone->defCog2020ecomp();
     
     ksort(self::$all);
     
@@ -289,28 +294,33 @@ class Zone {
     //die("Fin sansref nbreSansRef=$nbreSansRef\n");
   }
   
-  /* Renvoie true ssi
-    - soit elle est définie dans le COG2020 comme s ou r
-    - soit ses enfants sont définis comme s/r/union du COG2020
-      - et dans ce cas marque la zone comme union
-    - soit exactement un de ses enfants est non défini et les autres sont définis comme s/r/union du COG2020
-      - et dans ce cas marque la zone comme union et marque l'enfant comme ecomp
-  */
-  function defCog2020(): bool {
-    if (!$this->children)
-      return (in_array($this->ref, ['COG2020s','COG2020r']));
+  // Méthode récursive pour identifier et marquer les COG2020union
+  // Est marquée COG2020union une zone non définie dans COG2020(r|s) mais dont tous les enfants sont définies dans COG2020(r|s|union)
+  // La méthode est appelée sur une potentielle COG2020union et retourne true ssi elle est définie cad COG2020(r|s|union)
+  function defCog2020union(): bool {
+    $defined = true;
+    foreach ($this->children as $child) {
+      if (!$child->defCog2020union())
+        $defined = false; // si un enfant est indéfini alors l'union l'est
+    }
+    if ($this->children && $defined && !$this->ref) // si tous les enfants sont définis et le ref est indéfini alors c'est une union
+      $this->ref = 'COG2020union';
+    return in_array($this->ref, ['COG2020s','COG2020r','COG2020union']);
+  }
+  
+  // Méthode pour identifier et marquer les COG2020ecomp
+  // Est COG2020ecomp une zone non définie dans COG2020 et dont la mère est COG2020(r|s) et toutes les soeurs sont COG2020(r|s|union)
+  // La méthode est appelée sur la mère d'une potentielle ecomp
+  function defCog2020ecomp(): void {
+    if (!in_array($this->ref, ['COG2020s','COG2020r']))
+      return;
     $undefs = []; // les enfants non définis dans COG2020
     foreach ($this->children as $child) {
-      if (!in_array($child->ref, ['COG2020s','COG2020r']) && !$child->defCog2020())
+      if (!in_array($child->ref, ['COG2020s','COG2020r','COG2020union']))
         $undefs[] = $child;
     }
-    if (count($undefs) > 1)
-      return false;
     if (count($undefs) == 1)
       $undefs[0]->ref = 'COG2020ecomp';
-    if (!$this->ref)
-      $this->ref = 'COG2020union';
-    return true;
   }
   
   function id(): string { return $this->vids[0]; }

@@ -7,6 +7,9 @@ doc: |
   Construit la couche du référentiel à partir de la table eadming3 en construiant des ordres SQL fondés sur la liste des zones
   
 journal: |
+  19/8/2020:
+    - modif sur s33055@2019-01-01
+    - 22 erreurs d'insertion sur 44841
   16/8/2020:
     - ajout de la déf des elts -> 21 erreurs d'insertion sur 44911
   13/8/2020:
@@ -106,24 +109,27 @@ class Version {
   }
 };
 
-Histo::load('../insee/histov.yaml');
+Histo::load('../zones/histelt.yaml');
 
 class Zone {
+  const VERBOSE = false; // affiche ou non ttes les requêtes SQL générées
   static $errors=0; // nbre d'erreurs
   static $inserts=0; // nbre d'insertions effectuées
   protected $id; // string
   protected $sameAs; // [ id ]
   protected $ref; // string
+  protected $parentId; // string
   protected $children; // [ id => Zone ]
   
-  function __construct(string $id, array $zone) {
+  function __construct(string $id, array $zone, string $parentId='') {
     $this->id = $id;
     $this->sameAs = $zone['sameAs'] ?? [];
     $this->ref = $zone['ref'] ?? '';
+    $this->parentId = $parentId;
     $this->children = [];
     if (isset($zone['contains']))
-      foreach ($zone['contains'] as $id => $zone)
-        $this->children[$id] = new Zone($id, $zone);
+      foreach ($zone['contains'] as $childId => $child)
+        $this->children[$childId] = new Zone($childId, $child, $id);
   }
   
   function asArray(): array {
@@ -143,7 +149,7 @@ class Zone {
   function gensql(): void {
     if ($this->ref && (substr($this->ref,0,7)=='COG2020')) {
       //echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
-      $eltIds = $this->eltIds();
+      $eltIds = $this->eltCog2020Ids();
       if (count($eltIds) > 1) {
         //echo "-- <b>$this->id composed of [",implode(',',$idEAdmins),"]</b>\n";
         $geomsql = "ST_Union(geom) from eadming3 where eid in ('".implode("','",$eltIds)."')";
@@ -160,6 +166,9 @@ class Zone {
         $sql .= "select '".substr($id,0,1)."','".substr($id,1,5)."','".$version->debut()."',"
                 .($fin ? "'".$fin."'," : 'null,')
                 ."'".str_replace("'","''", $dnom)."',$geomsql";
+        if (self::VERBOSE) {
+          echo "$sql\n";
+        }
         $result = PgSql::query($sql);
         //echo "result=",$result->affected_rows(),"\n";
         if ($result->affected_rows() <> 1) {
@@ -174,10 +183,11 @@ class Zone {
   }
   
   // Renvoie la liste des id d'élts admin. du COG2020 correspondant à la zone définie dans le COG2020
-  function eltIds(): array {
+  // Un élt admin est une zone COG2020s, COG2020r, COG2020ecomp qui ne contient pas de zone COG2020s, COG2020r, COG2020ecomp
+  function eltCog2020Ids(): array {
     if (!$this->children) { // Si la zone ne contient pas de sous-zones
       //echo "la zone ne contient pas de sous-zones\n";
-      return [$this->idCog()];
+      return [$this->idCog2020()];
     }
     else {
       $eltIds = [];
@@ -186,23 +196,29 @@ class Zone {
           case '': break;
           case 'COG2020s':
           case 'COG2020r':
-          case 'COG2020ecomp': $eltIds[] = $child->idCog(); break;
-          case 'COG2020union': $eltIds = array_merge($eltIds, $child->eltIds()); break;
+          case 'COG2020ecomp': {
+            $eltIds[] = $child->idCog2020();
+            break;
+          }
+          case 'COG2020union': {
+            $eltIds = array_merge($eltIds, $child->eltCog2020Ids());
+            break;
+          }
         }
       }
-      if (count($eltIds)) // au moins une sous-zones n'est définie dans le COG
+      if (count($eltIds)) // au moins une sous-zone est définie dans le COG
         return $eltIds;
       else // aucune des sous-zones n'est définie dans le COG
-        return [$this->idCog()];
+        return [$this->idCog2020()];
     }
   }
   
-  // fournit l'id du Cog2020 de la zone
-  function idCog(): string {
+  // Renvoie l'id du Cog2020 de la zone
+  function idCog2020(): string {
     if (!$this->ref || (substr($this->ref,0,7)<>'COG2020')) 
       throw new Exception("Ref incorrect dans idCog() sur $this->id");
     if ($this->ref == 'COG2020ecomp')
-      return 'c'.substr($this->id, 1, 5);
+      return 'c'.substr($this->parentId, 1, 5);
     // Si non je cherche la version valide
     $ids = array_merge([$this->id], $this->sameAs);
     foreach ($ids as $id) {
@@ -221,12 +237,10 @@ $yaml = Yaml::parseFile('../zones/zones.yaml');
 foreach ($yaml as $id => $zone) {
   if (!is_array($zone)) continue;
   //if (substr($id, 1, 2) <> '01') die("-- Fin 01\n");
-  //echo "$id: "; print_r($zone);
+  //if ($id <> 's33055@2019-01-01') continue;
   $zone = new Zone($id, $zone);
   //echo "$id: "; print_r($zone);
   $zone->gensql();
 }
 echo Zone::$errors," erreurs d'insertion sur ",Zone::$inserts,"\n";
 die("-- Fin ok\n");
-
-

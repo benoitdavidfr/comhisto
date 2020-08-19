@@ -335,7 +335,7 @@ class Version {
     // définition de la relation entre la version courante et la version qui suit dans le temps
     if (is_null($this->evtsFin)) return;
 
-    echo "traitements keys=",$this->evtsFin,"\n";
+    //echo "traitements keys=",$this->evtsFin,"\n";
     switch ($this->evtsFin->keys()) {
       // Il n'y a pas d'entité suivante
       case ['sortDuPérimètreDuRéférentiel']: break;
