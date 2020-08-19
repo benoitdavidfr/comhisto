@@ -3,7 +3,7 @@ contents:
   - 49080
   - 49065
   - 49051
-updated: '2020-08-04T20:24:47+00:00'
+updated: '2020-08-19T10:31:38+00:00'
 rpicomd:
   49080:
     now:
@@ -56,9 +56,9 @@ histov:
     '1943-01-01':
       etat: { name: Châteauneuf-sur-Sarthe, statut: COMS }
     '2019-01-01':
-      evts: { prendPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
-      etat: { name: 'Les Hauts-d''Anjou', statut: COMS, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
-      erat: { aPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
+      evts: { devientDéléguéeDe: 49080, prendPourDéléguées: [49051, 49065, 49080, 49096, 49105, 49189, 49254, 49335] }
+      etat: { name: 'Les Hauts-d''Anjou', statut: COMM, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
+      erat: { aPourDéléguées: [49051, 49065, 49080, 49096, 49105, 49189, 49254, 49335] }
   49065:
     '1943-01-01':
       etat: { name: Champigné, statut: COMS }

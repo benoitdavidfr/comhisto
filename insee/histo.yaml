@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-08-05T09:50:15+00:00'
+created: '2020-08-19T10:28:38+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -71070,9 +71070,9 @@ contents:
     '1943-01-01':
       etat: { name: Châteauneuf-sur-Sarthe, statut: COMS }
     '2019-01-01':
-      evts: { prendPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
-      etat: { name: 'Les Hauts-d''Anjou', statut: COMS, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
-      erat: { aPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
+      evts: { devientDéléguéeDe: 49080, prendPourDéléguées: [49051, 49065, 49080, 49096, 49105, 49189, 49254, 49335] }
+      etat: { name: 'Les Hauts-d''Anjou', statut: COMM, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
+      erat: { aPourDéléguées: [49051, 49065, 49080, 49096, 49105, 49189, 49254, 49335] }
   49081:
     '1943-01-01':
       etat: { name: Châtelais, statut: COMS }

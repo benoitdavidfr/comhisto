@@ -10,6 +10,8 @@ doc: |
     2) ajout d'évènements détaillés et enregistrement du résultat dans rpicomd
     3) construction du fichier histo à partir du Rpicom détaillé
 journal: |
+  19/8/2020:
+    - sur-correction de 49080
   2-4/8/2020:
     - restructuration pour simplidier les corrections
     - on distingue clairement les données dérivées pour pouvoir les refabriquer après correction
@@ -957,9 +959,10 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
       $histos[$id][$dv]['etat']['crat'] = $perdRatt['new'];
     }
     $histos[$perdRatt['new']][$dv]['evts'] = [
+      'devientDéléguéeDe'=> $perdRatt['new'], // sur-correction du 19/8/2020
       'prendPourDéléguées'=> array_merge([$perdRatt['new'], $perdRatt['old']], $perdRatt['rat'])
     ];
-    $histos[$perdRatt['new']][$dv]['etat']['statut'] = 'COMS';
+    $histos[$perdRatt['new']][$dv]['etat']['statut'] = 'COMM';
     $histos[$perdRatt['old']][$dv]['evts'] = [
       'détacheCommeSimples'=> $perdRatt['rat'],
       'devientDéléguéeDe'=> $perdRatt['new']
@@ -967,6 +970,14 @@ if ($_GET['action'] == 'bhisto') { // construction du fichier histo.yaml
     $histos[$perdRatt['old']][$dv]['etat']['statut'] = 'COMD';
     $histos[$perdRatt['old']][$dv]['etat']['crat'] = $perdRatt['new'];
   }
+  /*49080:
+    '1943-01-01':
+      etat: { name: Châteauneuf-sur-Sarthe, statut: COMS }
+    '2019-01-01':
+      evts: { prendPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
+      etat: { name: 'Les Hauts-d''Anjou', statut: COMS, nomCommeDéléguée: Châteauneuf-sur-Sarthe }
+      erat: { aPourDéléguées: [49051, 49065, 49096, 49105, 49189, 49254, 49335] }
+  */
   
   // réécriture de prendLeRattachementDe de 49018/49101
   unset($histos[49018]['2016-01-01']['evts']['prendLeRattachementDe']);

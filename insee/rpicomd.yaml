@@ -1,7 +1,7 @@
 title: 'Référentiel Rpicom modifié avec évts détaillés'
 '@id': 'http://id.georef.eu/comhisto/insee/rpicomd'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-08-05T09:50:13+00:00'
+created: '2020-08-19T10:28:36+00:00'
 valid: '2020-01-01'
 contents:
   '01001':
