@@ -14,6 +14,7 @@ doc: |
 journal: |
   20/8/2020:
     - correction dans Version::buildZones()
+    - traitement de l'évt aucun pour traiter les cas de simplification
   16/8/2020:
     - transfert des paramètres de simplifications dans simplif.inc.php pour les partager avec defelt.php
     - récriture de Histo::testAllerRetourRattachante() utilisant la définition des versions en elts
@@ -319,6 +320,7 @@ class Version {
       
       // l'entité suivante est identique à l'entité courante
       case ['changeDeNomPour']:
+      case ['aucun']:
       case ['devientDéléguéeDe']:
       case ['sAssocieA']:
       case ['resteAssociéeA']:

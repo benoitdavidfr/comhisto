@@ -16,6 +16,8 @@ doc: |
 
   S'utilise en non CLI en dév et en CLI en prod.
 journal: |
+  20/8/2020:
+    - ajout d'un évt aucun pour traiter les cas de simplification
   16/8/2020:
     - ajout d'une phase de simplification
   15/8/2020:
@@ -317,7 +319,7 @@ class Version {
       if ($this->cinsee == Simplif::CREATIONS[$this->evts['contribueA']])
         $this->evts = ['seScindePourCréer'=> [$this->evts['contribueA']]];
       else
-        $this->evts = ['seScindePourCréer'=> []];
+        $this->evts = ['aucun'=> []];
       return true;
     }
     // Les 6 dissolutions (seDissoutDans/reçoitUnePartieDe) sont assimilées à des fusions (fusionneDans/absorbe) en définissant dans
@@ -332,7 +334,7 @@ class Version {
       if ($this->cinsee == Simplif::DISSOLUTIONS[$this->evts['reçoitUnePartieDe']])
         $this->evts = ['absorbe'=> [$this->evts['reçoitUnePartieDe']]];
       else
-        $this->evts = ['absorbe'=> []];
+        $this->evts = ['aucun'=> []];
       return true;
     }
     return false;
@@ -347,6 +349,7 @@ class Version {
 
         case 'estModifiéeIndirectementPar': break;
         case 'changeDeNomPour': break;
+        case 'aucun': break;
         
         case 'changeDeCodePour': {
           $nv = Histo::get($evtObjects);

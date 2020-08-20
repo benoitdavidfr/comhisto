@@ -178,10 +178,10 @@ class Zone {
     self::includes('s53003@1987-01-01', 's53003@1943-01-01');
     self::includes('s71014@1985-10-01', 's71014@1943-01-01');
     self::includes('s71263@1979-03-01', 's71263@1943-01-01');
-    
+   
     // AJOUT de cas particuliers de 89325, 89389 qui fusionne puis est rétabli comme associé
     // 19/8/2020 -> Je n'arrive pas à intégrer cette fonctionnalité dans Histo::testAllerRetourFusionnee()@histo.inc.php
-    // 20/8/2020 -> ca a l'air de marcher
+    // 20/8/2020 -> ca a l'air de marcher => AJOUTS INUTILES
     /*self::sameAs('r89325@1977-01-01', 's89325@1943-01-01');
     self::sameAs('s89325@1999-01-01', 's89325@1943-01-01');
     self::sameAs('r89389@1977-01-01', 's89389@1943-01-01');
