@@ -1,7 +1,10 @@
-title: comhisto/join - génère la couche du référentiel à partir d'une part de la liste des zones et d'autre part d'AE2020COG
+title: comhisto/join - génère la couche du référentiel dans la table comhisto à partir 1) de la liste des zones et 2) d'AE2020COG
 path: /yamldoc/pub/comhisto/join
 doc: |
 journal: |
+  19/8/2020:
+    - join.php ne génère plus d'erreurs grâce aux corrections de zones, de histo et de join.php
+    - création ctrlqual.sql
   10/8/2020:
     - création
 submodules:
@@ -9,4 +12,5 @@ sqlFiles:
 phpScripts:
   - /yamldoc/pub/comhisto/join/join.php
 phpIncludes:
-htmlFiles:
+sqlFiles:
+  - /yamldoc/pub/comhisto/join/ctrlqual.sql

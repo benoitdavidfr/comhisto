@@ -10,7 +10,7 @@ doc: |
   L'algorithme pour les créer est le suivant:
     - traduction des infos Insee sous la forme de relations topologiques entre zones, soit égalité (sameAs) soit inclusion (includes)
     - construction des zones comme classes d'équivalence des sameAs et structuration avec la relation d'inclusion
-    - j'associe à chacune les réfrentiel dans lequel elle est définie
+    - j'associe à chacune le référentiel dans lequel elle est définie
     - calcul des stats
 
   Sur 40661 zones créées, il en reste environ 2000 définies dans aucun des réf. disponibles

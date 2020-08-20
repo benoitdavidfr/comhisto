@@ -33,7 +33,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class Histo {
   static $all=[]; // [cinsee => Histo] - tous les Histo par leur code Insee
   protected $cinsee;
-  protected $versions=[]; // [ dCreation => Version ] - triées dans l'ordre chronologique
+  protected $versions=[]; // [ dCreation => Version ] - versions triées dans l'ordre chronologique, une version a un état
   
   static function load(string $fpath) {
     $yaml = Yaml::parseFile("$fpath.yaml");
@@ -52,7 +52,7 @@ class Histo {
     $dvs = array_keys($versions);
     foreach ($dvs as $iv => $dv) {
       if (isset($versions[$dv]['etat'])) {
-        $nextDv = isset($dvs[$iv+1]) ? $dvs[$iv+1] : null;
+        $nextDv = $dvs[$iv+1] ?? null;
         $this->versions[$dv] = new Version($cinsee, $dv, $versions[$dv], $nextDv, $nextDv ? $versions[$nextDv] : []);
       }
     }
@@ -120,7 +120,7 @@ class Histo {
   }
   
   function testAllerRetourFusionnee() {
-    /* gère le cas illustré par 27111 de fusion suivie d'un rétablissement
+    /* gère les cas illustrés par 27111 et 89325 de fusion suivie d'un rétablissement
       27111:
         '1943-01-01':
           etat: { name: Bretagnolles, statut: COMS }
@@ -129,6 +129,21 @@ class Histo {
         '1947-12-19':
           evts: { crééeCommeSimpleParScissionDe: 27078 }
           etat: { name: Bretagnolles, statut: COMS }
+      89325:
+        '1943-01-01':
+          etat: { name: Ronchères, statut: COMS }
+          elts: '+89325'
+        '1972-12-01':
+          evts: { fusionneDans: 89344 }
+          elts: ''
+        '1977-01-01':
+          evts: { crééeCommeAssociéeParScissionDe: 89344 }
+          etat: { name: Ronchères, statut: COMA, crat: 89344 }
+          elts: '+89325'
+        '1999-01-01':
+          evts: { seDétacheDe: 89344 }
+          etat: { name: Ronchères, statut: COMS }
+          elts: '+89325'
     */
     $dCreations = array_keys($this->versions);
     foreach ($dCreations as $noVersion => $dCreation) {
@@ -136,7 +151,32 @@ class Histo {
       if ($version->evtsFin() && ($version->evtsFin()->keys()==['fusionneDans'])) {
         if ($dCreation2 = $dCreations[$noVersion+1] ?? null) {
           $version2 = $this->versions[$dCreation2];
-          if ($version2->evtsCreation()->keys()==['crééeCommeSimpleParScissionDe']) {
+          if (in_array($version2->evtsCreation()->keys(), [['crééeCommeSimpleParScissionDe'],['crééeCommeAssociéeParScissionDe']])) {
+            //echo "# Fusion/rétablissement détectée pour ",$version2->id()," et ",$version->id(),"\n";
+            Zone::sameAs($version2->id(), $version->id());
+          }
+        }
+      }
+    }
+  }
+  function testAllerRetourFusionneePERIMEE() {
+    /* gère les cas illustrés par 27111 de fusion suivie d'un rétablissement
+      27111:
+        '1943-01-01':
+          etat: { name: Bretagnolles, statut: COMS }
+        '1943-12-01':
+          evts: { fusionneDans: 27078 }
+        '1947-12-19':
+          evts: { crééeCommeSimpleParScissionDe: 27078 }
+          etat: { name: Bretagnolles, statut: COMS }
+     */
+    $dCreations = array_keys($this->versions);
+    foreach ($dCreations as $noVersion => $dCreation) {
+      $version = $this->versions[$dCreation];
+      if ($version->evtsFin() && ($version->evtsFin()->keys()==['fusionneDans'])) {
+        if ($dCreation2 = $dCreations[$noVersion+1] ?? null) {
+          $version2 = $this->versions[$dCreation2];
+          if ($version2->evtsCreation()->keys() == ['crééeCommeSimpleParScissionDe']) {
             //echo "Fusion/rétablissement détectée pour ",$version2->id()," et ",$version->id(),"\n";
             Zone::sameAs($version2->id(), $version->id());
           }
@@ -166,71 +206,6 @@ class Histo {
       }
     }
   }
-  /*function testAllerRetourRattachantePERMIMEE(): void {
-    $erat = []; // entités rattachées
-    $efus = []; // entités fusionnées
-    //echo "testAllerRetourRattachante $this->cinsee\n";
-    $version0 = array_values($this->versions)[0];
-    foreach ($this->versions as $version) {
-      if (is_null($evtsFin = $version->evtsFin()))
-        continue;
-      //echo "  evtsFin=$evtsFin\n";
-      foreach ($evtsFin->asArray() as $evtKey => $evtObjects) {
-        switch ($evtKey) {
-          case 'changeDeNomPour': break;
-
-          case 'fusionneDans': break;
-          case 'absorbe': $efus = array_merge($efus, $evtObjects); break;
-          case 'seScindePourCréer': {
-            $newefus = [];
-            foreach ($efus as $fus) {
-              if (!in_array($fus, $evtObjects))
-                $newefus[] = $fus;
-            }
-            $efus = $newefus;
-            if (!$erat && !$efus) {
-              Zone::sameAs($version0->id(), $version->next()->id());
-            }
-            break;
-          }
-          
-          case 'sAssocieA':
-          case 'devientDéléguéeDe': break;
-          case 'seDétacheDe': break;
-          
-          case 'prendPourAssociées': 
-          case 'prendPourDéléguées': $erat = array_merge($erat, $evtObjects); break;
-          case 'détacheCommeSimples': {
-            $newerat = [];
-            foreach ($erat as $rat) {
-              if (!in_array($rat, $evtObjects))
-                $newerat[] = $rat;
-            }
-            $erat = $newerat;
-            if (!$erat && !$efus) {
-              Zone::sameAs($version0->id(), $version->next()->id());
-            }
-            break;
-          }
-
-          case 'resteAssociéeA': break;
-          case 'resteDéléguéeDe': break;
-          case 'gardeCommeAssociées': break;
-          case 'gardeCommeDéléguées': break;
-          
-          case 'changeDeCodePour': return;
-          case 'reçoitUnePartieDe': return;
-          case 'seDissoutDans': return;
-          case 'contribueA': return;
-          case 'estModifiéeIndirectementPar': return;
-          case 'sortDuPérimètreDuRéférentiel': return;
-          
-          default: throw new Exception("$evtsFin , version=$version");
-        }
-      }
-    }
-    //die("die testAllerRetourRattachante");
-  }*/
 };
 
 class Version {
@@ -425,10 +400,6 @@ class Version {
           Zone::includes($next->id(), $this->id());
           //echo "  Zone::includes(",$next->id(),", ",$this->id(),");\n";
         }
-        else { // sinon l'absorbante est identique avant et après
-          Zone::sameAs($next->id(), $this->id());
-          //echo "  Zone::sameAs(",$next->id(),", ",$this->id(),");\n";
-        }
         break;
       }
       
@@ -482,6 +453,10 @@ class Version {
           foreach ($seScindePourCréer as $nvCinsee) // chaque c. créée est incluse dans la version courante
             Zone::includes($this->id(), Histo::$all[$nvCinsee]->version($this->dFin)->id());
         }
+        /*elseif ($seScindePourCréer === []) { // cas de simplification de contribueA - ce code ne semble pas fonctionner !!!
+          //echo "seScindePourCréer === [] pour ",$this->id()," -> ",$this->next()->id(),"\n";
+          Zone::sameAs($this->id(), $this->next()->id()); // la version suivante est identique dans la version courante
+        }*/
         break;
       }
       

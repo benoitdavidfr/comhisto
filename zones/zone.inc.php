@@ -26,6 +26,8 @@ doc: |
     - puis de construire à partir de ces informations les zones 
 
 journal:
+  20/8/2020:
+    - ajout traitement des cas où un couple est à la fois sameAs() et includes()
   19/8/2020:
     - modif déf union + ecomp
   12/8/2020:
@@ -40,9 +42,10 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class Zone {
+  const VERBOSE = false;
   static $all=[]; // [ stdId => Zone ] - contient ttes les zones identifiées par leur identifiant standard
-  static $sameAs=[]; // [ id => stdId ] - standardisation des Id
-  static $includes=[]; // enregistre les couples  (big inclus small) sous la forme [small => [big]]
+  static $sameAs=[]; // [ id => stdId ] - contient tous les identifiants pointant vers l'id. standard
+  static $includes=[]; // enregistre les couples  (big inclus small) sous la forme [smallId => [bigId]]
   static $stats=['COG2020'=>0, 'COG2020ecomp'=>0]; // statistiques
   protected $vids; // liste des ids d'une zone
   protected $ref; // le référentiel dans lequel la zone est définie
@@ -53,13 +56,13 @@ class Zone {
   static function create(string $id): Zone {
     if (isset(self::$sameAs[$id]))
       throw new Exception("Erreur, l'id $id existe déjà");
-    $new = new self($id);
-    self::$all[$id] = $new;
+    $zone = new self($id);
+    self::$all[$id] = $zone;
     self::$sameAs[$id] = $id;
-    return $new;
+    return $zone;
   }
   
-  // retrouve une zone par un de ses id
+  // retourne une zone par un de ses id ou null si soit l'id n'existe pas soit l'objet n'est pas encoré créé
   static function get(string $id): ?Zone {
     if (!isset(self::$sameAs[$id]))
       return null; // l'id n'existe pas
@@ -79,7 +82,8 @@ class Zone {
   
   // affirme que $bigId inclus $smallId, ne crée pas les zones correspondantes
   static function includes(string $bigId, string $smallId): void {
-    //echo "<b>includes($bigId, $smallId)</b>\n";
+    if (self::VERBOSE)
+      echo "<b>includes($bigId, $smallId)</b>\n";
     if (!isset(self::$includes[$smallId]))
       self::$includes[$smallId] = [$bigId];
     elseif (!in_array($bigId, self::$includes[$smallId]))
@@ -116,7 +120,8 @@ class Zone {
   
   // affirme que les zones sont identiques, parent et children ne sont pas définis, retourne le nouvel idStd
   static function sameAs(string $id1, string $id2): string {
-    //echo "<b>sameAs($id1, $id2)</b>\n";
+    if (self::VERBOSE)
+      echo "<b>sameAs($id1, $id2)</b>\n";
     if ($id1 == $id2) return $id1;
     if (isset(self::$sameAs[$id1]) && (self::$sameAs[$id1]==$id2)) return $id2;
     if (isset(self::$sameAs[$id2]) && (self::$sameAs[$id2]==$id1)) return $id1;
@@ -168,6 +173,37 @@ class Zone {
   static function traiteInclusions(): void {
     //echo Yaml::dump(self::allAsArray()); die();
     
+    // AJOUT de cas particuliers de communes se rétractant
+    self::includes('s35130@2008-01-01', 's35130@1943-01-01');
+    self::includes('s53003@1987-01-01', 's53003@1943-01-01');
+    self::includes('s71014@1985-10-01', 's71014@1943-01-01');
+    self::includes('s71263@1979-03-01', 's71263@1943-01-01');
+    
+    // AJOUT de cas particuliers de 89325, 89389 qui fusionne puis est rétabli comme associé
+    // 19/8/2020 -> Je n'arrive pas à intégrer cette fonctionnalité dans Histo::testAllerRetourFusionnee()@histo.inc.php
+    // 20/8/2020 -> ca a l'air de marcher
+    /*self::sameAs('r89325@1977-01-01', 's89325@1943-01-01');
+    self::sameAs('s89325@1999-01-01', 's89325@1943-01-01');
+    self::sameAs('r89389@1977-01-01', 's89389@1943-01-01');
+    */
+    /*// AJOUT des cas particuliers liés à la simplification de contribueA, ex 27351
+    // Pas utile avec la correction du 20/8
+    self::sameAs('s27351@1943-01-01', 's27351@1981-09-28');
+    self::sameAs('s27365@1943-01-01', 's27365@1981-09-28');
+    self::sameAs('s27471@1943-01-01', 's27471@1981-09-28');
+    self::sameAs('s27474@1943-01-01', 's27474@1981-09-28');
+    self::sameAs('s27537@1943-01-01', 's27537@1981-09-28');
+    self::sameAs('s27598@1943-01-01', 's27598@1981-09-28');
+    self::sameAs('s27651@1943-01-01', 's27651@1981-09-28');
+    self::sameAs('s29263@1943-01-01', 's29263@1949-08-27');
+    self::sameAs('s38478@1943-01-01', 's38478@1989-02-15');
+    self::sameAs('s38529@1943-01-01', 's38529@1989-02-15');
+    self::sameAs('s46271@1943-01-01', 's46271@1948-06-17');
+    self::sameAs('s46281@1943-01-01', 's46281@1948-06-17');
+    self::sameAs('s46295@1943-01-01', 's46295@1948-06-17');
+    self::sameAs('s57562@1943-01-01', 's57562@1958-01-01');
+    self::sameAs('s91471@1968-01-01', 's91471@1977-02-19');*/
+    
     // standardise les clés de self::$includes
     foreach (array_keys(self::$includes) as $small) {
       if ($zSmall = self::get($small)) {
@@ -194,12 +230,21 @@ class Zone {
       }
       self::$includes[$small] = $stdbigs;
     }
-    
-    // cas particuliers de communes se rétractant
-    self::includes('s35130@2008-01-01', 's35130@1943-01-01');
-    self::includes('s53003@1987-01-01', 's53003@1943-01-01');
-    self::includes('s71014@1985-10-01', 's71014@1943-01-01');
-    self::includes('s71263@1979-03-01', 's71263@1943-01-01');
+   
+    // suppression des inclusions réflexives, cad des couples pour lesquels sameAs() et includes() ont été affirmés
+    // correction du 20/8
+    foreach (self::$includes as $small => &$bigs) {
+      if (in_array($small, $bigs)) {
+        $bigs2 = [];
+        foreach ($bigs as $b)
+          if ($b <> $small)
+            $bigs2[] = $small;
+        if ($bigs2)
+          $bigs = $bigs2;
+        else
+          unset(self::$includes[$small]);
+      }
+    }
     
     // suppression des inclusions aussi présentes de manière transitive
     // a -> b + b -> c + a -> c => delete(a->c)
