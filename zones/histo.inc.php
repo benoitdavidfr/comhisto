@@ -12,6 +12,8 @@ doc: |
   et les relations d'inclusion entre elles.
 
 journal: |
+  20/8/2020:
+    - correction dans Version::buildZones()
   16/8/2020:
     - transfert des paramètres de simplifications dans simplif.inc.php pour les partager avec defelt.php
     - récriture de Histo::testAllerRetourRattachante() utilisant la définition des versions en elts
@@ -399,6 +401,9 @@ class Version {
         if (isset($statuts['s'])) { // si au moins une des absorbées est une c.s. alors l'absorbante grossit
           Zone::includes($next->id(), $this->id());
           //echo "  Zone::includes(",$next->id(),", ",$this->id(),");\n";
+        }
+        else { // sinon elle reste identique (correction 20/8)
+          Zone::sameAs($next->id(), $this->id());
         }
         break;
       }
