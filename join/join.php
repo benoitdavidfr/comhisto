@@ -4,9 +4,13 @@ name: join.php
 title: join.php - croise la liste des zones avec la table eadming3 pour générer la couche du référentiel
 screens:
 doc: |
-  Construit la couche du référentiel à partir de la table eadming3 en construiant des ordres SQL fondés sur la liste des zones
-  
+  Construit la couche comhistog3 du référentiel à partir de eadming3 en construisant des ordres SQL fondés sur la liste des zones
+  Peut aussi en fonction du paramétrage:
+    - construire la table comhisto à partir de eadmin
+    - afficher les ordres au lieu de les exécuter
 journal: |
+  21/8/2020:
+    - correction cas ex. 23093 qui doit être défini par r23094 + c23093 et non uniquement r23094
   19/8/2020:
     - modif sur s33055@2019-01-01 -> 22 erreurs d'insertion sur 44841
     - modif 49080 dans ../insee/histo.php -> 15 erreurs d'insertion sur 44839
@@ -25,8 +29,19 @@ journal: |
 */
 ini_set('memory_limit', '1G');
 
+echo "Début à ",date(DATE_ATOM),"\n";
+
 require_once __DIR__.'/../../../vendor/autoload.php';
-require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
+if (1) { // 1 alors exécute les ordres Sql
+  require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
+}
+else { // sinon les affiche seulement
+  class PgSql {
+    static function open(string $connection_string): void {}
+    static function query(string $sql) { echo "$sql\n"; return new PgSql; }
+    function affected_rows(): int { return 1; }
+  };
+}
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -36,8 +51,9 @@ if (php_sapi_name() <> 'cli')
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
 
-PgSql::query("drop table if exists comhisto");
-PgSql::query("create table comhisto(
+$table = 'comhisto'.Zone::EADMIN;
+PgSql::query("drop table if exists $table");
+PgSql::query("create table $table(
   type char(1), -- 's' ou 'r'
   cinsee char(5), -- code Insee
   debut char(10), -- date de début
@@ -113,7 +129,8 @@ class Version {
 Histo::load('../zones/histelt.yaml');
 
 class Zone {
-  const VERBOSE = false; // affiche ou non ttes les requêtes SQL générées
+  const VERBOSE = false; // affiche ou non ttes les requêtes SQL générées en plus de les exécuter
+  const EADMIN = ''; // '' pour générer comhisto à partir de eadmin ou 'g3' pour générer comhistog3 à partir de eadming3
   static $errors=0; // nbre d'erreurs
   static $inserts=0; // nbre d'insertions effectuées
   protected $id; // string
@@ -150,13 +167,15 @@ class Zone {
   function gensql(): void {
     if ($this->ref && (substr($this->ref,0,7)=='COG2020')) {
       //echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
+      $eadmin = 'eadmin'.Zone::EADMIN;
+      $eadminid = (Zone::EADMIN == 'g3') ? 'eid' : 'id';
       $eltIds = $this->eltCog2020Ids();
       if (count($eltIds) > 1) {
         //echo "-- <b>$this->id composed of [",implode(',',$idEAdmins),"]</b>\n";
-        $geomsql = "ST_Union(geom) from eadming3 where eid in ('".implode("','",$eltIds)."')";
+        $geomsql = "ST_Union(geom) from $eadmin where $eadminid in ('".implode("','",$eltIds)."')";
       }
       else {
-        $geomsql = "geom from eadming3 where eid='".$eltIds[0]."'";
+        $geomsql = "geom from $eadmin where $eadminid='".$eltIds[0]."'";
       }
       $ids = array_merge([$this->id], $this->sameAs);
       foreach ($ids as $id) {
@@ -192,9 +211,14 @@ class Zone {
     }
     else {
       $eltIds = [];
+      $nbzoneNonDefinies = 0;
       foreach ($this->children as $id => $child) {
         switch ($child->ref) {
-          case '': break;
+          case '': {
+            //echo "$this->id zone non définie dans COG2020\n";
+            $nbzoneNonDefinies++;
+            break;
+          }
           case 'COG2020s':
           case 'COG2020r':
           case 'COG2020ecomp': {
@@ -207,7 +231,9 @@ class Zone {
           }
         }
       }
-      if (count($eltIds)) // au moins une sous-zone est définie dans le COG
+      if ($nbzoneNonDefinies && count($eltIds)) // mixte zones définies et non définies, ex s23093@1972-11-01
+        return array_merge($eltIds, ['c'.substr($this->id, 1, 5)]);
+      elseif (count($eltIds)) // au moins une sous-zone est définie dans le COG
         return $eltIds;
       else // aucune des sous-zones n'est définie dans le COG
         return [$this->idCog2020()];
@@ -239,9 +265,10 @@ foreach ($yaml as $id => $zone) {
   if (!is_array($zone)) continue;
   //if (substr($id, 1, 2) <> '01') die("-- Fin 01\n");
   //if ($id <> 's33055@2019-01-01') continue;
+  //if ($id <> 's23093@1972-11-01') continue;
   $zone = new Zone($id, $zone);
   //echo "$id: "; print_r($zone);
   $zone->gensql();
 }
 echo Zone::$errors," erreurs d'insertion sur ",Zone::$inserts,"\n";
-die("-- Fin ok\n");
+die("-- Fin ok à ".date(DATE_ATOM)."\n");
