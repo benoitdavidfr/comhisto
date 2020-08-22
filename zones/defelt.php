@@ -2,7 +2,6 @@
 /*PhpDoc:
 name: defelt.php
 title: defelt.php - définition de chaque version de commune ou d'entité associée comme ensemble d'élts stables dans le temps
-screens:
 doc: |
   L'objectif est d'identifier le territoire de chaque version de commune ou d'entité associée afin de détecter les versions ayant
   le même territoire.
@@ -39,7 +38,7 @@ if (php_sapi_name() <> 'cli') {
   echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>defelt</title></head><body><pre>\n";
   if (!isset($_GET['action'])) {
     echo "</pre><a href='?action=showSimplif'>affiche la simplification</a><br>\n";
-    echo "<a href='?action=affiche une version intermédiaire'>showF1</a><br>\n";
+    echo "<a href='?action=showF1'>affiche une version intermédiaire</a><br>\n";
     echo "<a href='?action=showF2'>affiche la version finale</a><br>\n";
     die();
   }
@@ -319,7 +318,7 @@ class Version {
       if ($this->cinsee == Simplif::CREATIONS[$this->evts['contribueA']])
         $this->evts = ['seScindePourCréer'=> [$this->evts['contribueA']]];
       else
-        $this->evts = ['aucun'=> []];
+        $this->evts = ['aucun'=> null];
       return true;
     }
     // Les 6 dissolutions (seDissoutDans/reçoitUnePartieDe) sont assimilées à des fusions (fusionneDans/absorbe) en définissant dans
@@ -334,7 +333,7 @@ class Version {
       if ($this->cinsee == Simplif::DISSOLUTIONS[$this->evts['reçoitUnePartieDe']])
         $this->evts = ['absorbe'=> [$this->evts['reçoitUnePartieDe']]];
       else
-        $this->evts = ['aucun'=> []];
+        $this->evts = ['aucun'=> null];
       return true;
     }
     return false;

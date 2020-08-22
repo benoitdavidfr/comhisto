@@ -32,7 +32,7 @@ ini_set('memory_limit', '1G');
 echo "Début à ",date(DATE_ATOM),"\n";
 
 require_once __DIR__.'/../../../vendor/autoload.php';
-if (1) { // 1 alors exécute les ordres Sql
+if (0) { // 1 alors exécute les ordres Sql
   require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 }
 else { // sinon les affiche seulement

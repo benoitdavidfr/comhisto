@@ -20,6 +20,8 @@ doc: |
   Ce script produit le fichier zones.yaml
 
 journal:
+  22/8/2020:
+    - utilisation des éléments positifs produits par defeltp.php
   16/8/2020:
     - utilisation des éléments produits par defelt.php
   20/7/2020:
@@ -36,11 +38,16 @@ require_once __DIR__.'/zone.inc.php';
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-if ((php_sapi_name() <> 'cli') && !isset($_GET['action'])) {
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body>\n";
-  echo "<a href='?action=bzones'>Construit les zones</a><br>\n";
-  echo "<a href='?action=stats'>stats</a><br>\n";
-  die();
+if (php_sapi_name() <> 'cli') {
+  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body><pre>\n";
+  if (!isset($_GET['action'])) {
+    echo "</pre><a href='?action=bzones'>Construit les zones</a><br>\n";
+    echo "<a href='?action=stats'>stats</a><br>\n";
+    die();
+  }
+}
+else {
+  $_GET['action'] = 'bzones';
 }
 
 // gère diff. comptages définis chacun par un label
@@ -61,11 +68,9 @@ class Stats {
   static function dump() { return Yaml::dump(['stats'=> self::$stats]); }
 };
 
-if ((php_sapi_name() == 'cli') || (isset($_GET['action']) && ($_GET['action']=='bzones'))) {
-  if (php_sapi_name() <> 'cli')
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>bzones</title></head><body><pre>\n";
-  Histo::load('histelt');
-  //Histo::load('histelttest');
+if ($_GET['action']=='bzones') {
+  //Histo::load('histeltp');
+  Histo::load('histeltptest');
   Histo::buildAllZones();
   echo "title: Liste des zones\n";
   echo "creator: bzones.php\n";

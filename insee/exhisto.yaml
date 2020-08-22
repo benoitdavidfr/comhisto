@@ -3,7 +3,16 @@ modified: '2020-08-02'
 description: |
   Le schéma du référentiel est contenu dans le champ $schema de ce document.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
+  Ce schéma correspond à plusieurs versions de l'historique:
+    - histo directement issu de rpicom
+    - histov qui comporte un traitement de validation complémentaire
+    - histelt dans lequel une simplification est effectuée et chaque version est décrite par des elts positifs ou négatifs
+    - histeltp issu de histelt en remplacant les élts par des élts positifs
   Journal:
+    22/8/2020:
+      Ajout de l'évènement aucun utilisé dans le cas d'une simplification
+      Ajout de la propriété eltsp pour les éléments positifs
+      Modification du format d'un code Insee pour mieux distinguer les codages comme entier ou chaine de caractères
     16/8/2020:
       Ajout de la propriété elts pour histelt.yaml
     2/8/2020:
@@ -31,9 +40,14 @@ $schema:
     Le champ ydADscrBhv peut être utilisé pour afficher le fichier.
   definitions:
     codeInsee:
-      description: code INSEE
-      type: [string, number]
-      pattern: '^\d[\dAB]\d\d\d$'
+      description: code Insee
+      oneOf:
+        - description: les codes Insee commencant par '0', '2A' ou '2B' sont encodés chacun comme une chaine
+          type: string
+          pattern: '^(0[1-9]|2[AB])\d\d\d$'
+        - description: les codes Insee ne commencant pas par '0', '2A' ou '2B' sont encodés chacun comme un entier
+          type: number
+          pattern: '^[1-9]\d\d\d\d$'
     listeDeCodesInsee:
       description: liste de codes INSEE
       type: array
@@ -150,6 +164,9 @@ $schema:
         gardeCommeDéléguées:
           description: CS ayant des c. déléguées en garde certaines à l'occas. d'une évol. des dél. (mirroir déduit de resteDéléguéeDe)
           $ref: '#/definitions/listeDeCodesInsee'
+        aucun:
+          description: lorsqu'un évènement est simplifié, il peut être remplacé par un évt vide codé par aucun
+          type: 'null'
     etat:
       description: |
         Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
@@ -257,8 +274,11 @@ $schema:
               type: object
               additionalProperties: false
               properties:
+                evtsSrc:
+                  description: Les evts d'origine ssi evts contient une liste simplifiée
+                  $ref: '#/definitions/evts'
                 evts:
-                  description: liste d'évènements de création/modification/suppression
+                  description: liste d'évènements de création/modification/suppression, evt simplifiés
                   $ref: '#/definitions/evts'
                 etat:
                   description: nouvel état résultant des évènements
@@ -267,8 +287,11 @@ $schema:
                   description: éventuellement entités rattachées ; champ distinct pour améliorer la lisibilité du fichier
                   $ref: '#/definitions/erat'
                 elts:
-                  description: définition du territoire sous la forme d'éléments
+                  description: éventuellement définition du territoire sous la forme d'éléments, évt négatif
                   type: string
+                eltsp:
+                  description: éventuellement définition du territoire sous la forme d'éléments tous positifs
+                  $ref: '#/definitions/listeDeCodesInsee'
     eof:
       type: 'null'
 ydADscrBhv:

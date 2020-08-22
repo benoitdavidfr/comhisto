@@ -3,7 +3,8 @@ path: /yamldoc/pub/comhisto/join
 doc: |
 journal: |
   21/8/2020:
-    - détection d'erreurs expliquées dans ctrlqual.sql
+    - détection d'erreurs expliquées dans ctrlqual.sql (23094) - correction 16:00 
+    - nlles erreurs 17:00 -> 55517
   19/8/2020:
     - join.php ne génère plus d'erreurs grâce aux corrections de zones, de histo et de join.php
     - création ctrlqual.sql

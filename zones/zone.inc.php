@@ -26,6 +26,8 @@ doc: |
     - puis de construire à partir de ces informations les zones 
 
 journal:
+  22/8/2020T17:42:
+    - 55517 ne marche pas, nécesité de récirire la gestion des inclusions
   20/8/2020:
     - ajout traitement des cas où un couple est à la fois sameAs() et includes()
   19/8/2020:
@@ -42,7 +44,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class Zone {
-  const VERBOSE = false;
+  const VERBOSE = true;
   static $all=[]; // [ stdId => Zone ] - contient ttes les zones identifiées par leur identifiant standard
   static $sameAs=[]; // [ id => stdId ] - contient tous les identifiants pointant vers l'id. standard
   static $includes=[]; // enregistre les couples  (big inclus small) sous la forme [smallId => [bigId]]
@@ -173,11 +175,11 @@ class Zone {
   static function traiteInclusions(): void {
     //echo Yaml::dump(self::allAsArray()); die();
     
-    // AJOUT de cas particuliers de communes se rétractant
+    /*// AJOUT de cas particuliers de communes se rétractant
     self::includes('s35130@2008-01-01', 's35130@1943-01-01');
     self::includes('s53003@1987-01-01', 's53003@1943-01-01');
     self::includes('s71014@1985-10-01', 's71014@1943-01-01');
-    self::includes('s71263@1979-03-01', 's71263@1943-01-01');
+    self::includes('s71263@1979-03-01', 's71263@1943-01-01');*/
    
     // AJOUT de cas particuliers de 89325, 89389 qui fusionne puis est rétabli comme associé
     // 19/8/2020 -> Je n'arrive pas à intégrer cette fonctionnalité dans Histo::testAllerRetourFusionnee()@histo.inc.php
@@ -186,23 +188,6 @@ class Zone {
     self::sameAs('s89325@1999-01-01', 's89325@1943-01-01');
     self::sameAs('r89389@1977-01-01', 's89389@1943-01-01');
     */
-    /*// AJOUT des cas particuliers liés à la simplification de contribueA, ex 27351
-    // Pas utile avec la correction du 20/8
-    self::sameAs('s27351@1943-01-01', 's27351@1981-09-28');
-    self::sameAs('s27365@1943-01-01', 's27365@1981-09-28');
-    self::sameAs('s27471@1943-01-01', 's27471@1981-09-28');
-    self::sameAs('s27474@1943-01-01', 's27474@1981-09-28');
-    self::sameAs('s27537@1943-01-01', 's27537@1981-09-28');
-    self::sameAs('s27598@1943-01-01', 's27598@1981-09-28');
-    self::sameAs('s27651@1943-01-01', 's27651@1981-09-28');
-    self::sameAs('s29263@1943-01-01', 's29263@1949-08-27');
-    self::sameAs('s38478@1943-01-01', 's38478@1989-02-15');
-    self::sameAs('s38529@1943-01-01', 's38529@1989-02-15');
-    self::sameAs('s46271@1943-01-01', 's46271@1948-06-17');
-    self::sameAs('s46281@1943-01-01', 's46281@1948-06-17');
-    self::sameAs('s46295@1943-01-01', 's46295@1948-06-17');
-    self::sameAs('s57562@1943-01-01', 's57562@1958-01-01');
-    self::sameAs('s91471@1968-01-01', 's91471@1977-02-19');*/
     
     // standardise les clés de self::$includes
     foreach (array_keys(self::$includes) as $small) {
@@ -230,7 +215,8 @@ class Zone {
       }
       self::$includes[$small] = $stdbigs;
     }
-   
+    print_r(self::$includes);
+    
     // suppression des inclusions réflexives, cad des couples pour lesquels sameAs() et includes() ont été affirmés
     // correction du 20/8
     foreach (self::$includes as $small => &$bigs) {
@@ -247,8 +233,7 @@ class Zone {
     }
     
     // suppression des inclusions aussi présentes de manière transitive
-    // a -> b + b -> c + a -> c => delete(a->c)
-    // passe de 243 à 55
+    // a > b + b > c + a > c => delete(a > c)
     foreach (self::$includes as $small => $bigs) {
       if (count($bigs) > 1) {
         foreach ($bigs as $b) {

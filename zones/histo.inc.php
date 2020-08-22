@@ -33,10 +33,80 @@ require_once __DIR__.'/simplif.inc.php';
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
+// Ensemble d'éléments
+class EltSet {
+  protected $elts; // stockage sous la forme [$elt => 1/-1] en ajoutant 'e' à la clé pour que array_merge() fonctionne
+  
+  function __construct(array $elts=[]) {
+    $this->elts = [];
+    foreach ($elts as $elt)
+      $this->elts["e$elt"] = 1;
+    ksort($this->elts);
+  }
+  
+  function __toString(): string {
+    $array = [];
+    foreach ($this->elts as $elt => $val) {
+      if ($val==1)
+        $array[] = substr($elt,1);
+      else
+        $array[] = '-'.substr($elt,1);
+    }
+    return '['.implode(',',$array).']';
+  }
+  
+  // $this - $b
+  function diff(self $b): self {
+    $diff = new EltSet;
+    foreach (array_merge(array_keys($this->elts),array_keys($b->elts)) as $elt) {
+      if (isset($this->elts[$elt]) && !isset($b->elts[$elt]))
+        $diff->elts[$elt] = 1;
+      elseif (!isset($this->elts[$elt]) && isset($b->elts[$elt]))
+        $diff->elts[$elt] = -1;
+    }
+    return $diff;
+  }
+  
+  // Retourne '<' ssi $this < $b; '>' ssi $this > $b, '=' ssi les objets sont égaux et '!' si aucun des 3 n'est vrai.
+  function cmp(self $b): string {
+    $result = '=';
+    $diff = $this->diff($b);
+    foreach ($diff->elts as $elt => $val) {
+      if ($val==1) {
+        if ($result=='=')
+          $result = '>';
+        elseif ($result=='<')
+          return '!';
+      }
+      else { // ($val == -1)
+        if ($result=='=')
+          $result = '<';
+        elseif ($result=='>')
+          return '!';
+      }
+    }
+    return $result;
+  }
+  
+  static function test() {
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>test EltSet</title></head><body><pre>\n";
+    echo "Test classe EltSet\n";
+    $a = new EltSet([11111,22222]);
+    echo "a=$a\n";
+    foreach ([[11111,33333],[11111],[11111,22222],[11111,22222,33333]] as $b) {
+      $b = new EltSet($b);
+      echo "$a - $b = ",$a->diff($b),"\n";
+      echo "$a ",$a->cmp($b)," $b\n";
+    }
+    die("Fin classe EltSet\n");
+  }
+};
+if (0) { EltSet::test(); } // Test de la classe EltSet
+
 class Histo {
   static $all=[]; // [cinsee => Histo] - tous les Histo par leur code Insee
   protected $cinsee;
-  protected $versions=[]; // [ dCreation => Version ] - versions triées dans l'ordre chronologique, une version a un état
+  protected $versions=[]; // [ dCreation => Version ] - versions avec état triées dans l'ordre chronologique
   
   static function load(string $fpath) {
     $yaml = Yaml::parseFile("$fpath.yaml");
@@ -188,9 +258,46 @@ class Histo {
     }
   }
   
+  // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité ou l'inclusion avant/après
+  // modif 22/8 pour prendre en compte les AllerRetour partiels illustrés par 55517
+  function testAllerRetourRattachante(): void {
+    //echo "Histo::testAllerRetourRattachante()\n";
+    foreach ($this->versions as $dv => $version) {
+      if (is_null($evtsCreation = $version->evtsCreation()))
+        continue;
+      foreach ($evtsCreation->asArray() as $evtVerb => $evtObjects) {
+        // A chaque evt de diminution je teste si la version courante est identique ou comparable à une version précédente
+        if (in_array($evtVerb, ['seScindePourCréer','détacheCommeSimples'])) {
+          foreach ($this->versions as $dvp => $versionp) {
+            if ($dvp >= $dv)
+              break;
+            switch ($version->elts()->cmp($versionp->elts())) {
+              case '=': {
+                echo "Zone::sameAs(",$version->id(),", ",$versionp->id(),")\n";
+                Zone::sameAs($version->id(), $versionp->id());
+                break;
+              }
+              case '>': {
+                echo "Zone::includes(",$version->id(),", ",$versionp->id(),")\n";
+                Zone::includes($version->id(), $versionp->id());
+                break;
+              }
+              case '<': {
+                echo "Zone::includes(",$versionp->id(),", ",$version->id(),")\n";
+                Zone::includes($versionp->id(), $version->id());
+                break;
+              }
+              case '!': { echo "!\n"; break; }
+              default: throw new Exception("Erreur, cmp=".$version->elts()->cmp($versionp->elts())." incorrect");
+            }
+          }
+        }
+      }
+    }
+  }
   // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité avant/après (ajout 12/8)
   // réécriture 16/8: utilise les élts
-  function testAllerRetourRattachante(): void {
+  function testAllerRetourRattachantePERIMEE(): void {
     //echo "Histo::testAllerRetourRattachante()\n";
     foreach ($this->versions as $dv => $version) {
       if (is_null($evtsCreation = $version->evtsCreation()))
@@ -231,7 +338,7 @@ class Version {
     $this->statut = in_array($record['etat']['statut'], ['COMS','COMM']) ? 's' : 'r';
     $this->crat = $record['etat']['crat'] ?? null;
     $this->erat = $record['erat']['aPourDéléguées'] ?? ($record['erat']['aPourAssociées'] ?? []);
-    $this->elts = $record['elts'];
+    $this->elts = new EltSet ($record['eltsp']);
     $this->nom = $record['etat']['name'];
     $this->nomCDeleguee = $record['etat']['nomCommeDéléguée'] ?? null;
     $this->evtsCreation = isset($record['evts']) ? new Evts($record['evts']) : null;
@@ -242,7 +349,7 @@ class Version {
   function dCreation(): string { return $this->dCreation; }
   function statut(): string { return $this->statut; }
   function evtsFin(): ?Evts { return $this->evtsFin; }
-  function elts(): string { return $this->elts; }
+  function elts(): EltSet { return $this->elts; }
   function evtsCreation(): ?Evts { return $this->evtsCreation; }
   function id(): string { return $this->statut.$this->cinsee.'@'.$this->dCreation; }
   function rid(): string { return 'r'.$this->cinsee.'@'.$this->dCreation; }
@@ -299,7 +406,7 @@ class Version {
     // définition de la relation à la date de création de la version
     if ($this->statut <> 's') { // cas d'une commune rattachée, elle est incluse dans sa rattachante
       if (!($rattachante = Histo::$all[$this->crat]->version($this->dCreation)))
-        throw new Exception("Erreur Ratachante $this->crat@$this->dCreation inexistante pour $this");
+        throw new Exception("Erreur Rattachante $this->crat@$this->dCreation inexistante pour $this");
       Zone::includes($rattachante->id(), $this->id());
     }
     elseif ($this->nomCDeleguee) { // cas particulier où la version représente la cs et la cd
