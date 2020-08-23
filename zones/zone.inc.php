@@ -6,7 +6,7 @@ screens:
 doc: |
   La classe Zone a pour objectif de restructurer le référentiel en zones pour faciliter son appariement avec sa géographie.
   Une zone correspond à un surface géographique (MultiPolygon).
-  Une même zone correspond à plusieurs versions de Histo.
+  Généralement plusieurs versions de Histo correspondent à une même Zone.
   L'objectif est:
     1) de construire l'ensemble des zones qui sont les classes d'équivalence pour la relation d'égalité géographique
     2) de structurer ces zones selon un treillis d'inclusion
@@ -14,8 +14,8 @@ doc: |
   Dans cette logique on adopte les simplifications définies dans ../zones/simplif.inc.php
 
   Chaque zone est identifiée par la version d'entité la plus ancienne.
-  Ces identifiants sont de la forme {statut}{cinsee}@{dateDeCréation} où:
-    - {statut} est une des valeurs 's' pour simple ou 'r' pour rattachée
+  Ces identifiants sont de la forme {type}{cinsee}@{dateDeCréation} où:
+    - {type} vaut 's' pour simple ou 'r' pour rattachée
     - {cinsee} est un code INSEE
     - {dateDeCréation} est la date de création de la version sous la forme YYYY-MM-DD
 
@@ -26,8 +26,8 @@ doc: |
     - puis de construire à partir de ces informations les zones 
 
 journal:
-  22/8/2020T17:42:
-    - 55517 ne marche pas, nécesité de récirire la gestion des inclusions
+  22/8/2020:
+    - 55517 ne marche pas, nécesité de réécrire la gestion des inclusions
   20/8/2020:
     - ajout traitement des cas où un couple est à la fois sameAs() et includes()
   19/8/2020:
@@ -44,15 +44,16 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class Zone {
-  const VERBOSE = true;
+  const VERBOSE = false;
   static $all=[]; // [ stdId => Zone ] - contient ttes les zones identifiées par leur identifiant standard
   static $sameAs=[]; // [ id => stdId ] - contient tous les identifiants pointant vers l'id. standard
-  static $includes=[]; // enregistre les couples  (big inclus small) sous la forme [smallId => [bigId]]
+  //static $includes=[]; // enregistre les couples  (big inclus small) sous la forme [smallId => [bigId]]
+  static $includesk=[]; // enregistre les couples  (big inclus small) sous la forme [smallId => [bigId => 1]]
   static $stats=['COG2020'=>0, 'COG2020ecomp'=>0]; // statistiques
   protected $vids; // liste des ids d'une zone
   protected $ref; // le référentiel dans lequel la zone est définie
-  protected $parents; // [Zone] - zones parentes ou []
-  protected $children; // [Zone] - liste des zones incluses ou []
+  protected $parents; // [ZoneId => 1] - zones parentes ou []
+  protected $children; // [ZoneId => 1] - liste des zones incluses ou []
   
   // crée une zone, l'enregistre et la retourne, génère une erreur si l'id est déjà utilisé
   static function create(string $id): Zone {
@@ -86,10 +87,7 @@ class Zone {
   static function includes(string $bigId, string $smallId): void {
     if (self::VERBOSE)
       echo "<b>includes($bigId, $smallId)</b>\n";
-    if (!isset(self::$includes[$smallId]))
-      self::$includes[$smallId] = [$bigId];
-    elseif (!in_array($bigId, self::$includes[$smallId]))
-      self::$includes[$smallId][] = $bigId;
+    self::$includesk[$smallId][$bigId] = 1;
   }
   
   // retourne le meilleur id standardisé entre 2 id sous la forme {chaine}@{date}
@@ -189,98 +187,96 @@ class Zone {
     self::sameAs('r89389@1977-01-01', 's89389@1943-01-01');
     */
     
-    // standardise les clés de self::$includes
-    foreach (array_keys(self::$includes) as $small) {
+    //echo "includesk avant std="; print_r(self::$includesk);
+    // standardise les clés de self::$includesk
+    foreach (array_keys(self::$includesk) as $small) {
       if ($zSmall = self::get($small)) {
         $stdId = $zSmall->id();
-        if ($stdId <> $small) { // je standardise effecivement
-          if (in_array($stdId, array_keys(self::$includes))) { // si $smallStdId est déjà présent alors fusion
-            self::$includes[$stdId] = array_values(array_unique(array_merge(self::$includes[$stdId], self::$includes[$small])));
+        if ($stdId <> $small) { // je standardise effectivement
+          if (in_array($stdId, array_keys(self::$includesk))) { // si $stdId est déjà présent alors fusion
+            self::$includesk[$stdId] = array_merge(self::$includesk[$stdId], self::$includesk[$small]);
           }
           else { // sinon je copie juste
-            self::$includes[$stdId] = self::$includes[$small];
+            self::$includesk[$stdId] = self::$includesk[$small];
           }
-          unset(self::$includes[$small]);
+          unset(self::$includesk[$small]);
         }
       }
     }
     
-    // standardise les valeurs de self::$includes
-    foreach (self::$includes as $small => $bigs) {
+    // standardise les valeurs de self::$includesk
+    foreach (self::$includesk as $small => $bigs) {
       $stdbigs = [];
-      foreach ($bigs as $big) {
+      foreach (array_keys($bigs) as $big) {
         $stdId = ($z = self::get($big)) ? $z->id() : $big;
-        if (!in_array($stdId, $stdbigs))
-          $stdbigs[] = $stdId;
+        $stdbigs[$stdId] = 1;
       }
-      self::$includes[$small] = $stdbigs;
+      self::$includesk[$small] = $stdbigs;
     }
-    print_r(self::$includes);
+    //echo "includesk après std="; print_r(self::$includesk);
     
     // suppression des inclusions réflexives, cad des couples pour lesquels sameAs() et includes() ont été affirmés
-    // correction du 20/8
-    foreach (self::$includes as $small => &$bigs) {
-      if (in_array($small, $bigs)) {
-        $bigs2 = [];
-        foreach ($bigs as $b)
-          if ($b <> $small)
-            $bigs2[] = $small;
-        if ($bigs2)
-          $bigs = $bigs2;
-        else
-          unset(self::$includes[$small]);
+    foreach (self::$includesk as $small => &$bigs) {
+      if (isset($bigs[$small])) {
+        echo "suppression de l'inclusion réflexive sur $small\n";
+        unset($bigs[$small]);
       }
     }
     
     // suppression des inclusions aussi présentes de manière transitive
-    // a > b + b > c + a > c => delete(a > c)
-    foreach (self::$includes as $small => $bigs) {
-      if (count($bigs) > 1) {
-        foreach ($bigs as $b) {
-          foreach ($bigs as $noc => $c) {
-            if ($c <> $b) {
-              if (in_array($c, self::$includes[$b] ?? [])) { // b -> c
-                unset($bigs[$noc]); // delete(a->c)
-              }
+    // a < b + b < c + a < c => delete(a < c)
+    foreach (self::$includesk as $small => &$bigs) {
+      foreach (array_keys($bigs) as $bId) {
+        if (isset(self::$includesk[$bId])) {
+          foreach (array_keys(self::$includesk[$bId]) as $cId) {
+            //echo "$small < $bId < $cId\n";
+            if (isset(self::$includesk[$small][$cId])) {
+              //echo "suppression de l'inclusion transitive sur $small < $bId < $cId\n";
+              unset($bigs[$cId]);
             }
           }
         }
-        self::$includes[$small] = array_values($bigs);
       }
     }
+    //echo "includesk après transit="; print_r(self::$includesk);
     
     if (isset($_GET['action']) && (($_GET['action']=='showIncludes') || ($_GET['action']=='0testChangeDeRattachementPour'))) {
-      ksort(self::$includes);
-      echo Yaml::dump(['includes'=> self::$includes]);
+      ksort(self::$includesk);
+      echo Yaml::dump(['includes'=> self::$includesk]);
       die("Fin showIncludes\n");
     }
     
     if (isset($_GET['action']) && ($_GET['action']=='showMultiinc')) { // affichage des multi-inclusions
-      ksort(self::$includes);
+      ksort(self::$includesk);
       $nbre = 0;
-      foreach (self::$includes as $small => $bigs) {
+      foreach (self::$includesk as $small => $bigs) {
         if (count($bigs) > 1)
           $nbre++;
       }
       echo "$nbre inclusions ayant une cardinalité > 1\n";
     
-      foreach (self::$includes as $small => $bigs) {
+      foreach (self::$includesk as $small => $bigs) {
         if (count($bigs) > 1)
           echo Yaml::dump(['includes'=> [$small => $bigs]]);
       }
-      die("Fin Zone::traiteInclusions()\n");
+      die("Fin showMultiinc\n");
     }
 
+    //echo "sameAs="; print_r(self::$sameAs);
+    
     // transfert de self::$includes vers $children et $parents
-    foreach (self::$includes as $small => $bigs) {
+    // BIZARRE: si je retire le & de $bigs alors bigs est incorrect
+    foreach (self::$includesk as $small => &$bigs) {
+      //echo "$small -> bigs="; print_r($bigs);
       $zsmall = self::getOrCreate($small);
-      foreach ($bigs as $big) {
+      foreach (array_keys($bigs) as $big) {
         $zbig = self::getOrCreate($big);
-        $zsmall->parents[] = $zbig;
-        $zbig->children[] = $zsmall;
+        $zsmall->parents[$big] = 1;
+        $zbig->children[$small] = 1;
       }
     }
-    self::$includes = [];
+    self::$includesk = [];
+    //echo "all après transfert="; print_r(self::$all);
     
     // recherche du référentiel dans lequel la zone est définie
     // Les zones valides sont définies dans COG2020s ou COG2020r
@@ -335,8 +331,8 @@ class Zone {
   // La méthode est appelée sur une potentielle COG2020union et retourne true ssi elle est définie cad COG2020(r|s|union)
   function defCog2020union(): bool {
     $defined = true;
-    foreach ($this->children as $child) {
-      if (!$child->defCog2020union())
+    foreach (array_keys($this->children) as $childId) {
+      if (!self::get($childId)->defCog2020union())
         $defined = false; // si un enfant est indéfini alors l'union l'est
     }
     if ($this->children && $defined && !$this->ref) // si tous les enfants sont définis et le ref est indéfini alors c'est une union
@@ -351,7 +347,8 @@ class Zone {
     if (!in_array($this->ref, ['COG2020s','COG2020r']))
       return;
     $undefs = []; // les enfants non définis dans COG2020
-    foreach ($this->children as $child) {
+    foreach (array_keys($this->children) as $childId) {
+      $child = self::get($childId);
       if (!in_array($child->ref, ['COG2020s','COG2020r','COG2020union']))
         $undefs[] = $child;
     }
@@ -372,20 +369,18 @@ class Zone {
   }
   
   // Retourne ttes les zones structurées hiérarchiquement
-  static function allAsArray(): array {
+  /*static function allAsArray(): array {
     $all = [];
     foreach (self::$all as $zone) {
       if ($zone->parents) continue;
       //if (!$zone->children) continue;
       $id = $zone->id();
-      /*if ($zone->isValid())
-        $id = '<u>'.$id.'</u>';*/
-      $all[$id] = $zone->asArray();
+    $all[$id] = $zone->asArray();
     }
-    if (self::$includes)
-      $all['includes'] = self::$includes;
+    if (self::$includesk)
+      $all['includes'] = self::$includesk;
     return $all;
-  }
+  }*/
   
   // Affiche ttes les zones structurées hiérarchiquement
   static function dumpAll(): void {
@@ -401,8 +396,8 @@ class Zone {
           echo 'Exception reçue : ',  $e->getMessage(), "\n";
       }
     }
-    if (self::$includes)
-      echo Yaml::dump(['includes'=> self::$includes]);
+    if (self::$includesk)
+      echo Yaml::dump(['includesk'=> self::$includesk]);
   }
   
   // création à partir d'1 id
@@ -414,32 +409,22 @@ class Zone {
   }
   
   function asArray(array $lignee=[]): array {
-    //echo "asArray@",$this->id(),"\n";
-    //$array = ['vids'=> [], 'children'=>[]];
     $array = [];
     foreach ($this->vids as $no => $id)
       if ($no)
         $array['sameAs'][] = $id;
     if ($this->ref)
       $array['ref'] = $this->ref;
-    if (count($this->parents) > 1) {
-      foreach ($this->parents as $parent) {
-        $array['parents'][] = $parent->id();
-      }
-    }
-    foreach ($this->children as $child) {
-      $childId = $child->id();
-      /*if ($child->isValid())
-        $childId = '<u>'.$childId.'</u>';*/
-      /*if (count($child->parents) > 1)
-        $childId = '<i>'.$childId.'</i>';*/
+    if (count($this->parents) > 1)
+      $array['parents'] = array_keys($this->parents);
+    foreach (array_keys($this->children) as $childId) {
       if (in_array($childId, $lignee)) {
         echo "lignee=",Yaml::dump($lignee,0),", childId=$childId\n";
         throw new Exception("Erreur de recursion infinie dans Zone::asArray()");
       }
       if (count($lignee) > 10)
         throw new Exception("count(lignee) > 10");
-      $array['contains'][$childId] = $child->asArray(array_merge($lignee, [$childId]));
+      $array['contains'][$childId] = self::get($childId)->asArray(array_merge($lignee, [$childId]));
     }
     return $array; 
   }

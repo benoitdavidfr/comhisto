@@ -273,21 +273,24 @@ class Histo {
               break;
             switch ($version->elts()->cmp($versionp->elts())) {
               case '=': {
-                echo "Zone::sameAs(",$version->id(),", ",$versionp->id(),")\n";
+                //echo "Zone::sameAs(",$version->id(),", ",$versionp->id(),")\n";
                 Zone::sameAs($version->id(), $versionp->id());
                 break;
               }
               case '>': {
-                echo "Zone::includes(",$version->id(),", ",$versionp->id(),")\n";
+                //echo "Zone::includes(",$version->id(),", ",$versionp->id(),")\n";
                 Zone::includes($version->id(), $versionp->id());
                 break;
               }
               case '<': {
-                echo "Zone::includes(",$versionp->id(),", ",$version->id(),")\n";
+                //echo "Zone::includes(",$versionp->id(),", ",$version->id(),")\n";
                 Zone::includes($versionp->id(), $version->id());
                 break;
               }
-              case '!': { echo "!\n"; break; }
+              case '!': {
+                //echo "!\n";
+                break;
+              }
               default: throw new Exception("Erreur, cmp=".$version->elts()->cmp($versionp->elts())." incorrect");
             }
           }

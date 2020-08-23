@@ -69,8 +69,8 @@ class Stats {
 };
 
 if ($_GET['action']=='bzones') {
-  //Histo::load('histeltp');
-  Histo::load('histeltptest');
+  Histo::load('histeltp');
+  //Histo::load('histeltptest');
   Histo::buildAllZones();
   echo "title: Liste des zones\n";
   echo "creator: bzones.php\n";
