@@ -173,11 +173,11 @@ class Zone {
   static function traiteInclusions(): void {
     //echo Yaml::dump(self::allAsArray()); die();
     
-    /*// AJOUT de cas particuliers de communes se rétractant
+    // AJOUT de cas particuliers de communes se rétractant
     self::includes('s35130@2008-01-01', 's35130@1943-01-01');
     self::includes('s53003@1987-01-01', 's53003@1943-01-01');
     self::includes('s71014@1985-10-01', 's71014@1943-01-01');
-    self::includes('s71263@1979-03-01', 's71263@1943-01-01');*/
+    self::includes('s71263@1979-03-01', 's71263@1943-01-01');
    
     // AJOUT de cas particuliers de 89325, 89389 qui fusionne puis est rétabli comme associé
     // 19/8/2020 -> Je n'arrive pas à intégrer cette fonctionnalité dans Histo::testAllerRetourFusionnee()@histo.inc.php
@@ -218,7 +218,7 @@ class Zone {
     // suppression des inclusions réflexives, cad des couples pour lesquels sameAs() et includes() ont été affirmés
     foreach (self::$includesk as $small => &$bigs) {
       if (isset($bigs[$small])) {
-        echo "suppression de l'inclusion réflexive sur $small\n";
+        //echo "suppression de l'inclusion réflexive sur $small\n";
         unset($bigs[$small]);
       }
     }

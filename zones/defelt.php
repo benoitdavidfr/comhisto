@@ -15,6 +15,9 @@ doc: |
 
   S'utilise en non CLI en dév et en CLI en prod.
 journal: |
+  23/8/2020:
+    - correction de Version::deduitElts() pour l'évènement seScindePourCréer
+      L'action dépend de l'evt mirroir si la scisssion génère une simple ou non.
   20/8/2020:
     - ajout d'un évt aucun pour traiter les cas de simplification
   16/8/2020:
@@ -398,9 +401,16 @@ class Version {
           break;
         }
 
+        // L'action dépend de l'evt mirroir. remVId() uniquement si la vcréée est une simple
+        // Proto 89344
+        // Correction du 23/8/2020
         case 'seScindePourCréer': {
           foreach ($evtObjects as $erat) {
-            $elts->remVId(Histo::get($erat)->version($this->debut)->id());
+            $vcreee = Histo::get($erat)->version($this->debut);
+            //echo "seScindePourCréer ",$vcreee->id(),"\n";
+            //print_r($vcreee);
+            if (in_array('crééeCommeSimpleParScissionDe', array_keys($vcreee->evts)))
+              $elts->remVId($vcreee->id());
           }
           break;
         }
@@ -444,7 +454,9 @@ class Version {
   }
 };
 
-foreach (Yaml::parseFile('../insee/histov.yaml')['contents'] as $cinsee => $versions) {
+$histovFileName = '../insee/histov.yaml';
+//$histovFileName = 'histovtest.yaml';
+foreach (Yaml::parseFile($histovFileName)['contents'] as $cinsee => $versions) {
   Histo::$all[$cinsee] = new Histo($cinsee, $versions);
 }
 foreach (Histo::$all as $cinsee => $histo) {

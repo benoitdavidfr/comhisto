@@ -11,18 +11,19 @@ doc: |
   Ce script utilise sous-traite une partie du traitement à:
     - errorcorr.sql qui vérifie la cohérence topologique et corrige les erreurs topologiques dans les données IGN en entrée
     - exterior.sql qui construuit les limites extérieures des communes, cad les limites avec la mer ou l'étranger
+    - ctrlqual.sql qui effectue une comparaison entre admin et eadming3 pour détecter d'éventuelles erreurs
 
   Dans un premier temps on constitue les données initiales à partir des couches commune_carto et entite_rattachee_carto de AE2020COG
   corrigées dans ~/html/data/aegeofla/makefra.php des bugs initiaux détectées
-  L'étape préliminaire consiste à vérifier les données IGN et éventuellement les corriger dans errorcorr.sql.
+  L'étape préliminaire consiste à vérifier les données IGN et éventuellement à les corriger dans errorcorr.sql.
 
   L'algorithme est ensuite le suivant:
     1) fabriquer une couche d'éléments (elt) correspondant à un pavage du territoire, cad ne s'intersectant pas 2 à 2
       et dont l'union couvre l'ensemble du territoire, constituée de:
       a) les c. simples non rattachantes
-      b) les e. rattachées
-      c) les parties des c. simples rattachantes non couvertes par des e. rattachées, appelées e. complémentaires
-      Les éléments correspondent aux faces du graphe topologique administratif fusionnant les communes simples et les e. rattachées.
+      b) les entitées rattachées (erat)
+      c) les parties des c. simples rattachantes non couvertes par des erat, appelées entités complémentaires (ou ecomp)
+      Les éléments correspondent aux faces du graphe topologique administratif fusionnant les communes simples et les erat.
     2) générer les limites entre ces éléments en calculant leur intersection 2 à 2
     3) générer les limites extérieures des éléments - voir exterior.sql
     4) peupler lim à partir des 2 ens. de limites précédemment constitués
@@ -39,6 +40,7 @@ doc: |
   Tables peuplées en sortie:
     - lim - limite entre éléments ou avec l'extérieur
     - eadminpolg3 - éléments administratifs généralisés sous forme de polygones
+    - eadming3 - éléments administratifs généralisés agrégés par eid
 
   Tables temporaires:
     - eadmin - éléments administratifs
@@ -48,8 +50,10 @@ doc: |
     - limcrattachante
 
 journal: |
+  23/8/2020:
+    - dégénéralisation de qqs limites qui posent pbs
   9/8/2020:
-    - adapattionà comhisto
+    - adapattion à comhisto
     - la généralisation génère beaucoup d'erreurs
   8/8/2020:
     - adaptation à comhisto du fichier rpigeo3.sql de rpicom/rpigeo
@@ -82,6 +86,7 @@ tables:
 -----------------------------------------------------
 -- 1) fabrication de la table des éléments en substituant aux c. rattachantes leurs entités rattachées + complémentaires. / 37237
 -- schema: id, crat, geom ; l'id est la concaténation du type (s, r ou c) avec le code Insee
+-- attention: les complémentaires ne sont pas agrégées par id
 drop table if exists eadmin;
 create table eadmin as
   -- les c. s. non rattachantes
@@ -221,6 +226,13 @@ select id from eadmin where id not in (select eid from eadminpolg3) order by id;
 update lim set simp3=geom
 where id1 in (select id from polg3error) or id2 in (select id from polg3error);
 
+-- dégénéralisation de s51537 qui sinon pose pbs
+update lim set simp3=geom where id1='s51537';
+-- dégénéralisation de la limite entre s70041 et s70100
+update lim set simp3=geom where id1='s70041' and id2='s70100';
+-- dégénéralisation de la limite entre s02095 et s02703
+update lim set simp3=geom where id1='s02095' and id2='s02703';
+
 drop table if exists lim2;
 create table lim2 as
   select id1 as eid, simp3 from lim
@@ -254,9 +266,10 @@ select id from eadmin where id not in (select eid from eadminpolg3) order by id;
 -- 0 erreurs
 
 select count(*) from eadminpolg3;
--- 37394
+-- 37397
 
 select eid from eadminpolg3 where eid not in (select id from eadmin) order by eid;
+-- 0 erreurs
 
 -- les entités en plusieurs parties génèrent plusieurs enregistrements
 select eid, count(*) nbre
@@ -277,10 +290,11 @@ delete from eadminpolg3 where num in (
   where t.geom && del.geom and ST_Touches(t.geom, del.geom) and t.eid=del.eid
     and del.geom && eq.geom and ST_Equals(del.geom, eq.geom) and del.eid <> eq.eid  
 );
+-- DELETE 29
   
+drop table if exists eadming3;
 create table eadming3 as
   select eid, ST_Collect(geom) as geom
   from eadminpolg3
   group by eid;
 -- 37231 ligne(s) affectée(s).
-  

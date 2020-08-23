@@ -8,7 +8,11 @@ doc: |
   Peut aussi en fonction du paramétrage:
     - construire la table comhisto à partir de eadmin
     - afficher les ordres au lieu de les exécuter
+  
 journal: |
+  23/8/2020:
+    - une exécution non g3 génère 6 erreurs. Celle sur 08362 est due au fait que dans eadmin les ecomp ne sont pas agrégés sur id
+    - par contre une exécution g3 ne génère aucune erreur
   21/8/2020:
     - correction cas ex. 23093 qui doit être défini par r23094 + c23093 et non uniquement r23094
   19/8/2020:
@@ -32,7 +36,7 @@ ini_set('memory_limit', '1G');
 echo "Début à ",date(DATE_ATOM),"\n";
 
 require_once __DIR__.'/../../../vendor/autoload.php';
-if (0) { // 1 alors exécute les ordres Sql
+if (1) { // 1 alors exécute les ordres Sql
   require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 }
 else { // sinon les affiche seulement
@@ -51,9 +55,9 @@ if (php_sapi_name() <> 'cli')
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
 
-$table = 'comhisto'.Zone::EADMIN;
-PgSql::query("drop table if exists $table");
-PgSql::query("create table $table(
+$comhisto = 'comhisto'.Zone::EADMIN;
+PgSql::query("drop table if exists $comhisto");
+PgSql::query("create table $comhisto(
   type char(1), -- 's' ou 'r'
   cinsee char(5), -- code Insee
   debut char(10), -- date de début
@@ -61,6 +65,8 @@ PgSql::query("create table $table(
   dnom varchar(256), -- dernier nom
   geom geometry -- géométrie
 )");
+$date_atom = date(DATE_ATOM);
+PgSql::query("comment on table $comhisto is 'couche du référentiel générée le $date_atom'");
 
 class Histo {
   static $all;
@@ -130,7 +136,7 @@ Histo::load('../zones/histelt.yaml');
 
 class Zone {
   const VERBOSE = false; // affiche ou non ttes les requêtes SQL générées en plus de les exécuter
-  const EADMIN = ''; // '' pour générer comhisto à partir de eadmin ou 'g3' pour générer comhistog3 à partir de eadming3
+  const EADMIN = 'g3'; // '' pour générer comhisto à partir de eadmin ou 'g3' pour générer comhistog3 à partir de eadming3
   static $errors=0; // nbre d'erreurs
   static $inserts=0; // nbre d'insertions effectuées
   protected $id; // string
@@ -167,6 +173,7 @@ class Zone {
   function gensql(): void {
     if ($this->ref && (substr($this->ref,0,7)=='COG2020')) {
       //echo '/*<b>',Yaml::dump([$this->id => $this->asArray()], 99, 2),'</b>*/';
+      $comhisto = 'comhisto'.Zone::EADMIN;
       $eadmin = 'eadmin'.Zone::EADMIN;
       $eadminid = (Zone::EADMIN == 'g3') ? 'eid' : 'id';
       $eltIds = $this->eltCog2020Ids();
@@ -182,7 +189,7 @@ class Zone {
         $version = Histo::getVersion($id);
         $fin = $version->fin();
         $dnom = $version->name(substr($id,0,1));
-        $sql  = "insert into comhisto(type, cinsee, debut, fin, dnom, geom)\n";
+        $sql  = "insert into $comhisto(type, cinsee, debut, fin, dnom, geom)\n";
         $sql .= "select '".substr($id,0,1)."','".substr($id,1,5)."','".$version->debut()."',"
                 .($fin ? "'".$fin."'," : 'null,')
                 ."'".str_replace("'","''", $dnom)."',$geomsql";

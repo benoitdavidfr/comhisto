@@ -18,7 +18,7 @@ doc: |
     - je corrige les entités rattachées pour:
       - les mettre chacune en cohérence topologique avec leur commune de rattachement
       - les mettre en cohérence entre elles
-      - 
+  
   Tables en entrée:
     - commune_carto (AE2020COG)
     - entite_rattachee_carto (AE2020COG)
@@ -33,7 +33,6 @@ doc: |
 journal: |
   7/8/2020:
     - adaptation partielle à comhisto
-    - 
   20/6/2020:
     - génération de eratcorrb pour laquelle il n'y a plus d'ecomp correspondant à des slivers
   14/6/2020
@@ -107,7 +106,7 @@ where GeometryType(geom)='GEOMETRYCOLLECTION'
 -- ca ne sert à rien de garder cette table puisque je corrige les entités rattachées
 drop table erint;
 
--- 2b) chaque er doit être strictement incluse dans sa c. rattachante
+-- 2b) chaque erat doit être strictement incluse dans sa c. rattachante
 -- je contate que ce n'est pas le cas par la requête suivante qui liste les erreurs
 select er.id, ST_AsText(ST_Difference(er.wkb_geometry, c.wkb_geometry))
 from entite_rattachee_carto er, commune_carto c
@@ -115,7 +114,7 @@ where er.insee_ratt=c.id
   and not ST_IsEmpty(ST_Difference(er.wkb_geometry, c.wkb_geometry));
 -- -> liste les erreurs
 
--- 2c) en conséquence je construis la table des entités rattachées corrigées en limitant chaque er à sa rattachante
+-- 2c) en conséquence je construis la table des entités rattachées corrigées en limitant chaque erat à sa rattachante
 drop table if exists eratcorrigee;
 create table eratcorrigee as
 select er.ogc_fid, er.id, er.nom_com as nom, er.insee_ratt as crat, er.type, ST_Intersection(er.wkb_geometry, c.wkb_geometry) as geom
