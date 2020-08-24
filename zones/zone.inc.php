@@ -26,6 +26,8 @@ doc: |
     - puis de construire à partir de ces informations les zones 
 
 journal:
+  24/8/2020:
+    - correction manuelle d'ecomp
   22/8/2020:
     - 55517 ne marche pas, nécessité de réécrire la gestion des inclusions
   20/8/2020:
@@ -298,6 +300,8 @@ class Zone {
       $zone->defCog2020ecomp();
     
     // Correction d'erreur d'ecomp
+    // L'ecomp peut ne pas être situé au bon niveau
+    // Il faudrait corriger defCog2020ecomp() pour tester si l'ecomp ne peut pas être descendu
     self::$all['s59183@1972-01-01']->ref = 'COG2020ecomp';
     self::$all['s59183@1980-01-01']->ref = 'COG2020union';
     self::$all['s70122@1943-01-01']->ref = 'COG2020ecomp';
