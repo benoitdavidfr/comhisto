@@ -1,6 +1,6 @@
 title: Liste des zones
 creator: bzones.php
-created: 2020-08-24T02:41:04+00:00
+created: 2020-08-24T07:14:25+00:00
 s01001@1943-01-01:
   ref: COG2020s
 s01002@1943-01-01:
@@ -2782,9 +2782,10 @@ s02738@1992-01-01:
   ref: COG2020s
   contains:
     s02738@1974-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s02738@1943-01-01: {  }
+        s02738@1943-01-01:
+          ref: COG2020ecomp
         s02300@1943-01-01:
           sameAs:
             - r02300@1974-01-01
@@ -38408,10 +38409,10 @@ s39130@2019-01-01:
   ref: COG2020s
   contains:
     s39130@2016-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
         s39130@1943-01-01:
-          ref: COG2015
+          ref: COG2020ecomp
         s39442@1943-01-01:
           sameAs:
             - r39442@2016-01-01
@@ -51930,9 +51931,10 @@ s52182@1975-01-01:
   ref: COG2020s
   contains:
     s52182@1972-12-31:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s52182@1943-01-01: {  }
+        s52182@1943-01-01:
+          ref: COG2020ecomp
         s52068@1943-01-01:
           sameAs:
             - r52068@1972-12-31
@@ -52107,9 +52109,10 @@ s52242@1972-11-01:
   ref: COG2020s
   contains:
     s52242@1972-05-17:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s52242@1943-01-01: {  }
+        s52242@1943-01-01:
+          ref: COG2020ecomp
         s52333@1943-01-01:
           sameAs:
             - r52333@1972-05-17
@@ -75298,9 +75301,10 @@ s71270@1972-07-01:
   ref: COG2020s
   contains:
     s71270@1972-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
         s71270@1965-01-01:
+          ref: COG2020ecomp
           contains:
             s71197@1943-01-01: {  }
             s71270@1943-01-01: {  }
@@ -90411,9 +90415,10 @@ s86161@1973-01-01:
   ref: COG2020s
   contains:
     s86161@1972-05-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s86161@1943-01-01: {  }
+        s86161@1943-01-01:
+          ref: COG2020ecomp
         s86155@1943-01-01:
           sameAs:
             - r86155@1972-05-01

@@ -306,6 +306,19 @@ class Zone {
     self::$all['s59183@1980-01-01']->ref = 'COG2020union';
     self::$all['s70122@1943-01-01']->ref = 'COG2020ecomp';
     self::$all['s70122@1972-12-31']->ref = 'COG2020union';
+    self::$all['s71270@1965-01-01']->ref = 'COG2020ecomp';
+    self::$all['s71270@1972-01-01']->ref = 'COG2020union';
+    self::$all['s52242@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s52242@1972-05-17']->ref = 'COG2020union';
+    self::$all['s86161@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s86161@1972-05-01']->ref = 'COG2020union';
+    self::$all['s39130@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s39130@2016-01-01']->ref = 'COG2020union';
+    self::$all['s52182@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s52182@1972-12-31']->ref = 'COG2020union';
+    self::$all['s02738@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s02738@1974-01-01']->ref = 'COG2020union';
+    
     
     ksort(self::$all);
     
