@@ -216,35 +216,34 @@ class Zone {
       //echo "la zone ne contient pas de sous-zones\n";
       return [$this->idCog2020()];
     }
-    else {
-      $eltIds = [];
-      $nbzoneNonDefinies = 0;
-      foreach ($this->children as $id => $child) {
-        switch ($child->ref) {
-          case '': {
-            //echo "$this->id zone non définie dans COG2020\n";
-            $nbzoneNonDefinies++;
-            break;
-          }
-          case 'COG2020s':
-          case 'COG2020r':
-          case 'COG2020ecomp': {
-            $eltIds[] = $child->idCog2020();
-            break;
-          }
-          case 'COG2020union': {
-            $eltIds = array_merge($eltIds, $child->eltCog2020Ids());
-            break;
-          }
+
+    $eltIds = [];
+    $nbzoneNonDefinies = 0;
+    foreach ($this->children as $id => $child) {
+      switch ($child->ref) {
+        case '': {
+          //echo "$this->id zone non définie dans COG2020\n";
+          $nbzoneNonDefinies++;
+          break;
+        }
+        case 'COG2020s':
+        case 'COG2020r':
+        case 'COG2020ecomp': {
+          $eltIds[] = $child->idCog2020();
+          break;
+        }
+        case 'COG2020union': {
+          $eltIds = array_merge($eltIds, $child->eltCog2020Ids());
+          break;
         }
       }
-      if ($nbzoneNonDefinies && count($eltIds)) // mixte zones définies et non définies, ex s23093@1972-11-01
-        return array_merge($eltIds, ['c'.substr($this->id, 1, 5)]);
-      elseif (count($eltIds)) // au moins une sous-zone est définie dans le COG
-        return $eltIds;
-      else // aucune des sous-zones n'est définie dans le COG
-        return [$this->idCog2020()];
     }
+    if ($nbzoneNonDefinies && count($eltIds)) // mixte zones définies et non définies, ex s23093@1972-11-01
+      return array_merge($eltIds, ['c'.substr($this->id, 1, 5)]);
+    elseif (count($eltIds)) // au moins une sous-zone est définie dans le COG
+      return $eltIds;
+    else // aucune des sous-zones n'est définie dans le COG
+      return [$this->idCog2020()];
   }
   
   // Renvoie l'id du Cog2020 de la zone

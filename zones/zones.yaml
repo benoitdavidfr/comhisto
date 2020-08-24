@@ -1,6 +1,6 @@
 title: Liste des zones
 creator: bzones.php
-created: 2020-08-24T07:14:25+00:00
+created: 2020-08-24T07:35:59+00:00
 s01001@1943-01-01:
   ref: COG2020s
 s01002@1943-01-01:
@@ -46941,10 +46941,10 @@ s49220@2017-01-01:
   ref: COG2020s
   contains:
     s49220@2016-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
         s49220@1943-01-01:
-          ref: COG2015
+          ref: COG2020ecomp
         s49093@1943-01-01:
           sameAs:
             - r49093@2016-01-01
@@ -74000,7 +74000,7 @@ s70285@2019-01-01:
   ref: COG2020s
   contains:
     s70285@1972-12-31:
-      ref: COG2020ecomp
+      ref: COG2020s
       contains:
         s70110@1943-01-01: {  }
         s70285@1943-01-01: {  }

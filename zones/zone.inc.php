@@ -4,7 +4,7 @@ name: zone.inc.php
 title: zone.inc.php - def. la classe Zone
 screens:
 doc: |
-  La classe Zone a pour objectif de restructurer le référentiel en zones pour faciliter son appariement avec sa géographie.
+  La classe Zone contribue à restructurer le référentiel en zones pour faciliter son appariement avec sa géographie.
   Une zone correspond à un surface géographique (MultiPolygon).
   Généralement plusieurs versions de Histo correspondent à une même Zone.
   L'objectif est:
@@ -20,10 +20,10 @@ doc: |
     - {dateDeCréation} est la date de création de la version sous la forme YYYY-MM-DD
 
   L'ensemble des zones est construit en déduisant des infos Insee les inclusions et les égalités définis sur les identifiants
-  d'entités versionnées. Cette déduction est définie dans histo.inc.php.
+  d'entités versionnées. Ces déductions sont effectuées dans histo.inc.php.
   Cette classe permet
-    - de stocker les inclusions et égalités entre identifiants
-    - puis de construire à partir de ces informations les zones 
+    - dans un premier temps de stocker les inclusions et égalités entre identifiants
+    - puis de construire à partir de ces relations les zones 
 
 journal:
   24/8/2020:
@@ -318,6 +318,9 @@ class Zone {
     self::$all['s52182@1972-12-31']->ref = 'COG2020union';
     self::$all['s02738@1943-01-01']->ref = 'COG2020ecomp';
     self::$all['s02738@1974-01-01']->ref = 'COG2020union';
+    self::$all['s49220@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s49220@2016-01-01']->ref = 'COG2020union';
+    self::$all['s70285@1972-12-31']->ref = 'COG2020s'; // simule un COG2020s pour forcer à prendre s70108@1943-01-01 + ecomp
     
     
     ksort(self::$all);
