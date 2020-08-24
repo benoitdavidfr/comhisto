@@ -4,7 +4,7 @@ name: histo.inc.php
 title: histo.inc.php - def. des classes Histo, Version et Evt pour gérer le fichier Histo
 screens:
 doc: |
-  Charge le fichier Histo avec les élts
+  Charge le fichier Histo avec les élts positifs
   Traduit les relations entre versions en relations topologiques entre zones géographiques:
     - sameAs pour identité des zones géographiques entre 2 versions
     - includes(a,b) pour inclusion de b dans a
@@ -12,6 +12,7 @@ doc: |
   et les relations d'inclusion entre elles.
 
 journal: |
+
   20/8/2020:
     - correction dans Version::buildZones()
     - traitement de l'évt aucun pour traiter les cas de simplification
@@ -260,7 +261,42 @@ class Histo {
   
   // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité ou l'inclusion avant/après
   // modif 22/8 pour prendre en compte les AllerRetour partiels illustrés par 55517
+  // modif 23/8 pour prendre en compte 49328
+  // Généralisation de la comparaison entre versions
   function testAllerRetourRattachante(): void {
+    //echo "Histo::testAllerRetourRattachante()\n";
+    foreach ($this->versions as $dv => $version) {
+      foreach ($this->versions as $dvp => $versionp) {
+        if ($dvp >= $dv)
+          break;
+        switch ($version->elts()->cmp($versionp->elts())) {
+          case '=': {
+            //echo "Zone::sameAs(",$version->id(),", ",$versionp->id(),")\n";
+            Zone::sameAs($version->id(), $versionp->id());
+            break;
+          }
+          case '>': {
+            //echo "Zone::includes(",$version->id(),", ",$versionp->id(),")\n";
+            Zone::includes($version->id(), $versionp->id());
+            break;
+          }
+          case '<': {
+            //echo "Zone::includes(",$versionp->id(),", ",$version->id(),")\n";
+            Zone::includes($versionp->id(), $version->id());
+            break;
+          }
+          case '!': {
+            //echo "!\n";
+            break;
+          }
+          default: throw new Exception("Erreur, cmp=".$version->elts()->cmp($versionp->elts())." incorrect");
+        }
+      }
+    }
+  }
+  // teste les cas d'aller-retour d'une rattachante et dans ce cas affirme l'égalité ou l'inclusion avant/après
+  // modif 22/8 pour prendre en compte les AllerRetour partiels illustrés par 55517
+  function testAllerRetourRattachantePERIMEE2(): void {
     //echo "Histo::testAllerRetourRattachante()\n";
     foreach ($this->versions as $dv => $version) {
       if (is_null($evtsCreation = $version->evtsCreation()))
@@ -414,7 +450,7 @@ class Version {
     }
     elseif ($this->nomCDeleguee) { // cas particulier où la version représente la cs et la cd
       // la déléguée propre est incluse dans la simple
-      Zone::includes($this->id(), 'r'.$this->cinsee.'@'.$this->dCreation);
+      Zone::includes($this->id(), $this->rid());
     }
     else { // commune standard doit être créée si n'intervient jamais dans une inclusion ou un sameAs
       Zone::getOrCreate($this->id());
@@ -458,13 +494,13 @@ class Version {
         break;
       }
       
-      // J'assimile une dissolution à une fusion dans une des communes définie dans Histo::DISSOLUTION
+      /*// J'assimile une dissolution à une fusion dans une des communes définie dans Histo::DISSOLUTION
       /*Proto
       '08227':
         '1943-01-01':
           etat: { name: Hocmont, statut: COMS }
         '1968-03-02':
-          evts: { seDissoutDans: ['08203', '08454'] }*/
+          evts: { seDissoutDans: ['08203', '08454'] }
       case ['seDissoutDans']: {
         if (!isset(Simplif::DISSOLUTIONS[$this->cinsee]))
           throw new Exception("Erreur cinsee de dissolution non définie pour $this->cinsee");
@@ -472,7 +508,7 @@ class Version {
         $crat = Histo::$all[$cratId]->version($this->dFin);
         Zone::includes($crat->id(), $this->id());
         break;
-      }
+      }*/
       
       /*Proto:
       '08203':
@@ -480,7 +516,7 @@ class Version {
           etat: { name: Guignicourt-sur-Vence, statut: COMS }
         '1968-03-02':
           evts: { reçoitUnePartieDe: '08227' }
-          etat: { name: Guignicourt-sur-Vence, statut: COMS }*/
+          etat: { name: Guignicourt-sur-Vence, statut: COMS }
       case ['reçoitUnePartieDe']:
       case ['changeDeNomPour','reçoitUnePartieDe']: {
         $cdissoute = $this->evtsFin->reçoitUnePartieDe;
@@ -493,7 +529,7 @@ class Version {
           // Sinon elle est identique
           Zone::sameAs($this->next()->id(), $this->id());
         break;
-      }
+      }*/
       
       case ['absorbe']:
       case ['absorbe','changeDeCodePour']:
@@ -549,10 +585,10 @@ class Version {
       }
       
       
-      case ['contribueA']: {
+      /*case ['XXcontribueA']: {
         Zone::includes($this->id(), $this->next()->id()); // la version suivante est incluse dans la version courante
         break;
-      }
+      }*/
       
       case ['seScindePourCréer']:
       case ['détacheCommeSimples']:

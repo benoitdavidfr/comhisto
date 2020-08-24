@@ -33,10 +33,8 @@ journal: |
 */
 ini_set('memory_limit', '1G');
 
-echo "Début à ",date(DATE_ATOM),"\n";
-
 require_once __DIR__.'/../../../vendor/autoload.php';
-if (1) { // 1 alors exécute les ordres Sql
+if (php_sapi_name() == 'cli') { // en CLI exécute les ordres Sql
   require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 }
 else { // sinon les affiche seulement
@@ -52,6 +50,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 if (php_sapi_name() <> 'cli')
   echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>join</title></head><body><pre>\n";
+
+echo "-- Début à ",date(DATE_ATOM),"\n";
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
 
