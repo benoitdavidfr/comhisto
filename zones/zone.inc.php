@@ -320,9 +320,19 @@ class Zone {
     self::$all['s02738@1974-01-01']->ref = 'COG2020union';
     self::$all['s49220@1943-01-01']->ref = 'COG2020ecomp';
     self::$all['s49220@2016-01-01']->ref = 'COG2020union';
-    self::$all['s70285@1972-12-31']->ref = 'COG2020s'; // simule un COG2020s pour forcer à prendre s70108@1943-01-01 + ecomp
+    self::$all['s70285@1972-12-31']->ref = 'COG2020union'; // pour forcer à prendre s70108@1943-01-01 + ecomp
+    self::$all['s52094@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s52094@1972-05-01']->ref = 'COG2020union';
+    self::$all['s59350@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s59350@1977-04-24']->ref = 'COG2020union';
+    self::$all['s55117@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s55117@1973-01-01']->ref = 'COG2020union';
+    self::$all['s08366@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s08366@1973-12-29']->ref = 'COG2020union';
+    self::$all['s19275@1943-01-01']->ref = 'COG2020ecomp';
+    self::$all['s19275@1973-01-01']->ref = 'COG2020union';
     
-    
+   
     ksort(self::$all);
     
     $nbreSansRef = 0;

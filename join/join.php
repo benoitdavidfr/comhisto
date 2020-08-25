@@ -10,6 +10,8 @@ doc: |
     - afficher les ordres au lieu de les exécuter
   
 journal: |
+  24/8/2020:
+    - ajout d'une clé primaire sur la table et d'un filtre pour supprimer les duplica
   23/8/2020:
     - une exécution non g3 génère 6 erreurs. Celle sur 08362 est due au fait que dans eadmin les ecomp ne sont pas agrégés sur id
     - par contre une exécution g3 ne génère aucune erreur
@@ -58,12 +60,13 @@ PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
 $comhisto = 'comhisto'.Zone::EADMIN;
 PgSql::query("drop table if exists $comhisto");
 PgSql::query("create table $comhisto(
-  type char(1), -- 's' ou 'r'
-  cinsee char(5), -- code Insee
-  debut char(10), -- date de début
-  fin char(10), -- date de fin
+  type char(1) not null, -- 's' ou 'r'
+  cinsee char(5) not null, -- code Insee
+  debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
+  fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
   dnom varchar(256), -- dernier nom
-  geom geometry -- géométrie
+  geom geometry, -- géométrie
+  primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
 )");
 $date_atom = date(DATE_ATOM);
 PgSql::query("comment on table $comhisto is 'couche du référentiel générée le $date_atom'");
@@ -139,6 +142,7 @@ class Zone {
   const EADMIN = 'g3'; // '' pour générer comhisto à partir de eadmin ou 'g3' pour générer comhistog3 à partir de eadming3
   static $errors=0; // nbre d'erreurs
   static $inserts=0; // nbre d'insertions effectuées
+  static $sqlDones=[]; // id des zones pour lesquelles la requête Sql a été générée sous la forme [id => 1]
   protected $id; // string
   protected $sameAs; // [ id ]
   protected $ref; // string
@@ -186,6 +190,9 @@ class Zone {
       }
       $ids = array_merge([$this->id], $this->sameAs);
       foreach ($ids as $id) {
+        if (isset(self::$sqlDones[$id]))
+          continue;
+        self::$sqlDones[$id] = 1;
         $version = Histo::getVersion($id);
         $fin = $version->fin();
         $dnom = $version->name(substr($id,0,1));

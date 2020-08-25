@@ -1,6 +1,6 @@
 title: Liste des zones
 creator: bzones.php
-created: 2020-08-24T07:35:59+00:00
+created: 2020-08-24T07:59:35+00:00
 s01001@1943-01-01:
   ref: COG2020s
 s01002@1943-01-01:
@@ -6839,9 +6839,10 @@ s08366@1974-05-01:
   ref: COG2020s
   contains:
     s08366@1973-12-29:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s08366@1943-01-01: {  }
+        s08366@1943-01-01:
+          ref: COG2020ecomp
         s08213@1943-01-01:
           sameAs:
             - r08213@1973-12-29
@@ -17442,9 +17443,10 @@ s19275@1977-01-01:
   ref: COG2020s
   contains:
     s19275@1973-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s19275@1943-01-01: {  }
+        s19275@1943-01-01:
+          ref: COG2020ecomp
         s19197@1943-01-01:
           sameAs:
             - r19197@1973-01-01
@@ -51605,9 +51607,10 @@ s52094@1973-04-01:
   ref: COG2020s
   contains:
     s52094@1972-05-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s52094@1943-01-01: {  }
+        s52094@1943-01-01:
+          ref: COG2020ecomp
         s52530@1943-01-01:
           sameAs:
             - r52530@1972-05-01
@@ -55601,9 +55604,10 @@ s55117@1973-07-01:
   ref: COG2020s
   contains:
     s55117@1973-01-01:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s55117@1943-01-01: {  }
+        s55117@1943-01-01:
+          ref: COG2020ecomp
         s55020@1943-01-01:
           sameAs:
             - r55020@1973-01-01
@@ -60813,9 +60817,10 @@ s59350@2000-02-27:
   ref: COG2020s
   contains:
     s59350@1977-04-24:
-      ref: COG2020ecomp
+      ref: COG2020union
       contains:
-        s59350@1943-01-01: {  }
+        s59350@1943-01-01:
+          ref: COG2020ecomp
         s59298@1943-01-01:
           sameAs:
             - r59298@1977-04-24
@@ -74000,7 +74005,7 @@ s70285@2019-01-01:
   ref: COG2020s
   contains:
     s70285@1972-12-31:
-      ref: COG2020s
+      ref: COG2020union
       contains:
         s70110@1943-01-01: {  }
         s70285@1943-01-01: {  }
