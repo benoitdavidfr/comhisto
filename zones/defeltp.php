@@ -193,8 +193,7 @@ foreach ($histelts['contents'] as $cinsee => $histov) {
   //if ($histo->contientEltNegatif())
     //echo Yaml::dump([$cinsee => $histov], 3, 2);
   if ($negElts = $histo->est1PosNNeg()) {
-    //echo "$cinsee -> ",implode(',', $negElts),"\n";
-    //     Yaml::dump([$cinsee => $histov], 3, 2);
+    //echo "$cinsee -> ",implode(',', $negElts),"\n",Yaml::dump([$cinsee => $histov], 3, 2);
     $ajouts[$cinsee] = $negElts;
   }
 }

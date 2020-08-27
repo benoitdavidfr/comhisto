@@ -32,14 +32,19 @@ l'information ou pour la croiser avec un référentiel à jour des communes.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
 et peut être partiellement géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-Ce référentiel sera mis à disposition en 2 versions:
+Ce référentiel sera mis à disposition sous la forme d'un fichier SIG permettant de géocoder un ancien code
+dont une [première version expérimentale est disponible ici (6,4 Mo)](export/comhistog3.7z).
 
-- un fichier CSV permettant de convertir un ancien code en un code valide au 1/1/2020,
-- un fichier SIG permettant de géocoder un ancien code.
+## Limites
+Plusieurs limites:
+
+- simplification
+- généralisation
+- non prise en compte des modifications de la géométrie des limites,
 
 La suite de ce document détaille les principes retenus pour définir ce nouveau référentiel.
 
-Attention, la production de ce référentiel est en cours et toutes les données ne sont pas disponibles.
+Attention, la production de ce référentiel est en cours et les résultats ne sont pas disponibles qu'à titre expérimental.
 
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
@@ -57,8 +62,11 @@ et corrigé de quelques erreurs manifestes.
 Cette étape est [documentée plus en détail ici](insee/README.md).
 
 ## 2ème étape - organisation des entités versionnées en zones
-On appelle dans la suite entité une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
-Les 3 derniers types d'entités sont appelés entités rattachées.
+On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
+Les 3 derniers types d'entités sont appelés *entités rattachées*.
+
+La seconde étape consiste à faire correspondre à chaque version d'entité une zone géographique
+et à déduire des relations entre versions des relations d'égalité ou d'inclusion entre ces zones.
 
 La première idée est d'identifier les entités versionnées par leur code Insee suffixé par le caractère '@'
 et la date de création de la version.
@@ -94,13 +102,6 @@ On exprime l'existence de ces 3 zones par l'extrait suivant en Yaml :
             - r01340@2016-01-01
 
 Une première version du fichier complet des zones est disponible dans [zones.yaml](zones/zones.yaml).
-
-La définition de l'historique des codes Insee et des zones apporte un premier niveau de réponse au problème posé initialement.
-En effet, pour un code Insee de commune à une date donnée, on peut identifier la version d'entité à laquelle il correspond
-et la zone correspondante. On peut ensuite identifier si l'extension géographique de cette zone est définie dans une base géographique
-et si non en déduire en général une zone majorante de la zone recherchée.
-
-Les 2 étapes suivantes vont permettre de géoréférencer plus précisément chaque zone.
 
 ## 3ème étape - géoréférencement des entités valides à partir des données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune

@@ -19,4 +19,5 @@ phpIncludes:
   - /yamldoc/pub/comhisto/zones/simplif.inc.php
 htmlFiles:
   - /yamldoc/pub/comhisto/zones/histelt.yaml
+  - /yamldoc/pub/comhisto/zones/histeltp.yaml
   - /yamldoc/pub/comhisto/zones/zones.yaml
