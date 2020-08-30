@@ -17,6 +17,7 @@ doc: |
 journal: |
   30/8/2020:
     - gestion des erat de la V0, les ARDM
+    - gestion des chgts de code, ex 50592
   23/8/2020:
     - correction de Version::deduitElts() pour l'évènement seScindePourCréer
       L'action dépend de l'evt mirroir si la scisssion génère une simple ou non.
@@ -247,13 +248,21 @@ class Histo {
   function defEltsF1(): void {
     //echo Yaml::dump(['debutDefEltsF1'=> [$this->cinsee => $this->asArray()]], 4, 2);
     $v0 = array_values($this->versions)[0];
-    if (!$v0->erat())
-      $eltSet = new EltSet($this->cinsee);
-    else {
+    $eltSet = null;
+    if ($v0->elts()) // si elts est déjà initialisé je l'utilise (cas d'un changement de code déjà fait à ne pas écraser)
+      $eltSet = $v0->elts();
+    elseif ($v0->erat()) { // S'il des y a des erats, en fait les ARDM alors je les initialise
       $eltSet = new EltSet();
       foreach (array_values($v0->erat()) as $erats) {
         $eltSet->addElts($erats);
       }
+    }
+    elseif (isset($v0->evts()['avaitPourCode'])) { // si c'est un changement de code
+      //echo Yaml::dump($this->asArray());
+      return; // la définition sera effectuée par l'ancien code
+    }
+    else {
+      $eltSet = new EltSet($this->cinsee);
     }
     foreach ($this->versions as $version) {
       $eltSet = $version->deduitElts($eltSet);
@@ -309,11 +318,7 @@ class Version {
   function evts(): array { return $this->evts; }
   function erat(): array { return $this->erat; }
   
-  function elts(): EltSet {
-    if (!$this->elts)
-      throw new Exception("elts null pour $this->cinsee@$this->debut");
-    return $this->elts;
-  }
+  function elts(): ?EltSet { return $this->elts; }
   
   function setElts(EltSet $elts): void { $this->elts = $elts; }
   
