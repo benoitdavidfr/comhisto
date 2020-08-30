@@ -135,6 +135,10 @@ $yaml['contents']['24064']['2019-01-01']['eltsCommeDéléguée'] = [24064, 24430
 // Au 1/1/2029 les entités absorbées dans 27198 (Mesnils-sur-Iton) le sont dans l'entité rattachée et non dans la commune nouvelle
 $yaml['contents']['27198']['2019-01-01']['eltsCommeDéléguée'] = [27024, 27166, 27198, 27293, 27387, 27409, 27494, 27503];
 
+// Correction de Lyon (69123) avec l'absorption de 69232 (Saint-Rambert-l'Île-Barbe) dans 69389
+$yaml['contents']['69123']['1964-08-12']['erat']['aPourArdm'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388, 69389];
+$yaml['contents']['69123']['1964-08-12']['eltsp'] = [69232, 69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388, 69389];
+$yaml['contents']['69389']['1964-08-12']['eltsp'] = [69232, 69389];
 
 $yaml['title'] = "Historique des codes Insee augmenté des éléments positifs y.c. spécifiques aux déléguées propres";
 $yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';

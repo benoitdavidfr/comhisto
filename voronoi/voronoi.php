@@ -204,6 +204,7 @@ class Version {
   function erats(): array { // [ Version ]
     $erats = [];
     foreach (array_values($this->erat) as $listeCodesInsee) {
+      //print_r($listeCodesInsee);
       foreach ($listeCodesInsee as $codeInsee) {
         $erats[] = Histo::getVersion("r$codeInsee@$this->debut");
       }
