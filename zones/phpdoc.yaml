@@ -2,7 +2,8 @@ title: comhisto/zones - production des zones et les éléments
 path: /yamldoc/pub/comhisto/zones
 doc: |
   defelt.php complète les versions de code Insee de ../insee/histov.yaml par des d'élts et stocke le résultat dans histelt.yaml
-  bzones.php construit le fichier des zones dans zones.yaml et consomme le fichier histelt.yaml
+  deleltp.php redéfinit les élts pour n'avoir que des éléments positifs, cad que chaque version de code Insee correspond à une union d'éléments
+  bzones.php construit le fichier des zones dans zones.yaml et consomme le fichier histeltp.yaml
 journal: |
   16/8/2020:
     - ajout de la définition d'éléments
@@ -12,6 +13,7 @@ journal: |
 submodules:
 phpScripts:
   - /yamldoc/pub/comhisto/zones/defelt.php
+  - /yamldoc/pub/comhisto/zones/defeltp.php
   - /yamldoc/pub/comhisto/zones/bzones.php
 phpIncludes:
   - /yamldoc/pub/comhisto/zones/histo.inc.php

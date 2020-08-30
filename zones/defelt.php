@@ -15,6 +15,8 @@ doc: |
 
   S'utilise en non CLI en dév et en CLI en prod.
 journal: |
+  30/8/2020:
+    - gestion des erat de la V0, les ARDM
   23/8/2020:
     - correction de Version::deduitElts() pour l'évènement seScindePourCréer
       L'action dépend de l'evt mirroir si la scisssion génère une simple ou non.
@@ -58,8 +60,10 @@ class EltSet {
   protected $vIds; // ens. de versions à ajouter/enlever structuré  [{cInsee}@{date} => +1/-1]
   
   // construction à partir d'un élt
-  function __construct(string $elt) {
-    $this->elts = [$elt => 1];
+  function __construct(string $elt='') {
+    $this->elts = [];
+    if ($elt)
+      $this->elts[$elt] = 1;
     $this->vIds = [];
   }
   
@@ -242,7 +246,15 @@ class Histo {
   // définit les élts de chaque version par rapport l'élt de l'histo et des versions d'autres histos
   function defEltsF1(): void {
     //echo Yaml::dump(['debutDefEltsF1'=> [$this->cinsee => $this->asArray()]], 4, 2);
-    $eltSet = new EltSet($this->cinsee);
+    $v0 = array_values($this->versions)[0];
+    if (!$v0->erat())
+      $eltSet = new EltSet($this->cinsee);
+    else {
+      $eltSet = new EltSet();
+      foreach (array_values($v0->erat()) as $erats) {
+        $eltSet->addElts($erats);
+      }
+    }
     foreach ($this->versions as $version) {
       $eltSet = $version->deduitElts($eltSet);
     }
@@ -295,6 +307,7 @@ class Version {
   function cinsee(): string { return $this->cinsee; }
   function debut(): string { return $this->debut; }
   function evts(): array { return $this->evts; }
+  function erat(): array { return $this->erat; }
   
   function elts(): EltSet {
     if (!$this->elts)
@@ -474,6 +487,7 @@ foreach (Histo::$all as $cinsee => $histo) {
 }
 if ($_GET['action']=='showF1')
   die("Fin showF1\n");
+
 foreach (Histo::$all as $cinsee => $histo) {
   //$avant = $histo->asArray();
   //echo Yaml::dump([$cinsee => ['avant'=> $avant]], 4, 2);
