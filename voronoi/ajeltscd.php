@@ -3,6 +3,7 @@
 name: ajeltscd.php
 title: ajeltscd.php - ajout elts comme déléguée
 doc: |
+  ajEltsCD est simpliste, ex 50592
 journal: |
   30/8/2020:
     - ajout de la conservation des Erat lors d'un changement de nom, ex 24354
@@ -41,8 +42,12 @@ class Histo {
   function ajEltsCD(): void {
     $prec = null;
     foreach ($this->versions as $dv => $version) {
-      if (in_array('devientDéléguéeDe', array_keys($version->evts())) && in_array('prendPourDéléguées', array_keys($version->evts()))) {
-        $version->setEltsCommeDel($prec->eltsp());
+      $evtKeys = array_keys($version->evts());
+      if (in_array('devientDéléguéeDe', $evtKeys) && in_array('prendPourDéléguées', $evtKeys)) {
+        if ($prec->eltsCommeDel())
+          $version->setEltsCommeDel($prec->eltsCommeDel());
+        else
+          $version->setEltsCommeDel($prec->eltsp());
         //echo Yaml::dump([$this->cinsee => $this->asArray()], 3, 2);
       }
       $prec = $version;
@@ -85,7 +90,6 @@ class Version {
   }
   
   function debut(): string { return $this->debut; }
-  function setEltsCommeDel(array $elts): void { $this->eltsCommeDeleguee = $elts; }
   function type(): string { return in_array($this->etat['statut'], ['COMA', 'COMD', 'ARDM']) ? 'r' : 's'; }
   function cinsee(): string { return $this->cinsee; }
   function statut(): string { return $this->etat['statut']; }
@@ -94,7 +98,9 @@ class Version {
   function erat(): array { return $this->erat; }
   function setErat(array $erat): void { $this->erat = $erat; }
   function eltsp(): array { return $this->eltsp; }
-  
+  function eltsCommeDel(): array { return $this->eltsCommeDeleguee; }
+  function setEltsCommeDel(array $elts): void { $this->eltsCommeDeleguee = $elts; }
+    
   function asArray(): array {
     $array = [];
     if ($this->evts)
@@ -120,6 +126,10 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
   //echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
   $yaml['contents'][$cinsee] = $histo->asArray();
 }
+
+// Corrections ponctuelles
+//$yaml['contents']['50592']
+
 $yaml['title'] = "Historique des codes Insee augmenté des éléments positifs y.c. spécifiques aux déléguées propres";
 $yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';
 $yaml['created'] = date(DATE_ATOM);

@@ -136,8 +136,20 @@ class Histo {
   
   static function getVersion(string $id): Version {
     $cinsee = substr($id, 1, 5);
-    $dv = substr($id, 7);
-    return self::$all[$cinsee]->versions[$dv];
+    $dv0 = substr($id, 7);
+    if (!isset(self::$all[$cinsee]))
+      throw new Exception("aucun Histo ne correspond à $id");
+    $histo = self::$all[$cinsee];
+    if (isset($histo->versions[$dv0])) {
+      return $histo->versions[$dv0];
+    }
+    else {
+      foreach ($histo->versions as $dv => $version) {
+        if (($dv <= $dv0) && (!$version->fin() || ($dv0 < $version->fin())))
+          return $version;
+      }
+    }
+    throw new Exception("aucune Version ne correspond à $id");
   }
   
   function asArray(): array {
