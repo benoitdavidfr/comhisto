@@ -73,6 +73,7 @@ class Histo {
 class Version {
   protected $cinsee;
   protected $debut;
+  protected $evtsSrc;
   protected $evts;
   protected $etat;
   protected $erat;
@@ -82,6 +83,7 @@ class Version {
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;
     $this->debut = $debut;
+    $this->evtsSrc = $version['evtsSrc'] ?? [];
     $this->evts = $version['evts'] ?? [];
     $this->etat = $version['etat'] ?? [];
     $this->erat = $version['erat'] ?? [];
@@ -103,6 +105,8 @@ class Version {
     
   function asArray(): array {
     $array = [];
+    if ($this->evtsSrc)
+      $array['evtsSrc'] = $this->evtsSrc;
     if ($this->evts)
       $array['evts'] = $this->evts;
     if ($this->etat)

@@ -16,6 +16,8 @@ doc: |
 
   S'utilise en non CLI en dév et en CLI en prod.
 journal: |
+  30/8/2020:
+    - correction manuelle 27528/27701
   22/8/2020:
     - création
 */
@@ -210,6 +212,24 @@ foreach ($histelts['contents'] as $cinsee => &$histo) {
       $eltSet = new EltSet($version['elts']);
       unset($version['elts']);
       $version['eltsp'] = $eltSet->ajouts($ajouts)->asArray();
+    }
+  }
+}
+
+// Modifications ponctuelles
+// Le Vaudreuil (27528) contribue à 27701 après avoir absorbé 27443
+/*$histelts['contents'][27528]['1943-01-01']['eltsp'] = [27528, 27701];
+$histelts['contents'][27528]['1969-04-15']['eltsp'] = [27443, 27528, 27701];
+$histelts['contents'][27528]['1981-09-28']['eltsp'] = [27443, 27528];*/
+
+// Vérif
+foreach ($histelts['contents'] as $cinsee => $histo) {
+  foreach ($histo as $dv => $version) {
+    if (isset($version['eltsp'])) {
+      foreach ($version['eltsp'] as $eltp) {
+        if (substr($eltp, 1)=='-')
+          die("Erreur dans $cinsee eltp $eltp négatif\n");
+      }
     }
   }
 }

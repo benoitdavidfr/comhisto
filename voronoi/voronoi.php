@@ -50,38 +50,40 @@ else {
   $_GET['action'] = 'prod';
 }
 
-class Wikipedia {
-  static $coms = []; // [dept => [url => ['name='> name, 'geo'=>[lon, lat]]]]
+// stockage des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
+class ChefLieu {
+  static $all = []; // [iddept => [id => ['names'=> [name], 'geo'=>[lon, lat]]]]
   
+  // chargement initial à parir des 2 fichiers Yaml
   static function load(string $dir) {
-    self::$coms = Yaml::parse(file_get_contents("$dir/comgeos.yaml"));
-    $coms2 = Yaml::parse(file_get_contents("$dir/comgeos2.yaml"));
-    foreach ($coms2 as $dept => $comsdept) {
+    self::$all = Yaml::parsefile("$dir/cheflieuwp.yaml");
+    foreach (Yaml::parsefile("$dir/cheflieugp.yaml") as $dept => $chefslieuxdept) {
       if ($dept <> 'title')
-        foreach ($comsdept as $idcom => $com)
-          self::$coms[$dept][$idcom] = $com;
+        foreach ($chefslieuxdept as $id => $cheflieu)
+          self::$all[$dept][$id] = $cheflieu;
     }
   }
   
+  // recherche de coordonnées géo du chef-lieu à partir du no de département et du nom
   static function chercheGeo(string $cinsee, string $nom): array {
     $dept = substr($cinsee, 0, 2);
-    if (!isset(self::$coms["d$dept"])) {
+    if (!isset(self::$all["d$dept"])) {
       throw new Exception ("Com $nom ($cinsee) Dept $dept non défini");
     }
-    foreach (self::$coms["d$dept"] as $com) {
-      if (in_array($nom, $com['names'])) {
-        if (isset($com['geo']))
-          return $com['geo'];
+    foreach (self::$all["d$dept"] as $cheflieu) {
+      if (in_array($nom, $cheflieu['names'])) {
+        if (isset($cheflieu['geo']))
+          return $cheflieu['geo'];
         else {
-          throw new Exception ("Com $nom ($cinsee) trouvée SANS geo");
+          throw new Exception ("Chef-lieu $nom ($cinsee) trouvé SANS geo");
         }
       }
     }
-    throw new Exception ("Com $nom ($cinsee) NON trouvée");
+    throw new Exception ("Chef-lieu $nom ($cinsee) NON trouvé");
   }
 };
-Wikipedia::load(__DIR__.'/../join/wikipedia');
-//print_r(Wikipedia::$coms);
+ChefLieu::load(__DIR__.'/../cheflieu');
+//print_r(ChefLieu::$all);
 
 class EltSet { // Ensemble d'éléments
   protected $set; // [eelt => 1]
@@ -193,7 +195,7 @@ class Histo {
     $sql = "select ST_AsGeoJSON(wkb_geometry) from chef_lieu_carto where insee_com='$cinsee'";
     //echo "$sql\n";
     $tuples = PgSql::getTuples($sql);
-    if (count($tuples)==1) {
+    if (count($tuples) > 0) {
       $geojson = json_decode($tuples[0]['st_asgeojson'], true);
       return $geojson['coordinates'];
     }
@@ -204,7 +206,7 @@ class Histo {
     }
     foreach (array_keys($names) as $name) {
       try {
-        return Wikipedia::chercheGeo($this->cinsee, $name);
+        return ChefLieu::chercheGeo($this->cinsee, $name);
       }
       catch (Exception $e) {}
     }
@@ -212,6 +214,11 @@ class Histo {
       return Histo::get($cinsee)->chefLieu();
     }
     throw new Exception("coord. non trouvées pour $this->cinsee, ".implode(',', array_keys($names)));
+  }
+  
+  function changeDeCodePour(): ?string {
+    $derniereVersion = array_values($this->versions)[count($this->versions)-1];
+    return $derniereVersion->evts()['changeDeCodePour'] ?? null;
   }
 };
 
