@@ -132,6 +132,10 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
 // au 1/1/2019 24430 (Saint-Julien-de-Bourdeilles) est absorbée par r24064 et non par s24064 (Brantôme en Périgord)
 $yaml['contents']['24064']['2019-01-01']['eltsCommeDéléguée'] = [24064, 24430];
 
+// Au 1/1/2029 les entités absorbées dans 27198 (Mesnils-sur-Iton) le sont dans l'entité rattachée et non dans la commune nouvelle
+$yaml['contents']['27198']['2019-01-01']['eltsCommeDéléguée'] = [27024, 27166, 27198, 27293, 27387, 27409, 27503];
+
+
 $yaml['title'] = "Historique des codes Insee augmenté des éléments positifs y.c. spécifiques aux déléguées propres";
 $yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';
 $yaml['created'] = date(DATE_ATOM);

@@ -257,7 +257,7 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
   
   function testEntite(array $entites) {
     if (!isset($entites[$this->ent]))
-      echo "$this->ent KO\n";
+      echo Yaml::dump(['CEntElts KO'=> $this->asArray()]);
     /*else
       echo "$this->ent ok\n";*/
   }
