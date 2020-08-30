@@ -4,6 +4,8 @@ name: voronoi.php
 title: voronoi.php - définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi
 doc: |
 journal: |
+  30/8/2020:
+    - 10:41 testEntites ok
   29/8/2020:
     - création
 */
