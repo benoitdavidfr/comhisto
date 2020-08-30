@@ -9,6 +9,7 @@ journal: |
       cela signfie que les entités des CEntElts créés correspondent aux entités décrites dans COG2020
     - 13:46 - réciproquement chaque entité décrite dans COG2020 correspond à un CEntElts
     - 15:16 - semble fonctionner - bloqué sur chefs-lieux identiques
+    - 18:00 - semble fonctionner - bloqué sur chefs-lieux identiques
   29/8/2020:
     - création
 */
