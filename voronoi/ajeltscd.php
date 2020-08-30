@@ -2,6 +2,12 @@
 /*PhpDoc:
 name: ajeltscd.php
 title: ajeltscd.php - ajout elts comme déléguée
+doc: |
+journal: |
+  30/8/2020:
+    - ajout de la conservation des Erat lors d'un changement de nom, ex 24354
+  29/8/2020:
+    - création
 */
 ini_set('memory_limit', '1G');
 
@@ -42,6 +48,20 @@ class Histo {
       $prec = $version;
     }
   }
+  
+  function corrigeErat(): void { // Un changement de nom conserve les erat
+    echo "corrigeErat() sur $this->cinsee\n";
+    $vprec = null;
+    foreach ($this->versions as $dv => $version) {
+      if (array_keys($version->evts()) == ['changeDeNomPour']) {
+        echo "corrigeErat() changeDeNomPour sur $this->cinsee/$dv\n";
+        if (!$version->erat() && $vprec && $vprec->erat()) {
+          $version->setErat($vprec->erat());
+        }
+      }
+      $vprec = $version; // version précédente
+    }
+  }
 };
 
 // Version d'un Historique
@@ -64,14 +84,16 @@ class Version {
     $this->eltsCommeDeleguee = [];
   }
   
+  function debut(): string { return $this->debut; }
   function setEltsCommeDel(array $elts): void { $this->eltsCommeDeleguee = $elts; }
   function type(): string { return in_array($this->etat['statut'], ['COMA', 'COMD', 'ARDM']) ? 'r' : 's'; }
   function cinsee(): string { return $this->cinsee; }
   function statut(): string { return $this->etat['statut']; }
   function etat(): array { return $this->etat; }
   function evts(): array { return $this->evts; }
+  function erat(): array { return $this->erat; }
+  function setErat(array $erat): void { $this->erat = $erat; }
   function eltsp(): array { return $this->eltsp; }
-  function debut(): string { return $this->debut; }
   
   function asArray(): array {
     $array = [];
@@ -94,6 +116,7 @@ $yaml = Yaml::parseFile('../zones/histeltp.yaml');
 foreach ($yaml['contents'] as $cinsee => $histo) {
   $histo = new Histo($cinsee, $histo);
   $histo->ajEltsCD();
+  $histo->corrigeErat();
   //echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
   $yaml['contents'][$cinsee] = $histo->asArray();
 }

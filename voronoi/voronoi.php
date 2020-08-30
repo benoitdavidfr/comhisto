@@ -295,8 +295,9 @@ foreach (Histo::$all as $cinsee => $histo) {
   elseif (in_array($v2020->statut(), ['COMD','COMA','ARDM'])) {
     $cEntElt = new CEntElts("r$cinsee", $v2020->eltSet());
   }
-  else
+  else {
     echo "cas non traité pour $cinsee\n";
+  }
   /*if (!$cEntElt)
     echo "cEntElt vide\n";
   elseif (0)

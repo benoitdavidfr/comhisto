@@ -10,6 +10,8 @@ doc: |
     2) ajout d'évènements détaillés et enregistrement du résultat dans rpicomd
     3) construction du fichier histo à partir du Rpicom détaillé
 journal: |
+  30/8/2020:
+    - Attention, une commune qui change de nom en ayant des associés les perd dans erat, ex 24354, non corrigé
   19/8/2020:
     - sur-correction de 49080
   2-4/8/2020:
