@@ -6,10 +6,14 @@ doc: |
 journal: |
   30/8/2020:
     - 10:41 testEntites ok
+      cela signfie que les entités des CEntElts créés correspondent aux entités décrites dans COG2020
+    - 13:46 - réciproquement chaque entité décrite dans COG2020 correspond à un CEntElts
+    - 15:16 - semble fonctionner - bloqué sur chefs-lieux identiques
   29/8/2020:
     - création
 */
 ini_set('memory_limit', '1G');
+set_time_limit(2*60);
 
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
@@ -99,6 +103,16 @@ class EltSet { // Ensemble d'éléments
   }
   
   function empty(): bool { return ($this->set==[]); }
+  
+  // nbre d'éléments dans l'ensemble
+  function count(): int { return count($this->set); }
+  
+  function elts(): array {
+    $elts = [];
+    foreach (array_keys($this->set) as $eelt)
+      $elts[] = substr($eelt, 1);
+    return $elts;
+  }
 };
 
 // Historique des codes Insee
@@ -171,6 +185,33 @@ class Histo {
 
   function v2020(): ?Version { // retourne la version 2020 si elle est valide, null sinon
     return $this->v2020;
+  }
+
+  // retourne les coord. [lon,lat] du chef-lieu
+  function chefLieu(): array {
+    $cinsee = $this->cinsee;
+    $sql = "select ST_AsGeoJSON(wkb_geometry) from chef_lieu_carto where insee_com='$cinsee'";
+    //echo "$sql\n";
+    $tuples = PgSql::getTuples($sql);
+    if (count($tuples)==1) {
+      $geojson = json_decode($tuples[0]['st_asgeojson'], true);
+      return $geojson['coordinates'];
+    }
+    $names = []; // [ nom => 1 ]
+    foreach ($this->versions as $dv => $version) {
+      if ($name = $version->etat()['name'] ?? null)
+        $names[$name] = 1;
+    }
+    foreach (array_keys($names) as $name) {
+      try {
+        return Wikipedia::chercheGeo($this->cinsee, $name);
+      }
+      catch (Exception $e) {}
+    }
+    if ($cinsee = $this->changeDeCodePour()) {
+      return Histo::get($cinsee)->chefLieu();
+    }
+    throw new Exception("coord. non trouvées pour $this->cinsee, ".implode(',', array_keys($names)));
   }
 };
 
@@ -258,20 +299,72 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
     return ['ent'=> $this->ent, 'eltSet'=> $this->eltSet->__toString() ];
   }
   
-  function testEntite(array $entites) {
+  function testEntite(array &$entites) {
     if (!isset($entites[$this->ent]))
       echo Yaml::dump(['CEntElts KO'=> $this->asArray()]);
     /*else
       echo "$this->ent ok\n";*/
+    else
+      unset($entites[$this->ent]);
+  }
+  
+  // enregistre les éléments dans la table des éléments
+  function storeElts(): void {
+    $eid = $this->ent;
+    if ($this->eltSet->count() == 1) {
+      $elt = $this->eltSet->elts()[0];
+      $sql = "insert into elt(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
+      echo "sql=$sql\n";
+      PgSql::query($sql);
+    }
+    else {
+      $eltMPoints = $this->eltMPoints();
+      echo Yaml::dump(['$eltMPoints'=> $eltMPoints]);
+      $voronoiPolygons = PgSqlSA::voronoiPolygons($eltMPoints, 0, "select geom from eadming3 where eid='$eid'");
+      if (count($voronoiPolygons['geometries']) <> count($eltMPoints['coordinates'])) {
+        //echo Yaml::dump(['$undefPoints'=> $undefPoints]);
+        //throw new Exception("Erreur buildVoronoi() sur $this->defId, nbre de polygones incorrect");
+        die("Erreur storeElts() sur $eid, nbre incorrect de polygones\n");
+      }
+      $elts = $this->eltSet->elts();
+      foreach ($voronoiPolygons['geometries'] as $no => $voronoiPolygon) {
+        $elt = $elts[$no];
+        $sql = "insert into elt(cinsee, geom) "
+          ."select '$elt', ST_Intersection("
+          ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
+          ."  (select geom from eadming3 where eid='$eid')\n"
+          .")";
+      }
+      echo "sql=$sql\n";
+      PgSql::query($sql);
+    }
+  }
+  
+  function eltMPoints(): array { // Retourne un MultiPoint GeoJSON avec un point par élément
+    $points = [];
+    foreach ($this->eltSet->elts() as $elt) {
+      $points[] = Histo::get($elt)->chefLieu();
+    }
+    return ['type'=> 'MultiPoint', 'coordinates'=> $points];
   }
 };
 
+PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+
 if ($_GET['action']=='testEntites') {
-  PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
   $sql = "select eid from eadming3";
   foreach (PgSql::query($sql) as $tuple) {
     $entites[$tuple['eid']] = 1;
   }
+}
+else {
+  PgSql::query("drop table if exists elt");
+  PgSql::query("create table elt(
+    cinsee char(5) not null primary key, -- code Insee
+    geom geometry -- géométrie Polygon|MultiPolygon 4326
+  )");
+  $date_atom = date(DATE_ATOM);
+  PgSql::query("comment on table elt is 'couche des éléments générée le $date_atom'");
 }
 //print_r($entites);
 
@@ -287,9 +380,9 @@ foreach (Histo::$all as $cinsee => $histo) {
   - si v2020 est un ERAT  alors (erat, elts)
   - si v2020 est un COMS avec ERAT alors (ccoms, elts - ceux des ERAT)
   */
-  $cEntElt = null;
+  $cEntElts = [];
   if (($v2020->statut()=='COMS') && !$v2020->erats()) {
-    $cEntElt = new CEntElts("s$cinsee", $v2020->eltSet());
+    $cEntElts[] = new CEntElts("s$cinsee", $v2020->eltSet());
   }
   elseif ($v2020->statut()=='COMS') { // COMS avec ERAT
     $eltSet = $v2020->eltSet();
@@ -297,7 +390,7 @@ foreach (Histo::$all as $cinsee => $histo) {
       $eltSet = $eltSet->diff($erat->eltSet());
     }
     if (!$eltSet->empty())
-      $cEntElt = new CEntElts("c$cinsee", $eltSet);
+      $cEntElts[] = new CEntElts("c$cinsee", $eltSet);
   }
   elseif ($v2020->statut()=='COMM') { // COMM avec ERAT
     $eltSet = $v2020->eltSet();
@@ -305,21 +398,34 @@ foreach (Histo::$all as $cinsee => $histo) {
       $eltSet = $eltSet->diff($erat->eltSetErat());
     }
     if (!$eltSet->empty())
-      $cEntElt = new CEntElts("c$cinsee", $eltSet);
+      $cEntElts[] = new CEntElts("c$cinsee", $eltSet);
+    // + l'entité rattachée propre
+    $cEntElts[] = new CEntElts("r$cinsee", $v2020->eltSetErat());
   }
   elseif (in_array($v2020->statut(), ['COMD','COMA','ARDM'])) {
-    $cEntElt = new CEntElts("r$cinsee", $v2020->eltSet());
+    $cEntElts[] = new CEntElts("r$cinsee", $v2020->eltSet());
   }
   else {
     echo "cas non traité pour $cinsee\n";
   }
-  /*if (!$cEntElt)
-    echo "cEntElt vide\n";
-  elseif (0)
-    echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";*/
-  if ($_GET['action']=='testEntites') {
-    if ($cEntElt)
-      $cEntElt->testEntite($entites);
+  if (!$cEntElts) {
+    if ($_GET['action']=='testEntites')
+      echo "Aucun cEntElt pour $cinsee\n";
   }
+  else {
+    foreach ($cEntElts as $cEntElt) {
+      echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
+      if ($_GET['action']=='testEntites') {
+        // teste si chaque entité identifiée par ce process existe bien dans COG2020 et vice-versa
+        $cEntElt->testEntite($entites);
+      }
+      else {
+        $cEntElt->storeElts();
+      }
+    }
+  }
+}
+if ($_GET['action']=='testEntites') {
+  echo Yaml::dump(['$entites'=> $entites]);
 }
 die("Fin ok\n");
