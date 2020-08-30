@@ -128,7 +128,9 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
 }
 
 // Corrections ponctuelles
-//$yaml['contents']['50592']
+
+// au 1/1/2019 24430 (Saint-Julien-de-Bourdeilles) est absorbée par r24064 et non par s24064 (Brantôme en Périgord)
+$yaml['contents']['24064']['2019-01-01']['eltsCommeDéléguée'] = [24064, 24430];
 
 $yaml['title'] = "Historique des codes Insee augmenté des éléments positifs y.c. spécifiques aux déléguées propres";
 $yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';
