@@ -4,7 +4,7 @@ doc: |
   Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
   Réutilisation du code produit dans rpicom, renommage du projet.
   Résultats:
-    - historique des codes Insee -> elts/histeltp.yaml, son schéma et sa doc
+    - historique des codes Insee -> couple/histeltd.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, avec les champs suivants
       type: 's' ou 'r'
       cinsee: code Insee ayant existé
@@ -37,9 +37,12 @@ doc: |
     5ème étape(cheflieu):
       - compléter AE2020COG par la localisation ponctuelle (chef-lieu) des entités rattachées valides au 1/1/2020 et des entités abrogées
       - ces infos sont issues d'une part de Wikipedia et d'autre part du Géoportail
-    6ème étape(voronoi):
-      - définir géométriquement par l'algorithme de Voronoi les éléments définis à la 2ème étape
-      - compléter comhistog3 par les versions ne correspondant pas aux zones défines par le COG2020
+    6ème étape(voronoi->couple):
+      - construire pour chaque entité de eadming3 les éléments de histeltp.yaml (complété dans histeltd.yaml)
+      - en déduire la table elt
+        - si une entité correspond à un seul élément alors la géométrie de l'élément est celle de l'entité
+        - si une entité correspond à plusieurs éléments, la géométrie de l'entité est découpée par l'algorithme de Voronoi en éléments
+      - produire comhistog3 pour chaque version avec comme géométrie celle de l'union des éléments
     7ème étape(export):
       - exporter en GeoJSON la table comhistog3
 journal: |

@@ -150,7 +150,12 @@ class Histo {
       $this->v2020 = null;
   }
   
-  static function get(string $cinsee): self { return self::$all[$cinsee]; }
+  static function get(string $cinsee): self {
+    if (isset(self::$all[$cinsee]))
+      return self::$all[$cinsee];
+    else
+      throw new Exception("aucun Histo ne correspond à $cinsee");
+  }
   
   static function getVersion(string $id): Version {
     $cinsee = substr($id, 1, 5);
@@ -341,9 +346,9 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
           .")";
+        echo "sql=$sql\n";
+        PgSql::query($sql);
       }
-      echo "sql=$sql\n";
-      PgSql::query($sql);
     }
   }
   
