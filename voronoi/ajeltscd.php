@@ -50,11 +50,11 @@ class Histo {
   }
   
   function corrigeErat(): void { // Un changement de nom conserve les erat
-    echo "corrigeErat() sur $this->cinsee\n";
+    //echo "corrigeErat() sur $this->cinsee\n";
     $vprec = null;
     foreach ($this->versions as $dv => $version) {
       if (array_keys($version->evts()) == ['changeDeNomPour']) {
-        echo "corrigeErat() changeDeNomPour sur $this->cinsee/$dv\n";
+        //echo "corrigeErat() changeDeNomPour sur $this->cinsee/$dv\n";
         if (!$version->erat() && $vprec && $vprec->erat()) {
           $version->setErat($vprec->erat());
         }
