@@ -1,9 +1,12 @@
 <?php
 /*PhpDoc:
 name: voronoi.php
-title: voronoi.php - définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi
+title: voronoi.php - définir géométriquement les éléments puis les comhistog3 à partir des éléments
 doc: |
+  définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi 
 journal: |
+  31/8/2020:
+    - génération comhistog3 partiel
   30/8/2020:
     - 10:41 testEntites ok
       cela signfie que les entités des CEntElts créés correspondent aux entités décrites dans COG2020
@@ -321,17 +324,10 @@ class Version {
     $cinsee = $this->cinsee;
     $debut = $this->debut;
     $fin = $this->fin ? "'".$this->fin."'" : 'null';
+    $crat = isset($this->etat['crat']) ? "'".$this->etat['crat']."'" : 'null';
     $dnom = str_replace("'", "''", $this->etat['name']);
-    $sql = "insert into comhistog3(type, cinsee, debut, fin, dnom, geom)\n"
-      ."select '$type', '$cinsee', '$debut', $fin, '$dnom', $geomsql";
-    /*type char(1) not null, -- 's' ou 'r'
-    cinsee char(5) not null, -- code Insee
-    debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
-    fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
-    dnom varchar(256), -- dernier nom
-    geom geometry, -- géométrie
-    primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
-    */
+    $sql = "insert into comhistog3(type, cinsee, debut, fin, crat, dnom, geom)\n"
+      ."select '$type', '$cinsee', '$debut', $fin, $crat, '$dnom', $geomsql";
     //echo "sql=$sql\n";
     try {
       PgSql::query($sql);
@@ -521,6 +517,7 @@ PgSql::query("create table comhistog3(
   cinsee char(5) not null, -- code Insee
   debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
   fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
+  crat char(5), -- pour une entité rattachée code Insee de la commune de rattachement, sinon null
   dnom varchar(256), -- dernier nom
   geom geometry, -- géométrie
   primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
