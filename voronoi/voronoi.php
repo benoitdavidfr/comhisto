@@ -50,6 +50,11 @@ if (php_sapi_name() <> 'cli') {
 else {
   $_GET['action'] = 'prod';
 }
+echo "-- Début à ",date(DATE_ATOM),"\n";
+
+class Params {
+  const GEN_ELTS = false; // on génère les élts dans la table elt, sinon on n'y touche pas
+};
 
 // stockage des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
 class ChefLieu {
@@ -226,6 +231,11 @@ class Histo {
     $derniereVersion = array_values($this->versions)[count($this->versions)-1];
     return $derniereVersion->evts()['changeDeCodePour'] ?? null;
   }
+  
+  function insertComhisto(): void {
+    foreach ($this->versions as $version)
+      $version->insertComhisto();
+  }
 };
 
 // Version d'un Historique
@@ -294,6 +304,44 @@ class Version {
       'eltSetCD'=> $this->eltSetCD ? $this->eltSetCD->__toString() : '',
     ];
   }
+  
+  function insertComhisto(): void {
+    // Voir la génération des déléguées propres
+    if (!$this->etat) return;
+    if (!$this->eltSet) return;
+    $elts = $this->eltSet->elts();
+    if (count($elts) == 1) {
+      $elt = $elts[0];
+      $geomsql = "geom from elt where cinsee='$elt'";
+    }
+    else {
+      $geomsql = "ST_Union(geom) from elt where cinsee in ('".implode("','", $elts)."')";
+    }
+    $type = $this->type();
+    $cinsee = $this->cinsee;
+    $debut = $this->debut;
+    $fin = $this->fin ? "'".$this->fin."'" : 'null';
+    $dnom = str_replace("'", "''", $this->etat['name']);
+    $sql = "insert into comhistog3(type, cinsee, debut, fin, dnom, geom)\n"
+      ."select '$type', '$cinsee', '$debut', $fin, '$dnom', $geomsql";
+    /*type char(1) not null, -- 's' ou 'r'
+    cinsee char(5) not null, -- code Insee
+    debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
+    fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
+    dnom varchar(256), -- dernier nom
+    geom geometry, -- géométrie
+    primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
+    */
+    //echo "sql=$sql\n";
+    try {
+      PgSql::query($sql);
+    }
+    catch (Exception $e) {
+      echo $e->getMessage(),"\n";
+      echo "sql=$sql\n";
+      die("Erreur sur erreur Sql\n");
+    }
+  }
 };
 
 Histo::load('histeltd.yaml');
@@ -327,16 +375,29 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
     if ($this->eltSet->count() == 1) {
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elt(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
-      echo "sql=$sql\n";
-      PgSql::query($sql);
+      //echo "sql=$sql\n";
+      try {
+        PgSql::query($sql);
+      }
+      catch (Exception $e) {
+        echo $e->getMessage(),"\n";
+        echo "sql=$sql\n";
+        die("Erreur sur erreur Sql\n");
+      }
     }
     else {
       $eltMPoints = $this->eltMPoints();
-      echo Yaml::dump(['$eltMPoints'=> $eltMPoints]);
       $voronoiPolygons = PgSqlSA::voronoiPolygons($eltMPoints, 0, "select geom from eadming3 where eid='$eid'");
       if (count($voronoiPolygons['geometries']) <> count($eltMPoints['coordinates'])) {
-        //echo Yaml::dump(['$undefPoints'=> $undefPoints]);
-        //throw new Exception("Erreur buildVoronoi() sur $this->defId, nbre de polygones incorrect");
+        $yaml = [
+          '$this->eltSet->elts()'=> [],
+          '$cEntElt'=> $this->asArray(),
+          '$eltMPoints'=> $eltMPoints,
+        ];
+        foreach ($this->eltSet->elts() as $elt) {
+          $yaml['$this->eltSet->elts()'][$elt] = Histo::get($elt)->asArray();
+        }
+        echo Yaml::dump($yaml, 4, 2);
         die("Erreur storeElts() sur $eid, nbre incorrect de polygones\n");
       }
       $elts = $this->eltSet->elts();
@@ -347,8 +408,15 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
           .")";
-        echo "sql=$sql\n";
-        PgSql::query($sql);
+        //echo "sql=$sql\n";
+        try {
+          PgSql::query($sql);
+        }
+        catch (Exception $e) {
+          echo $e->getMessage(),"\n";
+          echo "sql=$sql\n";
+          die("Erreur sur erreur Sql\n");
+        }
       }
     }
   }
@@ -370,7 +438,7 @@ if ($_GET['action']=='testEntites') {
     $entites[$tuple['eid']] = 1;
   }
 }
-else {
+elseif (Params::GEN_ELTS) {
   PgSql::query("drop table if exists elt");
   PgSql::query("create table elt(
     cinsee char(5) not null primary key, -- code Insee
@@ -381,7 +449,11 @@ else {
 }
 //print_r($entites);
 
+// Phase 1 - création des éléments dans la table elt
+if (Params::GEN_ELTS)
 foreach (Histo::$all as $cinsee => $histo) {
+  if (substr($cinsee, 0, 1) >= 4)
+    break;
   if (!($v2020 = $histo->v2020())) {
     //echo "$cinsee non valide\n";
     continue;
@@ -427,7 +499,7 @@ foreach (Histo::$all as $cinsee => $histo) {
   }
   else {
     foreach ($cEntElts as $cEntElt) {
-      echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
+      //echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
       if ($_GET['action']=='testEntites') {
         // teste si chaque entité identifiée par ce process existe bien dans COG2020 et vice-versa
         $cEntElt->testEntite($entites);
@@ -441,4 +513,25 @@ foreach (Histo::$all as $cinsee => $histo) {
 if ($_GET['action']=='testEntites') {
   echo Yaml::dump(['$entites'=> $entites]);
 }
-die("Fin ok\n");
+
+// Phase 2 - 
+PgSql::query("drop table if exists comhistog3");
+PgSql::query("create table comhistog3(
+  type char(1) not null, -- 's' ou 'r'
+  cinsee char(5) not null, -- code Insee
+  debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
+  fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
+  dnom varchar(256), -- dernier nom
+  geom geometry, -- géométrie
+  primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
+)");
+$date_atom = date(DATE_ATOM);
+PgSql::query("comment on table comhistog3 is 'couche du référentiel générée le $date_atom'");
+
+foreach (Histo::$all as $cinsee => $histo) {
+  if (substr($cinsee, 0, 1) >= 4)
+    break;
+  $histo->insertComhisto();
+}
+
+die("-- Fin ok à ".date(DATE_ATOM)."\n");
