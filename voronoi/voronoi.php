@@ -5,7 +5,7 @@ title: voronoi.php - définir géométriquement les éléments puis les comhisto
 doc: |
   La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les éléments associés
   et à en déduire la géométrie associée à chaque élément.
-    a) on part d'histeltd.yaml produit par ajeltscd.php que l'on charge dans la structure Histo/Version
+    a) on part d'histeltd.yaml produit par properat.php que l'on charge dans la structure Histo/Version
     b) on sélectionne pour chaque code Insee sa version valide, s'il y en a une
     c) différents cas de figure
       - la version valide correspond à une COMS sans ERAT alors c'est une entité
@@ -13,16 +13,21 @@ doc: |
       - la version valide correspond à une COMS avec ERAT alors il y a potentiellement 2 entités
         - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
         - celle correspondant à une éventuelle ECOMP
-      J'ai 2 cas d'ECOMP:
+      J'ai 3 cas d'ECOMP:
         - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
-        - dans le cas d'une commune nouvelle, certaines communes d'origine peuvent avoir été absorbées dans la c. nouv. (ex 33338/33055)
-  
+        - dans le cas d'une C. nouv. sans déléguée propre, le territoire de la C chef-lieu est une ECOMP (ex 11171 / 11080 -> 11080c)
+        - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
 
-  définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi
+  La seconde phase consiste à définir toutes les versions à partir des éléments définis dans la 1ère phase.
+
   A faire:
     - transformer les géométries en MultiPolygon
     - ajouter à eadming3 le champ statut
 journal: |
+  6/9/2020:
+    - modification en amont des elts pour en faire des elts propres, cad hors ERAT et ajout du champ eltsNonDélégués pour 33055
+    - adaptation du code
+    - exécution de 11:00, qqs erreurs
   2/9/2020:
     - ajout chefs-lieux manquants
     - exécution sur la totalité
@@ -158,7 +163,7 @@ class Histo {
   static $all=[];
   protected $cinsee;
   protected $versions;
-  protected $v2020;
+  protected $vvalide; // ?Version - la vesion valide ou null si le code est périmé
   
   static function load(string $fpath) {
     $yaml = Yaml::parseFile($fpath);
@@ -179,11 +184,11 @@ class Histo {
       $vprec = $this->versions[$dv];
     }
     
-    $this->v2020 = array_values($this->versions)[count($this->versions)-1];
-    if (!$this->v2020->etat()) // ne correspond pas réellement à une version mais à un évt de suppression
-      $this->v2020 = null;
-    elseif ($this->v2020->fin()) // la fin 
-      $this->v2020 = null;
+    $this->vvalide = array_values($this->versions)[count($this->versions)-1];
+    if (!$this->vvalide->etat()) // ne correspond pas réellement à une version mais à un évt de suppression
+      $this->vvalide = null;
+    elseif ($this->vvalide->fin()) // si la date de fin est définie alors le code est périmé/abrogé
+      $this->vvalide = null;
   }
   
   static function get(string $cinsee): self {
@@ -194,6 +199,7 @@ class Histo {
   }
   
   static function getVersion(string $id): Version {
+    $type = substr($id, 0, 1);
     $cinsee = substr($id, 1, 5);
     $dv0 = substr($id, 7);
     if (!isset(self::$all[$cinsee]))
@@ -226,8 +232,8 @@ class Histo {
     return $array;
   }
 
-  function v2020(): ?Version { // retourne la version 2020 si elle est valide, null sinon
-    return $this->v2020;
+  function vvalide(): ?Version { // retourne la version valide si elle existe, null sinon
+    return $this->vvalide;
   }
 
   // retourne les coord. [lon,lat] du chef-lieu
@@ -257,12 +263,12 @@ class Histo {
     throw new Exception("coord. non trouvées pour $this->cinsee, ".implode(',', array_keys($names)));
   }
   
-  function changeDeCodePour(): ?string {
+  function changeDeCodePour(): ?string { // retourne le nouveau code ou null s'il n'y a pas de chgt de code
     $derniereVersion = array_values($this->versions)[count($this->versions)-1];
     return $derniereVersion->evts()['changeDeCodePour'] ?? null;
   }
   
-  function insertComhisto(): void {
+  function insertComhisto(): void { // insertion des versions dans la table comhisto
     foreach ($this->versions as $version)
       $version->insertComhisto();
   }
@@ -276,8 +282,8 @@ class Version {
   protected $evts;
   protected $etat;
   protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]]
-  protected $eltSet; // EltSet ou null
-  protected $eltSetCD; // commeDéléguée EltSet ou null
+  protected $eltSet; // ?EltSet - elts positifs et propres
+  protected $eltSetND; // ?EltSet - dans le cas de 33055, elts non délégués
   
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;
@@ -287,7 +293,7 @@ class Version {
     $this->etat = $version['etat'] ?? [];
     $this->erat = $version['erat'] ?? [];
     $this->eltSet = isset($version['eltsp']) ? new EltSet($version['eltsp']) : null;
-    $this->eltSetCD = isset($version['eltsCommeDéléguée']) ? new EltSet($version['eltsCommeDéléguée']) : null;
+    $this->eltSetND = isset($version['eltsNonDélégués']) ? new EltSet($version['eltsNonDélégués']) : null;
     //print_r($version);
   }
   
@@ -299,7 +305,7 @@ class Version {
   
   function erats(): array { // [ Version ]
     $erats = [];
-    foreach (array_values($this->erat) as $listeCodesInsee) {
+    foreach ($this->erat as $listeCodesInsee) {
       //print_r($listeCodesInsee);
       foreach ($listeCodesInsee as $codeInsee) {
         $erats[] = Histo::getVersion("r$codeInsee@$this->debut");
@@ -310,7 +316,7 @@ class Version {
   
   function evts(): array { return $this->evts; }
   function eltSet(): ?EltSet { return $this->eltSet; }
-  function eltSetErat(): ?EltSet { return $this->eltSetCD ?? $this->eltSet; }
+  function eltSetND(): ?EltSet { return $this->eltSetND; }
   function debut(): string { return $this->debut; }
   function fin(): ?string { return $this->fin; }
   
@@ -324,16 +330,19 @@ class Version {
   }
   
   function asArray(): array {
-    return [
-      'debut'=> $this->debut,
-      'fin'=> $this->fin,
-      'evts'=> $this->evts,
-      'etat'=> $this->etat,
-      'erat'=> $this->erat,
-      'elts'=> $this->eltSet ? $this->eltSet->__toString() : null,
-      'eltSetCD'=> $this->eltSetCD ? $this->eltSetCD->__toString() : '',
-    ];
+    return array_merge(
+      ['debut'=> $this->debut],
+      $this->fin ? ['fin'=> $this->fin] : [],
+      $this->evts ? ['evts'=> $this->evts] : [],
+      $this->etat ? ['etat'=> $this->etat] : [],
+      $this->erat ? ['erat'=> $this->erat] : [],
+      $this->eltSet ? ['eltsp'=> $this->eltSet->__toString()] : [],
+      $this->eltSetND ? ['eltsNonDélégués'=> $this->eltSetND->__toString()] : []
+    );
   }
+  
+  function estAssociation(): bool { return (array_keys($this->erat) == ['aPourAssociées']); }
+  function estCNouvelle(): bool { return (array_keys($this->erat) == ['aPourDéléguées']); }
   
   function insertComhisto(): void {
     // Voir la génération des déléguées propres
@@ -477,44 +486,42 @@ if (Params::GEN_ELTS)
 foreach (Histo::$all as $cinsee => $histo) {
   //if (substr($cinsee, 0, 1) >= 4) break;
   //if (substr($cinsee, 0, 1) < 8) continue;
-  if (!($v2020 = $histo->v2020())) {
+  if (!($vvalide = $histo->vvalide())) {
     //echo "$cinsee non valide\n";
     continue;
   }
   //echo Yaml::dump([$cinsee => ['histo'=> $histo->asArray(), 'v2020'=> $v2020->asArray()]], 4, 2);
   /* Algo:
   - je construis les objets CEntElts = couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
-  - si v2020 est un COMS sans ERAT alors (coms, elts)
-  - si v2020 est un ERAT  alors (erat, elts)
-  - si v2020 est un COMS avec ERAT alors (ccoms, elts - ceux des ERAT)
+    - si vvalide est un COMS sans ERAT alors (coms, elts)
+    - si vvalide est un ERAT  alors (erat, elts)
+    - si vvalide est un COMS avec ERAT alors il y a potentiellement 2 entités
+      - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
+      - celle correspondant à une éventuelle ECOMP avec 3 cas d'ECOMP:
+        - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
+        - dans le cas d'une C. nouv. sans déléguée propre, le territoire de la C chef-lieu est une ECOMP (ex 11171 / 11080 -> 11080c)
+        - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
   */
   $cEntElts = [];
-  if (($v2020->statut()=='COMS') && !$v2020->erats()) {
-    $cEntElts[] = new CEntElts("s$cinsee", $v2020->eltSet());
+  if (in_array($vvalide->statut(), ['COMD','COMA','ARDM'])) { // ERAT
+    $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
   }
-  elseif ($v2020->statut()=='COMS') { // COMS avec ERAT
-    $eltSet = $v2020->eltSet();
-    foreach ($v2020->erats() as $erat) {
-      $eltSet = $eltSet->diff($erat->eltSet());
-    }
-    if (!$eltSet->empty())
-      $cEntElts[] = new CEntElts("c$cinsee", $eltSet);
+  elseif (!($erats = $vvalide->erats())) { // COMS sans ERAT
+    $cEntElts[] = new CEntElts("s$cinsee", $vvalide->eltSet());
   }
-  elseif ($v2020->statut()=='COMM') { // COMM avec ERAT
-    $eltSet = $v2020->eltSet();
-    foreach ($v2020->erats() as $erat) {
-      $eltSet = $eltSet->diff($erat->eltSetErat());
-    }
-    if (!$eltSet->empty())
-      $cEntElts[] = new CEntElts("c$cinsee", $eltSet);
-    // + l'entité rattachée propre
-    $cEntElts[] = new CEntElts("r$cinsee", $v2020->eltSetErat());
+  // COMM avec ERAT
+  elseif ($vvalide->estAssociation()) { // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
+    $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSet());
   }
-  elseif (in_array($v2020->statut(), ['COMD','COMA','ARDM'])) {
-    $cEntElts[] = new CEntElts("r$cinsee", $v2020->eltSet());
+  elseif ($vvalide->eltSetND()) { // dans le cas de la C nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv.
+    $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSetND());
+  }
+  elseif ($vvalide->estCNouvelle()) { // dans les autres cas de C. nouv. évt déléguée propre
+    if ($vvalide->eltSet())
+      $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
   }
   else {
-    echo "cas non traité pour $cinsee\n";
+    echo "Cas non traité pour $cinsee\n";
   }
   if (!$cEntElts) {
     if ($_GET['action']=='testEntites')

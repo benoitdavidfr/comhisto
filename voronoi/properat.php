@@ -76,7 +76,7 @@ class Version {
     $this->evts = $version['evts'] ?? [];
     $this->etat = $version['etat'] ?? [];
     $this->erat = $version['erat'] ?? [];
-    $this->eltsp = $version['eltsp'] ?? [];
+    $this->eltsp = array_merge($version['eltsp'] ?? [], $version['eltsNonDélégués'] ?? []);
   }
   
   function debut(): string { return $this->debut; }
@@ -109,10 +109,15 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
   $yaml['contents'][$cinsee] = $histo->asArray();
 }
 
+// Correction manuelle
 
-if (1) {
-  // Vérification
-  // Dans les versions valides, un élt ne doit appartenir qu'à un seul eltsp propre, cad si !erat eltsp sinon eltsp - ceux des erat
+// L'absorption de 33338 (Prignac) s'effectue dans la commune nouvelle 33055 (Blaignan-Prignac) et non dans la c. déléguée 33055
+$yaml['contents'][33055]['2019-01-01']['eltsp'] = [33055];
+$yaml['contents'][33055]['2019-01-01']['eltsNonDélégués'] = [33338];
+
+
+if (1) { // Vérification
+  // Dans les versions valides, chaque élt ne doit appartenir qu'à un et un seul eltsp propre
   $verif = true;
   $allElts = []; // ensemble de tous les éléments sous la forme [$cinsee d'élt => {cinsee}@2020]
   foreach ($yaml['contents'] as $cinsee => $histo) {
@@ -148,7 +153,7 @@ if (1) {
 }
 
   
-$yaml['title'] = "Historique des codes Insee augmenté des éléments positifs y.c. spécifiques aux déléguées propres";
+$yaml['title'] = "Historique des codes Insee augmenté des éléments positifs propres plus éléments non délégués";
 $yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';
 $yaml['created'] = date(DATE_ATOM);
 echo Yaml::dump($yaml, 4, 2);
