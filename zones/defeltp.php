@@ -166,7 +166,7 @@ class Version {
   protected $evts; // evts de début sous la forme d'un array
   protected $etat; // etat de la version résultant des évènements
   protected $erat;
-  protected $elts; // ensemble d'élts correspondant à la version, définis sous la forme d'un objet EltSet
+  protected $elts; // ensemble d'élts correspondant à la version, défini sous la forme d'un objet EltSet
 
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;

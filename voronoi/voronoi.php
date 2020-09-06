@@ -3,8 +3,33 @@
 name: voronoi.php
 title: voronoi.php - définir géométriquement les éléments puis les comhistog3 à partir des éléments
 doc: |
-  définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi 
+  La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les éléments associés
+  et à en déduire la géométrie associée à chaque élément.
+    a) on part d'histeltd.yaml produit par ajeltscd.php que l'on charge dans la structure Histo/Version
+    b) on sélectionne pour chaque code Insee sa version valide, s'il y en a une
+    c) différents cas de figure
+      - la version valide correspond à une COMS sans ERAT alors c'est une entité
+      - la version valide correspond à une ERAT alors c'est une entité
+      - la version valide correspond à une COMS avec ERAT alors il y a potentiellement 2 entités
+        - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
+        - celle correspondant à une éventuelle ECOMP
+      J'ai 2 cas d'ECOMP:
+        - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
+        - dans le cas d'une commune nouvelle, certaines communes d'origine peuvent avoir été absorbées dans la c. nouv. (ex 33338/33055)
+  
+
+  définir géométriquement les éléments définis dans ../elts par l'algorithme de Voronoi
+  A faire:
+    - transformer les géométries en MultiPolygon
+    - ajouter à eadming3 le champ statut
 journal: |
+  2/9/2020:
+    - ajout chefs-lieux manquants
+    - exécution sur la totalité
+    - erreur
+      Query failed: ERROR:  duplicate key value violates unique constraint "elt_pkey"
+      DETAIL:  Key (cinsee)=(52018) already exists.
+      Erreur Sql ligne 422
   31/8/2020:
     - génération comhistog3 partiel
   30/8/2020:
@@ -56,8 +81,10 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = false; // on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
 };
+if (!Params::GEN_ELTS)
+  echo "Attention: Les élts ne sont pas générés\n";
 
 // stockage des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
 class ChefLieu {
@@ -248,7 +275,7 @@ class Version {
   protected $fin;
   protected $evts;
   protected $etat;
-  protected $erat; // [ ('aPourDéléguées'|'aPourAssociées') => [{coddeInsee}]]
+  protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]]
   protected $eltSet; // EltSet ou null
   protected $eltSetCD; // commeDéléguée EltSet ou null
   
@@ -371,14 +398,14 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
     if ($this->eltSet->count() == 1) {
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elt(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
-      //echo "sql=$sql\n";
+      echo "sql=$sql\n";
       try {
         PgSql::query($sql);
       }
       catch (Exception $e) {
         echo $e->getMessage(),"\n";
         echo "sql=$sql\n";
-        die("Erreur sur erreur Sql\n");
+        die("Erreur Sql ligne ".__LINE__."\n");
       }
     }
     else {
@@ -404,14 +431,14 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
           .")";
-        //echo "sql=$sql\n";
+        echo "sql=$sql\n";
         try {
           PgSql::query($sql);
         }
         catch (Exception $e) {
           echo $e->getMessage(),"\n";
           echo "sql=$sql\n";
-          die("Erreur sur erreur Sql\n");
+          die("Erreur Sql ligne ".__LINE__."\n");
         }
       }
     }
@@ -448,8 +475,8 @@ elseif (Params::GEN_ELTS) {
 // Phase 1 - création des éléments dans la table elt
 if (Params::GEN_ELTS)
 foreach (Histo::$all as $cinsee => $histo) {
-  if (substr($cinsee, 0, 1) >= 4)
-    break;
+  //if (substr($cinsee, 0, 1) >= 4) break;
+  //if (substr($cinsee, 0, 1) < 8) continue;
   if (!($v2020 = $histo->v2020())) {
     //echo "$cinsee non valide\n";
     continue;
@@ -526,8 +553,7 @@ $date_atom = date(DATE_ATOM);
 PgSql::query("comment on table comhistog3 is 'couche du référentiel générée le $date_atom'");
 
 foreach (Histo::$all as $cinsee => $histo) {
-  if (substr($cinsee, 0, 1) >= 4)
-    break;
+  //if (substr($cinsee, 0, 1) >= 4) break;
   $histo->insertComhisto();
 }
 

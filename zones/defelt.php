@@ -10,11 +10,16 @@ doc: |
   Un élt peut être noté en - lors d'une scission sans fusion préalable, ex. '+17411-17485'
   Dans ce cas, grâce aux simplifications, le - est une partie du +.
   Un ensemble d'élts est représenté par une chaine concaténant les code Insee dans l'ordre, précédés par le signe + ou -.
+  
+  Pour les CRAT, les elts sont les éléments propres, cad hors ERAT,
+  sauf pour les COMM pour les quelles les elts de la commune déléguée propre sont intégrés dans elts.
 
   La topologie des versions est simplifiée selon les règles de simplif.inc.php
 
   S'utilise en non CLI en dév et en CLI en prod.
 journal: |
+  6/9/2020
+    - Modif pour supprimer les erat des elts et passer aux elts propres, cad hors Erat
   30/8/2020:
     - gestion des erat de la V0, les ARDM
     - gestion des chgts de code, ex 50592
@@ -245,22 +250,23 @@ class Histo {
   }
   
   // définit les élts de chaque version par rapport l'élt de l'histo et des versions d'autres histos
-  function defEltsF1(): void {
+  function definitElts(): void {
     //echo Yaml::dump(['debutDefEltsF1'=> [$this->cinsee => $this->asArray()]], 4, 2);
     $v0 = array_values($this->versions)[0];
+    if (isset($v0->evts()['avaitPourCode'])) { // si c'est un changement de code
+      //echo Yaml::dump($this->asArray());
+      return; // la définition sera effectuée par l'ancien code
+    }
     $eltSet = null;
     if ($v0->elts()) // si elts est déjà initialisé je l'utilise (cas d'un changement de code déjà fait à ne pas écraser)
       $eltSet = $v0->elts();
+    /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres
     elseif ($v0->erat()) { // S'il des y a des erats, en fait les ARDM alors je les initialise
       $eltSet = new EltSet();
       foreach (array_values($v0->erat()) as $erats) {
         $eltSet->addElts($erats);
       }
-    }
-    elseif (isset($v0->evts()['avaitPourCode'])) { // si c'est un changement de code
-      //echo Yaml::dump($this->asArray());
-      return; // la définition sera effectuée par l'ancien code
-    }
+    }*/
     else {
       $eltSet = new EltSet($this->cinsee);
     }
@@ -270,7 +276,7 @@ class Histo {
   }
   
   // traduit l'objet elts de chaque version en elts en supprimant les références vers des versions
-  function defEltsF2(): void {
+  function resolveElts(): void {
     foreach ($this->versions as $version) {
       $version->elts()->resolve();
     }
@@ -419,16 +425,10 @@ class Version {
           break;
         }
 
-        // L'action dépend de l'evt mirroir. remVId() uniquement si la vcréée est une simple
-        // Proto 89344
-        // Correction du 23/8/2020
         case 'seScindePourCréer': {
+          /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres, cas 89344/89325 */
           foreach ($evtObjects as $erat) {
-            $vcreee = Histo::get($erat)->version($this->debut);
-            //echo "seScindePourCréer ",$vcreee->id(),"\n";
-            //print_r($vcreee);
-            if (in_array('crééeCommeSimpleParScissionDe', array_keys($vcreee->evts)))
-              $elts->remVId($vcreee->id());
+            $elts->remVId(Histo::get($erat)->version($this->debut)->id());
           }
           break;
         }
@@ -442,21 +442,23 @@ class Version {
         
         case 'prendPourAssociées': 
         case 'prendPourDéléguées': {
+          /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres
           foreach ($evtObjects as $erat) {
             if ($erat <> $this->cinsee) {
               if (!($version = Histo::get($erat)->versionParDateDeFin($this->debut)))
                 throw new Exception("Erreur version non définie sur $erat pour dFin=$this->debut");
               $elts->addVId($version->id());
             }
-          }
+          }*/
           break;
         }
         
         case 'seDétacheDe': break;
         case 'détacheCommeSimples': {
+          /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres
           foreach ($evtObjects as $erat) {
             $elts->remVId(Histo::get($erat)->versionParDateDeFin($this->debut)->id());
-          }
+          }*/
           break;
         }
         
@@ -486,7 +488,7 @@ foreach (Histo::$all as $cinsee => $histo) {
 if ($_GET['action']=='showSimplif')
   die("Fin showSimplif\n");
 foreach (Histo::$all as $cinsee => $histo) {
-  $histo->defEltsF1();
+  $histo->definitElts();
   if ($_GET['action']=='showF1')
     echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
 }
@@ -496,7 +498,7 @@ if ($_GET['action']=='showF1')
 foreach (Histo::$all as $cinsee => $histo) {
   //$avant = $histo->asArray();
   //echo Yaml::dump([$cinsee => ['avant'=> $avant]], 4, 2);
-  $histo->defEltsF2();
+  $histo->resolveElts();
   if ($_GET['action']=='showF2')
     echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
 }
@@ -510,7 +512,7 @@ if ($_GET['action']=='prod') {
       return '<s>'.$item[array_keys($item)[count($item)-2]]['etat']['name']." ($skey)</s>";
 EOT;
   echo Yaml::dump([
-    'title'=> "Historique des codes Insee augmenté de la définition de chaque version comme ensemble d'éléments",
+    'title'=> "Historique des codes Insee augmenté de la définition de chaque version comme ensemble d'éléments propres",
     '@id'=> 'http://id.georef.eu/comhisto/zones/histelt',
     'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/comhisto",
     'created'=> date(DATE_ATOM),
