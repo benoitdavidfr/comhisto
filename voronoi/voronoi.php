@@ -28,6 +28,9 @@ journal: |
     - modification en amont des elts pour en faire des elts propres, cad hors ERAT et ajout du champ eltsNonDélégués pour 33055
     - adaptation du code
     - exécution de 11:00, qqs erreurs
+      - manque 56173c
+    - exécution le 2020-09-06T20:07:37+00:00
+      - des erreurs qui semblent géométriques
   2/9/2020:
     - ajout chefs-lieux manquants
     - exécution sur la totalité
@@ -343,6 +346,8 @@ class Version {
   
   function estAssociation(): bool { return (array_keys($this->erat) == ['aPourAssociées']); }
   function estCNouvelle(): bool { return (array_keys($this->erat) == ['aPourDéléguées']); }
+  function estCAvecARDM(): bool { return (array_keys($this->erat) == ['aPourArdm']); }
+  function existeDelegueePropre(): bool { return in_array($this->cinsee, $this->erat['aPourDéléguées']); }
   
   function insertComhisto(): void {
     // Voir la génération des déléguées propres
@@ -380,6 +385,7 @@ Histo::load('histeltd.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
 class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
+  const ONLY_SHOW_SQL = false; // true <=> les reqêtes SQL de création d'elts sont affichées mais pas exécutées
   protected $ent; // entité (coms, erat, ecomp) définie dans COG2020 identifiée par le type et le code Insee
   protected $eltSet; // ensemble d'élts, sous la forme d'un EltSet
   
@@ -401,15 +407,28 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
       unset($entites[$this->ent]);
   }
   
+  static function createTable(): void {
+    if (self::ONLY_SHOW_SQL) return;
+    PgSql::query("drop table if exists elt");
+    PgSql::query("create table elt(
+      cinsee char(5) not null primary key, -- code Insee
+      geom geometry -- géométrie Polygon|MultiPolygon 4326
+    )");
+    $date_atom = date(DATE_ATOM);
+    PgSql::query("comment on table elt is 'couche des éléments générée le $date_atom'");
+  }
+  
   // enregistre les éléments dans la table des éléments
   function storeElts(): void {
     $eid = $this->ent;
     if ($this->eltSet->count() == 1) {
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elt(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
-      echo "sql=$sql\n";
       try {
-        PgSql::query($sql);
+        if (self::ONLY_SHOW_SQL)
+          echo "sql=$sql\n";
+        else
+          PgSql::query($sql);
       }
       catch (Exception $e) {
         echo $e->getMessage(),"\n";
@@ -440,9 +459,11 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
           .")";
-        echo "sql=$sql\n";
         try {
-          PgSql::query($sql);
+          if (self::ONLY_SHOW_SQL)
+            echo "sql=$sql\n";
+          else
+            PgSql::query($sql);
         }
         catch (Exception $e) {
           echo $e->getMessage(),"\n";
@@ -471,71 +492,72 @@ if ($_GET['action']=='testEntites') {
   }
 }
 elseif (Params::GEN_ELTS) {
-  PgSql::query("drop table if exists elt");
-  PgSql::query("create table elt(
-    cinsee char(5) not null primary key, -- code Insee
-    geom geometry -- géométrie Polygon|MultiPolygon 4326
-  )");
-  $date_atom = date(DATE_ATOM);
-  PgSql::query("comment on table elt is 'couche des éléments générée le $date_atom'");
+  CEntElts::createTable();
 }
 //print_r($entites);
 
 // Phase 1 - création des éléments dans la table elt
-if (Params::GEN_ELTS)
-foreach (Histo::$all as $cinsee => $histo) {
-  //if (substr($cinsee, 0, 1) >= 4) break;
-  //if (substr($cinsee, 0, 1) < 8) continue;
-  if (!($vvalide = $histo->vvalide())) {
-    //echo "$cinsee non valide\n";
-    continue;
-  }
-  //echo Yaml::dump([$cinsee => ['histo'=> $histo->asArray(), 'v2020'=> $v2020->asArray()]], 4, 2);
-  /* Algo:
-  - je construis les objets CEntElts = couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
-    - si vvalide est un COMS sans ERAT alors (coms, elts)
-    - si vvalide est un ERAT  alors (erat, elts)
-    - si vvalide est un COMS avec ERAT alors il y a potentiellement 2 entités
-      - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
-      - celle correspondant à une éventuelle ECOMP avec 3 cas d'ECOMP:
-        - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
-        - dans le cas d'une C. nouv. sans déléguée propre, le territoire de la C chef-lieu est une ECOMP (ex 11171 / 11080 -> 11080c)
-        - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
-  */
-  $cEntElts = [];
-  if (in_array($vvalide->statut(), ['COMD','COMA','ARDM'])) { // ERAT
-    $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
-  }
-  elseif (!($erats = $vvalide->erats())) { // COMS sans ERAT
-    $cEntElts[] = new CEntElts("s$cinsee", $vvalide->eltSet());
-  }
-  // COMM avec ERAT
-  elseif ($vvalide->estAssociation()) { // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
-    $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSet());
-  }
-  elseif ($vvalide->eltSetND()) { // dans le cas de la C nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv.
-    $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSetND());
-  }
-  elseif ($vvalide->estCNouvelle()) { // dans les autres cas de C. nouv. évt déléguée propre
-    if ($vvalide->eltSet())
+if (Params::GEN_ELTS) {
+  foreach (Histo::$all as $cinsee => $histo) {
+    //if (substr($cinsee, 0, 1) >= 4) break;
+    //if (substr($cinsee, 0, 1) < 8) continue;
+    $cEntElts = [];
+    if (!($vvalide = $histo->vvalide())) {
+      //echo "$cinsee non valide\n";
+      continue;
+    }
+    //echo Yaml::dump([$cinsee => ['histo'=> $histo->asArray(), 'v2020'=> $v2020->asArray()]], 4, 2);
+    /* Algo:
+    - je construis les objets CEntElts = couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
+      - si vvalide est un COMS sans ERAT alors (coms, elts)
+      - si vvalide est un ERAT  alors (erat, elts)
+      - si vvalide est un COMS avec ERAT alors il y a potentiellement 2 entités
+        - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
+        - celle correspondant à une éventuelle ECOMP avec 3 cas d'ECOMP:
+          - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
+          - dans le cas d'une C. nouv. sans déléguée propre, le territoire de la C chef-lieu est une ECOMP (ex 11171 / 11080 -> 11080c)
+          - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
+    */
+    elseif (in_array($vvalide->statut(), ['COMD','COMA','ARDM'])) { // ERAT
       $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
-  }
-  else {
-    echo "Cas non traité pour $cinsee\n";
-  }
-  if (!$cEntElts) {
-    if ($_GET['action']=='testEntites')
-      echo "Aucun cEntElt pour $cinsee\n";
-  }
-  else {
-    foreach ($cEntElts as $cEntElt) {
-      //echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
-      if ($_GET['action']=='testEntites') {
-        // teste si chaque entité identifiée par ce process existe bien dans COG2020 et vice-versa
-        $cEntElt->testEntite($entites);
-      }
-      else {
-        $cEntElt->storeElts();
+    }
+    elseif (!($erats = $vvalide->erats())) { // COMS sans ERAT
+      $cEntElts[] = new CEntElts("s$cinsee", $vvalide->eltSet());
+    }
+    // COM avec ERAT
+    elseif ($vvalide->estCAvecARDM()) { // dans les cas de C. avec ARDM on ne fait rien
+      continue;
+    }
+    elseif ($vvalide->estAssociation()) { // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
+      $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSet());
+    }
+    elseif ($vvalide->eltSetND()) { // dans le cas de la C nouvelle 33055, la c d'origine 33338 est absorbées dans la c. nouv.
+      $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSetND());
+      $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
+    }
+    elseif ($vvalide->estCNouvelle()) { // dans les autres cas de C. nouv., déléguée propre ou non
+      if ($vvalide->existeDelegueePropre()) // s'il existe une delegue propre
+        $cEntElts[] = new CEntElts("r$cinsee", $vvalide->eltSet());
+      else // sinon
+        $cEntElts[] = new CEntElts("c$cinsee", $vvalide->eltSet());
+    }
+    else {
+      echo "Cas non traité pour $cinsee\n";
+    }
+    if (!$cEntElts) {
+      if ($_GET['action']=='testEntites')
+        echo "Aucun cEntElt pour $cinsee\n";
+    }
+    else {
+      foreach ($cEntElts as $cEntElt) {
+        //echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
+        if ($_GET['action']=='testEntites') {
+          // teste si chaque entité identifiée par ce process existe bien dans COG2020 et vice-versa
+          $cEntElt->testEntite($entites);
+        }
+        else {
+          $cEntElt->storeElts();
+        }
       }
     }
   }
@@ -543,6 +565,8 @@ foreach (Histo::$all as $cinsee => $histo) {
 if ($_GET['action']=='testEntites') {
   echo Yaml::dump(['$entites'=> $entites]);
 }
+
+die("-- Fin ok phase elts à ".date(DATE_ATOM)."\n");
 
 // Phase 2 - 
 PgSql::query("drop table if exists comhistog3");
