@@ -31,6 +31,10 @@ journal: |
       - manque 56173c
     - exécution le 2020-09-06T20:07:37+00:00
       - des erreurs qui semblent géométriques
+        - 22203 - l'erreur provient d'eadming3
+        - 54568 - l'erreur provient d'eadming3
+        - 57603 - l'erreur provient d'eadming3
+        - ...
   2/9/2020:
     - ajout chefs-lieux manquants
     - exécution sur la totalité
@@ -89,7 +93,7 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = false; // si true on génère les élts dans la table elt, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
   echo "Attention: Les élts ne sont pas générés\n";
@@ -141,14 +145,14 @@ class EltSet { // Ensemble d'éléments
   
   function __toString(): string { return implode('+', array_keys($this->set)); }
   
-  function diff(self $b): self { // $this - b
+  /*function diff(self $b): self { // $this - b
     $result = clone $this;
     foreach (array_keys($b->set) as $elt)
       unset($result->set[$elt]);
     return $result;
-  }
+  }*/
   
-  function empty(): bool { return ($this->set==[]); }
+  //function empty(): bool { return ($this->set==[]); }
   
   // nbre d'éléments dans l'ensemble
   function count(): int { return count($this->set); }
@@ -158,6 +162,11 @@ class EltSet { // Ensemble d'éléments
     foreach (array_keys($this->set) as $eelt)
       $elts[] = substr($eelt, 1);
     return $elts;
+  }
+
+  function ajout(self $b): void { // $this += $b 
+    $this->set = array_merge($this->set, $b->set);
+    ksort($this->set);
   }
 };
 
@@ -285,7 +294,7 @@ class Version {
   protected $evts;
   protected $etat;
   protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]]
-  protected $eltSet; // ?EltSet - elts positifs et propres
+  protected $eltSet; // ?EltSet - elts positifs et propres, cad hors ERAT
   protected $eltSetND; // ?EltSet - dans le cas de 33055, elts non délégués
   
   function __construct(string $cinsee, string $debut, array $version) {
@@ -349,11 +358,18 @@ class Version {
   function estCAvecARDM(): bool { return (array_keys($this->erat) == ['aPourArdm']); }
   function existeDelegueePropre(): bool { return in_array($this->cinsee, $this->erat['aPourDéléguées']); }
   
+  function eltSetAvecErat(): EltSet {
+    $eltSetAvecErat = clone $this->eltSet;
+    foreach ($this->erats() as $erat) {
+      $eltSetAvecErat->ajout($erat->eltSet);
+    }
+    return $eltSetAvecErat;
+  }
+  
   function insertComhisto(): void {
     // Voir la génération des déléguées propres
     if (!$this->etat) return;
-    if (!$this->eltSet) return;
-    $elts = $this->eltSet->elts();
+    $elts = $this->eltSetAvecErat()->elts();
     if (count($elts) == 1) {
       $elt = $elts[0];
       $geomsql = "geom from elt where cinsee='$elt'";
@@ -371,12 +387,15 @@ class Version {
       ."select '$type', '$cinsee', '$debut', $fin, $crat, '$dnom', $geomsql";
     //echo "sql=$sql\n";
     try {
-      PgSql::query($sql);
+      if (($affrows = PgSql::query($sql)->affected_rows()) <> 1) {
+        echo "Erreur sur affected_rows=$affrows, sql=$sql\n";
+        //die("Erreur affected_rows\n");
+      }
     }
     catch (Exception $e) {
       echo $e->getMessage(),"\n";
       echo "sql=$sql\n";
-      die("Erreur sur erreur Sql\n");
+      die("Erreur Sql\n");
     }
   }
 };
@@ -566,7 +585,7 @@ if ($_GET['action']=='testEntites') {
   echo Yaml::dump(['$entites'=> $entites]);
 }
 
-die("-- Fin ok phase elts à ".date(DATE_ATOM)."\n");
+//die("-- Fin ok phase elts à ".date(DATE_ATOM)."\n");
 
 // Phase 2 - 
 PgSql::query("drop table if exists comhistog3");
