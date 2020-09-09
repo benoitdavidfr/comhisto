@@ -18,7 +18,7 @@ doc: |
   L'étape préliminaire consiste à vérifier les données IGN et éventuellement à les corriger dans errorcorr.sql.
 
   L'algorithme est ensuite le suivant:
-    1) fabriquer une couche d'éléments (elt) correspondant à un pavage du territoire, cad ne s'intersectant pas 2 à 2
+    1) fabriquer une couche d'éléments (eadmin) correspondant à un pavage du territoire, cad ne s'intersectant pas 2 à 2
       et dont l'union couvre l'ensemble du territoire, constituée de:
       a) les c. simples non rattachantes
       b) les entitées rattachées (erat)
@@ -50,6 +50,8 @@ doc: |
     - limcrattachante
 
 journal: |
+  9/9/2020:
+    - amélioration de edaming3 posant pbs
   23/8/2020:
     - dégénéralisation de qqs limites qui posent pbs
   9/8/2020:
@@ -103,7 +105,7 @@ comment on table eadmin is 'Elément administif = c. simples non ratt. + entité
 create index eadmin_geom_gist on eadmin using gist(geom);
 
 select count(*) from eadmin;
--- 37237
+-- 37237 (dont 6 pour lesquelles id est présent 2 fois)
 
 ----------------------------------------------------------------------------------
 -- 2) générer les limites entre ces éléments en calculant leur intersection 2 à 2
@@ -200,9 +202,28 @@ select 'Fin:', now();
 -- 5) Simplification des limites et construction des polygones correspondants des eadmin
 ----------------------------------------------
 
--- 5a) création de la géométrie généralisée
+-- 5a) création de la géométrie simplifiée / 111_128
 update lim set simp3=ST_SimplifyPreserveTopology(geom, 0.001);
 
+
+-- ajout 7-9/9/2020
+-- si 2 lignes simplifiées crosses alors j'annule la simplification qui génèrerait sinon une erreur de création de polygone - UPDATE 158
+update lim set simp3=geom
+where num in (
+  select lim1.num
+  from lim lim1, lim lim2
+  where lim1.geom && lim2.geom and ST_Crosses(lim1.simp3, lim2.simp3)
+);
+-- une 2ème fois -> 10
+update lim set simp3=geom
+where num in (
+  select lim1.num
+  from lim lim1, lim lim2
+  where lim1.geom && lim2.geom and ST_Crosses(lim1.simp3, lim2.simp3)
+);
+-- il n'en reste que 2 lignes qui se crossent mais elle se crossent déjà non généralisées
+
+-- création de la table lim2 dupliquant les limites pour chacune des entités
 drop table if exists lim2;
 create table lim2 as
   select id1 as eid, simp3 from lim
@@ -210,29 +231,29 @@ union
   select id2 as eid, simp3 from lim where id2 not like 'iso%';
 create index lim2_eid on lim2 using hash(eid);
 
--- génération de la table des polygones à partir des limites généralisées - 37237
+-- génération de la table des polygones à partir des limites généralisées - 37395
 drop table if exists eadminpolg3;
 create table eadminpolg3 as
 select eid, (ST_Dump(ST_Polygonize(simp3))).geom
 from lim2
 group by eid;
 
-
 drop table if exists polg3error;
 create table polg3error as
 select id from eadmin where id not in (select eid from eadminpolg3) order by id;
--- 52 polygones manquants
+-- 2 polygones manquants
 
-update lim set simp3=geom
-where id1 in (select id from polg3error) or id2 in (select id from polg3error);
+   id   
+--------
+ r52054
+ s52107
 
--- dégénéralisation de s51537 qui sinon pose pbs
-update lim set simp3=geom where id1='s51537';
--- dégénéralisation de la limite entre s70041 et s70100
-update lim set simp3=geom where id1='s70041' and id2='s70100';
--- dégénéralisation de la limite entre s02095 et s02703
-update lim set simp3=geom where id1='s02095' and id2='s02703';
+ 
+-- Réparations
+-- r52054 / s52107 - je ne trouve pas l'erreur - UPDATE 13
+update lim set simp3=geom where id1 in('r52054','s52107') or id2 in('r52054','s52107');
 
+-- prise en compte des modifs dans lim2
 drop table if exists lim2;
 create table lim2 as
   select id1 as eid, simp3 from lim
@@ -240,7 +261,7 @@ union
   select id2 as eid, simp3 from lim where id2 not like 'iso%';
 create index lim2_eid on lim2 using hash(eid);
 
--- génération de la table des polygones à partir des limites généralisées - 37237
+-- nouvelle génération de la table des polygones à partir des limites généralisées - 37395
 drop table if exists eadminpolg3;
 create table eadminpolg3 as
 select eid, (ST_Dump(ST_Polygonize(simp3))).geom
@@ -248,8 +269,6 @@ from lim2
 group by eid;
 create index eadminpolg3_geom_gist on eadminpolg3 using gist(geom);
 
-drop table if exists polg3error;
-create table polg3error as
 select id from eadmin where id not in (select eid from eadminpolg3) order by id;
 -- 2 erreurs restantes
 
@@ -258,18 +277,9 @@ select id from eadmin where id not in (select eid from eadminpolg3) order by id;
  r52054
  s52107
 
-insert into eadminpolg3(eid, geom) select id, geom from eadmin where id in ('r52054','s52107');
-
-drop table if exists polg3error;
-create table polg3error as
-select id from eadmin where id not in (select eid from eadminpolg3) order by id;
--- 0 erreurs
 
 select count(*) from eadminpolg3;
--- 37397
-
-select eid from eadminpolg3 where eid not in (select id from eadmin) order by eid;
--- 0 erreurs
+-- 37395
 
 -- les entités en plusieurs parties génèrent plusieurs enregistrements
 select eid, count(*) nbre
@@ -277,24 +287,29 @@ from eadminpolg3
 group by eid
 having count(*) > 1;
 
--- Lorsqu'il y a un trou dans un polygone, il est affecté à la fois à la c. du trou et à celle qui le contient'
 
 alter table eadminpolg3 add num serial;
 update eadminpolg3 set geom=ST_MakeValid(geom);
 
+  -- Lorsqu'il y a un trou dans un polygone, il est affecté à la fois à la c. du trou et à celle qui le contient'
+-- suppression des polygones qui à la fois touchent un autre polygone ayant même eid
+-- et égalent un autre polygone avec un eid différent
+-- 
 delete from eadminpolg3 where num in (
-  -- les pol à supprimer sont ceux qui à la fois touchent un autre polygone ayant même eid
-  -- et égalent un autre polygone avec un eid différent
   select del.num
   from eadminpolg3 t, eadminpolg3 del, eadminpolg3 eq
   where t.geom && del.geom and ST_Touches(t.geom, del.geom) and t.eid=del.eid
     and del.geom && eq.geom and ST_Equals(del.geom, eq.geom) and del.eid <> eq.eid  
 );
--- DELETE 29
+-- DELETE 30
   
+-- création de la table eadming3 avec 
 drop table if exists eadming3;
 create table eadming3 as
   select eid, ST_Collect(geom) as geom
   from eadminpolg3
   group by eid;
--- 37231 ligne(s) affectée(s).
+-- 37229 ligne(s) affectée(s).
+
+-- les 2 eadming3 manquants sont ajoutés après passage en MultiPolygones
+insert into eadming3(eid, geom) select id, geom from eadmin where id in ('r52054','s52107');

@@ -24,6 +24,8 @@ doc: |
     - transformer les géométries en MultiPolygon
     - ajouter à eadming3 le champ statut
 journal: |
+  9/9/2020:
+    - amélioration d'eadming3, nlle génération @ 7:45, semble ok
   6/9/2020:
     - modification en amont des elts pour en faire des elts propres, cad hors ERAT et ajout du champ eltsNonDélégués pour 33055
     - adaptation du code
@@ -93,7 +95,7 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = false; // si true on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
   echo "Attention: Les élts ne sont pas générés\n";
