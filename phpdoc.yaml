@@ -11,7 +11,7 @@ doc: |
       debut: date de début sous la forme AAAA-MM-DD
       fin: date du lendemain de la fin sous la forme AAAA-MM-DD ou null ssi version valide à la date de référence
       dnom: dernier nom associé
-      geom: géométrie sous la forme d'un polygone ou d'un multi-polygone en 4326
+      geom: géométrie sous la forme d'un multi-polygone en 4326
   Les étapes:
     1ère étape(insee):
       - à partir des données de mouvements Insee et de l'état au 1/1/2020, produire un document Yaml facile à consulter (par un humain
@@ -19,33 +19,38 @@ doc: |
       - corriger ces données des incohérences constatées et de quelques erreurs flagrantes
       - ajuster à la marge au périmètre choisi (a priori Métropole + DOM, par la suite évent. extension à StBarth, StMartin, StP&M)
       - le résultat est un document histov.yaml, son schéma dans exhisto.yaml et la doc dans README.md
-    2ème étape(elts):
+    2ème étape(elits):
       - Appliquer des simplifications pour assimiler à des fusions les 6 dissolutions et à des scissions les 6 créations de commune
         à partir d'autres communes
       - construire la notion d'éléments administratifs à partir desquels toutes les localisations des versions peuvent être construites
         le fichier insee/histov.yaml est complété de ces éléments pour donner histeltp.yaml
-      - construction de la notion de zone et structuration sous la forme d'un treillis d'inclusion
     3ème étape(ign):
       - charger dans PostGis les données AE2020COG d'IGN
       - à partir de ces données produire dans PostGis une couche géo. cohérente des entités administratives pour 2020
       - construire l'ensemble des limites entre entités et avec l'extérieur
       - affecter à chaque limite une géométrie généralisée avec une résolution de 100m (3 décimales)
       - affecter à chaque entité un multi-polygone généralisé
-      - le résultat est une table eadming3 des entités administratives (coms, erat, ecomp) généralisées
-    4ème étape(join):
-      - produire la table comhistog3 de l'historique des communes dont les versions correspondent aux zones défines par le COG2020
-    5ème étape(cheflieu):
+      - le résultat est une table eadming3 des éléments d'entités administratives (coms, erat, ecomp) généralisées
+    4ème étape(cheflieu):
       - compléter AE2020COG par la localisation ponctuelle (chef-lieu) des entités rattachées valides au 1/1/2020 et des entités abrogées
       - ces infos sont issues d'une part de Wikipedia et d'autre part du Géoportail
-    6ème étape(voronoi->couple):
-      - construire pour chaque entité de eadming3 les éléments de histeltp.yaml (complété dans histeltd.yaml)
+    5ème étape(voronoi):
+      - construire pour chaque entité de eadming3 les éléments de histelit.yaml (complété dans histelitp.yaml)
       - en déduire la table elt
         - si une entité correspond à un seul élément alors la géométrie de l'élément est celle de l'entité
         - si une entité correspond à plusieurs éléments, la géométrie de l'entité est découpée par l'algorithme de Voronoi en éléments
       - produire comhistog3 pour chaque version avec comme géométrie celle de l'union des éléments
-    7ème étape(export):
+    6ème étape(export):
       - exporter en GeoJSON la table comhistog3
+  A FAIRE:
+    - améliorer la table comhistog3 pour qu'elle soit plus compréhensible dans QGis
+    - écrire la doc dans github
 journal: |
+  10/9/2020:
+    - restructuration en cours de zones en elits
+  9/9/2020:
+    - export GeoJSON assez correct, commit et push
+      - reste erreur sur Lyon non traitée
   29/8/2020:
     - réécriture => abandon V1
   8/7/2020:
@@ -53,7 +58,7 @@ journal: |
 submodules:
   - /yamldoc/pub/comhisto/data
   - /yamldoc/pub/comhisto/insee
-  - /yamldoc/pub/comhisto/zones
+  - /yamldoc/pub/comhisto/elits
   - /yamldoc/pub/comhisto/ign
   - /yamldoc/pub/comhisto/join
 phpScripts:

@@ -20,23 +20,17 @@ doc: |
 
   La seconde phase consiste à définir toutes les versions à partir des éléments définis dans la 1ère phase.
 
-  A faire:
-    - transformer les géométries en MultiPolygon
-    - ajouter à eadming3 le champ statut
 journal: |
+  12/9/2020:
+    - ajout propriétés à comhistog3
+    - génération déléguée propre
   9/9/2020:
     - amélioration d'eadming3, nlle génération @ 7:45, semble ok
   6/9/2020:
     - modification en amont des elts pour en faire des elts propres, cad hors ERAT et ajout du champ eltsNonDélégués pour 33055
     - adaptation du code
     - exécution de 11:00, qqs erreurs
-      - manque 56173c
-    - exécution le 2020-09-06T20:07:37+00:00
-      - des erreurs qui semblent géométriques
-        - 22203 - l'erreur provient d'eadming3
-        - 54568 - l'erreur provient d'eadming3
-        - 57603 - l'erreur provient d'eadming3
-        - ...
+    - exécution -> erreurs provenant d'eadming3
   2/9/2020:
     - ajout chefs-lieux manquants
     - exécution sur la totalité
@@ -95,7 +89,7 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = false; // si true on génère les élts dans la table elt, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
   echo "Attention: Les élts ne sont pas générés\n";
@@ -177,7 +171,7 @@ class Histo {
   static $all=[];
   protected $cinsee;
   protected $versions;
-  protected $vvalide; // ?Version - la vesion valide ou null si le code est périmé
+  protected $vvalide; // ?Version - la version valide ou null si le code est périmé
   
   static function load(string $fpath) {
     $yaml = Yaml::parseFile($fpath);
@@ -193,7 +187,7 @@ class Histo {
     $vprec = null;
     foreach ($histo as $dv => $version) {
       if ($vprec)
-        $vprec->setFin($dv);
+        $vprec->setFin($dv, $version['evts'] ?? []);
       $this->versions[$dv] = new Version($cinsee, $dv, $version);
       $vprec = $this->versions[$dv];
     }
@@ -294,27 +288,29 @@ class Version {
   protected $debut;
   protected $fin;
   protected $evts;
+  protected $evtsFin; // array
   protected $etat;
-  protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]]
+  protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]] ou []
   protected $eltSet; // ?EltSet - elts positifs et propres, cad hors ERAT
   protected $eltSetND; // ?EltSet - dans le cas de 33055, elts non délégués
   
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;
     $this->debut = $debut;
-    $this->fin = null;
     $this->evts = $version['evts'] ?? [];
+    $this->fin = null;
+    $this->evtsFin = [];
     $this->etat = $version['etat'] ?? [];
     $this->erat = $version['erat'] ?? [];
-    $this->eltSet = isset($version['eltsp']) ? new EltSet($version['eltsp']) : null;
-    $this->eltSetND = isset($version['eltsNonDélégués']) ? new EltSet($version['eltsNonDélégués']) : null;
+    $this->eltSet = isset($version['elits']) ? new EltSet($version['elits']) : null;
+    $this->eltSetND = isset($version['elitsNonDélégués']) ? new EltSet($version['elitsNonDélégués']) : null;
     //print_r($version);
   }
   
-  function setFin(string $fin) { $this->fin = $fin; }
+  function setFin(string $fin, $evtsFin) { $this->fin = $fin; $this->evtsFin = $evtsFin; }
   function type(): string { return in_array($this->etat['statut'], ['COMA', 'COMD', 'ARDM']) ? 'r' : 's'; }
   function cinsee(): string { return $this->cinsee; }
-  function statut(): string { return $this->etat['statut']; }
+  function statut(): string { return $this->etat['statut'] ?? 'undef'; }
   function etat(): array { return $this->etat; }
   
   function erats(): array { // [ Version ]
@@ -346,8 +342,9 @@ class Version {
   function asArray(): array {
     return array_merge(
       ['debut'=> $this->debut],
-      $this->fin ? ['fin'=> $this->fin] : [],
       $this->evts ? ['evts'=> $this->evts] : [],
+      $this->fin ? ['fin'=> $this->fin] : [],
+      $this->evtsFin ? ['evtsFin'=> $this->evtsFin] : [],
       $this->etat ? ['etat'=> $this->etat] : [],
       $this->erat ? ['erat'=> $this->erat] : [],
       $this->eltSet ? ['eltsp'=> $this->eltSet->__toString()] : [],
@@ -358,20 +355,32 @@ class Version {
   function estAssociation(): bool { return (array_keys($this->erat) == ['aPourAssociées']); }
   function estCNouvelle(): bool { return (array_keys($this->erat) == ['aPourDéléguées']); }
   function estCAvecARDM(): bool { return (array_keys($this->erat) == ['aPourArdm']); }
-  function existeDelegueePropre(): bool { return in_array($this->cinsee, $this->erat['aPourDéléguées']); }
   
-  function eltSetAvecErat(): EltSet {
-    $eltSetAvecErat = clone $this->eltSet;
-    foreach ($this->erats() as $erat) {
-      $eltSetAvecErat->ajout($erat->eltSet);
-    }
-    return $eltSetAvecErat;
+  function existeDelegueePropre(): bool {
+    $deleguees = $this->erat['aPourDéléguées'] ?? [];
+    return in_array($this->cinsee, $deleguees);
   }
   
-  function insertComhisto(): void {
-    // Voir la génération des déléguées propres
+  function eltsAvecErat(): array {
+    $eltsAvecErat = $this->eltSet ? $this->eltSet->elts() : [];
+    foreach ($this->erats() as $erat) {
+      foreach ($erat->eltSet->elts() as $elt)
+        $eltsAvecErat[] = $elt;
+    }
+    return $eltsAvecErat;
+  }
+  
+  function insertComhisto(bool $recursif=false): void {
+    //echo "appel de insertComhisto() sur ",$this->statut()," ",$this->cinsee,"\n";
     if (!$this->etat) return;
-    $elts = $this->eltSetAvecErat()->elts();
+    // Dans le cas d'une commune mixte, génération d'une part de la crat et d'autre part de la déléguée propre
+    if (!$recursif && $this->existeDelegueePropre()) {
+      //echo "Appels récursifs\n";
+      $this->comNouvelle()->insertComhisto(true);
+      $this->delegueePropre()->insertComhisto(true);
+      return;
+    }
+    $elts = $this->eltsAvecErat();
     if (count($elts) == 1) {
       $elt = $elts[0];
       $geomsql = "geom from elt where cinsee='$elt'";
@@ -381,12 +390,40 @@ class Version {
     }
     $type = $this->type();
     $cinsee = $this->cinsee;
-    $debut = $this->debut;
-    $fin = $this->fin ? "'".$this->fin."'" : 'null';
+    $ddebut = $this->debut;
+    $edebut = $this->evts ? $this->evts : ['entreDansLeRéférentiel'=> null];
+    $dfin = $this->fin ? "'".$this->fin."'" : 'null';
+    if ($efin = $this->evtsFin) {
+      $efin = json_encode($efin, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+      $efin = "'".str_replace("'", "''", $efin)."'";
+    }
+    else {
+      $efin = 'null';
+    }
+    $statut = $this->statut();
+    if ($statut == 'COMS') {
+      if ($this->estAssociation())
+        $statut = 'ASSO';
+      elseif ($this->estCNouvelle())
+        $statut = 'NOUV';
+      else
+        $statut = 'BASE';
+    }
+    $edebut = json_encode($edebut, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+    $edebut = str_replace("'", "''", $edebut);
     $crat = isset($this->etat['crat']) ? "'".$this->etat['crat']."'" : 'null';
+    $erats = $this->erat ? array_values($this->erat)[0] : [];
+    $erats = json_encode($erats);
+    if ($this->eltSet) {
+      $elits = json_encode($this->eltSet->elts());
+      $elits = "'".str_replace("'", "''", $elits)."'";
+    }
+    else
+      $elits = 'null';
     $dnom = str_replace("'", "''", $this->etat['name']);
-    $sql = "insert into comhistog3(type, cinsee, debut, fin, crat, dnom, geom)\n"
-      ."select '$type', '$cinsee', '$debut', $fin, $crat, '$dnom', $geomsql";
+    $sql = "insert into comhistog3(id, type, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, geom)\n"
+      ."select '$type$cinsee@$ddebut', '$type', '$cinsee', '$ddebut', '$edebut', $dfin, $efin,"
+      ." '$statut', $crat, '$erats', $elits, '$dnom', $geomsql";
     //echo "sql=$sql\n";
     try {
       if (($affrows = PgSql::query($sql)->affected_rows()) <> 1) {
@@ -400,9 +437,35 @@ class Version {
       die("Erreur Sql\n");
     }
   }
+  
+  // Dans le cas d'une commune mixte renvoie un objet simulant la commune déléguée
+  function delegueePropre(): self {
+    $delPropre = clone $this;
+    unset($delPropre->evts['prendPourDéléguées']);
+    $delPropre->etat = [
+      'name'=> $delPropre->etat['nomCommeDéléguée'] ?? $delPropre->etat['name'],
+      'statut'=> 'COMD',
+      'crat'=> $this->cinsee,
+    ];
+    $delPropre->erat = [];
+    return $delPropre;
+  }
+  
+  // Dans le cas d'une commune mixte renvoie un objet simulant la commune de rattachement
+  function comNouvelle(): self {
+    $comNouv = clone $this;
+    unset($comNouv->evts['devientDéléguéeDe']);
+    $comNouv->etat = [
+      'name'=> $comNouv->etat['name'],
+      'statut'=> 'NOUV',
+    ];
+    $comNouv->eltSet = $comNouv->eltSetND;
+    $comNouv->eltSetND = null;
+    return $comNouv;
+  }
 };
 
-Histo::load('histeltd.yaml');
+Histo::load('histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
 class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
@@ -589,17 +652,32 @@ if ($_GET['action']=='testEntites') {
 
 //die("-- Fin ok phase elts à ".date(DATE_ATOM)."\n");
 
+
 // Phase 2 - 
 PgSql::query("drop table if exists comhistog3");
+PgSql::query("drop type if exists StatutEntite");
+PgSql::query("create type StatutEntite AS enum (
+  'BASE', -- commune de base
+  'ASSO', -- commune de rattachement d'une association
+  'NOUV', -- commune de rattachement d'une commune nouvelle
+  'COMA', -- commune associée
+  'COMD', -- commune déléguée
+  'ARDM'  -- arrondissement municipal
+)");
 PgSql::query("create table comhistog3(
+  id char(17) not null primary key, -- concaténation de type, cinsee, '@' et debut
   type char(1) not null, -- 's' ou 'r'
   cinsee char(5) not null, -- code Insee
-  debut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
-  fin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
-  crat char(5), -- pour une entité rattachée code Insee de la commune de rattachement, sinon null
+  ddebut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
+  edebut jsonb not null, -- évts de création de la version
+  dfin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
+  efin jsonb, -- évts de fin de la version, ou null ssi version valide à la date de référence
+  statut StatutEntite not null,
+  crat char(5), -- pour une entité rattachée (COMA, COMD, ARDM) code Insee de la commune de rattachement, sinon null
+  erats jsonb not null, -- pour une commune de rattachement (ASSO, NOUV) liste JSON des codes Insee des entités rattachées
+  elits jsonb, -- liste JSON des éléments intemporels propres ou null ssi il n'y en a pas
   dnom varchar(256), -- dernier nom
-  geom geometry, -- géométrie
-  primary key (type, cinsee, debut) -- la clé est composée du type, du code Insee et de la date de création
+  geom geometry -- géométrie
 )");
 $date_atom = date(DATE_ATOM);
 PgSql::query("comment on table comhistog3 is 'couche du référentiel générée le $date_atom'");

@@ -76,7 +76,7 @@ class Version {
     $this->evts = $version['evts'] ?? [];
     $this->etat = $version['etat'] ?? [];
     $this->erat = $version['erat'] ?? [];
-    $this->eltsp = array_merge($version['eltsp'] ?? [], $version['eltsNonDélégués'] ?? []);
+    $this->eltsp = array_merge($version['elits'] ?? [], $version['elitsNonDélégués'] ?? []);
   }
   
   function debut(): string { return $this->debut; }
@@ -95,12 +95,12 @@ class Version {
       $this->evts ? ['evts' => $this->evts] : [],
       $this->etat ? ['etat' => $this->etat] : [],
       $this->erat ? ['erat' => $this->erat] : [],
-      $this->eltsp ? ['eltsp' => $this->eltsp] : []
+      $this->eltsp ? ['elits' => $this->eltsp] : []
     );
   }
 };
 
-$yaml = Yaml::parseFile('../zones/histeltp.yaml');
+$yaml = Yaml::parseFile('../elits/histelit.yaml');
 //print_r($yaml);
 foreach ($yaml['contents'] as $cinsee => $histo) {
   $histo = new Histo($cinsee, $histo);
@@ -112,8 +112,8 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
 // Correction manuelle
 
 // L'absorption de 33338 (Prignac) s'effectue dans la commune nouvelle 33055 (Blaignan-Prignac) et non dans la c. déléguée 33055
-$yaml['contents'][33055]['2019-01-01']['eltsp'] = [33055];
-$yaml['contents'][33055]['2019-01-01']['eltsNonDélégués'] = [33338];
+$yaml['contents'][33055]['2019-01-01']['elits'] = [33055];
+$yaml['contents'][33055]['2019-01-01']['elitsNonDélégués'] = [33338];
 
 
 if (1) { // Vérification
@@ -153,8 +153,8 @@ if (1) { // Vérification
 }
 
   
-$yaml['title'] = "Historique des codes Insee augmenté des éléments positifs propres plus éléments non délégués";
-$yaml['@id'] = 'http://id.georef.eu/comhisto/vronoi/histeltd';
+$yaml['title'] = "Historique des codes Insee augmenté des éléments intemporels et propagation des erat";
+$yaml['@id'] = 'http://id.georef.eu/comhisto/voronoi/histelitp';
 $yaml['created'] = date(DATE_ATOM);
 echo Yaml::dump($yaml, 4, 2);
 
