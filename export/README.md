@@ -25,7 +25,7 @@ Les propriétés suivantes sont fournies:
 - `dnom` - nom
 
 De plus, chaque objet est identifié dans la propriété `id`
-qui est la concaténation de la propriété `type`, de `cinsee`, du caratère `@` et de la propriété `ddebut`.
+qui est la concaténation des propriétés `type` et `cinsee`, du caratère `@` et de la propriété `ddebut`.
 
 Le fichier peut être visualisé par exemple avec QGis.
 
