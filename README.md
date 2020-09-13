@@ -22,23 +22,21 @@ Finalement, ils ne remplissent plus leur fonction de géoréférencement.
 Or, sur le fond, le code Insee d'une commune périmée, par exemple fusionnée,
 reste un localisant à condition de disposer du référentiel adhoc.
 De plus, il peut être dans certains cas préférable dans une base de conserver un code Insee périmé
-car le géoréférencement peut être plus précis et parfois en cas de rétablissement il redevient valide.
-La conservation du code périmé dans la base évite ainsi des erreurs de localisation.
+car le géoréférencement peut être plus précis et peut redevenir valide en cas de rétablissement.
+La conservation du code périmé dans la base évite ainsi des erreurs de géoréférencement.
 
 La proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
 et associant à chacun les versions successives permettant de retrouver l'état de l'entité à une date donnée.  
-Ainsi les codes Insee intégrés un jour dans une base restent valables et peuvent être utilisés par exemple pour géocoder
-l'information ou pour la croiser avec un référentiel à jour des communes.
+Ainsi les codes Insee intégrés un jour dans une base restent valables et peuvent être utilisés, par exemple pour géocoder
+l'information ou pour la croiser avec un référentiel à jour des communes,
+à *condition cependant de conserver dans la base métier la date de validité du code Insee utilisé*.
 Ce référentiel peut être généré à partir des informations du COG publiées par l'Insee
 et peut être, jusqu'à un certain point, géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
 Ce référentiel est mis à disposition sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
 permettant de géocoder un ancien code dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
-
-## Usage du référentiel
-Pour pouvoir utiliser le référentiel, il est nécessaire de connaître dans la base métier la date de validité du code Insee utilisé.
 
 ## Limites du référentiel
 **Attention**, les limites suivantes doivent être prises en compte :
