@@ -27,7 +27,7 @@ Les propriétés suivantes sont fournies:
 De plus, chaque objet est identifié dans la propriété `id`
 qui est la concaténation de la propriété `type`, de `cinsee`, du caratère `@` et de la propriété `ddebut`.
 
-Il peut être visualisé par exemple avec QGis.
+Le fichier peut être visualisé par exemple avec QGis.
 
 Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
 
