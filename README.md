@@ -23,7 +23,7 @@ Or, sur le fond, le code Insee d'une commune périmée, par exemple fusionnée,
 reste un localisant à condition de disposer du référentiel adhoc.
 De plus, il peut être dans certains cas préférable dans une base de conserver un code Insee périmé
 car le géoréférencement peut être plus précis et peut redevenir valide en cas de rétablissement.
-La conservation du code périmé dans la base évite ainsi des erreurs de géoréférencement.
+La conservation du code périmé dans la base évite ainsi des erreurs ou des approximation de géoréférencement.
 
 La proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
@@ -34,8 +34,9 @@ l'information ou pour la croiser avec un référentiel à jour des communes,
 Ce référentiel peut être généré à partir des informations du COG publiées par l'Insee
 et peut être, jusqu'à un certain point, géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-Ce référentiel est mis à disposition sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
-permettant de géocoder un ancien code dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
+Ce référentiel permettant de géocoder un ancien code est mis à disposition
+sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
+dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
 ## Limites du référentiel
