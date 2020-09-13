@@ -1,0 +1,59 @@
+title: usage du référentiel historique
+conclusion:
+  - utilité de disposer d'un fichier des évolutions
+  - possibilité d'appliquer des évols métier simples à condition de distinguer les 4 cas d'usage
+contents:
+  3typesDUsage:
+    quanti:
+      title: une valeur quantitative est affectée à chaque commune définie par un code Insee (COMS)
+      ex: nbre de permis de construire attribués dans une commune
+    quali:
+      title: une valeur qualitative est affectée à chaque commune définie par un code Insee (COMS)
+      ex: réglementation applicable au territoire d'une commune, ex PPR
+    locPoint:
+      title: un objet ponctuel ou petit est localisé par le code Insee (COMS) de la commune dans lequel il se situe
+      ex: localisation d'une borne de recharge
+    locSurf:
+      title: un objet surfacique est localisé par la liste des codes Insee (COMS) des communes qu'il intersecte
+      ex: localisation d'une ZNIEFF
+  casBasiquesDEvolution:
+    fusion: une commune fusionne dans une autre
+    scission: une commune se scinde pour en créer une autre
+  priseEnCompteEvolutionParMétier:
+    quanti:
+      fusion:
+        logique: une valeur d'agrégat (définie par le métier) est affectée à la nouvelle commune
+        ex: somme des nbres de permis dans les communes fusionnées
+      scission:
+        logique:
+          - soit l'ancienne valeur est répartie selon une règle métier
+          - soit les nlles communes prennent une valeur nulle
+        ex:
+          - répartition du nbre de permis en fonction du nbre d'habitants ou de la surface
+          - ou affectation de tous les permis à la commune principale
+    quali:
+      fusion:
+        logique:
+          - soit le métier définit au cas par cas la valeur à affecter à la nouvelle commune en fonction des anciennes
+          - soit le métier définit une règle générique métier, par ex. si une commune concernée alors fusion concernée
+          - soit application d'une règle générique ne dépendant pas du métier, par ex affectation de la valeur de la crat
+      scission:
+        logique: l'ancienne valeur s'applique aux nouvelles communes
+    locPoint:
+      fusion:
+        logique: l'objet qui était localisé dans une des 2 communes fusionnées est localisé dans la nouvelle commune
+      scission:
+        logique:
+          - soit un test au cas par cas est effectué
+          - soit simplif on affecte à la commune de référence
+    locSurf:
+      fusion:
+        logique: l'objet qui intersectait une des 2 communes fusionnées intersecte la nouvelle commune
+      scission:
+        logique:
+          - soit un test au cas par cas est effectué
+          - soit simplif on considère que l'objet intersecte toutes les communes
+infoEvolutions:
+  - utilité d'une table d'évolutions
+  - fusion - date - ca - cb - commune ca fusionne dans commune cb à cette date
+  - scission - date - ca - cb - commune ca créée issue de la commune cb à cette date
