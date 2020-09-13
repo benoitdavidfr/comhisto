@@ -34,7 +34,7 @@ l'information ou pour la croiser avec un référentiel à jour des communes,
 Ce référentiel peut être généré à partir des informations du COG publiées par l'Insee
 et peut être, jusqu'à un certain point, géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-Ce référentiel permettant de géocoder un ancien code est mis à disposition
+Ce référentiel, permettant de géocoder un ancien code, est mis à disposition
 sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
 dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
@@ -51,7 +51,7 @@ Il est [documenté plus précisément ici](export/README.md).
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 
-De plus, attention, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
+De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
 La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
 
