@@ -21,6 +21,8 @@ doc: |
   La seconde phase consiste à définir toutes les versions à partir des éléments définis dans la 1ère phase.
 
 journal: |
+  13/9/2020:
+    - modif association voronoi à l'élément
   12/9/2020:
     - ajout propriétés à comhistog3
     - génération déléguée propre
@@ -72,6 +74,18 @@ class PgSqlSA extends PgSql { // Extension de PgSql pour simplifier l'appel des 
     //echo "sqlDansBuildVoronoi: $sql\n";
     $tuple = self::getTuples($sql)[0]; // je sais que le résultat contient un n-uplet
     return json_decode($tuple['st_asgeojson'], true);
+  }
+  
+  static function pointInPolygon(array $point, array $polygon): bool {
+    //boolean ST_Within(geometry A, geometry B);
+    $sql = 'select ST_Within('
+      ."ST_GeomFromGeoJSON('".json_encode($point)."'),"
+      ."ST_GeomFromGeoJSON('".json_encode($polygon)."')"
+    .")";
+    //echo "pointInPolygon: $sql\n";
+    $tuple = self::getTuples($sql)[0]; // je sais que le résultat contient un n-uplet
+    //print_r($tuple);
+    return ($tuple['st_within'] == 't');
   }
 };
 
@@ -160,10 +174,10 @@ class EltSet { // Ensemble d'éléments
     return $elts;
   }
 
-  function ajout(self $b): void { // $this += $b 
+  /*function ajout(self $b): void { // $this += $b 
     $this->set = array_merge($this->set, $b->set);
     ksort($this->set);
-  }
+  }*/
 };
 
 // Historique des codes Insee
@@ -383,10 +397,10 @@ class Version {
     $elts = $this->eltsAvecErat();
     if (count($elts) == 1) {
       $elt = $elts[0];
-      $geomsql = "geom from elt where cinsee='$elt'";
+      $geomsql = "geom from elit where cinsee='$elt'";
     }
     else {
-      $geomsql = "ST_Union(geom) from elt where cinsee in ('".implode("','", $elts)."')";
+      $geomsql = "ST_Union(geom) from elit where cinsee in ('".implode("','", $elts)."')";
     }
     $type = $this->type();
     $cinsee = $this->cinsee;
@@ -468,9 +482,9 @@ class Version {
 Histo::load('histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
-class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
+class CEntElts { // couple (eadmin (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
   const ONLY_SHOW_SQL = false; // true <=> les reqêtes SQL de création d'elts sont affichées mais pas exécutées
-  protected $ent; // entité (coms, erat, ecomp) définie dans COG2020 identifiée par le type et le code Insee
+  protected $ent; // eadmin (coms, erat, ecomp) définie dans COG2020 identifiée par le type et le code Insee
   protected $eltSet; // ensemble d'élts, sous la forme d'un EltSet
   
   function __construct(string $ent, EltSet $eltSet) {
@@ -493,13 +507,13 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
   
   static function createTable(): void {
     if (self::ONLY_SHOW_SQL) return;
-    PgSql::query("drop table if exists elt");
-    PgSql::query("create table elt(
+    PgSql::query("drop table if exists elit");
+    PgSql::query("create table elit(
       cinsee char(5) not null primary key, -- code Insee
       geom geometry -- géométrie Polygon|MultiPolygon 4326
     )");
     $date_atom = date(DATE_ATOM);
-    PgSql::query("comment on table elt is 'couche des éléments générée le $date_atom'");
+    PgSql::query("comment on table elit is 'couche des éléments intemporels générée le $date_atom'");
   }
   
   // enregistre les éléments dans la table des éléments
@@ -507,7 +521,7 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
     $eid = $this->ent;
     if ($this->eltSet->count() == 1) {
       $elt = $this->eltSet->elts()[0];
-      $sql = "insert into elt(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
+      $sql = "insert into elit(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
       try {
         if (self::ONLY_SHOW_SQL)
           echo "sql=$sql\n";
@@ -535,10 +549,10 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
         echo Yaml::dump($yaml, 4, 2);
         die("Erreur storeElts() sur $eid, nbre incorrect de polygones\n");
       }
-      $elts = $this->eltSet->elts();
+      //$elts = $this->eltSet->elts();
       foreach ($voronoiPolygons['geometries'] as $no => $voronoiPolygon) {
-        $elt = $elts[$no];
-        $sql = "insert into elt(cinsee, geom) "
+        $elt = $this->eltCorrPolygon($voronoiPolygon);
+        $sql = "insert into elit(cinsee, geom) "
           ."select '$elt', ST_Intersection("
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
@@ -556,6 +570,16 @@ class CEntElts { // couple (entité (coms, erat, ecomp) définie dans COG2020, �
         }
       }
     }
+  }
+  
+  // recherche de l'élément dont le chef-lieu est dans le polygone
+  function eltCorrPolygon(array $polygon): string {
+    foreach ($this->eltSet->elts() as $elt) {
+      $point = Histo::get($elt)->chefLieu();
+      if (PgSqlSA::pointInPolygon(['type'=> 'Point', 'coordinates'=> $point], $polygon))
+        return $elt;
+    }
+    die("Aucun $elt pour le polygone ".json_encode($polygon));
   }
   
   function eltMPoints(): array { // Retourne un MultiPoint GeoJSON avec un point par élément
@@ -665,7 +689,7 @@ PgSql::query("create type StatutEntite AS enum (
   'ARDM'  -- arrondissement municipal
 )");
 PgSql::query("create table comhistog3(
-  id char(17) not null primary key, -- concaténation de type, cinsee, '@' et debut
+  id char(17) not null primary key, -- concaténation de type, cinsee, '@' et ddebut
   type char(1) not null, -- 's' ou 'r'
   cinsee char(5) not null, -- code Insee
   ddebut char(10) not null, -- date de création de la version dans format YYYY-MM-DD
