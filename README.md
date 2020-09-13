@@ -1,51 +1,62 @@
 # Référentiel communal historique (ComHisto)
-### Utilisation du code INSEE des communes comme référentiel pivot
+### Utilisation du code Insee des communes comme référentiel pivot
 
 ## Objectif de ce projet
-L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code INSEE des communes.
+L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
 
-De nombreuses bases de données, par exemple des bases de décisions administratives, utilisent le code INSEE des communes
-pour localiser leur contenu, c'est à dire dans l'exemple chaque décision administrative.
+De nombreuses bases de données, appelées par la suite métier, par exemple des bases de décisions administratives,
+utilisent le code Insee des communes pour géoréférencer leur contenu, c'est à dire, dans l'exemple, chaque décision administrative.
 
-Or, ces codes INSEE évoluent, notamment en raison de la volonté de réduire le nombre de communes,
+Or, ces codes Insee évoluent, notamment en raison de la volonté de réduire le nombre de communes,
 par fusion de communes et par création de communes nouvelles.
-Pour en tenir compte, ces codes devraient donc être modifiés dans la base.
+Pour en tenir compte, ces codes devraient donc être modifiés dans les bases métier.
 Cependant ces modifications ne sont généralement pas effectuées
-et en conséquence les codes INSEE ainsi contenus dans les bases perdent leur signification
+et en conséquence les codes Insee ainsi contenus dans ces bases perdent leur signification
 car ils ne peuvent plus être croisés
-avec un référentiel à jour des communes, comme [celui de l'INSEE](https://www.insee.fr/fr/information/2560452),
+avec un référentiel à jour des communes,
+comme [le code officiel géographique (COG) de l'Insee](https://www.insee.fr/fr/information/2560452),
 ou une base géographique IGN,
 comme [Admin-Express](https://geoservices.ign.fr/documentation/diffusion/telechargement-donnees-libres.html#admin-express).
-Finalement, ils ne remplissent plus leur fonction de localisant.
+Finalement, ils ne remplissent plus leur fonction de géoréférencement.
 
-Or, sur le fond, le code INSEE d'une commune périmée, par exemple fusionnée,
+Or, sur le fond, le code Insee d'une commune périmée, par exemple fusionnée,
 reste un localisant à condition de disposer du référentiel adhoc.
-De plus, il peut être dans certains cas préférable dans une base de conserver un code INSEE périmé
+De plus, il peut être dans certains cas préférable dans une base de conserver un code Insee périmé
 car le géoréférencement peut être plus précis et parfois en cas de rétablissement il redevient valide.
 La conservation du code périmé dans la base évite ainsi des erreurs de localisation.
 
 La proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
 et associant à chacun les versions successives permettant de retrouver l'état de l'entité à une date donnée.  
-Ainsi les codes INSEE intégrés un jour dans une base restent valables et peuvent être utilisés par exemple pour géocoder
+Ainsi les codes Insee intégrés un jour dans une base restent valables et peuvent être utilisés par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes.
-Ce référentiel peut être généré à partir des informations du COG publiées par l'INSEE
-et peut être partiellement géocodé à partir des informations d'Admin-Express publiées par l'IGN.
+Ce référentiel peut être généré à partir des informations du COG publiées par l'Insee
+et peut être, jusqu'à un certain point, géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
-Ce référentiel sera mis à disposition sous la forme d'un fichier SIG permettant de géocoder un ancien code
-dont une [première version expérimentale est disponible ici (6,4 Mo)](export/comhistog3.7z).
+Ce référentiel est mis à disposition sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
+permettant de géocoder un ancien code dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
+Il est [documenté plus précisément ici](export/README.md).
 
-## Limites
-Plusieurs limites:
+## Usage du référentiel
+Pour pouvoir utiliser le référentiel, il est nécessaire de connaître dans la base métier la date de validité du code Insee utilisé.
 
-- simplification
-- généralisation
-- non prise en compte des modifications de la géométrie des limites,
+## Limites du référentiel
+**Attention**, les limites suivantes doivent être prises en compte :
 
-La suite de ce document détaille les principes retenus pour définir ce nouveau référentiel.
+- Des simplifications sont adoptées pour assimiler à des fusions les 6 dissolutions et à des scissions les 6 créations de commune
+  à partir d'autres communes.
+- la géométrie des limites est simplifiée
+  en utilisant l'[algorithme de Douglas et Peucker](https://fr.wikipedia.org/wiki/Algorithme_de_Douglas-Peucker)
+  avec une résolution de 10**-3 degrés soit environ 100 mètres.
+- certaines limites sont inconnues et approximées en utilisant
+  une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020.
+- les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 
-Attention, la production de ce référentiel est en cours et les résultats ne sont pas disponibles qu'à titre expérimental.
+De plus, attention, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
+La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
+
+# Démarche de construction du référentiel
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
 l'historique de chaque code Insee sous la forme de versions datées pour chaque code Insee
@@ -61,15 +72,36 @@ et corrigé de quelques erreurs manifestes.
 
 Cette étape est [documentée plus en détail ici](insee/README.md).
 
-## 2ème étape - organisation des entités versionnées en zones
+## 2ème étape - construire des éléments administratifs intemporels (elits)
 On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
 Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
-La seconde étape consiste à faire correspondre à chaque version d'entité une zone géographique
-et à déduire des relations entre versions des relations d'égalité ou d'inclusion entre ces zones.
+La seconde étape consiste à :
 
-La première idée est d'identifier les entités versionnées par leur code Insee suffixé par le caractère '@'
-et la date de création de la version.
+- appliquer des simplifications pour assimiler à des fusions les 6 dissolutions et à des scissions les 6 créations de commune
+  à partir d'autres communes,
+- faire correspondre à chaque version d'entité un ensemble d'éléments administratifs intemporels (elits).
+  Ces éléments correspondent généralement au territoire associé au code Insee au 1/1/1943,
+  sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
+  dans ce cas l'élit est le territoire le plus petit après ces scissions.
+
+## 3ème étape - géoréférencement des entités valides à partir des données IGN 
+Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
+ou à une entité rattachée valides au 1/1/2020.
+
+On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
+
+## 4ème étape - localisation des chefs-lieux des entités périmées 
+On complète les chefs-lieux par ceux des entités périmées par scrapping de Wikipédia et saisie interactive dans le Géoportail.
+
+## 5ème étape - croisement des données Insee avec les données IGN
+Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
+Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
+Sinon, la géométrie de l'entité est découpée par l'algorithme de Voronoï en elits
+en se fondant sur les chefs-lieux asssociés aux élits.
+Puis, chaque version étant définie par un ensemsemble d'élits, sa géométrie peut être reconstruite.
+
+Chaque version d'entité est identifiée par son code Insee suffixé par le caractère '@' et la date de création de la version.
 
 Cependant, cela n'est pas suffisant car certains codes Insee correspondent à une date donnée à 2 entités distinctes.
 Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
@@ -79,49 +111,5 @@ et 'r' pour une entité rattachée.
 Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2016-01-01`
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
-Les relations entre entités versionnées permettent de définir des zones, qui correspondent aux entités versionnées
-ayant même extension géographique et permettent aussi de définir la relation d'inclusion entre elles.
-Par exemple, on peut déduire que la zone associée à la commune nouvelle est composée des zones correspond à ses communes déléguées.
-
-Une zone correspondant a plusieurs versions, on choisit pour identifier une zone l'identifiant de la version la plus ancienne.
-
-Pour reprendre l'exemple d'Arboys en Bugey, la zone `s01015@2016-01-01` correspond au territoire de la commune nouvelle,
-elle est composée de chacune des 2 communes déléguées.
-La commune déléguée d'Arbignieu correspond à une zone identifiée par `s01015@1943-01-01` et qui correspond aussi à `r01015@2016-01-01`.
-L'autre zone correspond à l'autre commune déléguée, celle de Saint-Bois, et la zone est identifiée par `s01340@1943-01-01`
-qui correspond aussi à `r01340@2016-01-01`.  
-On exprime l'existence de ces 3 zones par l'extrait suivant en Yaml :
-
-    s01015@2016-01-01:
-      contains:
-        s01015@1943-01-01:
-          sameAs:
-            - r01015@2016-01-01
-        s01340@1943-01-01:
-          sameAs:
-            - r01340@2016-01-01
-
-Une première version du fichier complet des zones est disponible dans [zones.yaml](zones/zones.yaml).
-
-## 3ème étape - géoréférencement des entités valides à partir des données IGN 
-Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
-ou à une entité rattachée valide au 1/1/2020.
-
-De même, les versions précédentes d'Admin-Express ou de GéoFLA permettent de géoréférencer des zones correspondant à une commune
-périmée, par exemple fusionnée dans une autre.
-
-On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
-
-## 4ème étape -  géoréférencement approché des entités périmées
-Il existe un certain nombre d'entités périmées pour lesquelles les données dont nous disposons ne permettent pas de définir
-leur géoréférencement.
-L'idée est dans ce cas de définir un géoréférencement approché en partant de la localisation ponctuelle des chefs-lieux
-et en construisant des polygones en utilisant l'[algorithme de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF).
-
-On aboutit à la fin de cette étape à un fichier des zones géoréférencées qui peut être mis à disposition comme une couche SIG
-par exemple en Shape et en GeoJSON.
-
-## 5ème étape - publication du référentiel
-Enfin, outre les fichiers Yaml et SIG, ce référentiel pourra être publié sous la forme d'une API.
-
-
+## 6ème étape - export du référentiel
+Enfin, le référentiel est exporté sous la forme d'un fichier GeoJSON zippé et mis à disposition.
