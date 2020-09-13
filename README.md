@@ -53,6 +53,13 @@ Il est [documenté plus précisément ici](export/README.md).
 
 De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
+Il existe des erreurs connues:
+
+- la description de la ville de Lyon est erronée en raison de la mauvaise prise en compte de la fusion
+  de [Saint-Rambert-l'Île-Barbe](https://fr.wikipedia.org/wiki/Saint-Rambert-l%27%C3%8Ele-Barbe)
+  et de la scission des 5ème et 7ème arrrondissements,
+- absence des communes de St Barth et de St Martin.
+
 La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
 
 # Démarche de construction du référentiel

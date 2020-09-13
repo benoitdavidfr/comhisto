@@ -33,7 +33,7 @@ Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
 
 - n'obtenir que les entités valides : `dfin is null`
 - n'obtenir que les BASE|ASSO|NOUV valides : `dfin is null and type='s'`
-- n'obtenir que les entités à une date donnée, par exemple 1/1/1981 :
+- n'obtenir que les entités à une date donnée, par exemple au 1/1/1981 :
   `("ddebut" <= '1981-01-01') and (("dfin" is null) or ("dfin" > '1981-01-01'))`
 - n'obtenir que les entités au 1/1/1943 : `"ddebut" = '1943-01-01'`
 
