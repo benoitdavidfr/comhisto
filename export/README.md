@@ -21,8 +21,19 @@ Les propriétés suivantes sont fournies:
   - `ARDM` - arrondissement municipal
 - `crat` - pour une entité rattachée (COMA, COMD, ARDM) code Insee de la commune de rattachement, sinon null ;
 - `erats` - pour une commune de rattachement (ASSO, NOUV) liste JSON/Yaml des codes Insee des entités rattachées, sinon liste vide ;
-- `elits` - liste des éléments intemporels propres ou null ssi il n'y en a pas ;
+- `elits` - liste des éléments intemporels propres, cad associés à l'entité sans ses erats, ou null ssi il n'y en a pas ;
 - `dnom` - nom
 
 De plus, chaque objet est identifié dans la propriété `id`
 qui est la concaténation de la propriété `type`, de `cinsee`, du caratère `@` et de la propriété `ddebut`.
+
+Il peut être visualisé par exemple avec QGis.
+
+Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
+
+- n'obtenir que les entités valides : `dfin is null`
+- n'obtenir que les BASE|ASSO|NOUV valides : `dfin is null and type='s'`
+- n'obtenir que les entités à une date donnée, par exemple 1/1/1981 :
+  `("ddebut" <= '1981-01-01') and (("dfin" is null) or ("dfin" > '1981-01-01'))`
+- n'obtenir que les entités au 1/1/1943 : `"ddebut" = '1943-01-01'`
+
