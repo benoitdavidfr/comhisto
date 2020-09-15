@@ -10,6 +10,10 @@ doc: |
       en se fondant sur les chefs-lieux asssociés aux élits
   Enfin, la table comhistog3 est produite pour chaque version avec comme géométrie celle de l'union des elits correspondants
 journal: |
+  15/9/2020:
+    - ajout dans properat.php de corrections manuelles de histelitp.yaml pour
+      - préciser que Marseille et Paris n'ont aucun elit en propre qui sont dans les ardm
+      - restructurer Lyon et son 5ème ardm pour préciser que 69232 fusionne dans le 5ème et non dans Lyon puis se retrouve dans le 9ème
   12/9/2020:
     - recopie dans comhistog3 de propriétés issues de histelitp.yaml
     - génération des com. déléguées propres

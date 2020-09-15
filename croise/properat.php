@@ -1,9 +1,13 @@
 <?php
 /*PhpDoc:
 name: properat.php
-title: properat.php - propage les erat dans les changements de nom
+title: properat.php - propage les erat dans les changements de nom + corrections manuelles
 doc: |
 journal: |
+  15/9/2020:
+    - ajout de corrections manuelles pour
+      - préciser que Marseille et Paris n'ont aucun elit en propre qui sont dans les ardm
+      - restructurer Lyon et son 5ème ardm pour préciser que 69232 fusionne dans le 5ème et non dans Lyon
   6/9/2020:
     - création, la vérif fonctionne
 */
@@ -109,11 +113,71 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
   $yaml['contents'][$cinsee] = $histo->asArray();
 }
 
-// Correction manuelle
+// Corrections manuelles
 
 // L'absorption de 33338 (Prignac) s'effectue dans la commune nouvelle 33055 (Blaignan-Prignac) et non dans la c. déléguée 33055
 $yaml['contents'][33055]['2019-01-01']['elits'] = [33055];
 $yaml['contents'][33055]['2019-01-01']['elitsNonDélégués'] = [33338];
+
+// Marseille n'a aucun elit en propre. Elle est uniquement composée de ses ardm
+$yaml['contents'][13055]['1943-01-01']['elits'] = [];
+
+// Paris n'a aucun elit en propre. Il est uniquement composée de ses ardm
+$yaml['contents'][75056]['1943-01-01']['elits'] = [];
+
+// Redéfinition de plusieurs histo pour préciser que 69232 fusionne dans 69385 (Lyon 5ème) et non dans 69123 (Lyon)
+// restructuration complète de Lyon
+$yaml['contents'][69123] = [
+  "1943-01-01" => [
+    "etat" => ["name" => "Lyon", "statut" => "COMS"],
+    "erat" => ["aPourArdm" => [69381,69382,69383,69384,69385,69386,69387]],
+    "elits" => [],
+  ],
+  "1959-02-08" => [
+    "evts" => ["estModifiéeIndirectementPar" => [69387]], // Le 7ème se scinde pour créer le 8ème
+    "etat" => ["name" => "Lyon", "statut" => "COMS"],
+    "erat" => ["aPourArdm" => [69381,69382,69383,69384,69385,69386,69387,69388]],
+    "elits" => [],
+  ],
+  "1963-08-07" => [
+    "evts" => ["estModifiéeIndirectementPar" => [69385]], // Le 5ème absorbe 69232
+    "etat" => ["name" => "Lyon", "statut" => "COMS"],
+    "erat" => ["aPourArdm" => [69381,69382,69383,69384,69385,69386,69387,69388]],
+    "elits" => [],
+  ],
+  "1964-08-12" => [
+    "evts" => ["estModifiéeIndirectementPar" => [69385]], // Le 5ème se scinde pour créer le 9ème
+    "etat" => ["name" => "Lyon", "statut" => "COMS"],
+    "erat" => ["aPourArdm" => [69381,69382,69383,69384,69385,69386,69387,69388,69389]],
+    "elits" => [],
+  ],
+];
+
+// 69232 (Saint-Rambert-l'Île-Barbe) fusionne dans 69385 (le 5ème ardm) et non dans 69123 (Lyon)
+$yaml['contents'][69232]['1963-08-07']['evts']['fusionneDans'] = 69385;
+
+// restructuration complète du 5ème ardm de Lyon
+// Note l'elit 69385 ne correspond à aucune version, c'est une exception
+$yaml['contents'][69385] = [
+  "1943-01-01" => [
+    "etat" => ["name" => "Lyon 5e Arrondissement", "statut" => "ARDM", "crat" => 69123],
+    "elits" => [69385,69389],
+  ],
+  "1963-08-07" => [
+    "evts" => ["absorbe" => [69232]], // Le 5ème absorbe 69232
+    "etat" => ["name" => "Lyon 5e Arrondissement", "statut" => "ARDM", "crat" => 69123],
+    "elits" => [69232,69385,69389],
+  ],
+  "1964-08-12" => [
+    "evts" => ["seScindePourCréer" => [69389]], // Le 5ème se scinde pour créer le 9ème qui contient 69232
+    "etat" => ["name" => "Lyon 5e Arrondissement", "statut" => "ARDM", "crat" => 69123],
+    "elits" => [69385],
+  ],
+];
+
+// Le 9ème contient 69232
+// Note l'elit 69389 ne correspond à aucune version, c'est une exception
+$yaml['contents'][69389]['1964-08-12']['elits'] = [69232,69389];
 
 
 if (1) { // Vérification
@@ -134,17 +198,21 @@ if (1) { // Vérification
       $allElts[$elt] = "$cinsee@2020";
     }
   }
+  // vérification que tt code Insee sauf exceptions correspond à un élit
   foreach (Histo::$all as $cinsee => $histo) {
+    if (in_array($cinsee, [13055,69123,75056])) // les codes de PLM ne sont pas des elits
+      continue;
+    if (in_array($cinsee, [97123,97127])) // Il est normal que StBarth et StMartin ne soient plus valides
+      continue;
+    
     $v0 = array_values($histo->versions())[0];
     if (isset($v0->evts()['avaitPourCode'])) {
       //echo "$cinsee avaitPourCode ",$v0->evts()['avaitPourCode'],"\n";
       continue;
     }
     if (!isset($allElts[$cinsee])) {
-      if (!in_array($cinsee, ['97123','97127'])) {
-        echo "Erreur, l'élément $cinsee n'appartient à aucune version valide\n";
-        $verif = false;
-      }
+      echo "Erreur, l'élément $cinsee n'appartient à aucune version valide\n";
+      $verif = false;
     }
   }
   if (!$verif) {

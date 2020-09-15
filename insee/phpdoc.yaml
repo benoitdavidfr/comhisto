@@ -5,10 +5,7 @@ doc: |
   Correction des incohérences constatées et de quelques erreurs flagrantes.
   Ajustement à la marge au périmètre choisi (a priori Métropole + DOM, par la suite évent. extension à StBarth, StMartin, StP&M)
   
-  Pbs détectés:
-    - il faut améliorer la cohérence du fichier histo
-    - la notion de rétablissement n'est pas claire, elle parfois semble être utilisée pour une opération de scission
-      
+  Il faut corriger la description de Lyon dans histo.php
 journal: |
   24-26/7/2020:
     - définition d'un nouveau modèle pour histo.yaml défini dans nvmodel.yaml

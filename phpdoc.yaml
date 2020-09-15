@@ -43,9 +43,9 @@ doc: |
       - produire comhistog3 pour chaque version avec comme géométrie celle de l'union des elits correspondants
     6ème étape(export):
       - exporter en GeoJSON la table comhistog3 et la publier
-  A FAIRE:
-    - écrire la doc dans github
 journal: |
+  15/9/2020:
+    - gestion du cas de Lyon
   12/9/2020:
     - recopie dans comhistog3 de propriétés issues de histelitp.yaml
     - génération des com. déléguées propres

@@ -21,6 +21,8 @@ doc: |
   La seconde phase consiste à définir toutes les versions à partir des éléments définis dans la 1ère phase.
 
 journal: |
+  15/9/2020:
+    - exécution après ajout manuel de Lyon
   13/9/2020:
     - modif association voronoi à l'élément
   12/9/2020:
@@ -103,7 +105,7 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = false; // si true on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
   echo "Attention: Les élts ne sont pas générés\n";
