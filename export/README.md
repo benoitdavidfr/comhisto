@@ -1,6 +1,7 @@
-# Documentation du fichier comhistog3.geojson
+# Documentation des fichiers comhistog3.geojson et elit.geojson
+## Documentation du fichier comhistog3.geojson
 
-Les objets (features) du fichier correspondent aux versions successives des entités du référentiel.  
+Les objets (features) du fichier comhistog3.geojson correspondent aux versions successives des entités du référentiel.  
 Les propriétés suivantes sont fournies:
 
 - `type` - soit le caractère `'r'` s'il s'agit d'entité rattachée (commune associée, commune déléguée ou arrondissement municipal),
@@ -37,3 +38,8 @@ Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
   `("ddebut" <= '1981-01-01') and (("dfin" is null) or ("dfin" > '1981-01-01'))`
 - n'obtenir que les entités au 1/1/1943 : `"ddebut" = '1943-01-01'`
 
+## Documentation du fichier elit.geojson
+
+Les objets du fichier elit.geojson correspondent aux éléments intemporels au 1/1/2020.
+Ils constituent les versions successives des entités du référentiel.
+Leur seule propriété est leur identifiant qui est un code Insee.

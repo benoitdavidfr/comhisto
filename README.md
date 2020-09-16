@@ -87,7 +87,8 @@ La seconde étape consiste à :
 - faire correspondre à chaque version d'entité un ensemble d'éléments administratifs intemporels (elits).
   Ces éléments correspondent généralement au territoire associé au code Insee au 1/1/1943,
   sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
-  dans ce cas l'élit est le territoire le plus petit après ces scissions.
+  dans ce cas l'élit est le territoire le plus petit après ces scissions.  
+  Le fichier des elits [est disponible ici](export/elit.7z).
 
 ## 3ème étape - géoréférencement des entités valides à partir des données IGN 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
@@ -116,4 +117,5 @@ Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s0
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
 ## 6ème étape - export du référentiel
-Enfin, le référentiel est exporté sous la forme d'un fichier GeoJSON zippé et mis à disposition.
+Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
+et décrit [ici](export/README.md).
