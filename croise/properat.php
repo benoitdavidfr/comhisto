@@ -119,11 +119,14 @@ foreach ($yaml['contents'] as $cinsee => $histo) {
 $yaml['contents'][33055]['2019-01-01']['elits'] = [33055];
 $yaml['contents'][33055]['2019-01-01']['elitsNonDélégués'] = [33338];
 
+
 // Marseille n'a aucun elit en propre. Elle est uniquement composée de ses ardm
 $yaml['contents'][13055]['1943-01-01']['elits'] = [];
 
+
 // Paris n'a aucun elit en propre. Il est uniquement composée de ses ardm
 $yaml['contents'][75056]['1943-01-01']['elits'] = [];
+
 
 // Redéfinition de plusieurs histo pour préciser que 69232 fusionne dans 69385 (Lyon 5ème) et non dans 69123 (Lyon)
 // restructuration complète de Lyon
@@ -178,6 +181,20 @@ $yaml['contents'][69385] = [
 // Le 9ème contient 69232
 // Note l'elit 69389 ne correspond à aucune version, c'est une exception
 $yaml['contents'][69389]['1964-08-12']['elits'] = [69232,69389];
+
+
+// L'INSEE indique que 14617 (Sainte-Marie-aux-Anglais) a été absorbée au 1/1/2017 par 14431 (Mézidon Vallée d'Auge).
+// La carte montre que ce chef-lieu est dans r14422 (Le Mesnil-Mauger), une des COMD de 14431
+// Je considère donc que 14617 fusionne dans 14422 et non dans 14431
+// Cela a pour conséquence que l'elit 14617 se retrouve dans 14422
+// Il faudrait faire cette correction avant la construction des elits
+$yaml['contents'][14617]['2017-01-01']['evts']['fusionneDans'] = 14422; // et non 14431
+$yaml['contents'][14431]['2017-01-01']['evts']['absorbe'] = [14233, 14567]; // et non [14233, 14567, 14617]
+$yaml['contents'][14431]['2017-01-01']['elits'] = [14133, 14233, 14431, 14567]; // et non [14133, 14233, 14431, 14567, 14617]
+$yaml['contents'][14422]['2017-01-01']['evts']['absorbe'] = [14617]; // en plus de { devientDéléguéeDe: 14431 }
+$yaml['contents'][14422]['2017-01-01']['elits'] = [14422, 14617]; // et non [14422]
+
+
 
 
 if (1) { // Vérification
