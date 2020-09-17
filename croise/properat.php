@@ -4,6 +4,8 @@ name: properat.php
 title: properat.php - propage les erat dans les changements de nom + corrections manuelles
 doc: |
 journal: |
+  16-17/9/2020:
+    - ajout corrections manuelles pour traiter les elits de surface nulle
   15/9/2020:
     - ajout de corrections manuelles pour
       - préciser que Marseille et Paris n'ont aucun elit en propre qui sont dans les ardm
@@ -195,7 +197,33 @@ $yaml['contents'][14422]['2017-01-01']['evts']['absorbe'] = [14617]; // en plus 
 $yaml['contents'][14422]['2017-01-01']['elits'] = [14422, 14617]; // et non [14422]
 
 
-
+// L'INSEE indique que 14697 (Tôtes) fusionne dans 14654 (Saint-Pierre-en-Auge)
+// La carte et l'AE2020 montrent que ce chef-lieu est dans r14472, une COMD de 14654
+// Je considère donc que 14697 fusionne dans 14472
+// De même pour 14624 (Saint-Martin-de-Fresnay) qui fusionne dans 14472 et non 14654
+// De même pour 14295 (Garnetot) qui fusionne dans 14472 et non 14654
+// De même pour 14447 (Montpinçon) qui fusionne dans 14472 et non 14654
+// De même pour 14314 (Grandmesnil) qui fusionne dans 14472 et non 14654
+// De même pour 14010 (Ammeville) qui fusionne dans 14472 et non 14654
+// De même pour 14234 (Écots) qui fusionne dans 14472 et non 14654
+// De même pour 14363 (Lieury) qui fusionne dans 14472 et non 14654
+// De même pour 14067 (Berville) qui fusionne dans 14472 et non 14654
+$yaml['contents'][14697]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14624]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14295]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14447]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14314]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14010]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14234]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14363]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+$yaml['contents'][14067]['2017-01-01']['evts']['fusionneDans'] = 14472; // et non 14654
+unset($yaml['contents'][14654]['2017-01-01']['evts']['absorbe']);
+// et non [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697]
+$yaml['contents'][14654]['2017-01-01']['elits'] = [14654];
+// et non [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14654, 14697]
+$yaml['contents'][14472]['2017-01-01']['evts']['absorbe'] = [14010,14067,14234,14295,14314,14363,14447,14624,14697];
+// en plus de devientDéléguéeDe
+$yaml['contents'][14472]['2017-01-01']['elits'] = [14010,14067,14234,14295,14314,14363,14447,14472,14624,14697]; // et non [14472]
 
 if (1) { // Vérification
   // Dans les versions valides, chaque élt ne doit appartenir qu'à un et un seul eltsp propre
