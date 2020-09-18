@@ -115,4 +115,22 @@ class CEntElits {
     }
     return ['type'=> 'MultiPoint', 'coordinates'=> $points];
   }
+
+  function verifChefLieuDansEadmin(): void {
+    if ($this->eltSet->count() == 1)
+      return;
+    foreach ($this->eltSet->elts() as $elit) {
+      $histo = Histo::get($elit);
+      //echo "chefLieu->names=",implode(' / ', $histo->names()),"\n";
+      $point = ['type'=> 'Point', 'coordinates'=> $histo->chefLieu()];
+      $sql = "select ST_Within(ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($point)."'), 4326), geom) from eadming3 "
+        ."where eid='$this->ent'";
+      //echo "verifChefLieu: $sql\n";
+      $tuples = PgSql::getTuples($sql);
+      if (count($tuples) <> 1)
+        echo "Erreur $this->ent n'existe pas\n";
+      elseif ($tuples[0]['st_within'] <> 't')
+        echo "Erreur sur elit=$elit (",implode(' / ', $histo->names()),") / $this->ent\n";
+    }
+  }
 };

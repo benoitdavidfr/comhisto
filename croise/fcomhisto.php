@@ -92,43 +92,6 @@ if (!Params::GEN_ELTS)
 ChefLieu::load(__DIR__.'/../cheflieu');
 //print_r(ChefLieu::$all);
 
-class EltSet { // Ensemble d'éléments
-  protected $set; // [eelt => 1]
-  
-  function __construct(array $elts) { // création à partir d'une liste de chaines de codes Insee
-    $this->set = [];
-    foreach ($elts as $elt)
-      $this->set["e$elt"] = 1;
-    ksort($this->set);
-  }
-  
-  function __toString(): string { return implode('+', array_keys($this->set)); }
-  
-  /*function diff(self $b): self { // $this - b
-    $result = clone $this;
-    foreach (array_keys($b->set) as $elt)
-      unset($result->set[$elt]);
-    return $result;
-  }*/
-  
-  //function empty(): bool { return ($this->set==[]); }
-  
-  // nbre d'éléments dans l'ensemble
-  function count(): int { return count($this->set); }
-  
-  function elts(): array {
-    $elts = [];
-    foreach (array_keys($this->set) as $eelt)
-      $elts[] = substr($eelt, 1);
-    return $elts;
-  }
-
-  /*function ajout(self $b): void { // $this += $b 
-    $this->set = array_merge($this->set, $b->set);
-    ksort($this->set);
-  }*/
-};
-
 Histo::load('histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 

@@ -1,7 +1,7 @@
 <?php
 /*PhpDoc:
 name: histo.inc.php
-title: histo.inc.php - classes Histo et Version utilisées par fcomhisto.php
+title: histo.inc.php - classes Histo, Version et EltSet utilisées par fcomhisto.php
 doc: |
 journal: |
   18/9/2020:
@@ -89,6 +89,16 @@ class Histo {
     return $this->vvalide;
   }
 
+  // retourne la liste des noms
+  function names(): array {
+    $names = []; // [ nom => 1 ]
+    foreach ($this->versions as $dv => $version) {
+      if ($name = $version->etat()['name'] ?? null)
+        $names[$name] = 1;
+    }
+    return array_keys($names);
+  }
+  
   // retourne les coord. [lon,lat] du chef-lieu
   function chefLieu(): array {
     $cinsee = $this->cinsee;
@@ -99,12 +109,7 @@ class Histo {
       $geojson = json_decode($tuples[0]['st_asgeojson'], true);
       return $geojson['coordinates'];
     }
-    $names = []; // [ nom => 1 ]
-    foreach ($this->versions as $dv => $version) {
-      if ($name = $version->etat()['name'] ?? null)
-        $names[$name] = 1;
-    }
-    foreach (array_keys($names) as $name) {
+    foreach ($this->names() as $name) {
       try {
         return ChefLieu::chercheGeo($this->cinsee, $name);
       }
@@ -354,3 +359,41 @@ class Version {
     }
   }
 };
+
+class EltSet { // Ensemble d'éléments
+  protected $set; // [eelt => 1]
+  
+  function __construct(array $elts) { // création à partir d'une liste de chaines de codes Insee
+    $this->set = [];
+    foreach ($elts as $elt)
+      $this->set["e$elt"] = 1;
+    ksort($this->set);
+  }
+  
+  function __toString(): string { return implode('+', array_keys($this->set)); }
+  
+  /*function diff(self $b): self { // $this - b
+    $result = clone $this;
+    foreach (array_keys($b->set) as $elt)
+      unset($result->set[$elt]);
+    return $result;
+  }*/
+  
+  //function empty(): bool { return ($this->set==[]); }
+  
+  // nbre d'éléments dans l'ensemble
+  function count(): int { return count($this->set); }
+  
+  function elts(): array {
+    $elts = [];
+    foreach (array_keys($this->set) as $eelt)
+      $elts[] = substr($eelt, 1);
+    return $elts;
+  }
+
+  /*function ajout(self $b): void { // $this += $b 
+    $this->set = array_merge($this->set, $b->set);
+    ksort($this->set);
+  }*/
+};
+
