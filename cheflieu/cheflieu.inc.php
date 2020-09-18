@@ -1,12 +1,16 @@
 <?php
-// génération GeoJSON des chefs-lieux
-
-require_once __DIR__.'/../../../vendor/autoload.php';
+/*PhpDoc:
+name: cheflieu.inc.php
+title: cheflieu.inc.php - exploitation des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
+doc: |
+journal: |
+  18/9/2020:
+    - création
+*/
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-// stockage des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
 class ChefLieu {
   static $all = []; // [iddept => [id => ['names'=> [name], 'geo'=>[lon, lat]]]]
   
@@ -39,7 +43,7 @@ class ChefLieu {
     throw new Exception ("Chef-lieu $nom ($cinsee) NON trouvé");
   }
 
-  static function allAsGeoJSON(): array {
+  static function asGeoJsonFC(): array { // fabrication de la FeatureCollection GeoJSON
     $features = [];
     foreach (self::$all as $iddept => $chefslieuxdept) {
       foreach ($chefslieuxdept as $cheflieu) {
@@ -66,6 +70,3 @@ class ChefLieu {
     ];
   }
 };
-ChefLieu::load(__DIR__.'/../cheflieu');
-//print_r(ChefLieu::$all); die();
-echo json_encode(ChefLieu::allAsGeoJSON(), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),"\n";

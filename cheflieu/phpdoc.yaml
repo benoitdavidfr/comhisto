@@ -1,0 +1,10 @@
+title: comhisto/cheflieu - exploitation des chefs-lieux scrappés dans Wikipédia ou saisis dans le Géoportail 
+path: /yamldoc/pub/comhisto/cheflieu
+doc: |
+journal: |
+  18/9/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/croise/geojson.php
+phpIncludes:
+  - /yamldoc/pub/comhisto/croise/cheflieu.inc.php

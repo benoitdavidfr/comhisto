@@ -12,6 +12,8 @@ doc: |
   
   Il faudrait vérifier que les chef-lieux sont localisés dans les entités dans lesquelles ils fusionnent !
 journal: |
+  18/9/2020:
+    - restructuration du code de voronoi.php (renommé fcomhisto.php) en éclatant la déf. des classes dans différents fichiers
   16-17/9/2020:
     - ajout d'une méthode de contrôle qualité vérifiant notamment qu'aucune elit n'a une surface nulle
     - ajout dans properat.php des corrections manuelles pour traiter les elits de surface nulle
@@ -25,5 +27,9 @@ journal: |
     - reste erreur sur Lyon, StBarth et StMartin
 phpScripts:
   - /yamldoc/pub/comhisto/croise/properat.php
-  - /yamldoc/pub/comhisto/croise/voronoi.php
+  - /yamldoc/pub/comhisto/croise/verifcheflieu.php
+  - /yamldoc/pub/comhisto/croise/fcomhisto.php
 phpIncludes:
+  - /yamldoc/pub/comhisto/croise/histo.inc.php
+  - /yamldoc/pub/comhisto/croise/centelits.inc.php
+  - /yamldoc/pub/comhisto/croise/pgsqlsa.inc.php
