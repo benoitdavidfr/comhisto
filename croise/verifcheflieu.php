@@ -15,22 +15,22 @@ journal: |
   18/9/2020:
     - création
 */
-/* Sortie 18/9/2020 7:43 - 26 erreurs:
-Erreur sur elit=04044 (Castillon) / s04039
-Erreur sur elit=14262 (La Ferrière-au-Doyen) / r14061
-Erreur sur elit=14490 (Parfouru-l'Éclin) / r14143
-Erreur sur elit=14233 (Écajeul) / r14431
-Erreur sur elit=14567 (Saint-Crespin) / r14431
-Erreur sur elit=15193 (Saint-Julien-de-Jordanne) / s15113
-Erreur sur elit=16319 (Saint-Genis / Saint-Genis-de-Blanzac) / r16115
-Erreur sur elit=24049 (Born-de-Champs) / r24028
-Erreur sur elit=25593 (Vaux / Vaux-les-Prés) / s25147
-Erreur sur elit=28244 (Mervilliers) / r28199
-Erreur sur elit=38506 (Thuellin) / r38022
-Erreur sur elit=39416 (Petit-Villard) / c39331
-Erreur sur elit=42258 (Saint-Martin-en-Coailleux) / s42207
-Erreur sur elit=44177 (Sainte-Marie) / s44131
-Erreur sur elit=49146 (Les Gardes) / r49092
+/* Sortie 18/9/2020 7:43 - 26 erreurs à corriger:
+Erreur sur elit=04044 (Castillon) / s04039 - corrigé
+Erreur sur elit=14262 (La Ferrière-au-Doyen) / r14061 -> r14629 - corrigé
+Erreur sur elit=14490 (Parfouru-l'Éclin) / r14143 -> r14372 - corrigé
+Erreur sur elit=14233 (Écajeul) / r14431 -> 14422 - corrigé
+Erreur sur elit=14567 (Saint-Crespin) / r14431 -> 14422 - corrigé
+Erreur sur elit=15193 (Saint-Julien-de-Jordanne) / s15113 - déplacé
+Erreur sur elit=16319 (Saint-Genis / Saint-Genis-de-Blanzac) / r16115 - déplacé
+Erreur sur elit=24049 (Born-de-Champs) / r24028 -> r24497 - corrigé
+Erreur sur elit=25593 (Vaux / Vaux-les-Prés) / s25147 - corrigé
+Erreur sur elit=28244 (Mervilliers) / r28199 -> 28002 - corrigé
+Erreur sur elit=38506 (Thuellin) / r38022 -> r38541 - corrigé
+Erreur sur elit=39416 (Petit-Villard) / c39331 - corrigé
+Erreur sur elit=42258 (Saint-Martin-en-Coailleux) / s42207 - corrigé
+Erreur sur elit=44177 (Sainte-Marie) / s44131 - corrigé
+Erreur sur elit=49146 (Les Gardes) / r49092 -> r49281 - corrigé
 Erreur sur elit=49357 (Trèves-Cunault) / r49149
 Erreur sur elit=51385 (Moronvilliers) / s51440
 Erreur sur elit=52382 (Percey-le-Petit / Percey-sous-Montormentier) / r52382

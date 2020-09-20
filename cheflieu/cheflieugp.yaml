@@ -14,6 +14,12 @@ d04:
   Tanaron: { names: [Tanaron], geo: [6.264085, 44.193336] }
   Carniol: { names: [Carniol], geo: [5.598671, 43.977422] }
   Valsaintes: { names: [Valsaintes], geo: [5.607641, 43.964627] }
+  Castillon_(Alpes-de-Haute-Provence):
+    names: [Castillon]
+    notes:
+      - coordonnées modifiées dans QGis pour être dans s04039 (Castellane)
+      - il s'agit d'un chef-lieu englouti dans le lac de Castillon (voir https://fr.wikipedia.org/wiki/Barrage_de_Castillon)
+    geo: [6.530543131557761, 43.878902220789939]
 d05:
   Montéglin: {names: [Montéglin], geo: [5.835532, 44.313478]}
   Barret-le-Haut: {names: [Barret-le-Haut], geo: [5.738597, 44.28042]}
@@ -64,7 +70,7 @@ d14:
 d16:
   Saint-Christophe-de-Chalais: {names: [Saint-Christophe-de-Chalais], geo: [0.048072, 45.270153]}
   Cressac-Saint-Genis: { names: [Cressac, Cressac-Saint-Genis], geo: [0.011501, 45.446248] }
-  Saint-Genis-de-Blanzac: { names: [Saint-Genis, Saint-Genis-de-Blanzac], geo: [0.030175, 45.448685] }
+  Saint-Genis-de-Blanzac: { names: [Saint-Genis, Saint-Genis-de-Blanzac], geo: [0.030075, 45.447916 ] }
   S%C3%A9rignac_(Charente): { names: [Sérignac], geo: [0.031984, 45.263122] }
   Sainte-Marie_(Charente): { names: [Sainte-Marie], geo: [0.042209, 45.286644] }
 d20:
@@ -94,6 +100,7 @@ d25:
   Chaux-l%C3%A8s-Ch%C3%A2tillon: { names: [Chaux-lès-Châtillon], geo: [6.738632, 47.3198] }
   Neuvier: { names: [Neuvier], geo: [6.73713, 47.324134] }
   Courcelles-l%C3%A8s-Ch%C3%A2tillon: { names: [Courcelles-lès-Châtillon], geo: [6.715211, 47.309507] }
+  Vaux-les-Pr%C3%A9s: { names: [Vaux, Vaux-les-Prés], geo: [5.8839, 47.2369] }
 d26:
   '26132': {names: [La Fare], geo: [5.441795, 44.337257]}
   Bonneval-en-Diois: { names: [Bonneval-en-Diois], geo: [5.613583, 44.627494] }
@@ -169,12 +176,12 @@ d39:
 d42:
   Izieux: { names: [Izieux], geo: [4.503328, 45.463379]}
   Saint-Julien-en-Jarez: {names: [Saint-Julien-en-Jarez], geo: [4.527097, 45.481355]}
-  Saint-Martin-en-Coailleux: {names: [Saint-Martin-en-Coailleux], geo: [45.461602 , 4.521003]}
+  Saint-Martin-en-Coailleux: {names: [Saint-Martin-en-Coailleux], geo: [4.521003, 45.461602]}
 d43:
   Reilhac_(Haute-Loire): { names: [Reilhac], geo: [3.484865, 45.124996] }
   Saint-Eble: { names: [Saint-Eble], geo: [3.55765, 45.128039] }
 d44:
-  '44177': {names: [Sainte-Marie], geo: [47.112785 , -2.131314]}
+  '44177': {names: [Sainte-Marie], geo: [-2.131314, 47.112785]}
 d45:
   Creuzy: { names: [Creuzy, Creusy], geo: [1.874188, 48.050644] }
 d48:
@@ -325,7 +332,7 @@ d88:
   Saint-Laurent_(Vosges): { names: [Saint-Laurent], geo: [6.44918, 48.145509]}
 d89:
   '89106': {names: [Chichy], geo: [3.596016, 47.945118]}
-  '89185': {names: [Fyé], geo: [47.826555 , 3.821275]}
+  '89185': {names: [Fyé], geo: [3.821275, 47.826555]}
 d90:
   '90040': {names: [Étueffont-Bas], geo: [6.921922, 47.711377]}
 d95:

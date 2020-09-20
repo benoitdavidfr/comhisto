@@ -687,7 +687,6 @@ d04:
     Ubaye-Serre-Pon%C3%A7on: { names: [Ubaye-Serre-Ponçon], geo: [6.29527777778, 44.4575] }
     Feissal: { names: [Feissal], geo: [6.12722222222, 44.2391666667] }
     Val_d%27Oronaye: { names: ['Val-d''Oronaye'], geo: [6.84722222222, 44.4522222222] }
-    Castillon_(Alpes-de-Haute-Provence): { names: [Castillon], geo: [6.538434, 43.878411] }
     Levens_(Alpes-de-Haute-Provence): { names: [Levens], geo: [6.293355, 43.882864] }
     Le_Lauzet: { names: ['Le Lauzet'], geo: [6.43277777778, 44.4308333333] }
     Ubaye_(Alpes-de-Haute-Provence): { names: [Ubaye], geo: [6.36139, 44.46417] }
@@ -1532,7 +1531,6 @@ d12:
     Fontaynous: { names: [Fontaynous], geo: [1.9233333333, 44.3766666667] }
     Ginouillac_(Aveyron): { names: [Ginouillac], geo: [1.9233333333, 44.3766666667] }
     Marroule: { names: [Marroule], geo: [1.9233333333, 44.3766666667] }
-    M%C3%A9mer: { names: [Mémer], geo: [-2.8812242, 11.1531874] }
     Orlhonac: { names: [Orlhonac], geo: [1.97527777778, 44.3030555556] }
     Saint-Grat: { names: [Saint-Grat], geo: [1.90722222222, 44.3061111111] }
     Souzils: { names: [Souzils], geo: [1.97527777778, 44.3030555556] }
@@ -1633,7 +1631,7 @@ d14:
     Hottot-les-Bagues: { names: [Hottot-les-Bagues], geo: [-0.649444, 49.152778] }
     Annebecq: { names: [Annebecq], geo: [-0.997778, 48.887778] }
     Sannerville: { names: [Sannerville], geo: [-0.222778, 49.180556] }
-    Parfouru-l%27%C3%89clin: { names: ['Parfouru-l''Éclin'], geo: [-0.750737, 49.130059] }
+    Parfouru-l%27%C3%89clin: { names: ['Parfouru-l''Éclin'], geo: [-0.749672903043752, 49.135184619734659] }
     Landelles-et-Coupigny: { names: [Landelles-et-Coupigny], geo: [-0.997778, 48.887778] }
     Troarn: { names: [Troarn], geo: [-0.183333333333, 49.1822222222] }
     M%C3%A9zidon-Canon: { names: [Mézidon-Canon], geo: [-0.07, 49.073611] }
@@ -1907,7 +1905,7 @@ d14:
     Les_Groiselliers: { names: ['Les Groiselliers'], geo: [0.005556, 49.184444] }
     Qu%C3%A9ville: { names: [Quéville], geo: [-0.0380555555556, 49.1091666667] }
     Saint-Gilles-de-Livet: { names: [Saint-Gilles-de-Livet], geo: [0.024167, 49.179167] }
-    Doux-Marie: { names: [Doux-Marie], geo: [0.018889, 49.087222] }
+    Doux-Marie: { names: [Doux-Marie], geo: [0.0117065, 49.0540692] }
     Saint-Maclou_(Calvados): { names: [Saint-Maclou], geo: [0.018889, 49.087222] }
     B%C3%A9neauville: { names: [Béneauville], geo: [-0.215555555556, 49.1105555556] }
     Bray-en-Cinglais: { names: [Bray-en-Cinglais], geo: [-0.282222222222, 48.9744444444] }
@@ -1943,7 +1941,7 @@ d14:
     Saint-Laurent-du-Rieu: { names: [Saint-Laurent-du-Rieu], geo: [-1.02027777778, 49.2080555556] }
     Saint-Martin-des-Noyers_(Calvados): { names: [Saint-Martin-des-Noyers], geo: [0.124722, 49.031389] }
     Saint-Pierre-de-Courson: { names: [Saint-Pierre-de-Courson], geo: [0.262222, 48.990833] }
-    Soquence_(Calvados): { names: [Soquence], geo: [0.018889, 49.087222] }
+    Soquence_(Calvados): { names: [Soquence], geo: [-0.0327198, 49.0855603  ] }
     Le_Tilleul_(Calvados): { names: ['Le Tilleul'], geo: [0.061111, 48.991389] }
     La_Trinit%C3%A9-du-Mesnil-Oury: { names: ['La Trinité-du-Mesnil-Oury'], geo: [0.124722, 49.031389] }
     Les_H%C3%A9rils: { names: ['Les Hérils'], geo: [-0.748611111111, 49.3155555556] }
@@ -2094,7 +2092,7 @@ d15:
     Champs-sur-Tarentaine-Marchal: { names: [Champs-sur-Tarentaine-Marchal, Champs-sur-Tarentaine], geo: [2.5617, 45.3967] }
     Naucelles: { names: [Naucelles], geo: [2.4197, 44.9597] }
     Naucelles-Reilhac: { names: [Naucelles-Reilhac] }
-    Saint-Julien-de-Jordanne: { names: [Saint-Julien-de-Jordanne], geo: [2.293953, 45.101453] }
+    Saint-Julien-de-Jordanne: { names: [Saint-Julien-de-Jordanne], geo: [2.6376321, 45.0633037] }
     Mandailles-Saint-Julien: { names: [Mandailles-Saint-Julien], geo: [2.6569, 45.0692] }
     Saint-R%C3%A9my-de-Salers: { names: [Saint-Rémy-de-Salers], geo: [2.45366, 45.117585] }
     Saint-Martin-Valmeroux: { names: [Saint-Martin-Valmeroux], geo: [2.4258, 45.1183] }
@@ -3197,7 +3195,6 @@ d25:
     Pointvillers: { names: [Pointvillers], geo: [5.9022, 47.0636] }
     Naisey-les-Granges: { names: [Naisey-les-Granges], geo: [6.2375, 47.2125] }
     Montursin: { names: [Montursin], geo: [6.995, 47.3444444444] }
-    Vaux-les-Pr%C3%A9s: { names: [Vaux-les-Prés], geo: [5.8839, 47.2369] }
     Blanchefontaine: { names: [Blanchefontaine] }
     Gl%C3%A8re: { names: [Glère], geo: [6.995, 47.3444444444] }
     Verri%C3%A8res-du-Grosbois: { names: [Verrières-du-Grosbois], geo: [6.27777777778, 47.2016666667] }
@@ -3358,7 +3355,6 @@ d25:
     Salans_(Doubs): { names: [Salans], geo: [6.41777777778, 47.2577777778] }
     Senans: { names: [Senans], geo: [5.77916666667, 47.0330555556] }
     Touillon_(Doubs): { names: [Touillon], geo: [6.3525, 46.7933333333] }
-    Vaux_(Doubs): { names: [Vaux], geo: [6.25027777778, 46.8116666667] }
     Le_Vernois_(Doubs): { names: ['Le Vernois'], geo: [5.9086, 47.1839] }
     Verti%C3%A8re: { names: [Vertière], geo: [5.7794, 47.2333] }
     V%C3%A9signeux: { names: [Vésigneux], geo: [6.20083333333, 47.0244444444] }
@@ -4821,7 +4817,6 @@ d39:
     Paisia: { names: [Paisia], geo: [5.4575, 46.5914] }
     Le_Patay: { names: ['Le Patay'], geo: [5.7925, 46.4003] }
     Le_Petit-Ch%C3%A2tel: { names: ['Le Petit-Châtel'], geo: [5.7636, 46.3794] }
-    Petit-Villard_(H%C3%A9ria): { names: [Petit-Villard], geo: [5.7356, 46.4189] }
     Pi%C3%A9telle: { names: [Piételle], geo: [5.73527, 46.5933] }
     Pr%C3%A9-Martinet: { names: [Pré-Martinet], geo: [5.8753, 46.3725] }
     Rabeur: { names: [Rabeur], geo: [5.64833333333, 46.8986111111] }
@@ -4867,7 +4862,7 @@ d39:
     Garde-Chemin: { names: [Garde-Chemin], geo: [5.70583333333, 46.5116666667] }
     Les_Grangettes_(Jura): { names: ['Les Grangettes'], geo: [6.0686, 46.8144] }
     Ilay: { names: [Ilay], geo: [5.9017, 46.6031] }
-    Bonnet_(Jura): { names: [Bonnet], geo: [6.1266053, 46.7915393] }
+    #Bonnet_(Jura): { names: [Bonnet], geo: [6.1266053, 46.7915393] }
     '%C3%89tables_(Jura)': { names: [Étables], geo: [5.86388888889, 46.3877777778] }
     Feschaux_(Jura): { names: [Feschaux], geo: [5.55138888889, 46.6922222222] }
     Arsurette: { names: [Arsurette], geo: [6.0833, 46.7233] }
@@ -5122,7 +5117,6 @@ d42:
     Bouth%C3%A9on_(Loire): { names: [Bouthéon], geo: [4.26083333333, 45.5269444444] }
     Izieux: { names: [Izieux] }
     Saint-Julien-en-Jarez: { names: [Saint-Julien-en-Jarez] }
-    Saint-Martin-en-Coailleux: { names: [Saint-Martin-en-Coailleux] }
     Chazeau: { names: [Chazeau], geo: [4.2878, 45.3889] }
     'Quartiers_de_Saint-%C3%89tienne#Quartier_de_Tarentaize_Beaubrun_Severine': { names: [Beaubrun] }
     Montaud_(Loire): { names: [Montaud] }
@@ -5546,7 +5540,6 @@ d47:
     Saint-Sibournet: { names: [Saint-Sibournet], geo: [0.8217, 44.6444] }
     Ferussac_(Lot-et-Garonne): { names: [Ferussac], geo: [0.8933, 44.2086] }
     Jautan: { names: [Jautan], geo: [0.0347, 44.1981] }
-    Luban: { names: [Luban], geo: [15.3, 51.117] }
     Mourans: { names: [Mourans], geo: [0.516388888889, 44.1786111111] }
     Nazareth_(Lot-et-Garonne): { names: [Nazareth], geo: [0.345039, 44.147971] }
     Poussac: { names: [Poussac], geo: [0.4758, 44.0956] }
