@@ -202,8 +202,11 @@ d52:
   Ho%C3%A9ricourt: { names: [Hoéricourt, Hoëricourt], geo: [4.898884, 48.628093] }
   Augeville_(Haute-Marne): { names: [Augeville], geo: [5.310999, 48.362608] }
   Pautaines: { names: [Pautaines, Pautaines-Augeville], geo: [5.314207, 48.351964] }
+  Percey-le-Petit: { names: [Percey-le-Petit], geo: [5.364148, 47.614423] }
+  Cusey: { names: [Cusey], geo: [5.339302,47.629502] }
 d54:
   Lixi%C3%A8res_(Belleau): { names: [Lixière, Lixières], geo: [6.198499, 48.854727] }
+  #Lixi%C3%A8res_(Fl%C3%A9ville): { names: [Lixières], geo: [5.8239, 49.2458] }
   Manoncourt-sur-Seille: { names: [Manoncourt-sur-Seille], geo: [6.197126, 48.876444] }
   Morey_(Meurthe-et-Moselle): { names: [Morey], geo: [6.1648, 48.826863] }
   Serri%C3%A8res_(Meurthe-et-Moselle): { names: [Serrières], geo: [6.187589, 48.842708] }
@@ -213,6 +216,10 @@ d59:
   Morenchies: {names: [Morenchies], geo: [3.243123, 50.194443]}
   Villers-Campeau: {names: [Villers-Campeau], geo: [3.266807, 50.361037]}
   Warneton-Sud: {names: [Warneton-Sud], geo: [2.970815, 50.743916]}
+  Petite-Synthe: { names: [Petite-Synthe], geo: [2.341020, 51.018734]}
+  Rumilly-en-Cambr%C3%A9sis: { names: [Rumilly-en-Cambrésis, Rumilly], geo: [3.22083333333, 50.1275]}
+  S%C3%A9ranvillers: { names: [Séranvillers], geo: [3.279144, 50.123060]}
+  Forenville: { names: [Forenville], geo: [3.278867, 50.136083]}
 d61:
   Colonard-Corubert: { names: [Colonard-le-Buisson, Colonard-Corubert], geo: [0.657098, 48.408857] }
   Corubert: { names: [Corubert], geo: [0.653923, 48.396749] }
@@ -236,16 +243,17 @@ d72:
   Contres-en-Vairais: { names: [Contres-en-Vairais], geo: [0.491037, 48.282136] }
 d73:
   '73009': {names: [Albanne], geo: [6.419759, 45.205866]}
-  Bellecombe_(Savoie): { names: [Bellecombe], geo: [6.493364, 45.506394] }
-  Grand-C%C5%93ur: { names: [Grand-Cœur], geo: [6.493757, 45.515301] }
-  Villargerel: { names: [Villargerel], geo: [6.512285, 45.520436] }
-  Longefoy: { names: [Longefoy], geo: [6.627481, 45.537445] }
-  Tessens: { names: [Tessens], geo: [6.626086, 45.558002] }
-  Villette_(Savoie): { names: [Villette], geo: [6.609199, 45.547003] }
-  Montpascal: { names: [Montpascal], geo: [6.361578, 45.337614] }
-  Pontamafrey: { names: [Pontamafrey, Pontamafrey-Montpascal], geo: [6.341, 45.312156] }
-  H%C3%A9ry_(Savoie): { names: [Héry], geo: [6.473576, 45.772762] }
-  Outrechaise: { names: [Outrechaise], geo: [6.399783, 45.750913] }
+  Bellecombe_(Savoie): { names: [Bellecombe], geo: [6.493364, 45.506394]}
+  Grand-C%C5%93ur: { names: [Grand-Cœur], geo: [6.493757, 45.515301]}
+  Villargerel: { names: [Villargerel], geo: [6.512285, 45.520436]}
+  Longefoy: { names: [Longefoy], geo: [6.627481, 45.537445]}
+  Tessens: { names: [Tessens], geo: [6.626086, 45.558002]}
+  Villette_(Savoie): { names: [Villette], geo: [6.609199, 45.547003]}
+  Montpascal: { names: [Montpascal], geo: [6.361578, 45.337614]}
+  Pontamafrey: { names: [Pontamafrey, Pontamafrey-Montpascal], geo: [6.341, 45.312156]}
+  H%C3%A9ry_(Savoie): { names: [Héry], geo: [6.473576, 45.772762]}
+  Outrechaise: { names: [Outrechaise], geo: [6.399783, 45.750913]}
+  Saint-Laurent-de-la-C%C3%B4te: { names: [Saint-Laurent-de-la-Côte], geo: [6.499416, 45.427496]}
 d74:
   Saint-Nicolas-de-V%C3%A9roce: {names: [Saint-Nicolas-de-Véroce], geo: [6.722785, 45.854989]}
   La_C%C3%B4te-d%27Hyot: { names: ['La Côte-d''Hyot'], geo: [6.377445, 46.09467] }

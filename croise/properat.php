@@ -300,8 +300,28 @@ $yaml['contents'][49146]['2015-12-15']['evts']['fusionneDans'] = 49281; // et no
 unset($yaml['contents'][49092]['2015-12-15']['evts']['absorbe']); // au lieu de {absorbe: [49146]}
 $yaml['contents'][49092]['2015-12-15']['elits'] = [49092]; // au lieu de [49092, 49146]
 $yaml['contents'][49281]['2015-12-15']['evts']['absorbe'] = [49146]; // en plus de { devientDéléguéeDe: 49092 }
-$yaml['contents'][38541]['2015-12-15']['elits'] = [49146,49281]; // et non [49281]
+$yaml['contents'][49281]['2015-12-15']['elits'] = [49146,49281]; // et non [49281]
 
+// Erreur sur elit=49357 (Trèves-Cunault) / r49149 -> 49094
+$yaml['contents'][49357]['2016-01-01']['evts']['fusionneDans'] = 49094; // et non 49149 
+unset($yaml['contents'][49149]['2016-01-01']['evts']['absorbe']); // au lieu de {absorbe: [49357]}
+$yaml['contents'][49149]['2016-01-01']['elits'] = [49149]; // au lieu de [49149, 49357]
+$yaml['contents'][49094]['2016-01-01']['evts']['absorbe'] = [49357]; // en plus de { devientDéléguéeDe: 49149 }
+$yaml['contents'][49094]['2016-01-01']['elits'] = [49094,49357]; // et non [49094]
+
+// Erreur sur elit=73172 (Montpascal) / r73135 -> 73203
+$yaml['contents'][73172]['2019-01-01']['evts']['fusionneDans'] = 73203; // et non 73135 
+unset($yaml['contents'][73135]['2019-01-01']['evts']['absorbe']); // au lieu de {absorbe: [73172]}
+$yaml['contents'][73135]['2019-01-01']['elits'] = [73135]; // au lieu de [73135, 73172]
+$yaml['contents'][73203]['2019-01-01']['evts']['absorbe'] = [73172]; // en plus de { devientDéléguéeDe: 73135 }
+$yaml['contents'][73203]['2019-01-01']['elits'] = [73172,73203]; // et non [73203]
+
+// Erreur sur elit=79228 (Rigné) / c79329 -> 79171
+$yaml['contents'][79228]['2019-01-01']['evts']['fusionneDans'] = 79171; // et non 79329 
+unset($yaml['contents'][79329]['2019-01-01']['evts']['absorbe']); // au lieu de {absorbe: [79228]}
+$yaml['contents'][79329]['2019-01-01']['elits'] = [79329]; // au lieu de [79228, 79329]
+$yaml['contents'][79171]['2019-01-01']['evts']['absorbe'] = [79228]; // en plus de { devientDéléguéeDe: 79329 }
+$yaml['contents'][79171]['2019-01-01']['elits'] = [79171,79228]; // et non [79171]
 
 
 

@@ -6453,7 +6453,7 @@ d51:
     Hurlus_(Marne): { names: [Hurlus], geo: [4.641792, 49.170357] }
     Le_Mesnil-l%C3%A8s-Hurlus: { names: ['Le Mesnil-lès-Hurlus'], geo: [4.656367, 49.17724] }
     Minaucourt: { names: [Minaucourt], geo: [4.7158, 49.1711] }
-    Moronvilliers: { names: [Moronvilliers], geo: [4.32972, 49.24111] }
+    Moronvilliers: { names: [Moronvilliers], geo: [4.328254,49.240918] }
     Nauroy_(Marne): { names: [Nauroy], geo: [4.26528, 49.2378] }
     Perthes-l%C3%A8s-Hurlus: { names: [Perthes-lès-Hurlus], geo: [4.623071, 49.180194] }
     Pontfaverger: { names: [Pontfaverger] }
@@ -6616,7 +6616,6 @@ d52:
     Curel_(Haute-Marne): { names: [Curel], geo: [5.1375, 48.4925] }
     Bettaincourt-sur-Rognon: { names: [Bettaincourt-sur-Rognon], geo: [5.2517, 48.3067] }
     Percey-sous-Montormentier: { names: [Percey-sous-Montormentier] }
-    Cusey: { names: [Cusey], geo: [5.34277777778, 47.6319444444] }
     Domremy-Land%C3%A9ville: { names: [Domremy-Landéville], geo: [5.25138888889, 48.3613888889] }
     Land%C3%A9ville: { names: [Landéville], geo: [5.25138888889, 48.3613888889] }
     Saucourt-sur-Rognon: { names: [Saucourt-sur-Rognon], geo: [5.186126, 48.345236] }
@@ -6803,7 +6802,6 @@ d52:
     Violot: { names: [Violot], geo: [5.44166666667, 47.7644444444] }
     Voncourt: { names: [Voncourt], geo: [5.6731, 47.7153] }
     Montormentier: { names: [Montormentier], geo: [5.352506, 47.604375] }
-    Percey-le-Petit: { names: [Percey-le-Petit], geo: [5.34277777778, 47.6319444444] }
     Morteau_(Haute-Marne): { names: [Morteau], geo: [5.31456, 48.224494] }
     Rachecourt-sur-Blaise: { names: [Rachecourt-sur-Blaise], geo: [4.9656, 48.4581] }
     Suz%C3%A9mont_(Haute-Marne): { names: [Suzémont], geo: [4.962006, 48.453621] }
@@ -6972,7 +6970,6 @@ d54:
     Fl%C3%A9ville_(Meurthe-et-Moselle): { names: [Fléville], geo: [5.8239, 49.2458] }
     Herbelmont: { names: [Herbelmont], geo: [6.2506, 48.4989] }
     L%C3%A9omont: { names: [Léomont], geo: [6.44027777778, 48.6013888889] }
-    Lixi%C3%A8res_(Fl%C3%A9ville): { names: [Lixières], geo: [5.8239, 49.2458] }
     Mainbermont: { names: [Mainbermont], geo: [6.3761, 48.5114] }
     M%C3%A9romont: { names: [Méraumont], geo: [5.8928, 49.2306] }
     Le_Montet_(Meurthe-et-Moselle): { names: ['Le Montet'], geo: [6.168333, 48.656667] }
@@ -7664,9 +7661,7 @@ d59:
     Somain: { names: [Somain], geo: [3.28111111111, 50.3583333333] }
     Flers-lez-Lille: { names: [Flers-lez-Lille, Flers], geo: [3.12917, 50.63611] }
     Bavay: { names: [Bavay], geo: [3.79888888889, 50.2980555556] }
-    Forenville: { names: [Forenville], geo: [3.165, 50.0725] }
     Rieulay: { names: [Rieulay], geo: [3.25777777778, 50.3805555556] }
-    S%C3%A9ranvillers: { names: [Séranvillers], geo: [3.165, 50.0725] }
     Aulnoye: { names: [Aulnoye], geo: [3.83638888889, 50.205] }
     Warlaing: { names: [Warlaing], geo: [3.32611111111, 50.4111111111] }
     Aymeries: { names: [Aymeries], geo: [3.831971, 50.212698] }
@@ -7707,7 +7702,6 @@ d59:
     T%C3%A9teghem-Coudekerque-Village: { names: [Téteghem-Coudekerque-Village], geo: [2.44472222222, 51.0194444444] }
     Gravelines: { names: [Gravelines], geo: [2.1283, 50.9858] }
     Bray-Dunes: { names: [Bray-Dunes], geo: [2.52833333333, 51.0716666667] }
-    Petite-Synthe: { names: [Petite-Synthe], geo: [2.4, 51.033333] }
     Grande-Synthe: { names: [Grande-Synthe], geo: [2.30277777778, 51.0138888889] }
     Coudekerque-Branche: { names: [Coudekerque-Branche], geo: [2.39166666667, 51.0252777778] }
     Erquinghem-Lys: { names: [Erquinghem-Lys], geo: [2.84833333333, 50.6761111111] }
@@ -9650,7 +9644,6 @@ d73:
     Ansigny: { names: [Ansigny], geo: [5.94583333333, 45.7872222222] }
     Les_Avanchers: { names: ['Les Avanchers'], geo: [6.45666666667, 45.4786111111] }
     Pussy_(Savoie): { names: [Pussy], geo: [6.4565, 45.551] }
-    Saint-Laurent-de-la-C%C3%B4te: { names: [Saint-Laurent-de-la-Côte], geo: [6.4812984, 45.4271011] }
     Montricher-le-Bochet: { names: [Montricher-le-Bochet], geo: [6.40277777778, 45.2472222222] }
     Hauteville-Gondon: { names: [Hauteville-Gondon], geo: [6.766111, 45.615278] }
     Mont-Denis: { names: [Mont-Denis], geo: [6.40527777778, 45.2572222222] }
@@ -11700,9 +11693,7 @@ d89:
     Turny: { names: [Turny], geo: [3.7472, 48.0358] }
     Aigremont_(Yonne): { names: [Aigremont], geo: [3.8911, 47.7194] }
     Bessy-sur-Cure: { names: [Bessy-sur-Cure], geo: [3.7414, 47.6217] }
-    Fye_(Yonne): { names: [Fye], geo: [3.7975, 47.7822] }
     Louesme_(Yonne): { names: [Louesme], geo: [3.138919, 47.766584] }
-    Milly_(Yonne): { names: [Milly], geo: [3.7975, 47.7822] }
     M%C3%B4lay: { names: [Môlay], geo: [3.9403, 47.7356] }
     Paroy-en-Othe: { names: [Paroy-en-Othe], geo: [3.5747, 48.0343] }
     Poinchy: { names: [Poinchy], geo: [3.772373, 47.825293] }

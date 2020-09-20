@@ -31,16 +31,16 @@ Erreur sur elit=39416 (Petit-Villard) / c39331 - corrigé
 Erreur sur elit=42258 (Saint-Martin-en-Coailleux) / s42207 - corrigé
 Erreur sur elit=44177 (Sainte-Marie) / s44131 - corrigé
 Erreur sur elit=49146 (Les Gardes) / r49092 -> r49281 - corrigé
-Erreur sur elit=49357 (Trèves-Cunault) / r49149
-Erreur sur elit=51385 (Moronvilliers) / s51440
-Erreur sur elit=52382 (Percey-le-Petit / Percey-sous-Montormentier) / r52382
-Erreur sur elit=54319 (Lixières) / s54059
-Erreur sur elit=59460 (Petite-Synthe) / c59183
-Erreur sur elit=59245 (Forenville) / s59567
-Erreur sur elit=73172 (Montpascal) / r73135
-Erreur sur elit=73251 (Saint-Laurent-de-la-Côte) / r73257
-Erreur sur elit=79228 (Rigné) / c79329
-Erreur sur elit=89185 (Fyé) / s89068
+Erreur sur elit=49357 (Trèves-Cunault) / r49092 -> r49281 - corrigé
+Erreur sur elit=51385 (Moronvilliers) / s51440 - corrigé
+Erreur sur elit=52382 (Percey-le-Petit / Percey-sous-Montormentier) / r52382 - corrigé
+Erreur sur elit=54319 (Lixières) / s54059 - corrigé
+Erreur sur elit=59460 (Petite-Synthe) / c59183 - corrigé
+Erreur sur elit=59245 (Forenville) / s59567 - corrigé
+Erreur sur elit=73172 (Montpascal) / r73135 -> 73203 - corrigé
+Erreur sur elit=73251 (Saint-Laurent-de-la-Côte) / r73257 - corrigé
+Erreur sur elit=79228 (Rigné) / c79329 -> 79171 - corrigé
+Erreur sur elit=89185 (Fyé) / s89068 - ?
 Erreur sur elit=78613 (Thionville) / s91613
 */
 ini_set('memory_limit', '1G');
