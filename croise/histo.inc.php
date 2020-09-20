@@ -118,7 +118,7 @@ class Histo {
     if ($cinsee = $this->changeDeCodePour()) {
       return Histo::get($cinsee)->chefLieu();
     }
-    throw new Exception("coord. non trouvées pour $this->cinsee, ".implode(',', array_keys($names)));
+    throw new Exception("coord. non trouvées pour $this->cinsee, ".implode(',', array_keys($this->names())));
   }
   
   function changeDeCodePour(): ?string { // retourne le nouveau code ou null s'il n'y a pas de chgt de code

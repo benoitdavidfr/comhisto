@@ -306,8 +306,10 @@ $yaml['contents'][49281]['2015-12-15']['elits'] = [49146,49281]; // et non [4928
 $yaml['contents'][49357]['2016-01-01']['evts']['fusionneDans'] = 49094; // et non 49149 
 unset($yaml['contents'][49149]['2016-01-01']['evts']['absorbe']); // au lieu de {absorbe: [49357]}
 $yaml['contents'][49149]['2016-01-01']['elits'] = [49149]; // au lieu de [49149, 49357]
+$yaml['contents'][49149]['2018-01-01']['elits'] = [49149]; // au lieu de [49149, 49357]
 $yaml['contents'][49094]['2016-01-01']['evts']['absorbe'] = [49357]; // en plus de { devientDéléguéeDe: 49149 }
 $yaml['contents'][49094]['2016-01-01']['elits'] = [49094,49357]; // et non [49094]
+$yaml['contents'][49094]['2018-01-01']['elits'] = [49094,49357]; // et non [49094]
 
 // Erreur sur elit=73172 (Montpascal) / r73135 -> 73203
 $yaml['contents'][73172]['2019-01-01']['evts']['fusionneDans'] = 73203; // et non 73135 

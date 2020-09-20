@@ -341,8 +341,12 @@ d88:
 d89:
   '89106': {names: [Chichy], geo: [3.596016, 47.945118]}
   '89185': {names: [Fyé], geo: [3.821275, 47.826555]}
+  Milly: {names: [Milly], geo: [3.772897, 47.814886]}
 d90:
   '90040': {names: [Étueffont-Bas], geo: [6.921922, 47.711377]}
+d91:
+  Thionville: {names: [Thionville], geo: [1.995515, 48.377671]}
+  Congerville: { names: [Congerville], geo: [1.9885254, 48.3873232]}
 d95:
   '95259': {names: [Gadancourt], geo: [1.85778, 49.096944]} # 49° 05′ 49″ nord, 1° 51′ 28″ est
 d97:

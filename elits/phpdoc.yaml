@@ -1,9 +1,12 @@
 title: comhisto/elits - production des éléments intemporels (elits)
 path: /yamldoc/pub/comhisto/elits
 doc: |
-  defelt.php complète les versions de code Insee de ../insee/histov.yaml par des d'élts et stocke le résultat dans histelt.yaml
-  deleltp.php redéfinit les élts pour n'avoir que des éléments positifs, cad que chaque version de code Insee correspond à une union d'éléments
-  bzones.php construit le fichier des zones dans zones.yaml et consomme le fichier histeltp.yaml
+  defelit0.php complète les versions de code Insee de ../insee/histov.yaml par des d'élits et stocke le résultat dans histelit0.yaml
+  defelit.php redéfinit les élits pour n'avoir que des éléments positifs, cad que chaque version de code Insee correspond à une union
+  d'éléments, il produit histelit.yaml
+  
+  Erreur:
+  Une version correspondant à changement de code (ex 78613) ne devrait pas correspondre à des elits
 journal: |
   9-10/9/2020:
     - restructuration pour supprimer les zones et renommer les elts en elits

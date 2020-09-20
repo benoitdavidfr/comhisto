@@ -11758,7 +11758,6 @@ d91:
     Estouches: { names: [Estouches], geo: [2.1337938, 48.3023374] }
     Breux-Jouy: { names: [Breux-Jouy, Breux], geo: [2.1778786, 48.5613504] }
     M%C3%A9r%C3%A9ville_(Essonne): { names: [Méréville], geo: [2.087059, 48.3182786] }
-    Congerville: { names: [Congerville], geo: [1.9885254, 48.3873232] }
     Moigny-sur-%C3%89cole: { names: [Moigny-sur-École, Moigny], geo: [2.457338, 48.4330589] }
     Thionville_(Essonne): { names: [Thionville], geo: [1.9885254, 48.3873232] }
     Corbeil_(Essonne): { names: [Corbeil], geo: [2.4820251, 48.6138786] }
