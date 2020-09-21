@@ -60,7 +60,7 @@ Il est [documenté plus précisément ici](export/README.md).
 ## Erreurs du référentiel
 De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
-Il existe des erreurs connues:
+Enfin, il existe des erreurs connues:
 
 - absence des communes de St Barth et de St Martin.
 - erreur sur 78613/91613 (Thionville)
@@ -90,23 +90,22 @@ Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
 La seconde étape consiste à :
 
-- appliquer des simplifications pour assimiler à des fusions les 6 dissolutions et à des scissions les 6 créations de commune
-  à partir d'autres communes.  
-  Les 6 dissolutions sont:
-    - dissolution de 08227 (Hocmont) le 2/3/1968,
-    - dissolution de 51606 (Verdey) le 12/12/1966,
-    - dissolution de 45117 (Creusy) le 1/1/1965,
-    - dissolution de 60606 (Sarron) le 9/7/1951,
-    - dissolution de 51385 (Moronvilliers) le 17/6/1950,
-    - dissolution de 77362 (Pierrelez) le 8/7/1949.
+- appliquer des simplifications pour assimiler les 6 dissolutions suivantes à des fusions:
+    - les 6 dissolutions sont:
+      - dissolution de 08227 (Hocmont) le 2/3/1968,
+      - dissolution de 51606 (Verdey) le 12/12/1966,
+      - dissolution de 45117 (Creusy) le 1/1/1965,
+      - dissolution de 60606 (Sarron) le 9/7/1951,
+      - dissolution de 51385 (Moronvilliers) le 17/6/1950,
+      - dissolution de 77362 (Pierrelez) le 8/7/1949.
 
-  Les 6 créations sont:
-    - création de 38567 (Chamrousse) le 15/2/1989,
-    - création de 27701 (devenu Val-de-Reuil) le 28/9/1981,
-    - création de 91692 (Les Ulis) le 19/2/1977,
-    - création de 57766 (Saint-Nicolas-en-Forêt) le 1/1/1958,
-    - création de 29302 (devenu Pont-de-Buis-lès-Quimerch) le 27/8/1949,
-    - création de 46339 (Saint-Jean-Lagineste) le 17/6/1948.
+    - et les 6 créations de commune à partir d'autres communes suivantes à des scissions :
+      - création de 38567 (Chamrousse) le 15/2/1989,
+      - création de 27701 (devenu Val-de-Reuil) le 28/9/1981,
+      - création de 91692 (Les Ulis) le 19/2/1977,
+      - création de 57766 (Saint-Nicolas-en-Forêt) le 1/1/1958,
+      - création de 29302 (devenu Pont-de-Buis-lès-Quimerch) le 27/8/1949,
+      - création de 46339 (Saint-Jean-Lagineste) le 17/6/1948.
 
 - faire correspondre à chaque version d'entité un ensemble d'éléments administratifs intemporels (elits).
   Ces éléments correspondent généralement au territoire associé au code Insee au 1/1/1943,
