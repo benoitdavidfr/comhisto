@@ -90,8 +90,8 @@ Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
 La seconde étape consiste à :
 
-- appliquer des simplifications pour assimiler les 6 dissolutions suivantes à des fusions:
-    - les 6 dissolutions sont:
+- appliquer des simplifications pour assimiler :
+    - les 6 dissolutions suivantes à des fusions :
       - dissolution de 08227 (Hocmont) le 2/3/1968,
       - dissolution de 51606 (Verdey) le 12/12/1966,
       - dissolution de 45117 (Creusy) le 1/1/1965,
