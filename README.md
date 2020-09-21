@@ -90,7 +90,7 @@ Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
 La seconde étape consiste à :
 
-- appliquer des simplifications pour assimiler à des fusions les 6 dissolutions suivantes :
+- appliquer des simplifications assimilant à des fusions les 6 dissolutions suivantes :
     - dissolution de 08227 (Hocmont) le 2/3/1968,
     - dissolution de 51606 (Verdey) le 12/12/1966,
     - dissolution de 45117 (Creusy) le 1/1/1965,
@@ -98,7 +98,7 @@ La seconde étape consiste à :
     - dissolution de 51385 (Moronvilliers) le 17/6/1950,
     - dissolution de 77362 (Pierrelez) le 8/7/1949.
 
-- ainsi qu'à des scissions les 6 créations de commune à partir d'autres communes suivantes :
+- et assimilant à des scissions les 6 créations de commune à partir d'autres communes suivantes :
     - création de 38567 (Chamrousse) le 15/2/1989,
     - création de 27701 (devenu Val-de-Reuil) le 28/9/1981,
     - création de 91692 (Les Ulis) le 19/2/1977,
