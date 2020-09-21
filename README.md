@@ -91,9 +91,6 @@ La seconde étape consiste à :
   et à des scissions les 6 créations de commune à partir d'autres communes détaillées ci-dessous ;
 - faire correspondre à chaque version d'entité un ensemble d'**éléments administratifs intemporels** (élits).
 
-On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
-Les 3 derniers types d'entités sont appelés *entités rattachées*.
-
 ### Simplifications
 
 Les 6 dissolutions simplifiées en fusions sont :
@@ -125,14 +122,15 @@ De manière générale:
   - à tout moment les élits forment une partition du territoire ayant été concernés par le référentiel.
 
 Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
-Cela signifie qu'ils ne sont intemporels que pour une version de référentiel.
+Cela signifie qu'ils ne sont intemporels que pour une version donnée de référentiel.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
 
-
-
 ## 3ème étape - géoréférencement des entités valides à partir des données IGN 
+On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal. 
+Les 3 derniers types d'entités sont appelés *entités rattachées*.
+
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
 ou à une entité rattachée valides au 1/1/2020.
 
@@ -141,6 +139,7 @@ On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu asso
 ## 4ème étape - localisation des chefs-lieux des entités périmées 
 On complète les chefs-lieux par ceux des entités périmées par scrapping de Wikipédia et saisie interactive à partir des cartes IGN
 et de Wikipédia.
+Ces [chef-lieux sont disponibles comme fichier GeoJSON ici](cheflieu/cheflieu.geojson).
 
 ## 5ème étape - croisement des données Insee avec les données IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
