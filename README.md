@@ -106,13 +106,23 @@ La seconde étape consiste à :
     - création de 29302 (devenu Pont-de-Buis-lès-Quimerch) le 27/8/1949,
     - création de 46339 (Saint-Jean-Lagineste) le 17/6/1948.
 
-- faire correspondre à chaque version d'entité un ensemble d'éléments administratifs intemporels (elits).
-  Ces éléments correspondent généralement au territoire associé au code Insee au 1/1/1943,
-  sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
-  dans ce cas l'élit est le territoire le plus petit après ces scissions.
-  De manière générale   
-  Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
-  Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
+- faire correspondre à chaque version d'entité un ensemble d'**éléments administratifs intemporels** (élits).
+
+Ces élits correspondent généralement au territoire associé au code Insee au 1/1/1943,
+sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
+dans ce cas l'élit est le territoire le plus petit après ces scissions.  
+De manière générale:
+  - il existe un et un seul elit pour chaque *code Insee ne correspondant pas à un changement de code*
+    et chaque élit correspond à un et un seul code Insee ;
+  - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
+    moins l'union des territoires des autres codes Insee ;
+  - toute version de code Insee peut être géoréférencée comme un ensemble d'élits ;
+  - à tout moment les élits forment une partition du territoire ayant été concerné par le référentiel.
+
+Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
+  
+Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
+Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
 
 
 
