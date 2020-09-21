@@ -137,16 +137,16 @@ ou à une entité rattachée valides au 1/1/2020.
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
 ## 4ème étape - localisation des chefs-lieux des entités périmées 
-On complète les chefs-lieux par ceux des entités périmées par scrapping de Wikipédia et saisie interactive à partir des cartes IGN
-et de Wikipédia.
-Ces [chef-lieux sont disponibles comme fichier GeoJSON ici](cheflieu/cheflieu.geojson).
+On complète les chefs-lieux des communes valides par ceux des entités rattachées et périmées par scrapping de Wikipédia
+et saisie interactive à partir des cartes IGN et de Wikipédia.
+Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.geojson).
 
 ## 5ème étape - croisement des données Insee avec les données IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
 Sinon, la géométrie de l'entité est découpée par l'algorithme de Voronoï en elits
 en se fondant sur les chefs-lieux asssociés aux élits.
-Puis, chaque version étant définie par un ensemsemble d'élits, sa géométrie peut être reconstruite.
+Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
 Chaque version d'entité est identifiée par son code Insee suffixé par le caractère '@' et la date de création de la version.
 
