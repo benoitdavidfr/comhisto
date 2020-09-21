@@ -116,8 +116,8 @@ De manière générale:
     et chaque élit correspond à un et un seul code Insee ;
   - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
     moins l'union des territoires des autres codes Insee ;
-  - toute version de code Insee peut être géoréférencée comme un ensemble d'élits ;
-  - à tout moment les élits forment une partition du territoire ayant été concerné par le référentiel.
+  - le territoire de toute version de code Insee corespond à un ensemble d'élits ;
+  - à tout moment les élits forment une partition du territoire ayant été concernés par le référentiel.
 
 Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
   
