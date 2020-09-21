@@ -1,10 +1,10 @@
-# Référentiel communal historique (ComHisto)
+# Référentiel communal historique simplifié (ComHisto)
 ### Utilisation du code Insee des communes comme référentiel pivot
 
 ## Objectif de ce projet
 L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
 
-De nombreuses bases de données, appelées par la suite métier, par exemple des bases de décisions administratives,
+De nombreuses bases de données, appelées par la suite bases métier, par exemple des bases de décisions administratives,
 utilisent le code Insee des communes pour géoréférencer leur contenu, c'est à dire, dans l'exemple, chaque décision administrative.
 
 Or, ces codes Insee évoluent, notamment en raison de la volonté de réduire le nombre de communes,
@@ -23,15 +23,15 @@ Or, sur le fond, le code Insee d'une commune périmée, par exemple fusionnée,
 reste un localisant à condition de disposer du référentiel adhoc.
 De plus, il peut être dans certains cas préférable dans une base de conserver un code Insee périmé
 car le géoréférencement peut être plus précis et peut redevenir valide en cas de rétablissement.
-La conservation du code périmé dans la base évite ainsi des erreurs ou des approximation de géoréférencement.
+La conservation du code périmé dans la base évite ainsi des erreurs ou des approximations de géoréférencement.
 
-La proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique" (ComHisto),
+La présente proposition est donc de créer un nouveau référentiel, appelé "Référentiel communal historique simplifié" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
 et associant à chacun les versions successives permettant de retrouver l'état de l'entité à une date donnée.  
 Ainsi les codes Insee intégrés un jour dans une base restent valables et peuvent être utilisés, par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes,
 à *condition cependant de conserver dans la base métier la date de validité du code Insee utilisé*.
-Ce référentiel peut être généré à partir des informations du COG publiées par l'Insee
+Ce référentiel a été généré à partir des informations du COG publiées par l'Insee
 et peut être, jusqu'à un certain point, géocodé à partir des informations d'Admin-Express publiées par l'IGN.
 
 Ce référentiel, permettant de géocoder un ancien code, est mis à disposition
@@ -50,7 +50,8 @@ Il est [documenté plus précisément ici](export/README.md).
 - certaines limites sont inconnues et approximées en utilisant
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
-- lorsqu'une commune est absorbée puis rétablie, on considère que sa géométrie est la même avant et après.
+- lorsqu'une commune est absorbée puis rétablie, on considère que sa géométrie est la même avant l'absorption
+  et après le rétablissement.
 
 De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
@@ -116,7 +117,8 @@ ou à une entité rattachée valides au 1/1/2020.
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
 ## 4ème étape - localisation des chefs-lieux des entités périmées 
-On complète les chefs-lieux par ceux des entités périmées par scrapping de Wikipédia et saisie interactive dans le Géoportail.
+On complète les chefs-lieux par ceux des entités périmées par scrapping de Wikipédia et saisie interactive à partir des cartes IGN
+et de Wikipédia.
 
 ## 5ème étape - croisement des données Insee avec les données IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.

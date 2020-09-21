@@ -12,7 +12,7 @@ doc: |
   Un ensemble d'élts est représenté par une chaine concaténant les code Insee dans l'ordre, précédés par le signe + ou -.
   
   Pour les CRAT, les elts sont les éléments propres, cad hors ERAT,
-  sauf pour les COMM pour les quelles les elts de la commune déléguée propre sont intégrés dans elts.
+  sauf pour les COMM pour les quelles les elts de la commune déléguée propre sont intégrés dans elits.
 
   La topologie des versions est simplifiée selon les règles de simplif.inc.php
 

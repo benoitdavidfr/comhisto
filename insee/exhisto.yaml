@@ -1,14 +1,18 @@
 title: définition du schéma du référentiel historique des codes INSEE des communes avec illustration
-modified: '2020-08-02'
+modified: '2020-09-21'
 description: |
   Le schéma du référentiel est contenu dans le champ $schema de ce document.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
   Ce schéma correspond à plusieurs versions de l'historique:
     - histo directement issu de rpicom
     - histov qui comporte un traitement de validation complémentaire
-    - histelt dans lequel une simplification est effectuée et chaque version est décrite par des elts positifs ou négatifs
-    - histeltp issu de histelt en remplacant les élts par des élts positifs
+    - histelit0 dans lequel une simplification est effectuée et chaque version est décrite par des elits positifs ou négatifs
+    - histelit issu de histelit0 en remplacant les élits par des élits positifs
+    - histelitp issu de histelit en en effectuant des corrections
   Journal:
+    21/9/2020:
+      Changement eltsp en elitsp et elts en elits0
+      Ajout de elitsNonDélégués
     22/8/2020:
       Ajout de l'évènement aucun utilisé dans le cas d'une simplification
       Ajout de la propriété eltsp pour les éléments positifs
@@ -42,10 +46,10 @@ $schema:
     codeInsee:
       description: code Insee
       oneOf:
-        - description: les codes Insee commencant par '0', '2A' ou '2B' sont encodés chacun comme une chaine
+        - description: un code Insee commencant par '0', '2A' ou '2B' est encodé comme une chaine
           type: string
           pattern: '^(0[1-9]|2[AB])\d\d\d$'
-        - description: les codes Insee ne commencant pas par '0', '2A' ou '2B' sont encodés chacun comme un entier
+        - description: les autres sont encodés comme un entier
           type: number
           pattern: '^[1-9]\d\d\d\d$'
     listeDeCodesInsee:
@@ -56,7 +60,7 @@ $schema:
     evts:
       description: |
         Les opérations sur les entités sont décrites par des évènements de création/modification/suppression s'appliquant
-        à un code Insee ; la plupart prennent en objet un code INSEE ou une liste et, dans ce cas, les codes INSEE objets
+        à un code Insee ; la plupart prennent en objet un ou une liste de codes INSEE et, dans ce cas, les codes INSEE objets
         portent à la même un date un évènement appelé mirroir.
         La définition de ces types d'évènement respecte les principes suivants:
           - le nombre de types d'évènements est limité afin de faciliter la compréhension du modèle
@@ -286,11 +290,21 @@ $schema:
                 erat:
                   description: éventuellement entités rattachées ; champ distinct pour améliorer la lisibilité du fichier
                   $ref: '#/definitions/erat'
-                elts:
-                  description: éventuellement définition du territoire sous la forme d'éléments, évt négatif
+                elits0:
+                  description: éventuellement définition du territoire sous la forme d'éléments intemporels propres, évt négatifs
                   type: string
-                eltsp:
-                  description: éventuellement définition du territoire sous la forme d'éléments tous positifs
+                elits:
+                  description: |
+                    définition du territoire sous la forme d'éléments intemporels propres positifs.
+                    Les élits propres d'une COMS sont ceux ne correspondant pas à une ERAT.
+                    Pour une commune mixte, ce sont ceux correspondant à la déléguée ; ceux évt correspondant à la CRAT sont définis
+                    dans la propriété elitsNonDélégués
+                  $ref: '#/definitions/listeDeCodesInsee'
+                elitsNonDélégués:
+                  description: |
+                    pour une ComNouvelle, éventuellement définition sous la forme d'élits du territoire non délégué.
+                    N'est utilisé que pour 33055 qui est une commune mixte qui a des elits pour sa déléguée propre et d'autres
+                    non délégués
                   $ref: '#/definitions/listeDeCodesInsee'
     eof:
       type: 'null'

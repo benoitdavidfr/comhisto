@@ -42,8 +42,11 @@ doc: |
           en se fondant sur les chefs-lieux asssociés aux élits
       - produire comhistog3 pour chaque version avec comme géométrie celle de l'union des elits correspondants
     6ème étape(export):
-      - exporter en GeoJSON la table comhistog3 et la publier
+      - exporter en GeoJSON les tables comhistog3 et elit et les publier
 journal: |
+  20/9/2020:
+    - détection d'erreurs et corrections
+    - publication sur data.gouv
   15/9/2020:
     - gestion du cas de Lyon
   12/9/2020:

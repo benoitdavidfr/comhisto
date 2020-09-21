@@ -41,5 +41,5 @@ Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
 ## Documentation du fichier elit.geojson
 
 Les objets du fichier elit.geojson correspondent aux éléments intemporels au 1/1/2020.
-Ils constituent les versions successives des entités du référentiel.
+Ce sont les briques constitutives des versions d'entité du référentiel.
 Leur seule propriété est leur identifiant qui est un code Insee.
