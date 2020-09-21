@@ -91,9 +91,10 @@ La seconde étape consiste à :
   et à des scissions les 6 créations de commune à partir d'autres communes détaillées ci-dessous ;
 - faire correspondre à chaque version d'entité un ensemble d'**éléments administratifs intemporels** (élits).
 
+On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
+Les 3 derniers types d'entités sont appelés *entités rattachées*.
+
 ### Simplifications
-/* On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal.  
-Les 3 derniers types d'entités sont appelés *entités rattachées*.*/
 
 Les 6 dissolutions simplifiées en fusions sont :
   - dissolution de 08227 (Hocmont) le 2/3/1968,
@@ -111,8 +112,8 @@ Les 6 créations de commune à partir d'autres communes simplifiées en scission
   - création de 29302 (devenu Pont-de-Buis-lès-Quimerch) le 27/8/1949,
   - création de 46339 (Saint-Jean-Lagineste) le 17/6/1948.
 
-
-Ces élits correspondent généralement au territoire associé au code Insee au 1/1/1943,
+### Eléments administratifs intemporels (elits)
+Les éléments administratifs intemporels correspondent généralement au territoire associé au code Insee au 1/1/1943,
 sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
 dans ce cas l'élit est le territoire le plus petit après ces scissions.  
 De manière générale:
@@ -120,10 +121,11 @@ De manière générale:
     et chaque élit correspond à un et un seul code Insee ;
   - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
     moins l'union des territoires des autres codes Insee ;
-  - le territoire de toute version de code Insee corespond à un ensemble d'élits ;
+  - le territoire de toute version de code Insee peut être défini comme un ensemble d'élits ;
   - à tout moment les élits forment une partition du territoire ayant été concernés par le référentiel.
 
 Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
+Cela signifie qu'ils ne sont intemporels que pour une version de référentiel.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
