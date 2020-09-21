@@ -93,7 +93,7 @@ La seconde étape consiste à :
   sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
   dans ce cas l'élit est le territoire le plus petit après ces scissions.  
   Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
-  Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](hiselit.yaml).
+  Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](histelit.yaml).
 
 Les 6 dissolutions sont:
 
