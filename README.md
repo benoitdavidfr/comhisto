@@ -36,7 +36,8 @@ et peut être, jusqu'à un certain point, géocodé à partir des informations d
 
 Ce référentiel, permettant de géocoder un ancien code, est mis à disposition
 sous la forme d'un fichier [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON) zippé
-dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z).
+dont une [première version est disponible ici (6,0 Mo)](export/comhistog3.7z)
+et [sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson).
 Il est [documenté plus précisément ici](export/README.md).
 
 ## Limites du référentiel
@@ -58,6 +59,8 @@ De plus, **attention**, la production de ce référentiel est en cours et les r�
 Il existe des erreurs connues:
 
 - absence des communes de St Barth et de St Martin.
+- erreur sur 78613/91613 (Thionville)
+
 
 La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
 

@@ -4,8 +4,8 @@
 Les objets (features) du fichier comhistog3.geojson correspondent aux versions successives des entités du référentiel.  
 Les propriétés suivantes sont fournies:
 
-- `type` - soit le caractère `'r'` s'il s'agit d'entité rattachée (commune associée, commune déléguée ou arrondissement municipal),
-  soit le caractère `'s'` sinon ;
+- `type` - le caractère `'r'` pour entité rattachée (commune associée, commune déléguée ou arrondissement municipal),
+  sinon le caractère `'s'` ;
 - `cinsee` - code Insee de l'entité sur 5 caractères ;
 - `ddebut` - date de création de la version sous la forme d'une chaine de 10 caractères dans le format YYYY-MM-DD ;
 - `edebut` - évènements de création de la version sous la forme d'une structure JSON/Yaml, 
@@ -17,8 +17,8 @@ Les propriétés suivantes sont fournies:
   - `BASE` - commune de base (ni commune de rattachement, ni entité rattachée)
   - `ASSO` - commune de rattachement d'une association
   - `NOUV` - commune de rattachement d'une commune nouvelle
-  - `COMA` - commune associée
-  - `COMD` - commune déléguée
+  - `COMA` - commune associée d'une association
+  - `COMD` - commune déléguée d'une commune nouvelle
   - `ARDM` - arrondissement municipal
 - `crat` - pour une entité rattachée (COMA, COMD, ARDM) code Insee de la commune de rattachement, sinon null ;
 - `erats` - pour une commune de rattachement (ASSO, NOUV) liste JSON/Yaml des codes Insee des entités rattachées, sinon liste vide ;
