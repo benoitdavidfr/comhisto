@@ -1,6 +1,12 @@
 <?php
-// génération GeoJSON des chefs-lieux
-
+/*PhpDoc:
+name: geojson.php
+title: geojson.php - génération GeoJSON des chefs-lieux
+doc: |
+journal: |
+  18/9/2020:
+    - création
+*/
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/cheflieu.inc.php';
 

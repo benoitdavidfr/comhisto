@@ -5,6 +5,6 @@ journal: |
   18/9/2020:
     - création
 phpScripts:
-  - /yamldoc/pub/comhisto/croise/geojson.php
+  - /yamldoc/pub/comhisto/cheflieu/geojson.php
 phpIncludes:
-  - /yamldoc/pub/comhisto/croise/cheflieu.inc.php
+  - /yamldoc/pub/comhisto/cheflieu/cheflieu.inc.php

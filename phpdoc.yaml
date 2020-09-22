@@ -1,55 +1,19 @@
 title: comhisto - référentiel de l'historique des communes (V2)
 path: /yamldoc/pub/comhisto
 doc: |
+  Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
+  Réutilisation du code produit dans rpicom, renommage du projet.
+
   A Faire:
     - corriger 78613 (Thionville) / s91613
     - ajouter StBarth et StMartin
     - rédiger le schéma du fichier GeoJSON
-    - mettre un fil de discussion
-    - mettre un lien vers data.gouv
-    
-  Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
-  Réutilisation du code produit dans rpicom, renommage du projet.
+  
+  synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
+  
   Résultats:
-    - historique des codes Insee -> couple/histeltd.yaml, son schéma et sa doc
-    - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, avec les champs suivants
-      type: 's' ou 'r'
-      cinsee: code Insee ayant existé
-      debut: date de début sous la forme AAAA-MM-DD
-      fin: date du lendemain de la fin sous la forme AAAA-MM-DD ou null ssi version valide à la date de référence
-      dnom: dernier nom associé
-      geom: géométrie sous la forme d'un multi-polygone en 4326
-  Les étapes:
-    1ère étape(insee):
-      - à partir des données de mouvements Insee et de l'état au 1/1/2020, produire un document Yaml facile à consulter (par un humain
-        et une machine) et à exploiter (par une machine) de l'historique de chaque code Insee
-      - corriger ces données des incohérences constatées et de quelques erreurs flagrantes
-      - ajuster à la marge au périmètre choisi (a priori Métropole + DOM, par la suite évent. extension à StBarth, StMartin, StP&M)
-      - le résultat est un document histov.yaml, son schéma dans exhisto.yaml et la doc dans README.md
-    2ème étape(elits):
-      - Appliquer des simplifications pour assimiler à des fusions les 6 dissolutions et à des scissions les 6 créations de commune
-        à partir d'autres communes
-      - construire progressivement la notion d'éléments administratifs intemporels (elits) à partir desquels toutes les localisations
-        des versions peuvent être construites ; le fichier insee/histov.yaml est complété de ces éléments pour donner histelit.yaml
-    3ème étape(ign):
-      - charger dans PostGis les données AE2020COG d'IGN
-      - à partir de ces données produire dans PostGis une couche géo. cohérente des entités administratives pour 2020
-      - construire l'ensemble des limites entre entités et avec l'extérieur
-      - affecter à chaque limite une géométrie généralisée avec une résolution de 100m (3 décimales)
-      - affecter à chaque entité un multi-polygone généralisé
-      - le résultat est une table eadming3 des éléments d'entités administratives (coms, erat, ecomp) généralisées
-    4ème étape(cheflieu):
-      - compléter AE2020COG par la localisation ponctuelle (chef-lieu) des entités rattachées valides au 1/1/2020 et des entités abrogées
-      - ces infos sont issues d'une part de Wikipedia et d'autre part du Géoportail
-    5ème étape(croise):
-      - associer à chaque eadming3 (dont la géométrie est déduite du AE2020) les elits correspondants (complétés dans histelitp.yaml)
-      - en déduire la table des elits (elts)
-        - si un eadming3 correspond à un seul elit alors la géométrie de l'elit est celle de l'eadming3
-        - si un eadming3 correspond à plusieurs elits, la géométrie de l'eadming3 est découpée par l'algorithme de Voronoi en elits
-          en se fondant sur les chefs-lieux asssociés aux élits
-      - produire comhistog3 pour chaque version avec comme géométrie celle de l'union des elits correspondants
-    6ème étape(export):
-      - exporter en GeoJSON les tables comhistog3 et elit et les publier
+    - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
+    - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
 journal: |
   20/9/2020:
     - détection d'erreurs et corrections
@@ -74,6 +38,7 @@ submodules:
   - /yamldoc/pub/comhisto/insee
   - /yamldoc/pub/comhisto/elits
   - /yamldoc/pub/comhisto/ign
+  - /yamldoc/pub/comhisto/cheflieu
   - /yamldoc/pub/comhisto/croise
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php

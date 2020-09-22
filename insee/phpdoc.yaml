@@ -19,5 +19,7 @@ phpIncludes:
   - /yamldoc/pub/comhisto/insee/grpmvts.inc.php
   - /yamldoc/pub/comhisto/insee/mgrpmvts.inc.php
 htmlFiles:
+  - /yamldoc/pub/comhisto/insee/exhisto.yaml
   - /yamldoc/pub/comhisto/insee/histo.yaml
+  - /yamldoc/pub/comhisto/insee/histov.yaml
   - /yamldoc/pub/comhisto/insee/rpicom.yaml

@@ -1,7 +1,7 @@
 # Référentiel communal historique simplifié (ComHisto)
 ### Utilisation du code Insee des communes comme référentiel pivot
 
-## Objectif de ce projet
+## Objectif du projet
 L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
 
 De nombreuses bases de données, appelées par la suite bases métier, par exemple des bases de décisions administratives,
@@ -60,7 +60,7 @@ Il est [documenté plus précisément ici](export/README.md).
 ## Erreurs du référentiel
 De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
-Enfin, il existe des erreurs connues:
+Enfin, il reste quelques erreurs connues en cours de traitement :
 
 - absence des communes de St Barth et de St Martin.
 - erreur sur 78613/91613 (Thionville)
