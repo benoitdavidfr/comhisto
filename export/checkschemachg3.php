@@ -1,7 +1,8 @@
 <?php
 // checkschemachg3.php - vérifie le schéma de comhistog3.geojson
-ini_set('memory_limit', '4G');
-set_time_limit(2*60);
+ini_set('memory_limit', '1G');
+if (php_sapi_name() <> 'cli')
+  set_time_limit(2*60);
 
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../schema/jsonschema.inc.php';
@@ -16,7 +17,7 @@ $schema = new JsonSchema($schema, false);
 $docname = 'comhistog3';
 //$docname = 'chg3';
 $document = json_decode(file_get_contents(__DIR__."/$docname.geojson"), true);
-  
+/*
 $status = $schema->check($document);
 if (!$status->ok()) {
   echo "Echec de la vérification<br>\n";
@@ -25,4 +26,14 @@ if (!$status->ok()) {
 else {
   echo "Vérification ok<br>\n";
   $status->showWarnings();
+}
+*/
+$features = $document['features'];
+foreach ($features as $feature) {
+  $document['features'] = [$feature];
+  $status = $schema->check($document);
+  if (!$status->ok()) {
+    echo "Echec de la vérification pour $feature[id]<br>\n";
+    $status->showErrors();
+  }
 }

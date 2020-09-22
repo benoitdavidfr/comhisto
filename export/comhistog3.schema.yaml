@@ -1,6 +1,6 @@
-$schema: http://json-schema.org/draft-07/schema#
-$id: http://geojson.org/schema/FeatureCollection.json
 title: Schéma de comhistog3
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://github.com/benoitdavidfr/comhisto/blob/master/export/comhistog3.schema.yaml
 definitions:
   bbox: { type: array, minItems: 4, items: { type: number } }
   Feature:
@@ -16,6 +16,7 @@ definitions:
   properties:
     description: propriétés d'un objet de comhistog3 correspondant à une version d'entité
     type: object
+    additionalProperties: false
     properties:
       type:
         description: le caractère 's' pour commune simple (BASE, ASSO ou NOUV), 'r' pour entité rattachée (COMA, COMD, ARDM)
@@ -69,19 +70,10 @@ definitions:
     description: date encodée comme chaine au format ISO 8601
     type: string
     pattern: ^\d\d\d\d-\d\d-\d\d$
-  codeInseeChaine:
-    description: code Insee encodé comme chaine
-    type: string
-    pattern: '^\d[\dAB]\d\d\d$'
   codeInsee:
     description: code Insee encodé comme chaine ou comme entier
-    oneOf:
-      - description: un code Insee commencant par '0', '2A' ou '2B' est encodé comme une chaine
-        type: string
-        pattern: '^(0[1-9]|2[AB])\d\d\d$'
-      - description: les autres sont encodés comme un entier
-        type: number
-        pattern: '^[1-9]\d\d\d\d$'
+    type: [string, number]
+    pattern: '^\d[\dAB]\d\d\d$'
   listeDeCodesInsee:
     description: liste de codes INSEE
     type: array
@@ -225,8 +217,10 @@ definitions:
           - COMM # le code correspond simultanément à une commune simple et à une commune déléguée (commune mixte)
           - ARDM # le code corresond à un arrondissement municipal
       crat:
-        description: code INSEE de la commune de rattachement ssi le statut est COMA, COMD ou ARDM
-        $ref: '#/definitions/codeInseeChaine'
+        description: code INSEE de la commune de rattachement ssi le statut est COMA, COMD ou ARDM, null sinon
+        oneOf:
+          - type: 'null'
+          - $ref: '#/definitions/codeInsee'
       nomCommeDéléguée:
         description: ssi statut=COMM alors nom de la commune déléguée
         type: string
@@ -341,6 +335,7 @@ definitions:
     
 type: object
 required: [ type, features ]
+additionalProperties: false
 properties:
   type: { type: string,  enum: [ FeatureCollection ] }
   name: {type: string}

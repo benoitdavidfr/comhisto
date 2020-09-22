@@ -38,6 +38,8 @@ Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
   `("ddebut" <= '1981-01-01') and (("dfin" is null) or ("dfin" > '1981-01-01'))`
 - n'obtenir que les entités au 1/1/1943 : `"ddebut" = '1943-01-01'`
 
+Le schema JSON est [disponible ici en Yaml](comhistog3.schema.yaml). 
+
 ## Documentation du fichier elit.geojson
 
 Les objets du fichier elit.geojson correspondent aux éléments intemporels au 1/1/2020.
