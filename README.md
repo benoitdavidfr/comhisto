@@ -41,7 +41,7 @@ et [zippé ici (6.0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
 ## Limites du référentiel
-**Attention**, les limites suivantes doivent être prises en compte :
+**Attention**, aux limites suivantes :
 
 - Afin de ne pas complexifier le modèle de données, l'historique des communes a été simplifié dans 12 cas particuliers
   en assimilant les 6 dissolutions de communes à des fusions
@@ -57,12 +57,11 @@ Il est [documenté plus précisément ici](export/README.md).
 - lorsqu'une commune est absorbée puis rétablie, on fait l'hypothèse que sa géométrie est identique avant l'absorption
   et après le rétablissement.
 
-## Erreurs du référentiel
-De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
+De plus, **attention**, les résultats ne sont disponibles qu'à titre expérimental.
 
 
 # Démarche de construction du référentiel
-La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
+La suite de ce document détaille la démarche suivie pour construire ce nouveau référentiel.
 
 ## 1ère étape - partir des données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,

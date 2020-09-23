@@ -5,7 +5,7 @@ doc: |
   Réutilisation du code produit dans rpicom, renommage du projet.
 
   A Faire:
-    - ajouter StBarth et StMartin
+    - documenter les erreurs Insee
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
   
