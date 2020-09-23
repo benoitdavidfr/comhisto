@@ -9,9 +9,12 @@ doc: |
     - si un eadming3 correspond à plusieurs elits, la géométrie de l'eadming3 est découpée par l'algorithme de Voronoi en elits
       en se fondant sur les chefs-lieux asssociés aux élits
   Enfin, la table comhistog3 est produite pour chaque version avec comme géométrie celle de l'union des elits correspondants
-  
-  Il faudrait vérifier que les chef-lieux sont localisés dans les entités dans lesquelles ils fusionnent !
 journal: |
+  18-23/9/2020:
+    - méthode de vérif que les chefs-lieux sont localisés dans les entités dans lesquelles ils fusionnent - verifcheflieu.php
+    - correction, en consultant la carte et Wikipedia, des erreurs rencontrées qui sont
+      - soit une erreur Insee d'entité et la correction est alors effectuée dans properat.php
+      - soit une erreur de localisation du chef-lieu et la correction est alors effectuée dans ../cheflieu/cheflieu[wp|gp].yaml
   18/9/2020:
     - restructuration du code de voronoi.php (renommé fcomhisto.php) en éclatant la déf. des classes dans différents fichiers
   16-17/9/2020:

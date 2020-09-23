@@ -10392,9 +10392,8 @@ d78:
     Maisons-Laffitte: { names: [Maisons-Laffitte, Maisons-sur-Seine], geo: [2.14555555556, 48.9469444444] }
     Rochefort-en-Yvelines: { names: [Rochefort-en-Yvelines, Rochefort], geo: [1.98861111111, 48.5866666667] }
     Paray-Douaville: { names: [Paray-Douaville, Paray-le-Moineau], geo: [1.87833333333, 48.4641666667] }
-    Thionville-sur-Opton: { names: [Thionville-sur-Opton, Thionville], geo: [1.602277, 48.775537] }
+    Thionville-sur-Opton: { names: [Thionville-sur-Opton], geo: [1.602277, 48.775537] }
     Ch%C3%A2teaufort_(Yvelines): { names: [Châteaufort], geo: [2.0922, 48.7372] }
-    Essonne_(d%C3%A9partement): { names: [Essonne], geo: [2.25, 48.525] }
     Toussus-le-Noble: { names: [Toussus-le-Noble], geo: [2.115, 48.7478] }
 d79:
     Aigonnay: { names: [Aigonnay], geo: [-0.256944444444, 46.3305555556] }
@@ -11759,7 +11758,6 @@ d91:
     Breux-Jouy: { names: [Breux-Jouy, Breux], geo: [2.1778786, 48.5613504] }
     M%C3%A9r%C3%A9ville_(Essonne): { names: [Méréville], geo: [2.087059, 48.3182786] }
     Moigny-sur-%C3%89cole: { names: [Moigny-sur-École, Moigny], geo: [2.457338, 48.4330589] }
-    Thionville_(Essonne): { names: [Thionville], geo: [1.9885254, 48.3873232] }
     Corbeil_(Essonne): { names: [Corbeil], geo: [2.4820251, 48.6138786] }
     Oncy-sur-%C3%89cole: { names: [Oncy-sur-École, Oncy], geo: [2.4739301, 48.3824958] }
     Essonnes: { names: [Essonnes], geo: [2.4820251, 48.6138786] }

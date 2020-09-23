@@ -12,12 +12,10 @@ doc: |
       - je construis les couples (eadmin, elits)
       - j'effectue le test d'inclusion
 journal: |
+  23/9/2020 4:26:
+    - ttes les erreurs sont corrigées
   18/9/2020:
     - création
-*/
-/* Sortie 20/9/2020 17:00 - 2 erreurs à corriger:
-Erreur sur elit=49357 (Trèves-Cunault) / r49149 -> 49094
-Erreur sur elit=78613 (Thionville) / s91613
 */
 ini_set('memory_limit', '1G');
 set_time_limit(2*60);

@@ -63,7 +63,6 @@ De plus, **attention**, la production de ce référentiel est en cours et les r�
 Enfin, il reste quelques erreurs connues en cours de traitement :
 
 - absence des communes de St Barth et de St Martin.
-- erreur sur 78613/91613 (Thionville)
 
 
 # Démarche de construction du référentiel
