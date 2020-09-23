@@ -5,9 +5,7 @@ doc: |
   Réutilisation du code produit dans rpicom, renommage du projet.
 
   A Faire:
-    - corriger 78613 (Thionville) / s91613
     - ajouter StBarth et StMartin
-    - rédiger le schéma du fichier GeoJSON
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
   
