@@ -122,7 +122,7 @@ Cela signifie qu'ils ne sont intemporels que pour une version donnée de référ
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
 
-## 3ème étape - géoréférencement des entités valides à partir des données IGN 
+## 3ème étape - géoréférencer les entités valides à partir des données IGN 
 On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal. 
 Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
@@ -131,16 +131,16 @@ ou à une entité rattachée valides au 1/1/2020.
 
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
-## 4ème étape - ajout de St Barth et St Martin
+## 4ème étape - ajouter St Barth et St Martin
 Ajout des géométries des communes de St Barth et St Martin à partir de
 [la couche admin-0-countries de Natural Earth 1/10M](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/).
  
-## 5ème étape - localisation des chefs-lieux des entités périmées 
+## 5ème étape - localiser les chefs-lieux des entités périmées 
 On complète les chefs-lieux des communes valides par ceux des entités rattachées et périmées par scrapping de Wikipédia
 et saisie interactive à partir des cartes IGN et de Wikipédia.
 Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.geojson).
 
-## 6ème étape - croisement des données Insee avec les données IGN
+## 6ème étape - croiser les données Insee avec celles de l'IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
 Sinon, la géométrie de l'entité est découpée par l'algorithme de Voronoï en elits
@@ -160,6 +160,6 @@ et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 Ce croisement nécessite plusieurs corrections.
 Le fichier Yaml corrigé des codes Insee avec les elits est disponible ici](croise/histelitp.yaml).
 
-## 7ème étape - export du référentiel
+## 7ème étape - exporter le référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
 et décrit [ici](export/README.md).
