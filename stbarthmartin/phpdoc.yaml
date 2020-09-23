@@ -1,0 +1,10 @@
+title: comhisto/stbarthmartin - ajout St Barth et St Martin à eadming3
+path: /yamldoc/pub/comhisto/stbarthmartin
+doc: |
+  La géométrie de St Barth et St Martin est recopiée avec QGis de Natural Earth 1/10M - admin_0_countries dans stbarthmartin.geojson
+  Le script ajoutead.php insert les 2 n-uplets dans la table eadming3
+journal: |
+  23/9/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/stbarthmartin/ajoutead.php

@@ -84,7 +84,7 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = true; // si true on génère les élts dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = true; // si true on génère les élits dans la table elt, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
   echo "Attention: Les élts ne sont pas générés\n";
@@ -111,7 +111,7 @@ elseif (Params::GEN_ELTS) {
 // Phase 1 - création des éléments dans la table elt
 if (Params::GEN_ELTS) {
   foreach (Histo::$all as $cinsee => $histo) {
-    //if (substr($cinsee, 0, 1) >= 4) break;
+    //if (substr($cinsee, 0, 2) <> 97) continue;
     //if (substr($cinsee, 0, 1) < 8) continue;
     if (!($vvalide = $histo->vvalide())) {
       //echo "$cinsee non valide\n";
@@ -175,6 +175,7 @@ PgSql::query("comment on table comhistog3 is 'couche des versions de communes g�
 
 foreach (Histo::$all as $cinsee => $histo) {
   //if (substr($cinsee, 0, 1) >= 4) break;
+  //if (substr($cinsee, 0, 2) <> 97) continue;
   $histo->insertComhisto();
 }
 

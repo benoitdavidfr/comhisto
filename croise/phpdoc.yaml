@@ -15,6 +15,7 @@ journal: |
     - correction, en consultant la carte et Wikipedia, des erreurs rencontrées qui sont
       - soit une erreur Insee d'entité et la correction est alors effectuée dans properat.php
       - soit une erreur de localisation du chef-lieu et la correction est alors effectuée dans ../cheflieu/cheflieu[wp|gp].yaml
+    - gestion des cas particuliers de St Barth et St Martin
   18/9/2020:
     - restructuration du code de voronoi.php (renommé fcomhisto.php) en éclatant la déf. des classes dans différents fichiers
   16-17/9/2020:

@@ -38,7 +38,9 @@ class Histo {
     }
     
     $this->vvalide = array_values($this->versions)[count($this->versions)-1];
-    if (!$this->vvalide->etat()) // ne correspond pas réellement à une version mais à un évt de suppression
+    if (in_array($cinsee, ['97123','97127'])) // Cas particuliers de St Barth et St Martin
+      $this->vvalide = array_values($this->versions)[0];
+    elseif (!$this->vvalide->etat()) // ne correspond pas réellement à une version mais à un évt de suppression
       $this->vvalide = null;
     elseif ($this->vvalide->fin()) // si la date de fin est définie alors le code est périmé/abrogé
       $this->vvalide = null;

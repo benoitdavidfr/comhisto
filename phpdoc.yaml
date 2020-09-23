@@ -13,6 +13,11 @@ doc: |
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
 journal: |
+  23/9/2020:
+    - correction erreur sur 78613/91613 (Thionville)
+    - ajout St Barth et St Martin
+  22/9/2020:
+    - écriture du schéma JSON de comhistog3
   20/9/2020:
     - détection d'erreurs et corrections
     - publication sur data.gouv
@@ -36,6 +41,7 @@ submodules:
   - /yamldoc/pub/comhisto/insee
   - /yamldoc/pub/comhisto/elits
   - /yamldoc/pub/comhisto/ign
+  - /yamldoc/pub/comhisto/stbarthmartin
   - /yamldoc/pub/comhisto/cheflieu
   - /yamldoc/pub/comhisto/croise
 phpScripts:
