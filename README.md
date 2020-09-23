@@ -60,10 +60,6 @@ Il est [documenté plus précisément ici](export/README.md).
 ## Erreurs du référentiel
 De plus, **attention**, la production de ce référentiel est en cours et les résultats ne sont disponibles qu'à titre expérimental.
 
-Enfin, il reste quelques erreurs connues en cours de traitement :
-
-- absence des communes de St Barth et de St Martin.
-
 
 # Démarche de construction du référentiel
 La suite de ce document détaille la démarche suivie pour définir ce nouveau référentiel.
@@ -135,12 +131,16 @@ ou à une entité rattachée valides au 1/1/2020.
 
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
-## 4ème étape - localisation des chefs-lieux des entités périmées 
+## 4ème étape - ajout de St Barth et St Martin
+Ajout des géométries des communes de St Barth et St Martin à partir de
+[la couche admin-0-countries de Natural Earth 1/10M](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/).
+ 
+## 5ème étape - localisation des chefs-lieux des entités périmées 
 On complète les chefs-lieux des communes valides par ceux des entités rattachées et périmées par scrapping de Wikipédia
 et saisie interactive à partir des cartes IGN et de Wikipédia.
 Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.geojson).
 
-## 5ème étape - croisement des données Insee avec les données IGN
+## 6ème étape - croisement des données Insee avec les données IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
 Sinon, la géométrie de l'entité est découpée par l'algorithme de Voronoï en elits
@@ -160,6 +160,6 @@ et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 Ce croisement nécessite plusieurs corrections.
 Le fichier Yaml corrigé des codes Insee avec les elits est disponible ici](croise/histelitp.yaml).
 
-## 6ème étape - export du référentiel
+## 7ème étape - export du référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
 et décrit [ici](export/README.md).
