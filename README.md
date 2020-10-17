@@ -51,7 +51,7 @@ Il est [documenté plus précisément ici](export/README.md).
   en utilisant l'[algorithme de Douglas et Peucker](https://fr.wikipedia.org/wiki/Algorithme_de_Douglas-Peucker)
   avec une résolution de 10**-3 degrés soit environ 100 mètres ;
   cette simplification n'est pas effectuée dans quelques cas où elle génèrerait des erreurs de construction de polygones.
-- certaines limites non disponibles dans la version d'Admin-Express du 1/1/2020 sont approximées en utilisant
+- les limites non disponibles dans la version d'Admin-Express du 1/1/2020 sont approximées en utilisant
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 - lorsqu'une commune est absorbée puis rétablie, on fait l'hypothèse que sa géométrie est identique avant l'absorption

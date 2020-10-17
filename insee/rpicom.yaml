@@ -1,6 +1,6 @@
 title: 'Référentiel rpicom'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-07-23T13:07:01+00:00'
+created: '2020-10-01T21:11:46+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/rpicom/exrpicom/$schema'
 ydADscrBhv:
@@ -20809,6 +20809,12 @@ contents:
         devientDéléguéeDe: 14726
       name: Burcy
   14114:
+    now:
+      name: Bures-sur-Dives
+      estAssociéeA: 14712
+    '2019-12-31':
+      évènement:
+        rétablieCommeAssociéeDe: 14712
     '2017-01-01':
       après: {  }
       évènement:

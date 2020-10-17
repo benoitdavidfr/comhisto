@@ -186,11 +186,11 @@ $schema:
           description: statut de l'entité
           type: string
           enum:
-            - COMS # le code corresond à une commune simple
-            - COMA # le code corresond à une commune associée
-            - COMD # le code corresond à une commune déléguée
+            - COMS # le code correspond à une commune simple
+            - COMA # le code correspond à une commune associée
+            - COMD # le code correspond à une commune déléguée
             - COMM # le code correspond simultanément à une commune simple et à une commune déléguée (commune mixte)
-            - ARDM # le code corresond à un arrondissement municipal
+            - ARDM # le code correspond à un arrondissement municipal
         crat:
           description: code INSEE de la commune de rattachement ssi le statut est COMA, COMD ou ARDM
           $ref: '#/definitions/codeInsee'

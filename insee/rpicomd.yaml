@@ -1,7 +1,7 @@
 title: 'Référentiel Rpicom modifié avec évts détaillés'
 '@id': 'http://id.georef.eu/comhisto/insee/rpicomd'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/yamldocs/tree/master/comhisto'
-created: '2020-08-19T10:28:36+00:00'
+created: '2020-10-01T21:12:43+00:00'
 valid: '2020-01-01'
 contents:
   '01001':
@@ -19553,6 +19553,11 @@ contents:
       évènement: { devientDéléguéeDe: 14726 }
       name: Burcy
   14114:
+    now:
+      name: Bures-sur-Dives
+      estAssociéeA: 14712
+    '2019-12-31':
+      évènement: { crééeCommeAssociéeParScissionDe: 14712 }
     '2017-01-01':
       après: {  }
       évènement: { fusionneDans: 14712 }
@@ -22806,7 +22811,7 @@ contents:
       évènement: 'Commune rétablissant des c. rattachées ou fusionnées'
       name: Saline
       commeDéléguée: { name: Troarn }
-      évènementDétaillé: { détacheCommeSimples: [14666] }
+      évènementDétaillé: { seScindePourCréer: [14114], détacheCommeSimples: [14666] }
     '2017-01-01':
       après: { name: Saline, commeDéléguée: { name: Troarn } }
       évènement: 'Se crée en commune nouvelle avec commune déléguée propre'

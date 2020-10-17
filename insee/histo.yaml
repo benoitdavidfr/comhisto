@@ -1,7 +1,7 @@
 title: 'Référentiel historique des communes'
 '@id': 'http://id.georef.eu/comhisto/insee/histo'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-08-19T10:28:38+00:00'
+created: '2020-10-01T21:12:45+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee/exhisto/$schema'
 ydADscrBhv:
@@ -18678,6 +18678,9 @@ contents:
       etat: { name: Bures-sur-Dives, statut: COMA, crat: 14712 }
     '2017-01-01':
       evts: { fusionneDans: 14712 }
+    '2019-12-31':
+      evts: { crééeCommeAssociéeParScissionDe: 14712 }
+      etat: { name: Bures-sur-Dives, statut: COMA, crat: 14712 }
   14115:
     '1943-01-01':
       etat: { name: Bures-les-Monts, statut: COMS }
@@ -21507,8 +21510,9 @@ contents:
       etat: { name: Saline, statut: COMM, nomCommeDéléguée: Troarn }
       erat: { aPourDéléguées: [14666, 14712] }
     '2019-12-31':
-      evts: { détacheCommeSimples: [14666] }
+      evts: { seScindePourCréer: [14114], détacheCommeSimples: [14666] }
       etat: { name: Troarn, statut: COMS }
+      erat: { aPourAssociées: [14114] }
   14713:
     '1943-01-01':
       etat: { name: Trois-Monts, statut: COMS }
@@ -145200,4 +145204,4 @@ contents:
       etat: { name: Sada, statut: COMS }
   97617:
     '2011-03-31':
-      etat: { name: Tsingoni, statut: COMS }
+      etat: { name: Sada, statut: COMS }

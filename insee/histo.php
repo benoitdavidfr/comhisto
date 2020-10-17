@@ -46,7 +46,7 @@ require_once __DIR__.'/menu.inc.php';
 
 $menu = new Menu([
   // [{action} => [ 'argNames' => [{argName}], 'actions'=> [{label}=> [{argValue}]] ]]
-  'buildState'=> [
+  /*'buildState'=> [
     // affichage Yaml de l'état des communes par traduction du fichier INSEE
     'argNames'=> ['state', 'file', 'format'], // liste des noms des arguments en plus de action
      // actions prédéfinies
@@ -56,9 +56,9 @@ $menu = new Menu([
       "affichage de l'état au 1/1/2018"=> [ '2018-01-01', 'France2018.txt', 'txt'],
       "affichage de l'état au 1/1/2017"=> [ '2017-01-01', 'France2017.txt', 'txt'],
       "affichage de l'état au 1/1/2010"=> [ '2010-01-01', 'France2010.txt', 'txt'],
-      "affichage de l'état au 1/1/2000"=> [ '2000-01-01', 'France2000.txt', 'txt']*/
+      "affichage de l'état au 1/1/2000"=> [ '2000-01-01', 'France2000.txt', 'txt'],
     ],
-  ],
+  ],*/
   'check'=> [
     // vérifie la conformité du fichier à son schéma
     'argNames'=> ['file'],
@@ -115,7 +115,7 @@ if (!isset($_GET['action'])) { // Menu
 }
 
 // convertit un enregistrement txt en csv, cad de l'ancien format INSEE dans le nouveau
-function conv2Csv(array $rec): array {
+/*function conv2Csv(array $rec): array {
   switch($rec['actual']) {
     case '1': // commune simple
       $rec['typecom'] = 'COM'; break;
@@ -139,7 +139,7 @@ function conv2Csv(array $rec): array {
   
   $rec['comparent'] = $rec['pole'];
   return $rec;
-}
+}*/
 
 {/*PhpDoc: functions
 name: addValToArray
@@ -276,7 +276,7 @@ function echoHtmlHeader(string $title, string $start='<pre>'): void {
 }
 
 
-if ($_GET['action'] == 'buildState') { // affichage Yaml de l'état des communes par traduction du fichier INSEE
+/*if ($_GET['action'] == 'buildState') { // affichage Yaml de l'état des communes par traduction du fichier INSEE
   echoHtmlHeader($_GET['action'], "<h3>lecture du fichier $_GET[file]</h3><pre>\n");
   //die("Fin ligne ".__LINE__);
   $coms = []; // [cinsee => record + children] 
@@ -327,9 +327,9 @@ if ($_GET['action'] == 'buildState') { // affichage Yaml de l'état des communes
       $coms[$c] = [$childrenTag[1] => $comparent];
   }
   ksort($coms);
-  // Post-traitement - suppr. de 2 rétablisements ambigus c^té INSEE et contredits par IGN et wikipédia
+  // Post-traitement - suppr. de 2 rétablisements ambigus côté INSEE et contredits par IGN et wikipédia
   if ($_GET['state'] == '2020-01-01') {
-    // suppr. du rétablisement de 14114 Bures-sur-Dives comme c. assciée de 14712
+    // suppr. du rétablisement de 14114 Bures-sur-Dives comme c. associée de 14712
     unset($coms['14114']);
     unset($coms['14712']['aPourAssociées']);
     // suppr. du rétablisement de Gonaincourt comme c. déléguée de 52064
@@ -371,7 +371,7 @@ EOT;
       'contents'=> $coms
     ], 99, 2);
   die();
-}
+}*/
 
 /*if ($_GET['action'] == 'check') { // vérifie la conformité du fichier à son schéma
   require_once __DIR__.'/../../inc.php';
@@ -418,37 +418,30 @@ EOT;
     die("Erreur $compath.yaml n'existe pas\n");
   }
   $coms = new Base($compath, new Criteria(['not'])); // Lecture de com20200101.yaml dans $coms
-  foreach ($coms->contents() as $idS => $comS) {
-    //echo Yaml::dump([$id => $com]);
-    if (!isset($comS['name'])) continue;
-    foreach ($comS['aPourAssociées'] ?? [] as $id => $com) {
-      $rpicom->$id = ['now'=> [
-        'name'=> $com['name'],
-        'estAssociéeA'=> $idS,
-      ]];
+  foreach ($coms->contents() as $id => $com) {
+    //echo Yaml::dump([$idS => $comS]);
+    $now = ['name'=> $com['name']];
+    switch ($com['statut']) {
+      case 'COMA': { $now['estAssociéeA'] = $com['crat']; break; }
+      case 'COMD': { $now['estDéléguéeDe'] = $com['crat']; break; }
+      case 'ARM': { $now['estArrondissementMunicipalDe'] = $com['crat']; break; }
+      case 'COMB':
+      case 'ASSO': 
+      case 'CARM': break;
+      case 'CNOV': {
+        if (isset($com['commeDéléguée']))
+          $now['commeDéléguée'] = $com['commeDéléguée'];
+        break;
+      }
+      default: die("statut $com[statut] non traité");
     }
-    unset($comS['aPourAssociées']);
-    foreach ($comS['aPourDéléguées'] ?? [] as $id => $com) {
-      if ($id <> $idS)
-        $rpicom->$id = ['now'=> [
-          'name'=> $com['name'],
-          'estDéléguéeDe'=> $idS,
-        ]];
-      else
-        $comS['commeDéléguée'] = ['name'=> $com['name']];
-    }
-    unset($comS['aPourDéléguées']);
-    foreach ($comS['aPourArrondissementsMunicipaux'] ?? [] as $id => $com) {
-      $rpicom->$id = ['now'=> [
-        'name'=> $com['name'],
-        'estArrondissementMunicipalDe'=> $idS,
-      ]];
-    }
-    unset($comS['aPourArrondissementsMunicipaux']);
-    $rpicom->$idS = ['now'=> $comS];
-    unset($coms->$idS);
+    $rpicom->$id = [ 'now'=> $now ];
+    unset($coms->$id);
   }
   unset($coms);
+  // Post-traitement
+  //echo "Suppression de 52224 (Gonaincourt)\n";
+  //unset($rpicom->{52224});
   return $rpicom;
 }
 
@@ -466,6 +459,7 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
 
   // fabrication de la version initiale du RPICOM avec les communes du 1/1/2020 comme 'now'
   $rpicoms = initRpicomFrom(__DIR__.'/com20200101', new Criteria(['not']));
+  //print_r($rpicoms);
   
   $mvtcoms = GroupMvts::readMvtsInseePerDate(__DIR__.'/../data/mvtcommune2020.csv'); // lecture csv ds $mvtcoms
   krsort($mvtcoms); // tri par ordre chrono inverse
@@ -523,7 +517,8 @@ if ($_GET['action'] == 'brpicom') { // construction du Rpicom
       ]
     ];
   }
-  if (1) { // Post-trait. no 3 - supp. du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia
+  if (0) { // Post-trait. no 3 - supp. du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia
+    // le rétablissement est confirmé => suppression de la correction
     echo "Suppression du rétablisst de 14114 Bures-sur-Dives ambigue sur site INSEE, contredit par IGN et wikipédia\n";
     $id = '14114';
     $rpicom = $rpicoms->$id;

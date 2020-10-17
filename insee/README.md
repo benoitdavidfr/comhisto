@@ -162,12 +162,6 @@ Quelques cas particuliers complexes sont listés ci-dessous:
 - [Cas de Lyon non traité](eg69123.yaml)
 
 
-## Probèmes non résolus
-
-- gestion de Lyon / pose not. pb. de déduction d'erat lorsque les ardm ne change pas en même temps que la crat
-- manque un evt explicitant la supp. d'une com. déléguée propre, illustré par 22183
-
-
 ## Liste des modifications apportées aux données Insee
 
 ### Saint-Martin et Saint-Barthélemy

@@ -12,6 +12,7 @@ journal: |
   9/7/2020:
     - création
 phpScripts:
+  - /yamldoc/pub/comhisto/insee/insee.php
   - /yamldoc/pub/comhisto/insee/histo.php
 phpIncludes:
   - /yamldoc/pub/comhisto/insee/menu.inc.php

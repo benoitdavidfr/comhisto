@@ -1,0 +1,44 @@
+title: structuration des mvts Insee
+modalitésType:
+  title: Modalités pour le type d’événement
+  10:
+    libInsee: Changement de nom
+  20:
+    libInsee: Création
+  21:
+    libInsee: Rétablissement
+    comment: scission
+  30:
+    libInsee: Suppression
+  31:
+    libInsee: Fusion simple
+  32:
+    libInsee: Création de commune nouvelle
+    source:
+      ((Comi -> ComDi) + (Comi -> ComNouv))i + (ComNouv -> ComNouv) + (ComNouv -> ComNouvD)? / Comi = commune devenant déléguée
+    sortie:
+      créationComNouvelle(32):
+        {ComNouv}:
+          libelle_av: {libelle_av}
+          libelle_ap: {libelle_ap}
+          déléguées:
+            {comi}:
+              libelle_av: {libelle_av}
+              libelle_ap: {libelle_ap}
+  33:
+    libInsee: Fusion association
+    comment: en fait association
+  34:
+    libInsee: Transformation de fusion association en fusion simple
+    comment: intégration d'une commune rattachée dans sa rattachante (ComA->Com ou ComD->Com)
+    source:
+      (cRattachée -> cRattachante)+ + (cRattachante -> cRattachante)
+    sortie:
+      fusionRattachée(34):
+        cRattachante: [ cRattachée+ ]
+  41:
+    libInsee: Changement de code dû à un changement de département
+  50:
+    libInsee: Changement de code dû à un transfert de chef-lieu
+  70:
+    libInsee: Transformation de commune associé en commune déléguée
