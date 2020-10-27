@@ -14,8 +14,9 @@ modalitésType:
     libInsee: Fusion simple
   32:
     libInsee: Création de commune nouvelle
-    source:
-      ((Comi -> ComDi) + (Comi -> ComNouv))i + (ComNouv -> ComNouv) + (ComNouv -> ComNouvD)? / Comi = commune devenant déléguée
+    source: |
+      ((Comi -> ComNouv) + (Comi -> ComDi)?)i + (ComNouv -> ComNouv) + (ComNouv -> ComNouvD)?
+      / Comi = commune devenant déléguée si ((Comi -> ComDi) existe ou sinon fusionnée
     sortie:
       créationComNouvelle(32):
         {ComNouv}:
@@ -32,13 +33,63 @@ modalitésType:
     libInsee: Transformation de fusion association en fusion simple
     comment: intégration d'une commune rattachée dans sa rattachante (ComA->Com ou ComD->Com)
     source:
-      (cRattachée -> cRattachante)+ + (cRattachante -> cRattachante)
+      (cRattachante -> cRattachante) + (cRattachéeAIntégrer -> cRattachante)+
+      + ((cResteRattachée -> cRattachante) 
+        + (cResteRattachée -> cResteRattachée) 
+        + (cRattachante -> cResteRattachée) 
+        )*
     sortie:
       fusionRattachée(34):
         cRattachante: [ cRattachée+ ]
+    ex1:
+      nol	typecom_av	com_av	libelle_av	typecom_ap	com_ap	libelle_ap
+      33	COMD	85060	Château-d'Olonne	  COM	85194	Les Sables-d'Olonne
+      34	COMD	85166	Olonne-sur-Mer	    COM	85194	Les Sables-d'Olonne
+      35	COM	  85194	Les Sables-d'Olonne	COM	85194	Les Sables-d'Olonne
+      36	COMD	85194	Les Sables-d'Olonne	COM	85194	Les Sables-d'Olonne
+    ex2:
+      nol	typecom_av	com_av	libelle_av	typecom_ap	com_ap	libelle_ap
+      1524	COMA	14507	Pleines-Œuvres	COM	50649	Pont-Farcy
+      1525	COM	14513	Pont-Farcy	COM	50649	Pont-Farcy
+    ex2:
+      nol	typecom_av	com_av	libelle_av	typecom_ap	com_ap	libelle_ap
+      1597	COM 	22183	Les Moulins	COM 	22183	Plémet
+      1598	COMD	22183	Plémet	    COM 	22183	Plémet
+      1595	COM 	22183	Les Moulins	COMD	22058	La Ferrière
+      1594	COMD	22058	La Ferrière	COMD	22058	La Ferrière
+      1596	COMD	22058	La Ferrière	COM 	22183	Plémet
+    ex3:
+      nol	typecom_av	com_av	libelle_av	typecom_ap	com_ap	libelle_ap
+      5318	COM	  39198	Dole	COM	39198	Dole
+      5319	COMA	39256	Goux	COM	39198	Dole
+      5320	COM	  39198	Dole	COMD	39256	Goux
+      5321	COMA	39256	Goux	COMD	39256	Goux
+      
+      5334	COM	  49328	Saumur	COM	49328	Saumur
+      5323	COM	  49328	Saumur	COMD	49016	Bagneux
+      5322	COMA	49016	Bagneux	COMD	49016	Bagneux
+      5330	COMA	49016	Bagneux	COM	49328	Saumur
+      5325	COM	  49328	Saumur	COMD	49118	Dampierre-sur-Loire
+      5324	COMA	49118	Dampierre-sur-Loire	COMD	49118	Dampierre-sur-Loire
+      5331	COMA	49118	Dampierre-sur-Loire	COM	49328	Saumur
+
+      5327	COM	  49328	Saumur	COMD	49287	Saint-Hilaire-Saint-Florent
+      5326	COMA	49287	Saint-Hilaire-Saint-Florent	COMD	49287	Saint-Hilaire-Saint-Florent
+      5332	COMA	49287	Saint-Hilaire-Saint-Florent	COM	49328	Saumur
+
+      5328	COMA	49293	Saint-Lambert-des-Levées	COMD	49293	Saint-Lambert-des-Levées
+      5329	COM	  49328	Saumur	COMD	49293	Saint-Lambert-des-Levées
+      5333	COMA	49293	Saint-Lambert-des-Levées	COM	49328	Saumur
+      
+      5338	COMA	52078	Brottes	COMD	52078	Brottes
+      5339	COM	  52121	Chaumont	COMD	52078	Brottes
+      5340	COMA	52078	Brottes	COM	52121	Chaumont
+      5341	COM	  52121	Chaumont	COM	52121	Chaumont
+      
   41:
     libInsee: Changement de code dû à un changement de département
   50:
     libInsee: Changement de code dû à un transfert de chef-lieu
   70:
     libInsee: Transformation de commune associé en commune déléguée
+    
