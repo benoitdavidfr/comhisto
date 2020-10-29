@@ -12,12 +12,12 @@ doc: |
   Cas particuliers:
     - fusion (31) de 14485 (Ouilly-le-Basset) et 14612 (Saint-Marc-d'Ouilly) pour donner 14764 (Pont-d'Ouilly)
     - intégration (34) de 14507 dans 14513/50649 (Pont-Farcy)
-    - scission du 5ème Ardt de Lyon pour créer le 9ème
   
   Non conformités:
     - le seul type 70
     - 38 chgts de nom
 
+  La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
 journal: |
   27/10/2020:
@@ -42,6 +42,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 if (php_sapi_name() <> 'cli') {
   if (!isset($_GET['action'])) {
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>mvts</title></head><body>\n";
+    echo "<a href='?action=specs'>Affichage des specs</a><br>\n";
     echo "<a href='?action=showPlainEvts'>Affichage des evts Insee simplement</a><br>\n";
     echo "<a href='?action=doublons'>Affichage des evts Insee en doublon</a><br>\n";
     echo "<a href='?action=showEvts'>Affichage des evts Insee</a><br>\n";
@@ -74,6 +75,7 @@ define('TYPESDEVENEMENT', [
 ]);
 }
 
+
 // Classe abstraite parente des sous-classes par type de mouvement
 abstract class Mvt {
   static $mvtsErreurs=[]; // liste des evts non conformes aux specs
@@ -82,9 +84,9 @@ abstract class Mvt {
     20 => 'Creation',
     21 => 'Retablissement',
     30 => 'Suppression',
-    31 => 'FusionRattachement',
-    32 => 'FusionRattachement',
-    33 => 'FusionRattachement',
+    31 => 'Fusion',
+    32 => 'CreaCNouv',
+    33 => 'Association',
     34 => 'Integration',
     41 => 'ChgtCodeDuAChgtDept',
     50 => 'ChgtCodeDuATransfChefLieu',
@@ -168,6 +170,15 @@ function mergeRpicom(array $a, array $b): array { // fusionne 2 enregistrements 
 }
 
 class ChgtDeNom extends Mvt { // 10 - Changement de nom 
+  const TITLE = "10 - Changement de nom ";
+  const SPECS = "Chaque arc correspond à un Changement de nom d'une entité. Le type et le code doivent être identiques avant et après
+    cad:  
+      <pre>(typecom_ap==typecom_av) && (com_av==com_ap)</pre>
+    <i>Note:</i> Il existe de nombreuses non-conformités ; le second exemple ci-dessous en fournit un exemple.";
+  const EXAMPLES = [
+    '2018-11-08' => "Chaque ligne du tableau correspond à un changement de nom",
+    '2007-04-01' => "Ces lignes sont considérées comme des non-conformités.",
+  ];
   protected $c; // ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
 
   static function create(string $date_eff, string $mod, array $evts): array {
@@ -208,6 +219,15 @@ class ChgtDeNom extends Mvt { // 10 - Changement de nom
 };
 
 class Creation extends Mvt { // 20 - Création 
+  const TITLE = "20 - Création";
+  const SPECS = "Chaque mouvement est défini autour de la commune créée définie par un noeud d'arrivée
+    ayant plus d'un arc entrant (1). 
+    Chaque noeud de départ de ces arcs (2) définit une commune contributrice avant le mouvement.
+    En dehors de ces arcs, chaque commune contributrice correspond à un arc avant/après (3).  
+    <i>Note:</i> il n'existe que 6 créations qui interviennent à des dates différentes.
+    ";
+  const EXAMPLES = ['1989-02-15'=> "Création de Chamrousse à partir des communes contributrices de
+    Saint-Martin-d'Uriage, Séchilienne et Vaulnaveys-le-Haut."];
   protected $creee; // commune créée ['typecom','com','libelle'] (ap)
   protected $contribs; // communes contributrices [['av'=>[], 'ap'=>[], 'nolcsv'=>nolcsv]]
   
@@ -216,19 +236,17 @@ class Creation extends Mvt { // 20 - Création
     $graphAv=[]; // [avNode => [apNode => evt]] / node est l'encodage JSON de av ou ap
     $graphAp=[]; // [apNode => [avNode => evt]] / node est l'encodage JSON de av ou ap
     
-    // construction de $graphAv et $graphAp
-    foreach ($evts as $evt) {
+    foreach ($evts as $evt) { // construction de $graphAv et $graphAp
       $ap = json_encode($evt['ap']);
       $av = json_encode($evt['av']);
       $graphAv[$av][$ap] = $evt;
       $graphAp[$ap][$av] = $evt;
     }
     
-    // la commune créée est le noeud $ap ayant plus d'un av
+    // la commune créée est le noeud d'arrivée ayant plus d'un arc entrant
     foreach ($graphAp as $creee => $avNodes) {
       $contribs = [];
       if (count($avNodes) > 1) {
-        
         foreach ($avNodes as $contrib => $evt) {
           unset($graphAp[$contrib][$creee]);
           $contribs[] = array_values($graphAp[$contrib])[0];
@@ -282,6 +300,24 @@ class Creation extends Mvt { // 20 - Création
 };
 
 class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot parler de scission 
+  const TITLE = "21 - Rétablissement - Je préfère plutôt parler de scission";
+  const SPECS = "La commune/ARM se scindant (appelée source) (1) est identifiée par l'arc satisfaisant le critère  
+      <pre>(typecom_av in {'COM','ARM'}) && (typecom_ap==typecom_av) && (com_av==com_ap)</pre>
+    Les autres arcs partant de l'état avant de la source identifient les entités concernées (2 et 2').
+    Soit l'entité est créée ce qui est défini par l'absence d'autre arc y arrivant (2),
+    soit elle préexiste et est modifiée (2') et cet arc (3) définit ses états avant/après.  
+    En outre, un arc peut partir d'un autre noeud et arriver sur l'état après de la source (4).
+    <i>Cas particulier:</i>  
+      &nbsp;- scission le 12/8/1964 du 5ème Ardt de Lyon pour créer le 9ème
+    ";
+  const EXAMPLES = [
+    '1949-12-14'=> "Un exemple simple: Saint-Trojan-les-Bains (17411) se scinde en 2 pour créer Le Grand-Village-Plage (17485).",
+    '2019-12-31'=> "Un autre plus complexe: Saline (14712) se scinde en se renommant Troarn et en créant
+      la commune associée de Bures-sur-Dives (14114) ;
+      cette scission entraîne la transformation de la commune déléguée de Sannerville (14666) en commune simple
+      et la disparition de la commune déléguée de Troarn.",
+    '1964-08-12'=> "Dernier exemple de la scission du 5ème Ardt de Lyon pour créer le 9ème."
+  ];
   protected $source; // commune se scindant ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
   protected $entites; // liste des entités créées ou dont le statut est modifié [['av'=>[...]?, 'ap'=>[...], 'nolcsv'=> nolcsv]]
 
@@ -290,8 +326,7 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
     $graphAv=[]; // [avNode => [apNode => evt]] / node est l'encodage JSON de av ou ap
     $graphAp=[]; // [apNode => [avNode => evt]] / node est l'encodage JSON de av ou ap
     
-    // construction de $graphAv et $graphAp
-    foreach ($evts as $evt) {
+    foreach ($evts as $evt) { // construction de $graphAv et $graphAp
       $ap = json_encode($evt['ap']);
       $av = json_encode($evt['av']);
       $graphAv[$av][$ap] = $evt;
@@ -439,6 +474,14 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
 };
 
 class Suppression extends Mvt { // 30 - Suppression
+  const TITLE = "30 - Suppression";
+  const SPECS = "La commune supprimée est le noeud de départ ayant plus d'un arc sortant (1). 
+    Chaque noeud d'arrivée de ces arcs définit une commune réceptrice après le mouvement (2).
+    En dehors de ces arcs, chaque commune réceptrice correspond à un arc avant/après (3).  
+    <i>Note:</i> il n'existe que 6 suppressions qui interviennent à des dates différentes.
+    ";
+  const EXAMPLES = ['1968-03-02'=> "Hocmont (08227) est supprimée et son territoire est réparti
+    dans Guignicourt-sur-Vence (08203) et Touligny (08454)."];
   protected $suppr; // commune supprimée ['av'=>['typecom','com','libelle'], 'nolcsv'=>nolcsv]
   protected $receps; // communes réceptrices [['av'=>[...], 'ap'=>[...], 'nolcsv'=>nolcsv]]
   
@@ -447,8 +490,7 @@ class Suppression extends Mvt { // 30 - Suppression
     $graphAv=[]; // [avNode => [apNode => evt]] / node est l'encodage JSON de av ou ap
     $graphAp=[]; // [apNode => [avNode => evt]] / node est l'encodage JSON de av ou ap
     
-    // construction de $graphAv et $graphAp
-    foreach ($evts as $evt) {
+    foreach ($evts as $evt) { // construction de $graphAv et $graphAp
       $ap = json_encode($evt['ap']);
       $av = json_encode($evt['av']);
       $graphAv[$av][$ap] = $evt;
@@ -525,32 +567,31 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
     $graphAp=[]; // [apNode => [avNode => nolcsv]] / node est l'encodage JSON de av ou ap
     $frat = []; // [cheflieuAp => [fusionneeAv => ['rJson'=> rattacheeAp?, 'no'=>nolcsv]]]
     
-    // construction de $graphAv et $graphAp
-    foreach ($evts as $evt) {
+    foreach ($evts as $evt) { // construction de $graphAv et $graphAp
       $ap = json_encode($evt['ap']);
       $av = json_encode($evt['av']);
-      $graphAv[$av][$ap] = $evt['nolcsv'];
-      $graphAp[$ap][$av] = $evt['nolcsv'];
+      $graphAv[$av][$ap] = $evt;
+      $graphAp[$ap][$av] = $evt;
     }
     foreach ($graphAp as $cheflieuJson => $avNodes) {
-      // les chef-lieux sont les noeuds d'arrivée de type COM et ayant au moins 2 arcs entrants
+      // un chef-lieu est un noeud d'arrivée de type COM et ayant plus d'un arc entrant
       $cheflieu = json_decode($cheflieuJson, true);
-      if (($cheflieu['typecom'] == 'COM') && (count($avNodes) >= 2)) {
+      if (($cheflieu['typecom'] == 'COM') && (count($avNodes) > 1)) {
         //echo "chef-lieu: $cheflieu\n";
         // les fusionnees/rattachees sont les noeuds de départ ayant un arc vers le chef-lieu
-        foreach ($avNodes as $fJson => $nolcsv) {
+        foreach ($avNodes as $fJson => $evt) {
           // si une fusionnee a un autre arc que celui vers le chef-lieu alors elle est rattachéee
           if (count($graphAv[$fJson]) >= 2) {
             foreach (array_keys($graphAv[$fJson]) as $rJson) {
               if ($rJson <> $cheflieuJson) {
                 //echo "    rattachee: $rattachee\n";
-                $frat[$cheflieuJson][$fJson] = ['rJson'=> $rJson, 'no'=> $nolcsv];
+                $frat[$cheflieuJson][$fJson] = ['rJson'=> $rJson, 'no'=> $evt['nolcsv']];
               }
             }
           }
           else {
             //echo "    fusionnee: $fusionnee\n";
-            $frat[$cheflieuJson][$fJson] = ['no'=> $nolcsv];
+            $frat[$cheflieuJson][$fJson] = ['no'=> $evt['nolcsv']];
           }
         }
         $mvt = new self($date_eff, $mod, $cheflieu, $frat[$cheflieuJson]);
@@ -656,7 +697,53 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
   }
 };
 
+class Fusion extends FusionRattachement { // 31 - Fusion simple
+  const TITLE = "31 - Fusion simple";
+  const SPECS = "Chaque mouvement de fusion simple s'effectue autour d'un chef-lieu défini comme un noeud d'arrivée de type COM
+    ayant plus d'un arc entrant (1).
+    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée, c'est l'état avant du chef-lieu.
+    Les autres noeuds de départ correspondent aux entités fusionnées.
+    ";
+  const EXAMPLES = ['2006-09-01'=> ""];
+};
+
+class CreaCNouv extends FusionRattachement { // 32 - Création de commune nouvelle
+  const TITLE = "32 - Création de commune nouvelle";
+  const SPECS = "Chaque mouvement de création de commune nouvelle s'effectue autour d'un chef-lieu défini comme un noeud d'arrivée
+    de type COM ayant plus d'un arc entrant (1).
+    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée (2), c'est l'état avant du chef-lieu.
+    Parmi ces noeuds de départ, certains ont un autre arc sortant (2 et 3') dont le noeud d'arrivée définit une commune déléguée
+    (5 et 4) ;
+    d'autres n'ont pas d'autre arc sortant (3), ce sont des communes fusionnées.
+    ";
+  const EXAMPLES = [
+    '2019-03-01'=> "Le chef-lieu est La Selle-sur-le-Bied (45307), parmi les 2 communes concernées seule Saint-Loup-de-Gonois
+      (45287) donne lieu à la création d'une commune déléguée.",
+    '2019-02-28'=> "Création de 2 communes nouvelles, chacune avec 2 communes déléguées.",
+  ];
+};
+
+class Association extends FusionRattachement { // 33 - Fusion association
+  const TITLE = "33 - Fusion association";
+  const SPECS = "Le motif de Fusion-association est similaire à celui de la Création de commune nouvelle avec 2 différences
+    (a) que les noeuds d'arrivée (4) sont des communes associées et non des communes déléguées et
+    (b) que le chef-lieu ne peut donner lieu à une commune associée (absence du 5).
+    ";
+  const EXAMPLES = ['2010-12-09'=> ""];
+};
+
 class Integration extends Mvt { // 34 - Transformation de fusion association en fusion simple 
+  const TITLE = "34 - Transformation de fusion association en fusion simple ";
+  const SPECS = "Chaque mouvement de Transformation de fusion association en fusion simple s'effectue autour d'un chef-lieu défini
+    par un arc ayant un noeud de départ (2) et un noeud d'arrivée (1) tous les 2 de type COM.
+    Les autres noeuds de départ des arcs arrivant au noeud d'arrivée (1) du chef-lieu correspondent aux entités fusionnées (3).  
+    <i>Note:</i> Le mouvement peut s'appliquer aussi à une commune nouvelle et pas uniquement à une fusion association.
+    ";
+  const EXAMPLES = [
+    '2020-01-01'=> "",
+    '2008-01-01'=> "",
+  ];
+  
   // Un mvt correspond à un chef-lieu et toutes ses intégrées/rattachées
   protected $cheflieu; // ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
   protected $integrees; // [['av'=>['typecom','com','libelle'], 'nolcsv'=> nolcsv]]  // liste des entités intégrées
@@ -804,6 +891,9 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
 };
 
 class ChgtCodeDuAChgtDept extends Mvt { // 41 - Changement de code dû à un changement de département 
+  const TITLE = "41 - Changement de code dû à un changement de département";
+  const SPECS = "Chaque arc correspond à un Changement de nom de code.";
+  const EXAMPLES = ['2018-01-01'=> '', '2016-12-31'=> ''];
   protected $c; // ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
 
   static function create(string $date_eff, string $mod, array $evts): array {
@@ -843,7 +933,16 @@ class ChgtCodeDuAChgtDept extends Mvt { // 41 - Changement de code dû à un cha
 };
 
 class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à un transfert de chef-lieu 
-  // Il n'existe que 2 mvts
+  const TITLE = "50 - Changement de code dû à un transfert de chef-lieu ";
+  const SPECS = "L'ancien chef-lieu peut être identifié au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COM') && (typecom_ap=='COMA') && (com_av==com_ap)</pre>
+    le nouveau chef-lieu peut être identifié au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COMA') && (typecom_ap=='COM') && (com_av==com_ap)</pre>
+    les communes associées restant associées peuvent être identifiées au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COMA') && (typecom_ap=='COMA') && (com_av==com_ap)</pre>
+    <i>Note:</i> Il n'existe que 2 mvts de ce type.";
+  const EXAMPLES = ['2014-01-07'=> '', '1990-02-01'=> ''];
+  
   protected $cheflieu_av; // ['av'=>[...], 'ap'=>[...], 'nolcsv'=>nolcsv] // av contient le cheflieu avant, ap les infos comme rattachée
   protected $cheflieu_ap; // ['av'=>[...], 'ap'=>[...], 'nolcsv'=>nolcsv] // ap contient le cheflieu après, av les infos comme rattachée
   protected $rattachees; // [['av'=>[...], 'ap'=>[...], 'nolcsv'=>nolcsv]] // les entités restant rattachées
@@ -909,7 +1008,10 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
 }
 
 class TransfoComAComD extends Mvt { // 70 - Transformation de commune associé en commune déléguée 
-  // Il n'existe qu'une seule ligne en 70 que je ne comprend pas
+  const TITLE = "70 - Transformation de commune associé en commune déléguée";
+  const SPECS = "Il n'existe qu'une seule ligne correspondant à ce type que je ne comprend pas.";
+  const EXAMPLES = ['2020-01-01'=> ''];
+  
   static function create(string $date_eff, string $mod, array $evts): array {
     Mvt::$mvtsErreurs[] = ['date_eff'=> $date_eff, 'mod'=> $mod, 'evts'=> $evts];
     return [];
@@ -953,6 +1055,7 @@ while ($record = fgetcsv($fevts, 0, ',')) {
   $rec = [];
   foreach ($headers as $i => $header)
     $rec[$header] = $record[$i];
+  //if (!in_array($rec['mod'], [31,32,33])) { $prevRecord = $record; continue; }
   //if (!in_array($rec['mod'], [10,20,31,32,33,34,41,50])) { $prevRecord = $record; continue; }
   //if (!in_array($rec['mod'], [30])) { $prevRecord = $record; continue; }
   $evts[$rec['date_eff']][$rec['mod']][] = [
@@ -993,6 +1096,27 @@ function showEvts(string $date_eff, string $mod, array $evts): void {
   //die();
 }
 
+if ($_GET['action']=='specs') { // affichage des specs
+  echo "</pre>\n";
+  echo <<<EOT
+    <h1>Spécifications du fichier des mouvements sur les communes</h1>
+    Dans ce document, le fichier des mouvements est considéré comme un graphe des noeuds avant (av) vers les noeuds après (ap).<br>
+    Chaque type de mouvement est spécifié par un motif de sous-graphe dans ce graphe.\n
+EOT;
+  foreach (array_unique(Mvt::SOUSCLASSES) as $mod => $sousclasse) {
+    echo '<h2>',$sousclasse::TITLE,'</h2>';
+    echo str_replace("  \n", "<br>\n", $sousclasse::SPECS),"<br>\n";
+    echo "<img src='figures/$mod.png'>\n";
+    echo "<h3>Exemples</h3>\n";
+    foreach ($sousclasse::EXAMPLES as $date_eff => $comment) {
+      showEvts($date_eff, $mod, $evts[$date_eff][$mod]);
+      if ($comment)
+        echo "$comment</p>\n";
+    }
+  }
+  die("fin $_GET[action] ok\n");
+}
+
 if ($_GET['action'] == 'showEvts') {
   //echo '</pre>';
   foreach ($evts as $date_eff => $evts1) {
@@ -1001,7 +1125,7 @@ if ($_GET['action'] == 'showEvts') {
       showEvts($date_eff, $mod, $evts2);
     }
   }
-  die();
+  die("Fin $_GET[action]\n");
 }
 
 if ($_GET['action'] == 'rpicom') { // initialisation de $rpicoms
@@ -1050,4 +1174,4 @@ if ($_GET['action'] == 'rpicom') {
   ksort($rpicoms);
   echo Yaml::dump($rpicoms, 3, 2),"\n";
 }
-echo "fin $_GET[action] ok\n";
+die("fin $_GET[action] ok\n");
