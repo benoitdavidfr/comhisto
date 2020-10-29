@@ -9,10 +9,6 @@ doc: |
     - l'extraction des lignes non conformes aux specs,
     - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
 
-  Cas particuliers:
-    - fusion (31) de 14485 (Ouilly-le-Basset) et 14612 (Saint-Marc-d'Ouilly) pour donner 14764 (Pont-d'Ouilly)
-    - intégration (34) de 14507 dans 14513/50649 (Pont-Farcy)
-  
   Non conformités:
     - le seul type 70
     - 38 chgts de nom
@@ -20,6 +16,8 @@ doc: |
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
 journal: |
+  29/10/2020:
+    - rédaction des spécifications du fichier des mouvements sur les communes
   27/10/2020:
     - 1ère version un peu complète à améliorer encore
   23/10/2020:
@@ -702,10 +700,16 @@ class Fusion extends FusionRattachement { // 31 - Fusion simple
   const SPECS = "Chaque mouvement de fusion simple s'effectue autour d'un chef-lieu défini comme un noeud d'arrivée de type COM
     ayant plus d'un arc entrant (1).
     Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée, c'est l'état avant du chef-lieu.
-    Les autres noeuds de départ correspondent aux entités fusionnées.
+    Les autres noeuds de départ correspondent aux entités fusionnées.  
+    <i>Cas particulier:</i> 
     ";
-  const EXAMPLES = ['2006-09-01'=> ""];
+  const EXAMPLES = [
+    '2006-09-01'=> "",
+    '1947-08-27'=> "Cas particulier de création du nouveau code 14764 par cette fusion ;
+      il parait impossible de savoir laquelle des 2 est chef-lieu."
+  ];
 };
+
 
 class CreaCNouv extends FusionRattachement { // 32 - Création de commune nouvelle
   const TITLE = "32 - Création de commune nouvelle";
@@ -742,7 +746,9 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
   const EXAMPLES = [
     '2020-01-01'=> "",
     '2008-01-01'=> "",
+    '2018-01-01'=> "Cas particulier de changement de département de Pont-Farcy après l'intégration de Pleines-Œuvres.",
   ];
+  
   
   // Un mvt correspond à un chef-lieu et toutes ses intégrées/rattachées
   protected $cheflieu; // ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
