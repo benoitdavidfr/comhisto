@@ -9,13 +9,25 @@ doc: |
     - l'extraction des lignes non conformes aux specs,
     - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
 
-  Non conformités:
-    - le seul type 70
+  Non conformités Insee:
+    - le seul type de mvts 70
     - 38 chgts de nom
+  Ces non-conformités sont affichées en utilisant l'action ?action=mvtserreurs
+
+  Code spécifique intégré le 2/11/2020 pour corriger un problème sur la création de la commune nouvelle
+  de Brantôme en Périgord (24064) au 1/1/2019, voir 24064.yaml
+  
+  Incohérences Insee:
+    - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
+      - code spécifique de correction intégré le 3/11/2020
 
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
+  Bugs:
+
 journal: |
+  3/11/2020:
+    - améliorations
   29/10/2020:
     - rédaction des spécifications du fichier des mouvements sur les communes
   27/10/2020:
@@ -46,7 +58,8 @@ if (php_sapi_name() <> 'cli') {
     echo "<a href='?action=showEvts'>Affichage des evts Insee</a><br>\n";
     echo "<a href='?action=mvts'>Affichage des mvts</a><br>\n";
     echo "<a href='?action=mvtserreurs'>Affichage des mvts non conformes aux specs</a><br>\n";
-    echo "<a href='?action=rpicom'>Génération du Rpicom</a><br>\n";
+    echo "<a href='?action=rpicom'>Génération et affichage du Rpicom</a><br>\n";
+    echo "<a href='?action=tavap'>Génération du Rpicom puis teste avant-après</a><br>\n";
     die();
   }
   else {
@@ -157,14 +170,14 @@ function mergeRpicom(array $a, array $b): array { // fusionne 2 enregistrements 
     return (isset($a['après']) ? ['après'=> $a['après']] : []) + ['évts'=> $b['évts'] + $a['évts']];
   }
   if ($a['état'] == $b['après']) { // $b est en premier et $a en second
-    return (isset($a['après']) ? ['après'=> $a['après']] : []) + ['évts'=> $b['évts'] + $a['évts']];
+    return (isset($a['après']) ? ['après'=> $a['après']] : []) + ['évts'=> $b['évts'] + $a['évts'], 'état'=> $b['état']];
   }
   if ($b['état'] == $a['après']) { // $a est en premier et $b en second
-    return (isset($b['après']) ? ['après'=> $b['après']] : []) + ['évts'=> $a['évts'] + $b['évts']];
+    return (isset($b['après']) ? ['après'=> $b['après']] : []) + ['évts'=> $a['évts'] + $b['évts'], 'état'=> $a['état']];
   }
   echo '$a='; print_r($a);
   echo '$b='; print_r($b);
-  die("Erreur de collision dans mergeRpicom\n");
+  throw new Exception("Erreur de collision dans mergeRpicom\n");
 }
 
 class ChgtDeNom extends Mvt { // 10 - Changement de nom 
@@ -297,7 +310,7 @@ class Creation extends Mvt { // 20 - Création
   }
 };
 
-class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot parler de scission 
+class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutôt parler de scission 
   const TITLE = "21 - Rétablissement - Je préfère plutôt parler de scission";
   const SPECS = "La commune/ARM se scindant (appelée source) (1) est identifiée par l'arc satisfaisant le critère  
       <pre>(typecom_av in {'COM','ARM'}) && (typecom_ap==typecom_av) && (com_av==com_ap)</pre>
@@ -413,16 +426,19 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
   
   function buildRpicom(string $date_eff, array &$rpicoms): void {
     $creeeIds = [];
+    $detacheeIds = [];
     foreach ($this->entites as $entite) {
       if (!isset($entite['av']))
         $creeeIds[] = $entite['ap']['com'];
+      else
+        $detacheeIds[] = $entite['ap']['com'];
     }
     setMerge($rpicoms[$this->source['ap']['com']][$date_eff], [
       'après'=> [
         'statut'=> $this->source['ap']['typecom'],
         'name'=> $this->source['ap']['libelle'],
       ],
-      'évts'=> ['seScindePourCréer'=> $creeeIds],
+      'évts'=> ($creeeIds ? ['seScindeEtCrée'=> $creeeIds] : []) + ($detacheeIds ? ['seScindeEtDétache'=> $detacheeIds] : []),
       'état'=> [
         'statut'=> $this->source['av']['typecom'],
         'name'=> $this->source['av']['libelle'],
@@ -437,7 +453,8 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
           'après'=> [
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
-          ],
+          ]
+          + (in_array($entite['ap']['typecom'], ['COMA','COMD']) ? ['crat'=> $this->source['ap']['com']] : []),
           'évts'=> ['crééeParScissionDe'=> $this->source['av']['com']],
         ]);
       }
@@ -447,10 +464,11 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
           ],
-          'évts'=> ['modifiéeLorsDeLaScissionDe'=> $this->source['av']['com']],
+          'évts'=> ['seDétacheAlOccasionDeLaScissionDe'=> $this->source['av']['com']],
           'état'=> [
             'statut'=> $entite['av']['typecom'],
             'name'=> $entite['av']['libelle'],
+            'crat'=> $this->source['av']['com'],
           ],
         ]);
       }
@@ -459,11 +477,13 @@ class Retablissement extends Mvt { // 21 - Rétablissement - On devrait plutot p
           'après'=> [
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
+            'crat'=> $this->source['ap']['com'],
           ],
           'évts'=> ['conservéeLorsDeLaScissionDe'=> $this->source['av']['com']],
           'état'=> [
             'statut'=> $entite['av']['typecom'],
             'name'=> $entite['av']['libelle'],
+            'crat'=> $this->source['av']['com'],
           ],
         ]);
       }
@@ -553,17 +573,16 @@ class Suppression extends Mvt { // 30 - Suppression
   }
 };
 
-class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de commune nouvelle) || 33 (Fusion association)
-  protected $cheflieu; // code du chef-lieu
-  protected $libelle_ap; // libellé après du chef-lieu
-  protected $fusionnees; // [{comi} => [typecom_av: {typecom_av}, libelle_av: {libelle_av}]] / y.c. ex cheflieu
-  protected $rattachees; // [{comi} => [typecom_av: {typecom_av}, libelle_av: {libelle_av}, libelle_ap: {libelle_ap}]]
+abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de commune nouvelle) || 33 (Fusion association)
+  protected $cheflieu; // ['av' => ['typecom'=> {typecom}, 'com'=> {com}, 'libelle'=> {libelle}], 'ap'=> [...]]
+  protected $fusionnees; // [{comi} => ['av'=> [...]], 'nolcsv'=> nolcsv] / y.c. cheflieu_av
+  protected $rattachees; // [{comi} => ['av'=> [...]], ['ap'=>[...]], 'nolcsv'=> nolcsv] / y.c. évt déléguée propre
   
   static function create(string $date_eff, string $mod, array $evts): array {
     $result = []; // [Mvt]
-    $graphAv=[]; // [avNode => [apNode => nolcsv]] / node est l'encodage JSON de av ou ap
-    $graphAp=[]; // [apNode => [avNode => nolcsv]] / node est l'encodage JSON de av ou ap
-    $frat = []; // [cheflieuAp => [fusionneeAv => ['rJson'=> rattacheeAp?, 'no'=>nolcsv]]]
+    $graphAv=[]; // [avNode => [apNode => evt]] / node est l'encodage JSON de av ou ap
+    $graphAp=[]; // [apNode => [avNode => evt]] / node est l'encodage JSON de av ou ap
+    $frat = []; // [fusionneeAv => ['rJson'=> rattacheeAp?, 'no'=>nolcsv]
     
     foreach ($evts as $evt) { // construction de $graphAv et $graphAp
       $ap = json_encode($evt['ap']);
@@ -573,8 +592,8 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
     }
     foreach ($graphAp as $cheflieuJson => $avNodes) {
       // un chef-lieu est un noeud d'arrivée de type COM et ayant plus d'un arc entrant
-      $cheflieu = json_decode($cheflieuJson, true);
-      if (($cheflieu['typecom'] == 'COM') && (count($avNodes) > 1)) {
+      $cheflieu = ['ap'=> json_decode($cheflieuJson, true)];
+      if (($cheflieu['ap']['typecom'] == 'COM') && (count($avNodes) > 1)) {
         //echo "chef-lieu: $cheflieu\n";
         // les fusionnees/rattachees sont les noeuds de départ ayant un arc vers le chef-lieu
         foreach ($avNodes as $fJson => $evt) {
@@ -592,12 +611,14 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
             $frat[$cheflieuJson][$fJson] = ['no'=> $evt['nolcsv']];
           }
         }
-        $mvt = new self($date_eff, $mod, $cheflieu, $frat[$cheflieuJson]);
+        $sousclasse = Mvt::SOUSCLASSES[$mod];
+        $mvt = new $sousclasse($date_eff, $mod, $cheflieu, $frat[$cheflieuJson]);
         //echo '$mvt='; print_r($mvt);
         $result[] = $mvt;
       }
     }
     //echo Yaml::dump(['frat'=> [$date_eff=> [$mod=> $frat]]], 6, 2);
+    // Vérification que tous les arcs ont été détectés par ce motif
     foreach ($frat as $cheflieuJson => $fJsons) {
       foreach ($fJsons as $fJson => $rno) {
         unset($graphAv[$fJson][$cheflieuJson]);
@@ -617,36 +638,42 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
   function __construct(string $date_eff, string $mod, array $cheflieu, array $frat) {
     $this->date_eff = $date_eff;
     $this->mod = $mod;
-    $this->cheflieu = $cheflieu['com'];
-    $this->libelle_ap = $cheflieu['libelle'];
+    $this->cheflieu = $cheflieu;
     $this->fusionnees = [];
     $this->rattachees = [];
     foreach ($frat as $fJson => $rno) {
+      $f = json_decode($fJson, true);
       if (!isset($rno['rJson'])) {
-        $f = json_decode($fJson, true);
-        $this->fusionnees[$f['com']] = ['typecom_av'=> $f['typecom'], 'libelle_av'=> $f['libelle'], 'nolcsv'=> $rno['no']];
+        $this->fusionnees[$f['com']] = ['av'=> $f, 'nolcsv'=> $rno['no']];
       }
       else {
-        $f = json_decode($fJson, true);
         $r = json_decode($rno['rJson'], true);
-        $this->rattachees[$f['com']] = [
-          'typecom_av'=> $f['typecom'], 'libelle_av'=> $f['libelle'], 'libelle_ap'=> $r['libelle'], 'nolcsv'=> $rno['no']
-        ];
+        $this->rattachees[$f['com']] = ['av'=> $f, 'ap'=> $r, 'nolcsv'=> $rno['no']];
       }
+    }
+    // Inversion COM/COMD illustrée par 24064@2019-01-01, valable aussi pour 27198@2019-01-01
+    $codeCheflieu = $cheflieu['ap']['com'];
+    if (1 && isset($this->fusionnees[$codeCheflieu]) && ($this->fusionnees[$codeCheflieu]['av']['typecom']=='COMD')
+      && isset($this->rattachees[$codeCheflieu]) && ($this->rattachees[$codeCheflieu]['av']['typecom']=='COM')) {
+        echo "<b>Inversion COM/COMD pour $codeCheflieu@$date_eff</b>\n";
+        $tmp = $this->fusionnees[$codeCheflieu]['av'];
+        $this->fusionnees[$codeCheflieu]['av'] = $this->rattachees[$codeCheflieu]['av'];
+        $this->rattachees[$codeCheflieu]['av'] = $tmp;
     }
   }
   
   function asArray(): array {
     //return [];
-    $labels = [
+    $typeLabel = [
       31 => 'fusion(31)',
       32 => 'communeNouvelle(32)',
       33 => 'association(33)',
-    ];
+    ][$this->mod];
     return [
-      $this->cheflieu => [
-        $labels[$this->mod] => 
-          ['libelle_ap'=> $this->libelle_ap]
+      $this->cheflieu['ap']['com'] => [
+        $typeLabel => 
+          ['date_eff' => $this->date_eff, 'libelle_ap'=> $this->cheflieu['ap']['libelle']]
+          //+ ['cheflieu'=> $this->cheflieu]
           + ($this->fusionnees ? ['fusionnées'=> $this->fusionnees] : [])
           + ($this->rattachees ? ['rattachées'=> $this->rattachees] : [])
       ],
@@ -654,43 +681,128 @@ class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Création de
   }
   
   function buildRpicom(string $date_eff, array &$rpicoms): void {
+    $typeLabel = [
+      31 => 'fusion(31)',
+      32 => 'communeNouvelle(32)',
+      33 => 'association(33)',
+    ][$this->mod];
+    $rattacheLabel = [
+      31 => 'INTERDIT',
+      32 => 'prendPourDéléguées',
+      33 => 'associe',
+    ][$this->mod];
+    $seRattacheALabel = [
+      31 => 'INTERDIT',
+      32 => 'devientDéléguéeDe',
+      33 => 'sAssocieA',
+    ][$this->mod];
     $fusionnees = $this->fusionnees;
-    if (isset($fusionnees[$this->cheflieu])) {
-      $rpicoms[$this->cheflieu][$date_eff]['évts']['absorbe'] = [];
-      $rpicoms[$this->cheflieu][$date_eff]['état'] = [
-        'statut'=> $fusionnees[$this->cheflieu]['typecom_av'],
-        'name'=> $fusionnees[$this->cheflieu]['libelle_av']
-      ];
-      unset($fusionnees[$this->cheflieu]);
-    }
     $rattachees = $this->rattachees;
-    if (isset($rattachees[$this->cheflieu])) {
-      $rpicoms[$this->cheflieu][$date_eff]['évts']['rattache'] = [$this->cheflieu];
-      $rpicoms[$this->cheflieu][$date_eff]['état'] = [
-        'statut'=> $rattachees[$this->cheflieu]['typecom_av'],
-        'name'=> $rattachees[$this->cheflieu]['libelle_av']
-      ];
-      unset($rattachees[$this->cheflieu]);
-    }
-    if ($fusionnees) {
-      foreach ($fusionnees as $fcom => $fusionnee) {
-        $rpicoms[$fcom][$date_eff]['évts'] = ['fusionneDans'=> $this->cheflieu];
-        $rpicoms[$fcom][$date_eff]['état'] = [
-          'statut'=> $fusionnee['typecom_av'],
-          'name'=> $fusionnee['libelle_av']
-        ];
-        $rpicoms[$this->cheflieu][$date_eff]['évts']['absorbe'][] = $fcom;
+    $codeCheflieuAp = $this->cheflieu['ap']['com'];
+    $codeChefLieuAv = null; // a priori pas de code chef-lieu avant
+    $absorbees = $fusionnees; unset($absorbees[$codeCheflieuAp]);
+    $codeFus = array_keys($this->fusionnees);
+    try { // permet de capturer l'exception lancée par setMerge() pour afficher le cas en cause
+      if ((count($this->fusionnees)==1)
+        && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
+          // 2 cas de changement de rattachement:
+          // - 49065/49080@2019-01-01 - rattachement de la commune nouvelle 49065 dans la commune simple 49080
+          // - 49149/49261@2018-01-01 - rattachement de la commune nouvelle 49149 dans la commune simple 49261
+          //echo Yaml::dump($this->asArray(), 6, 2);
+          echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple</b>\n";
+          return;
+      }
+      elseif ((count($this->fusionnees)==2)
+        && ($codeFus[0] == $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])
+        && ($codeFus[1] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[1]])) {
+          // cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01
+          //echo Yaml::dump($this->asArray(), 6, 2);
+          echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01</b>\n";
+          return;
+      }
+      elseif (isset($fusionnees[$codeCheflieuAp]) && isset($rattachees[$codeCheflieuAp])) { // modif. d'une commune nouvelle existante
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']]
+          ],
+          'évts'=> ['type'=> $typeLabel, 'type2'=> 'modificationComNouvelle']
+              + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
+              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+          'état'=> [
+            'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
+            'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['av']['libelle']]
+          ],
+        ]);
+        unset($fusionnees[$codeCheflieuAp]);
+        unset($rattachees[$codeCheflieuAp]);
+      }
+      elseif (isset($rattachees[$codeCheflieuAp])) { // commune nouvelle avec création de déléguée propre
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+          ],
+          'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleAvecCréationDeDéléguePropre']
+              + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
+              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+          'état'=> [
+            'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
+            'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
+          ],
+        ]);
+        unset($rattachees[$codeCheflieuAp]);
+      }
+      elseif (isset($fusionnees[$codeCheflieuAp])) { // commune nouvelle ss déléguée propre ou association
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle'],
+          ],
+          'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleSsDéléguePropreOuAssociationOuFusion']
+              + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
+              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+          'état'=> [
+            'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
+            'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
+          ],
+        ]);
+        unset($fusionnees[$codeCheflieuAp]);
+      }
+      if ($fusionnees) {
+        foreach ($fusionnees as $fcom => $fusionnee) {
+          setMerge($rpicoms[$fcom][$date_eff], [
+            'après'=> [],
+            'évts' => [/*'type'=> $typeLabel, */'fusionneDans'=> $codeCheflieuAp],
+            'état' => [
+              'statut'=> $fusionnee['av']['typecom'],
+              'name'=> $fusionnee['av']['libelle']
+            ],
+          ]);
+        }
+      }
+      if ($rattachees) {
+        foreach ($rattachees as $rcom => $rattachee) {
+          setMerge($rpicoms[$rcom][$date_eff], [
+            'après'=> [
+              'statut'=> $rattachee['ap']['typecom'],
+              'name'=> $rattachee['ap']['libelle'],
+              'crat'=> $codeCheflieuAp,
+            ],
+            'évts' => [/*'type'=> $typeLabel, */$seRattacheALabel => $codeCheflieuAp],
+            'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle']]
+              ,
+          ]);
+        }
       }
     }
-    if ($rattachees) {
-      foreach ($rattachees as $rcom => $rattachee) {
-        $rpicoms[$rcom][$date_eff]['évts'] = ['seRattacheA'=> $this->cheflieu];
-        $rpicoms[$rcom][$date_eff]['état'] = [
-          'statut'=> $rattachee['typecom_av'],
-          'name'=> $rattachee['libelle_av']
-        ];
-        $rpicoms[$this->cheflieu][$date_eff]['évts']['rattache'][] = $rcom;
-      }
+    catch (Exception $e) {
+      echo $e->getMessage(),"\n";
+      echo Yaml::dump($this->asArray(), 6, 2);
+      die();
     }
   }
 };
@@ -710,14 +822,14 @@ class Fusion extends FusionRattachement { // 31 - Fusion simple
   ];
 };
 
-
-class CreaCNouv extends FusionRattachement { // 32 - Création de commune nouvelle
-  const TITLE = "32 - Création de commune nouvelle";
-  const SPECS = "Chaque mouvement de création de commune nouvelle s'effectue autour d'un chef-lieu défini comme un noeud d'arrivée
-    de type COM ayant plus d'un arc entrant (1).
-    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée (2), c'est l'état avant du chef-lieu.
-    Parmi ces noeuds de départ, certains ont un autre arc sortant (2 et 3') dont le noeud d'arrivée définit une commune déléguée
-    (5 et 4) ;
+class CreaCNouv extends FusionRattachement { // 32 - Création/modification de commune nouvelle
+  const TITLE = "32 - Création de commune nouvelle - il peut aussi s'agir d'une modification de commune nouvelle";
+  const SPECS = "Chaque mouvement de création/modification de commune nouvelle s'effectue autour d'un chef-lieu défini
+    comme un noeud d'arrivée de type COM ayant plus d'un arc entrant (1).
+    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée (2),
+    c'est l'état avant du chef-lieu. <b>NON !!!!!</b>  
+    Par ailleurs, parmi ces noeuds de départ, certains ont un autre arc sortant (2 et 3') dont le noeud d'arrivée
+    définit une commune déléguée (respt. 5 et 4) ;
     d'autres n'ont pas d'autre arc sortant (3), ce sont des communes fusionnées.
     ";
   const EXAMPLES = [
@@ -840,7 +952,7 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
           'statut'=> $this->cheflieu['ap']['typecom'],
           'name'=> $this->cheflieu['ap']['libelle'],
         ],
-        'évts'=> ['absorbe'=> []],
+        'évts'=> ['type'=> 'Intégration(34)', 'absorbe'=> []],
         'état'=> [
           'statut'=> $this->cheflieu['av']['typecom'],
           'name'=> $this->cheflieu['av']['libelle'],
@@ -885,11 +997,13 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
         'après'=> [
           'statut'=> $resteRat['ap']['typecom'],
           'name'=> $resteRat['ap']['libelle'],
+          'crat'=> $this->cheflieu['av']['com'],
         ],
-        'évts'=> ['resteRattachée'=> $this->cheflieu['av']['com']],
+        'évts'=> ['resteRattachéeA'=> $this->cheflieu['av']['com']],
         'état'=> [
           'statut'=> $resteRat['av']['typecom'],
           'name'=> $resteRat['av']['libelle'],
+          'crat'=> $this->cheflieu['av']['com'],
         ],
       ]);
     }
@@ -1009,7 +1123,21 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
         'crat'=> $this->cheflieu_av['av']['com'],
       ],
     ]);
-    
+    foreach ($this->rattachees as $rattachee) {
+      setMerge($rpicoms[$rattachee['ap']['com']][$date_eff], [
+        'après'=> [
+          'statut'=> $rattachee['ap']['typecom'],
+          'name'=> $rattachee['ap']['libelle'],
+          'crat'=> $this->cheflieu_ap['ap']['com'],
+        ],
+        'évts'=> ['changeDeChefLieuPour(50)'=> $this->cheflieu_ap['ap']['com']],
+        'état'=> [
+          'statut'=> $rattachee['av']['typecom'],
+          'name'=> $rattachee['av']['libelle'],
+          'crat'=> $this->cheflieu_av['av']['com'],
+        ],
+      ]);
+    }
   }
 }
 
@@ -1031,7 +1159,7 @@ class TransfoComAComD extends Mvt { // 70 - Transformation de commune associé e
 if (!($fevts = fopen(__DIR__.'/../data/mvtcommune2020.csv', 'r')))
   die("Erreur d'ouverture du fichier CSV des mouvements\n");
 
-$evts = []; // [date_eff => [ mod => [[ 'av'=> av, 'ap'=> ap ]]]]
+$evts = []; // [date_eff => [ mod => [[ 'av'=> av, 'ap'=> ap, 'nolcsv'=> nolcsv ]]]]
 $prevRecord = []; // pour tester les doublons
 
 $nolcsv=0; // num. de ligne dans le fichier CSV, 0 est la ligne des en-têtes
@@ -1042,7 +1170,7 @@ if ($_GET['action']=='showPlainEvts') {
   foreach ([4,5,6,10,11,12] as $i) unset($headers[$i]);
   echo "<table border=1><th>no</th><th>",implode('</th><th>', $headers),"</th>\n";
 }
-while ($record = fgetcsv($fevts, 0, ',')) {
+while ($record = fgetcsv($fevts, 0, ',')) { // lecture du fichier et soit affichage des plain/doublons, soit construction de $evts
   $nolcsv++;
   if ($_GET['action']=='showPlainEvts') {
     //if ($record[0]<>10) continue;
@@ -1064,6 +1192,10 @@ while ($record = fgetcsv($fevts, 0, ',')) {
   //if (!in_array($rec['mod'], [31,32,33])) { $prevRecord = $record; continue; }
   //if (!in_array($rec['mod'], [10,20,31,32,33,34,41,50])) { $prevRecord = $record; continue; }
   //if (!in_array($rec['mod'], [30])) { $prevRecord = $record; continue; }
+  if (!preg_match('!^(0|2A|2B)!', $rec['com_av']))
+    $rec['com_av'] = intval($rec['com_av']);
+  if (!preg_match('!^(0|2A|2B)!', $rec['com_ap']))
+    $rec['com_ap'] = intval($rec['com_ap']);
   $evts[$rec['date_eff']][$rec['mod']][] = [
     'av'=> ['typecom'=> $rec['typecom_av'], 'com'=> $rec['com_av'], 'libelle'=> $rec['libelle_av']],
     'ap'=> ['typecom'=> $rec['typecom_ap'], 'com'=> $rec['com_ap'], 'libelle'=> $rec['libelle_ap']],
@@ -1071,6 +1203,19 @@ while ($record = fgetcsv($fevts, 0, ',')) {
   ];
   $prevRecord = $record;
 }
+
+// Correction d'incohérences Insee:
+//  - Ronchères (89325/89344) et Septfonds (89389/89344) voir 89344.yaml
+$evts['1977-01-01'][21][] = [
+  'av'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
+  'ap'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
+  'nolcsv'=> -1,
+];
+$evts['1977-01-01'][21][] = [
+  'av'=> ['typecom'=> 'COMA', 'com'=> 89389, 'libelle'=> 'Septfonds'],
+  'ap'=> ['typecom'=> 'COMA', 'com'=> 89389, 'libelle'=> 'Septfonds'],
+  'nolcsv'=> -1,
+];
 
 if (in_array($_GET['action'], ['showPlainEvts','doublons'])) {
   die("</table>\nFin $_GET[action]\n");
@@ -1134,11 +1279,11 @@ if ($_GET['action'] == 'showEvts') {
   die("Fin $_GET[action]\n");
 }
 
-if ($_GET['action'] == 'rpicom') { // initialisation de $rpicoms
+if (in_array($_GET['action'], ['rpicom','tavap'])) { // initialisation de $rpicoms
   $coms = Yaml::parseFile('../insee/com20200101.yaml');
   $rpicoms = [];
   foreach ($coms['contents'] as $ccom => $com) {
-    $rpicoms[$ccom]['now']['etat'] = $com;
+    $rpicoms[$ccom]['now']['état'] = $com;
     unset($coms['contents'][$ccom]);
   }
   unset($coms);
@@ -1164,7 +1309,7 @@ foreach ($evts as $date_eff => $evts1) {
       if ($mvtsAsArray)
         echo Yaml::dump([$date_eff => $mvtsAsArray], 7, 2),"\n";
     }
-    elseif ($_GET['action']=='rpicom') {
+    elseif (in_array($_GET['action'], ['rpicom','tavap'])) {
       foreach ($mvts as $mvt) {
         $mvt->buildRpicom($date_eff, $rpicoms);
       }
@@ -1179,5 +1324,36 @@ if ($_GET['action'] == 'mvtserreurs') {
 if ($_GET['action'] == 'rpicom') {
   ksort($rpicoms);
   echo Yaml::dump($rpicoms, 3, 2),"\n";
+}
+if ($_GET['action'] == 'tavap') {
+  ksort($rpicoms);
+  $tavap = 0;
+  foreach ($rpicoms as $com => $rpicomsCom) {
+    $etat = null;
+    foreach ($rpicomsCom as $date_eff => $rpicom) {
+      if (is_null($etat)) { // première itération
+        if ($date_eff == 'now')
+          $etat = $rpicom['état'];
+        elseif ($rpicom['après']==[])
+          $etat = $rpicom['état'];
+        else {
+          echo "Erreur sur $date_eff:\n",Yaml::dump([$com => $rpicomsCom], 3, 2),"\n";
+          $tavap++;
+        }
+      }
+      else { // $etat défini
+        $apres = $rpicom['après'];
+        if (!isset($etat['crat']))
+          unset($apres['crat']);
+        if ($etat <> $apres) {
+          echo "Erreur sur $date_eff:\n",Yaml::dump([$com => $rpicomsCom], 3, 2),"\n";
+          $tavap++;
+        }
+      }
+      //echo "com=$com, ",'$rpicom = '; print_r($rpicom);
+      $etat = $rpicom['état'] ?? [];
+    }
+  }
+  die("fin $_GET[action] tavap=$tavap\n");
 }
 die("fin $_GET[action] ok\n");
