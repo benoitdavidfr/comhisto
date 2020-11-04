@@ -1,0 +1,343 @@
+<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom specs</title></head><body><pre>
+</pre>
+    <h1>Spécifications du fichier des mouvements sur les communes</h1>
+    Dans ce document, le fichier des mouvements est considéré comme un graphe des noeuds avant (av) vers les noeuds après (ap).<br>
+    Chaque type de mouvement est spécifié par un motif de sous-graphe dans ce graphe.
+<h2>10 - Changement de nom </h2>Chaque arc correspond à un Changement de nom d'une entité. Le type et le code doivent être identiques avant et après
+    cad:<br>
+      <pre>(typecom_ap==typecom_av) && (com_av==com_ap)</pre>
+    <i>Note:</i> Il existe de nombreuses non-conformités ; le second exemple ci-dessous en fournit un exemple.<br>
+<img src='figures/10.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2018-11-08</td></tr>
+<tr><td><b>mod</b></td><td>10 - Changement de nom</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>1375</td><td>COM</td><td>04063</td><td>Corbières</td><td>COM</td><td>04063</td><td>Corbières-en-Provence</td></tr>
+<tr><td>1376</td><td>COM</td><td>16134</td><td>Exideuil</td><td>COM</td><td>16134</td><td>Exideuil-sur-Vienne</td></tr>
+<tr><td>1377</td><td>COM</td><td>35306</td><td>Saint-Père</td><td>COM</td><td>35306</td><td>Saint-Père-Marc-en-Poulet</td></tr>
+<tr><td>1378</td><td>COM</td><td>45110</td><td>Courcelles</td><td>COM</td><td>45110</td><td>Courcelles-le-Roi</td></tr>
+<tr><td>1379</td><td>COM</td><td>51086</td><td>Breuil</td><td>COM</td><td>51086</td><td>Breuil-sur-Vesle</td></tr>
+<tr><td>1380</td><td>COM</td><td>59004</td><td>Aix</td><td>COM</td><td>59004</td><td>Aix-en-Pévèle</td></tr>
+<tr><td>1381</td><td>COM</td><td>70472</td><td>Saint-Remy</td><td>COM</td><td>70472</td><td>Saint-Rémy-en-Comté</td></tr>
+<tr><td>1382</td><td>COM</td><td>79066</td><td>Champdeniers-Saint-Denis</td><td>COM</td><td>79066</td><td>Champdeniers</td></tr>
+<tr><td>1383</td><td>COM</td><td>84033</td><td>Castellet</td><td>COM</td><td>84033</td><td>Castellet-en-Luberon</td></tr>
+<tr><td>1384</td><td>COM</td><td>93070</td><td>Saint-Ouen</td><td>COM</td><td>93070</td><td>Saint-Ouen-sur-Seine</td></tr>
+<tr><td>1385</td><td>COM</td><td>95306</td><td>Herblay</td><td>COM</td><td>95306</td><td>Herblay-sur-Seine</td></tr>
+</table>
+</td></tr>
+</table>
+Chaque ligne du tableau correspond à un changement de nom</p>
+<table border=1><tr><td><b>date_eff</b></td><td>2007-04-01</td></tr>
+<tr><td><b>mod</b></td><td>10 - Changement de nom</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>5625</td><td>COM</td><td>74220</td><td>Reignier</td><td>COMA</td><td>74113</td><td>Ésery</td></tr>
+<tr><td>5626</td><td>COMA</td><td>74113</td><td>Ésery</td><td>COM</td><td>74220</td><td>Reignier-Ésery</td></tr>
+<tr><td>5627</td><td>COM</td><td>74220</td><td>Reignier</td><td>COM</td><td>74220</td><td>Reignier-Ésery</td></tr>
+</table>
+</td></tr>
+</table>
+Ces lignes sont considérées comme des non-conformités.</p>
+<h2>20 - Création</h2>Chaque mouvement est défini autour de la commune créée définie par un noeud d'arrivée
+    ayant plus d'un arc entrant (1). 
+    Chaque noeud de départ de ces arcs (2) définit une commune contributrice avant le mouvement.
+    En dehors de ces arcs, chaque commune contributrice correspond à un arc avant/après (3).<br>
+    <i>Note:</i> il n'existe que 6 créations qui interviennent à des dates différentes.
+    <br>
+<img src='figures/20.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>1989-02-15</td></tr>
+<tr><td><b>mod</b></td><td>20 - Création</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>6173</td><td>COM</td><td>38422</td><td>Saint-Martin-d'Uriage</td><td>COM</td><td>38422</td><td>Saint-Martin-d'Uriage</td></tr>
+<tr><td>6174</td><td>COM</td><td>38478</td><td>Séchilienne</td><td>COM</td><td>38478</td><td>Séchilienne</td></tr>
+<tr><td>6175</td><td>COM</td><td>38529</td><td>Vaulnaveys-le-Haut</td><td>COM</td><td>38529</td><td>Vaulnaveys-le-Haut</td></tr>
+<tr><td>6176</td><td>COM</td><td>38422</td><td>Saint-Martin-d'Uriage</td><td>COM</td><td>38567</td><td>Chamrousse</td></tr>
+<tr><td>6177</td><td>COM</td><td>38478</td><td>Séchilienne</td><td>COM</td><td>38567</td><td>Chamrousse</td></tr>
+<tr><td>6178</td><td>COM</td><td>38529</td><td>Vaulnaveys-le-Haut</td><td>COM</td><td>38567</td><td>Chamrousse</td></tr>
+</table>
+</td></tr>
+</table>
+Création de Chamrousse à partir des communes contributrices de
+    Saint-Martin-d'Uriage, Séchilienne et Vaulnaveys-le-Haut.</p>
+<h2>21 - Rétablissement - Je préfère plutôt parler de scission</h2>La commune/ARM se scindant (appelée source) (1) est identifiée par l'arc satisfaisant le critère<br>
+      <pre>(typecom_av in {'COM','ARM'}) && (typecom_ap==typecom_av) && (com_av==com_ap)</pre>
+    Les autres arcs partant de l'état avant de la source identifient les entités concernées (2 et 2').
+    Soit l'entité est créée ce qui est défini par l'absence d'autre arc y arrivant (2),
+    soit elle préexiste et est modifiée (2') et cet arc (3) définit ses états avant/après.<br>
+    En outre, un arc peut partir d'un autre noeud et arriver sur l'état après de la source (4).
+    <i>Cas particulier:</i><br>
+      &nbsp;- scission le 12/8/1964 du 5ème Ardt de Lyon pour créer le 9ème
+    <br>
+<img src='figures/21.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>1949-12-14</td></tr>
+<tr><td><b>mod</b></td><td>21 - Rétablissement</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>12974</td><td>COM</td><td>17411</td><td>Saint-Trojan-les-Bains</td><td>COM</td><td>17411</td><td>Saint-Trojan-les-Bains</td></tr>
+<tr><td>12975</td><td>COM</td><td>17411</td><td>Saint-Trojan-les-Bains</td><td>COM</td><td>17485</td><td>Le Grand-Village-Plage</td></tr>
+</table>
+</td></tr>
+</table>
+Un exemple simple: Saint-Trojan-les-Bains (17411) se scinde en 2 pour créer Le Grand-Village-Plage (17485).</p>
+<table border=1><tr><td><b>date_eff</b></td><td>2019-12-31</td></tr>
+<tr><td><b>mod</b></td><td>21 - Rétablissement</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>17</td><td>COM</td><td>14712</td><td>Saline</td><td>COMA</td><td>14114</td><td>Bures-sur-Dives</td></tr>
+<tr><td>18</td><td>COMD</td><td>14666</td><td>Sannerville</td><td>COM</td><td>14666</td><td>Sannerville</td></tr>
+<tr><td>19</td><td>COMD</td><td>14712</td><td>Troarn</td><td>COM</td><td>14712</td><td>Troarn</td></tr>
+<tr><td>20</td><td>COM</td><td>14712</td><td>Saline</td><td>COM</td><td>14666</td><td>Sannerville</td></tr>
+<tr><td>21</td><td>COM</td><td>14712</td><td>Saline</td><td>COM</td><td>14712</td><td>Troarn</td></tr>
+</table>
+</td></tr>
+</table>
+Un autre plus complexe: Saline (14712) se scinde en se renommant Troarn et en créant
+      la commune associée de Bures-sur-Dives (14114) ;
+      cette scission entraîne la transformation de la commune déléguée de Sannerville (14666) en commune simple
+      et la disparition de la commune déléguée de Troarn.</p>
+<table border=1><tr><td><b>date_eff</b></td><td>1964-08-12</td></tr>
+<tr><td><b>mod</b></td><td>21 - Rétablissement</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>11992</td><td>ARM</td><td>69385</td><td>Lyon 5e Arrondissement</td><td>ARM</td><td>69385</td><td>Lyon 5e Arrondissement</td></tr>
+<tr><td>11993</td><td>ARM</td><td>69385</td><td>Lyon 5e Arrondissement</td><td>ARM</td><td>69389</td><td>Lyon 9e Arrondissement</td></tr>
+</table>
+</td></tr>
+</table>
+Dernier exemple de la scission du 5ème Ardt de Lyon pour créer le 9ème.</p>
+<h2>30 - Suppression</h2>La commune supprimée est le noeud de départ ayant plus d'un arc sortant (1). 
+    Chaque noeud d'arrivée de ces arcs définit une commune réceptrice après le mouvement (2).
+    En dehors de ces arcs, chaque commune réceptrice correspond à un arc avant/après (3).<br>
+    <i>Note:</i> il n'existe que 6 suppressions qui interviennent à des dates différentes.
+    <br>
+<img src='figures/30.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>1968-03-02</td></tr>
+<tr><td><b>mod</b></td><td>30 - Suppression</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>11008</td><td>COM</td><td>08203</td><td>Guignicourt-sur-Vence</td><td>COM</td><td>08203</td><td>Guignicourt-sur-Vence</td></tr>
+<tr><td>11009</td><td>COM</td><td>08227</td><td>Hocmont</td><td>COM</td><td>08203</td><td>Guignicourt-sur-Vence</td></tr>
+<tr><td>11010</td><td>COM</td><td>08227</td><td>Hocmont</td><td>COM</td><td>08454</td><td>Touligny</td></tr>
+<tr><td>11011</td><td>COM</td><td>08454</td><td>Touligny</td><td>COM</td><td>08454</td><td>Touligny</td></tr>
+</table>
+</td></tr>
+</table>
+Hocmont (08227) est supprimée et son territoire est réparti
+    dans Guignicourt-sur-Vence (08203) et Touligny (08454).</p>
+<h2>31 - Fusion simple</h2>Chaque mouvement de fusion simple s'effectue autour d'un chef-lieu défini comme un noeud d'arrivée de type COM
+    ayant plus d'un arc entrant (1).
+    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée, c'est l'état avant du chef-lieu.
+    Les autres noeuds de départ correspondent aux entités fusionnées.<br>
+    <i>Cas particulier:</i> 
+    <br>
+<img src='figures/31.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2006-09-01</td></tr>
+<tr><td><b>mod</b></td><td>31 - Fusion simple</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>5641</td><td>COM</td><td>79013</td><td>Argenton-Château</td><td>COM</td><td>79013</td><td>Argenton-les-Vallées</td></tr>
+<tr><td>5642</td><td>COM</td><td>79037</td><td>Boësse</td><td>COM</td><td>79013</td><td>Argenton-les-Vallées</td></tr>
+<tr><td>5643</td><td>COM</td><td>79305</td><td>Sanzay</td><td>COM</td><td>79013</td><td>Argenton-les-Vallées</td></tr>
+</table>
+</td></tr>
+</table>
+<table border=1><tr><td><b>date_eff</b></td><td>1947-08-27</td></tr>
+<tr><td><b>mod</b></td><td>31 - Fusion simple</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>13083</td><td>COM</td><td>14485</td><td>Ouilly-le-Basset</td><td>COM</td><td>14764</td><td>Pont-d'Ouilly</td></tr>
+<tr><td>13084</td><td>COM</td><td>14612</td><td>Saint-Marc-d'Ouilly</td><td>COM</td><td>14764</td><td>Pont-d'Ouilly</td></tr>
+</table>
+</td></tr>
+</table>
+Cas particulier de création du nouveau code 14764 par cette fusion ;
+      il parait impossible de savoir laquelle des 2 est chef-lieu.</p>
+<h2>32 - Création de commune nouvelle - il peut aussi s'agir d'une modification de commune nouvelle</h2>Chaque mouvement de création/modification de commune nouvelle s'effectue autour d'un chef-lieu défini
+    comme un noeud d'arrivée de type COM ayant plus d'un arc entrant (1).
+    Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée (2),
+    c'est l'état avant du chef-lieu. <b>NON !!!!!</b><br>
+    Par ailleurs, parmi ces noeuds de départ, certains ont un autre arc sortant (2 et 3') dont le noeud d'arrivée
+    définit une commune déléguée (respt. 5 et 4) ;
+    d'autres n'ont pas d'autre arc sortant (3), ce sont des communes fusionnées.
+    <br>
+<img src='figures/32.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2019-03-01</td></tr>
+<tr><td><b>mod</b></td><td>32 - Création de commune nouvelle</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>22</td><td>COM</td><td>45287</td><td>Saint-Loup-de-Gonois</td><td>COMD</td><td>45287</td><td>Saint-Loup-de-Gonois</td></tr>
+<tr><td>23</td><td>COM</td><td>45287</td><td>Saint-Loup-de-Gonois</td><td>COM</td><td>45307</td><td>La Selle-sur-le-Bied</td></tr>
+<tr><td>24</td><td>COM</td><td>45307</td><td>La Selle-sur-le-Bied</td><td>COM</td><td>45307</td><td>La Selle-sur-le-Bied</td></tr>
+</table>
+</td></tr>
+</table>
+Le chef-lieu est La Selle-sur-le-Bied (45307), parmi les 2 communes concernées seule Saint-Loup-de-Gonois
+      (45287) donne lieu à la création d'une commune déléguée.</p>
+<table border=1><tr><td><b>date_eff</b></td><td>2019-02-28</td></tr>
+<tr><td><b>mod</b></td><td>32 - Création de commune nouvelle</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>25</td><td>COM</td><td>21183</td><td>Collonges-lès-Premières</td><td>COM</td><td>21183</td><td>Collonges-et-Premières</td></tr>
+<tr><td>26</td><td>COM</td><td>21183</td><td>Collonges-lès-Premières</td><td>COMD</td><td>21183</td><td>Collonges-lès-Premières</td></tr>
+<tr><td>27</td><td>COM</td><td>21507</td><td>Premières</td><td>COM</td><td>21183</td><td>Collonges-et-Premières</td></tr>
+<tr><td>28</td><td>COM</td><td>21213</td><td>Crimolois</td><td>COMD</td><td>21213</td><td>Crimolois</td></tr>
+<tr><td>29</td><td>COM</td><td>21213</td><td>Crimolois</td><td>COM</td><td>21452</td><td>Neuilly-Crimolois</td></tr>
+<tr><td>30</td><td>COM</td><td>21452</td><td>Neuilly-lès-Dijon</td><td>COM</td><td>21452</td><td>Neuilly-Crimolois</td></tr>
+<tr><td>31</td><td>COM</td><td>21452</td><td>Neuilly-lès-Dijon</td><td>COMD</td><td>21452</td><td>Neuilly-lès-Dijon</td></tr>
+<tr><td>32</td><td>COM</td><td>21507</td><td>Premières</td><td>COMD</td><td>21507</td><td>Premières</td></tr>
+</table>
+</td></tr>
+</table>
+Création de 2 communes nouvelles, chacune avec 2 communes déléguées.</p>
+<h2>33 - Fusion association</h2>Le motif de Fusion-association est similaire à celui de la Création de commune nouvelle avec 2 différences
+    (a) que les noeuds d'arrivée (4) sont des communes associées et non des communes déléguées et
+    (b) que le chef-lieu ne peut donner lieu à une commune associée (absence du 5).
+    <br>
+<img src='figures/33.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2010-12-09</td></tr>
+<tr><td><b>mod</b></td><td>33 - Fusion association</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>5553</td><td>COM</td><td>59183</td><td>Dunkerque</td><td>COM</td><td>59183</td><td>Dunkerque</td></tr>
+<tr><td>5554</td><td>COM</td><td>59248</td><td>Fort-Mardyck</td><td>COM</td><td>59183</td><td>Dunkerque</td></tr>
+<tr><td>5555</td><td>COMA</td><td>59380</td><td>Mardyck</td><td>COM</td><td>59183</td><td>Dunkerque</td></tr>
+<tr><td>5556</td><td>COM</td><td>59540</td><td>Saint-Pol-sur-Mer</td><td>COM</td><td>59183</td><td>Dunkerque</td></tr>
+<tr><td>5557</td><td>COM</td><td>59248</td><td>Fort-Mardyck</td><td>COMA</td><td>59248</td><td>Fort-Mardyck</td></tr>
+<tr><td>5558</td><td>COMA</td><td>59380</td><td>Mardyck</td><td>COMA</td><td>59380</td><td>Mardyck</td></tr>
+<tr><td>5559</td><td>COM</td><td>59540</td><td>Saint-Pol-sur-Mer</td><td>COMA</td><td>59540</td><td>Saint-Pol-sur-Mer</td></tr>
+</table>
+</td></tr>
+</table>
+<h2>34 - Transformation de fusion association en fusion simple </h2>Chaque mouvement de Transformation de fusion association en fusion simple s'effectue autour d'un chef-lieu défini
+    par un arc ayant un noeud de départ (2) et un noeud d'arrivée (1) tous les 2 de type COM.
+    Les autres noeuds de départ des arcs arrivant au noeud d'arrivée (1) du chef-lieu correspondent aux entités fusionnées (3).<br>
+    <i>Note:</i> Le mouvement peut s'appliquer aussi à une commune nouvelle et pas uniquement à une fusion association.
+    <br>
+<img src='figures/34.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2020-01-01</td></tr>
+<tr><td><b>mod</b></td><td>34 - Transformation de fusion association en fusion simple</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>1</td><td>COMD</td><td>16296</td><td>Saint-Amant-de-Bonnieure</td><td>COM</td><td>16300</td><td>Val-de-Bonnieure</td></tr>
+<tr><td>2</td><td>COM</td><td>16300</td><td>Val-de-Bonnieure</td><td>COM</td><td>16300</td><td>Val-de-Bonnieure</td></tr>
+<tr><td>3</td><td>COMD</td><td>16300</td><td>Saint-Angeau</td><td>COM</td><td>16300</td><td>Val-de-Bonnieure</td></tr>
+<tr><td>4</td><td>COMD</td><td>16309</td><td>Sainte-Colombe</td><td>COM</td><td>16300</td><td>Val-de-Bonnieure</td></tr>
+<tr><td>5</td><td>COMD</td><td>24041</td><td>Bézenac</td><td>COM</td><td>24087</td><td>Castels et Bézenac</td></tr>
+<tr><td>6</td><td>COM</td><td>24087</td><td>Castels et Bézenac</td><td>COM</td><td>24087</td><td>Castels et Bézenac</td></tr>
+<tr><td>7</td><td>COMD</td><td>24087</td><td>Castels</td><td>COM</td><td>24087</td><td>Castels et Bézenac</td></tr>
+<tr><td>8</td><td>COM</td><td>24142</td><td>Coux et Bigaroque-Mouzens</td><td>COM</td><td>24142</td><td>Coux et Bigaroque-Mouzens</td></tr>
+<tr><td>9</td><td>COMD</td><td>24142</td><td>Coux-et-Bigaroque</td><td>COM</td><td>24142</td><td>Coux et Bigaroque-Mouzens</td></tr>
+<tr><td>10</td><td>COMD</td><td>24298</td><td>Mouzens</td><td>COM</td><td>24142</td><td>Coux et Bigaroque-Mouzens</td></tr>
+<tr><td>11</td><td>COMD</td><td>33091</td><td>Cantenac</td><td>COM</td><td>33268</td><td>Margaux-Cantenac</td></tr>
+<tr><td>12</td><td>COM</td><td>33268</td><td>Margaux-Cantenac</td><td>COM</td><td>33268</td><td>Margaux-Cantenac</td></tr>
+<tr><td>13</td><td>COMD</td><td>79214</td><td>Pouffonds</td><td>COM</td><td>79251</td><td>Marcillé</td></tr>
+<tr><td>14</td><td>COM</td><td>79251</td><td>Marcillé</td><td>COM</td><td>79251</td><td>Marcillé</td></tr>
+<tr><td>15</td><td>COMD</td><td>79251</td><td>Saint-Génard</td><td>COM</td><td>79251</td><td>Marcillé</td></tr>
+</table>
+</td></tr>
+</table>
+<table border=1><tr><td><b>date_eff</b></td><td>2008-01-01</td></tr>
+<tr><td><b>mod</b></td><td>34 - Transformation de fusion association en fusion simple</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>5598</td><td>COM</td><td>25288</td><td>Fournets-Luisans</td><td>COM</td><td>25288</td><td>Fournets-Luisans</td></tr>
+<tr><td>5599</td><td>COMA</td><td>25352</td><td>Luisans</td><td>COM</td><td>25288</td><td>Fournets-Luisans</td></tr>
+<tr><td>5605</td><td>COM</td><td>39049</td><td>Bersaillin</td><td>COM</td><td>39049</td><td>Bersaillin</td></tr>
+<tr><td>5606</td><td>COMA</td><td>39067</td><td>Le Bouchaud</td><td>COM</td><td>39049</td><td>Bersaillin</td></tr>
+<tr><td>5607</td><td>COMA</td><td>39580</td><td>Le Viseney</td><td>COM</td><td>39049</td><td>Bersaillin</td></tr>
+<tr><td>5608</td><td>COM</td><td>42239</td><td>Saint-Jean-Saint-Maurice-sur-Loire</td><td>COM</td><td>42239</td><td>Saint-Jean-Saint-Maurice-sur-Loire</td></tr>
+<tr><td>5609</td><td>COMA</td><td>42263</td><td>Saint-Maurice-sur-Loire</td><td>COM</td><td>42239</td><td>Saint-Jean-Saint-Maurice-sur-Loire</td></tr>
+</table>
+</td></tr>
+</table>
+<table border=1><tr><td><b>date_eff</b></td><td>2018-01-01</td></tr>
+<tr><td><b>mod</b></td><td>34 - Transformation de fusion association en fusion simple</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>1524</td><td>COMA</td><td>14507</td><td>Pleines-Œuvres</td><td>COM</td><td>50649</td><td>Pont-Farcy</td></tr>
+<tr><td>1525</td><td>COM</td><td>14513</td><td>Pont-Farcy</td><td>COM</td><td>50649</td><td>Pont-Farcy</td></tr>
+</table>
+</td></tr>
+</table>
+Cas particulier de changement de département de Pont-Farcy après l'intégration de Pleines-Œuvres.</p>
+<h2>41 - Changement de code dû à un changement de département</h2>Chaque arc correspond à un Changement de nom de code.<br>
+<img src='figures/41.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2018-01-01</td></tr>
+<tr><td><b>mod</b></td><td>41 - Changement de code dû à un changement de département</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>1492</td><td>COM</td><td>49144</td><td>Freigné</td><td>COM</td><td>44225</td><td>Freigné</td></tr>
+</table>
+</td></tr>
+</table>
+<table border=1><tr><td><b>date_eff</b></td><td>2016-12-31</td></tr>
+<tr><td><b>mod</b></td><td>41 - Changement de code dû à un changement de département</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>2833</td><td>COM</td><td>02344</td><td>Gernicourt</td><td>COM</td><td>51664</td><td>Gernicourt</td></tr>
+</table>
+</td></tr>
+</table>
+<h2>50 - Changement de code dû à un transfert de chef-lieu </h2>L'ancien chef-lieu peut être identifié au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COM') && (typecom_ap=='COMA') && (com_av==com_ap)</pre>
+    le nouveau chef-lieu peut être identifié au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COMA') && (typecom_ap=='COM') && (com_av==com_ap)</pre>
+    les communes associées restant associées peuvent être identifiées au moyen du critère de sélection suivant:
+      <pre>(typecom_av=='COMA') && (typecom_ap=='COMA') && (com_av==com_ap)</pre>
+    <i>Note:</i> Il n'existe que 2 mvts de ce type.<br>
+<img src='figures/50.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2014-01-07</td></tr>
+<tr><td><b>mod</b></td><td>50 - Changement de code dû à un transfert de chef-lieu</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>5342</td><td>COMA</td><td>14010</td><td>Ammeville</td><td>COMA</td><td>14010</td><td>Ammeville</td></tr>
+<tr><td>5343</td><td>COMA</td><td>14067</td><td>Berville</td><td>COMA</td><td>14067</td><td>Berville</td></tr>
+<tr><td>5344</td><td>COMA</td><td>14234</td><td>Écots</td><td>COMA</td><td>14234</td><td>Écots</td></tr>
+<tr><td>5345</td><td>COMA</td><td>14295</td><td>Garnetot</td><td>COMA</td><td>14295</td><td>Garnetot</td></tr>
+<tr><td>5346</td><td>COMA</td><td>14314</td><td>Grandmesnil</td><td>COMA</td><td>14314</td><td>Grandmesnil</td></tr>
+<tr><td>5347</td><td>COMA</td><td>14363</td><td>Lieury</td><td>COMA</td><td>14363</td><td>Lieury</td></tr>
+<tr><td>5348</td><td>COMA</td><td>14447</td><td>Montpinçon</td><td>COMA</td><td>14447</td><td>Montpinçon</td></tr>
+<tr><td>5349</td><td>COMA</td><td>14010</td><td>Ammeville</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5350</td><td>COMA</td><td>14067</td><td>Berville</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5351</td><td>COMA</td><td>14234</td><td>Écots</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5352</td><td>COMA</td><td>14295</td><td>Garnetot</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5353</td><td>COMA</td><td>14314</td><td>Grandmesnil</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5354</td><td>COMA</td><td>14363</td><td>Lieury</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5355</td><td>COMA</td><td>14447</td><td>Montpinçon</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5356</td><td>COMA</td><td>14472</td><td>Notre-Dame-de-Fresnay</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5357</td><td>COMA</td><td>14624</td><td>Saint-Martin-de-Fresnay</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5358</td><td>COM</td><td>14697</td><td>L'Oudon</td><td>COM</td><td>14472</td><td>L'Oudon</td></tr>
+<tr><td>5359</td><td>COMA</td><td>14624</td><td>Saint-Martin-de-Fresnay</td><td>COMA</td><td>14624</td><td>Saint-Martin-de-Fresnay</td></tr>
+<tr><td>5360</td><td>COM</td><td>14697</td><td>L'Oudon</td><td>COMA</td><td>14697</td><td>Tôtes</td></tr>
+</table>
+</td></tr>
+</table>
+<table border=1><tr><td><b>date_eff</b></td><td>1990-02-01</td></tr>
+<tr><td><b>mod</b></td><td>50 - Changement de code dû à un transfert de chef-lieu</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>6118</td><td>COMA</td><td>14010</td><td>Ammeville</td><td>COMA</td><td>14010</td><td>Ammeville</td></tr>
+<tr><td>6119</td><td>COMA</td><td>14067</td><td>Berville</td><td>COMA</td><td>14067</td><td>Berville</td></tr>
+<tr><td>6120</td><td>COMA</td><td>14234</td><td>Écots</td><td>COMA</td><td>14234</td><td>Écots</td></tr>
+<tr><td>6121</td><td>COMA</td><td>14295</td><td>Garnetot</td><td>COMA</td><td>14295</td><td>Garnetot</td></tr>
+<tr><td>6122</td><td>COMA</td><td>14314</td><td>Grandmesnil</td><td>COMA</td><td>14314</td><td>Grandmesnil</td></tr>
+<tr><td>6123</td><td>COMA</td><td>14363</td><td>Lieury</td><td>COMA</td><td>14363</td><td>Lieury</td></tr>
+<tr><td>6124</td><td>COMA</td><td>14447</td><td>Montpinçon</td><td>COMA</td><td>14447</td><td>Montpinçon</td></tr>
+<tr><td>6125</td><td>COMA</td><td>14472</td><td>Notre-Dame-de-Fresnay</td><td>COMA</td><td>14472</td><td>Notre-Dame-de-Fresnay</td></tr>
+<tr><td>6126</td><td>COM</td><td>14624</td><td>L'Oudon</td><td>COMA</td><td>14624</td><td>Saint-Martin-de-Fresnay</td></tr>
+<tr><td>6127</td><td>COMA</td><td>14010</td><td>Ammeville</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6128</td><td>COMA</td><td>14067</td><td>Berville</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6129</td><td>COMA</td><td>14234</td><td>Écots</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6130</td><td>COMA</td><td>14295</td><td>Garnetot</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6131</td><td>COMA</td><td>14314</td><td>Grandmesnil</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6132</td><td>COMA</td><td>14363</td><td>Lieury</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6133</td><td>COMA</td><td>14447</td><td>Montpinçon</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6134</td><td>COMA</td><td>14472</td><td>Notre-Dame-de-Fresnay</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6135</td><td>COM</td><td>14624</td><td>L'Oudon</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+<tr><td>6136</td><td>COMA</td><td>14697</td><td>Tôtes</td><td>COM</td><td>14697</td><td>L'Oudon</td></tr>
+</table>
+</td></tr>
+</table>
+<h2>70 - Transformation de commune associé en commune déléguée</h2>Il n'existe qu'une seule ligne correspondant à ce type que je ne comprend pas.<br>
+<img src='figures/70.png'>
+<h3>Exemples</h3>
+<table border=1><tr><td><b>date_eff</b></td><td>2020-01-01</td></tr>
+<tr><td><b>mod</b></td><td>70 - Transformation de commune associé en commune déléguée</td></tr>
+<tr><td colspan=2><table border=1><tr><td><b>nol</b></td><td><b>typecom_av</b></td><td><b>com_av</b></td><td><b>libelle_av</b></td><td><b>typecom_ap</b></td><td><b>com_ap</b></td><td><b>libelle_ap</b></td></tr>
+<tr><td>16</td><td>COM</td><td>52064</td><td>Bourmont-entre-Meuse-et-Mouzon</td><td>COMD</td><td>52224</td><td>Gonaincourt</td></tr>
+</table>
+</td></tr>
+</table>
+fin specs ok

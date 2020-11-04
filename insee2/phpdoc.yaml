@@ -2,7 +2,9 @@ title: comhisto/insee2 - construction d'un fichier historique des codes Insee à
 path: /yamldoc/pub/comhisto/insee2
 doc: |
   Cette construction se fait en 3 étapes:
-    1) fabricat
+    1) fabrication du Rpicom - historique par code Insee dans l'ordre chronologique inverse
+    2) conversion en format histo - historique par code Insee dans l'ordre chronologique directe, ajout des erats
+    3) ajout des elits
 journal: |
   4/11/2020:
     - traitement des cas dans rpicom.php

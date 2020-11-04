@@ -8,8 +8,9 @@ doc: |
     - diverses visualisations des données de mouvement (fichier brut, doublons, évts groupés, mouvements interprétés),
     - l'affichage de specs
     - l'extraction des lignes non conformes aux specs,
-    - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
+    - la fabrication et l'affichage du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
     - le test de la cohérence entre les états avant et après du Rpicom
+    - la fabrication et l'enregistrement du Rpicom
 
   Le fichier mvtcommune2020 est constitué d'un ensemble de lignes.
   J'appelle mouvement un regroupement de ces lignes qui correspond à une opération logique, ex création d'une commune nouvelle.
@@ -89,7 +90,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 if (php_sapi_name() <> 'cli') {
   if (!isset($_GET['action'])) {
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>mvts</title></head><body>\n";
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom</title></head><body>\n";
     echo "<a href='?action=specs'>Affichage des specs</a><br>\n";
     echo "<a href='?action=showPlainEvts'>Affichage des evts Insee simplement</a><br>\n";
     echo "<a href='?action=doublons'>Affichage des evts Insee en doublon</a><br>\n";
@@ -103,11 +104,23 @@ if (php_sapi_name() <> 'cli') {
     die();
   }
   else {
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>brpicom $_GET[action]</title></head><body><pre>\n";
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom $_GET[action]</title></head><body><pre>\n";
   }
 }
 else {
-  $_GET['action'] = 'enregistreRpicom';
+  //echo "argc=$argc\n"; print_r($argv);
+  if ($argc == 1) {
+    echo "usage: php $argv[0] {option}\n";
+    echo " où {option} peut prendre les valeurs suivantes:\n";
+    echo "  - enregistreRpicom : pour enregistrer le Rpicom dans rpicom.yaml\n";
+    echo "  - specs : pour générer le fhier Html des specrs\n";
+    die();
+  }
+  else {
+    $_GET['action'] = $argv[1];
+    if ($_GET['action']=='specs')
+      echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom $_GET[action]</title></head><body><pre>\n";
+  }
 }
 
 { // Les types d'évènements et leur libellé Insee
