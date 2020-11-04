@@ -9,7 +9,10 @@ doc: |
     - l'affichage de specs
     - l'extraction des lignes non conformes aux specs,
     - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
-    - tavap
+    - le test de la cohérence entre les états avant et après du Rpicom
+
+  Le fichier mvtcommune2020 est constitué un ensemble de lignes.
+  J'appelle mouvement un regroupement de ces lignes qui correspond à une opération logique, ex création d'une commune nouvelle.
 
   La principale difficulté de cette démarche est la quasi-absence de spécifications du fichier des mouvements
   qui se résument à 2 exemples simples alors qu'il existe des cas assez complexes.
@@ -33,7 +36,8 @@ doc: |
     - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
       - code spécifique de correction intégré le 3/11/2020
 
-  Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom
+  Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom.
+  Ce test permet d'une certaine façon de valider la cohérence de la démarche.
 
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
