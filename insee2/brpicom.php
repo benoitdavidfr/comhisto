@@ -99,6 +99,7 @@ if (php_sapi_name() <> 'cli') {
     echo "<a href='?action=corrections'>Affichage des corrections</a><br>\n";
     echo "<a href='?action=rpicom'>Génération et affichage du Rpicom</a><br>\n";
     echo "<a href='?action=tavap'>Génération du Rpicom puis teste avant-après</a><br>\n";
+    echo "<a href='?action=enregistreRpicom'>Génération et enregistrement du Rpicom</a><br>\n";
     die();
   }
   else {
@@ -106,7 +107,7 @@ if (php_sapi_name() <> 'cli') {
   }
 }
 else {
-  $_GET['action'] = 'cli';
+  $_GET['action'] = 'enregistreRpicom';
 }
 
 { // Les types d'évènements et leur libellé Insee
@@ -1445,7 +1446,7 @@ if ($_GET['action'] == 'mvtserreurs') {
     showEvts($mvtsErreur['date_eff'], $mvtsErreur['mod'], $mvtsErreur['evts']);
 }
 
-if (in_array($_GET['action'], ['rpicom','tavap'])) { // initialisation de $rpicoms
+if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // initialisation de $rpicoms
   $coms = Yaml::parseFile('../insee/com20200101.yaml');
   $rpicoms = [];
   foreach ($coms['contents'] as $ccom => $com) {
@@ -1483,7 +1484,7 @@ foreach ($evts as $date_eff => $evts1) {
   }
 }
 
-if (in_array($_GET['action'], ['rpicom','tavap'])) { // corrections sur Rpicom
+if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corrections sur Rpicom
   // ajout des crat des ardts de Lyon vers Lyon (69123). Ces infos ne peuvent pas être déduites des mouvements.
   $rpicoms[69387]['1959-02-08']['après']['crat'] = 69123;
   $rpicoms[69387]['1959-02-08']['état']['crat'] = 69123;
@@ -1501,7 +1502,36 @@ if ($_GET['action'] == 'rpicom') {
   ksort($rpicoms);
   echo Yaml::dump($rpicoms, 3, 2),"\n";
 }
-if ($_GET['action'] == 'tavap') {
+elseif ($_GET['action'] == 'enregistreRpicom') {
+  ksort($rpicoms);
+  $buildNameAdministrativeArea = <<<'EOT'
+if (isset($item['now']['état']['name']))
+  return $item['now']['état']['name']." ($skey)";
+else
+  return '<s>'.array_values($item)[0]['name']." ($skey)</s>";
+EOT;
+  file_put_contents(
+    __DIR__.'/rpicom.yaml',
+    Yaml::dump(
+      [
+        'title'=> "Référentiel rpicom",
+        'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/comhisto",
+        'created'=> date(DATE_ATOM),
+        'valid'=> '2020-01-01',
+        '$schema'=> 'http://id.georef.eu/rpicom/exrpicom/$schema',
+        'ydADscrBhv'=> [
+          'jsonLdContext'=> 'http://schema.org',
+          'firstLevelType'=> 'AdministrativeArea',
+          'buildName'=> [ // définition de l'affichage réduit par type d'objet, code Php par type
+            'AdministrativeArea'=> $buildNameAdministrativeArea,
+          ],
+          'writePserReally'=> true,
+        ],
+        'contents'=> $rpicoms,
+      ], 3, 2)
+  );
+}
+elseif ($_GET['action'] == 'tavap') {
   ksort($rpicoms);
   $tavap = 0;
   foreach ($rpicoms as $com => $rpicomsCom) {
