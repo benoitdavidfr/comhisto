@@ -1,31 +1,47 @@
 <?php
 /*PhpDoc:
 name: graph.php
-title: graph.php - structuration, visualisation et construction du Rpicom à partir des mouvements Insee
+title: graph.php - structuration et visualisation des mouvements Insee et construction du Rpicom à partir de ces mouvements
 doc: |
   réécriture de l'interprétation des lignes du fichier mvtcommune2020
   Le script permet:
-    - diverses visualisations (fichier brut, doublons, évts groupés, mouvements interprétés),
+    - diverses visualisations des données (fichier brut, doublons, évts groupés, mouvements interprétés),
+    - l'affichage de specs
     - l'extraction des lignes non conformes aux specs,
     - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
+    - tavap
 
-  Non conformités Insee:
+  La principale difficulté de cette démarche est la quasi-absence de spécifications du fichier des mouvements
+  qui se résument à 2 exemples simples alors qu'il existe des cas assez complexes.
+  Un autre difficulté est l'existence de non-conformités mais il est quasiment impossible de les expliciter en raison de l'absence 
+  de spécifications.
+  Enfin, une autre difficulté est l'incohérence entre certains mouvements qui devraient s'enchainer.
+  
+  Pour avancer, j'ai cherché à rédiger des spécifications du fichier.
+
+  J'ai identifié des non-conformités par rapport à ces spécifications:
     - le seul type de mvts 70
     - 38 chgts de nom
   Ces non-conformités sont affichées en utilisant l'action ?action=mvtserreurs
 
-  Code spécifique intégré le 2/11/2020 pour corriger un problème sur la création de la commune nouvelle
-  de Brantôme en Périgord (24064) au 1/1/2019, voir 24064.yaml
+  J'ai détecté une anomalie sur la création de la commune nouvelle de Brantôme en Périgord (24064) au 1/1/2019, voir 24064.yaml
+  Idem Mesnils-sur-Iton/Damville (27198) au 1/1/2019
+  Code spécifique intégré le 2/11/2020 pour corriger cette anomalie.
+  Je ne sais pas s'il s'agit ou non d'une non-conformité.
   
-  Incohérences Insee:
+  J'ai aussi détecté des incohérences entre mouvements:
     - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
       - code spécifique de correction intégré le 3/11/2020
+
+  Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom
 
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
   Bugs:
 
 journal: |
+  4/11/2020:
+    - implem du Cas de rattachement d'une commune nouvelle à une commune simple
   3/11/2020:
     - améliorations
   29/10/2020:
@@ -58,6 +74,7 @@ if (php_sapi_name() <> 'cli') {
     echo "<a href='?action=showEvts'>Affichage des evts Insee</a><br>\n";
     echo "<a href='?action=mvts'>Affichage des mvts</a><br>\n";
     echo "<a href='?action=mvtserreurs'>Affichage des mvts non conformes aux specs</a><br>\n";
+    echo "<a href='?action=corrections'>Affichage des corrections</a><br>\n";
     echo "<a href='?action=rpicom'>Génération et affichage du Rpicom</a><br>\n";
     echo "<a href='?action=tavap'>Génération du Rpicom puis teste avant-après</a><br>\n";
     die();
@@ -653,9 +670,10 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
     }
     // Inversion COM/COMD illustrée par 24064@2019-01-01, valable aussi pour 27198@2019-01-01
     $codeCheflieu = $cheflieu['ap']['com'];
-    if (1 && isset($this->fusionnees[$codeCheflieu]) && ($this->fusionnees[$codeCheflieu]['av']['typecom']=='COMD')
+    if (isset($this->fusionnees[$codeCheflieu]) && ($this->fusionnees[$codeCheflieu]['av']['typecom']=='COMD')
       && isset($this->rattachees[$codeCheflieu]) && ($this->rattachees[$codeCheflieu]['av']['typecom']=='COM')) {
-        echo "<b>Inversion COM/COMD pour $codeCheflieu@$date_eff</b>\n";
+        if ($_GET['action']=='corrections')
+          echo "Inversion COM/COMD pour $codeCheflieu@$date_eff\n";
         $tmp = $this->fusionnees[$codeCheflieu]['av'];
         $this->fusionnees[$codeCheflieu]['av'] = $this->rattachees[$codeCheflieu]['av'];
         $this->rattachees[$codeCheflieu]['av'] = $tmp;
@@ -705,11 +723,60 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
     try { // permet de capturer l'exception lancée par setMerge() pour afficher le cas en cause
       if ((count($this->fusionnees)==1)
         && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
-          // 2 cas de changement de rattachement:
-          // - 49065/49080@2019-01-01 - rattachement de la commune nouvelle 49065 dans la commune simple 49080
-          // - 49149/49261@2018-01-01 - rattachement de la commune nouvelle 49149 dans la commune simple 49261
+          // Traitement des 2 cas de changement de rattachement d'une commune nouvelle à une commune simple:
+          // - 49065/49080@2019-01-01 - Les Hauts-d'Anjou - rattachement de la commune nouvelle 49065 à la commune simple 49080
+          // - 49149/49261@2018-01-01 - Gennes-Val de Loire - rattachement de la commune nouvelle 49149 à la commune simple 49261
           //echo Yaml::dump($this->asArray(), 6, 2);
-          echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple</b>\n";
+          //echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple NON implémenté</b>\n";
+          
+          $codeCheflieuAv = $codeFus[0]; // le code du cheflieu de l'ancienne commune nouvelle
+          // Je commence par traiter les anciennes communes déléguées qui sont transférées à l'exception des chefs-lieux
+          foreach ($rattachees as $rcom => $rattachee) {
+            if (!in_array($rcom, [$codeCheflieuAv, $codeCheflieuAp])) {
+              setMerge($rpicoms[$rcom][$date_eff], [
+                'après'=> [
+                  'statut'=> $rattachee['ap']['typecom'],
+                  'name'=> $rattachee['ap']['libelle'],
+                  'crat'=> $codeCheflieuAp,
+                ],
+                'évts' => ['type'=> $typeLabel, 'changeDeChefLieuPour' => $codeCheflieuAp],
+                'état' => [
+                  'statut'=> $rattachee['av']['typecom'],
+                  'name'=> $rattachee['av']['libelle'],
+                  'crat'=> $codeCheflieuAv,
+                ],
+              ]);
+            }
+          }
+          // cas du chef lieu de l'ancienne commune nouvelle
+          $fusionnee = array_values($this->fusionnees)[0];
+          setMerge($rpicoms[$codeCheflieuAv][$date_eff], [
+            'après'=> [
+              'statut'=> $rattachees[$codeCheflieuAv]['ap']['typecom'],
+              'name'=> $rattachees[$codeCheflieuAv]['ap']['libelle'],
+              'crat'=> $codeCheflieuAp,
+            ],
+            'évts' => ['type'=> $typeLabel, 'transfertChefLieuAlOccasionCréationCommuneNouvelleDe' => $codeCheflieuAp],
+            'état' => [
+              'statut'=> $fusionnee['av']['typecom'],
+              'name'=> $fusionnee['av']['libelle'],
+              'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv]['av']['libelle']],
+            ],
+          ]);
+          // cas du chef lieu de la nouvelle commune nouvelle
+          setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+            'après'=> [
+              'statut'=> $this->cheflieu['ap']['typecom'],
+              'name'=> $this->cheflieu['ap']['libelle'],
+              'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+            ],
+            'évts' => ['type'=> $typeLabel, 'devientChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
+            'état' => [
+              'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
+              'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
+            ],
+          ]);
+          
           return;
       }
       elseif ((count($this->fusionnees)==2)
@@ -717,7 +784,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
         && ($codeFus[1] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[1]])) {
           // cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01
           //echo Yaml::dump($this->asArray(), 6, 2);
-          echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01</b>\n";
+          echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01 NON implémenté</b>\n";
           return;
       }
       elseif (isset($fusionnees[$codeCheflieuAp]) && isset($rattachees[$codeCheflieuAp])) { // modif. d'une commune nouvelle existante
@@ -793,8 +860,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
               'crat'=> $codeCheflieuAp,
             ],
             'évts' => [/*'type'=> $typeLabel, */$seRattacheALabel => $codeCheflieuAp],
-            'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle']]
-              ,
+            'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle']],
           ]);
         }
       }
@@ -1206,6 +1272,9 @@ while ($record = fgetcsv($fevts, 0, ',')) { // lecture du fichier et soit affich
 
 // Correction d'incohérences Insee:
 //  - Ronchères (89325/89344) et Septfonds (89389/89344) voir 89344.yaml
+if ($_GET['action']=='corrections')
+  echo "Correction de l'incohérence Insee: Ronchères (89325/89344) et Septfonds (89389/89344) voir 89344.yaml\n";
+
 $evts['1977-01-01'][21][] = [
   'av'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
   'ap'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
