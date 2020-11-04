@@ -53,6 +53,7 @@ journal: |
   4/11/2020:
     - implem du Cas de rattachement d'une commune nouvelle à une commune simple
     - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
+    - reste 6 erreurs tavap dont 4 pour les ardts de Lyon
   3/11/2020:
     - améliorations
   29/10/2020:
