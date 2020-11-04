@@ -1,13 +1,15 @@
-title: comhisto/insee2 - nlle version essayant de simplifier la précédente
+title: comhisto/insee2 - construction d'un fichier historique des codes Insee à partir des données Insee - version 2
 path: /yamldoc/pub/comhisto/insee2
 doc: |
+  Cette construction se fait en 3 étapes:
+    1) fabricat
 journal: |
   4/11/2020:
     - traitement des cas dans rpicom.php
   20/10/2020:
     - création
 phpScripts:
-  - brpicom.php
+  - frpicom.php
   - comp.php
 phpIncludes:
   - html.inc.php

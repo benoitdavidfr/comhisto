@@ -1,7 +1,7 @@
 <?php
 /*PhpDoc:
-name: brpicom.php
-title: brpicom.php - construction du fichier rpicom.yaml par exploitation des mouvements Insee
+name: frpicom.php
+title: frpicom.php - fabrication du fichier rpicom.yaml par exploitation des mouvements Insee et de l'état au 1/1/2020
 doc: |
   réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
   Ce script permet:
