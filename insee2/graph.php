@@ -41,9 +41,15 @@ doc: |
   J'ai aussi détecté des incohérences entre mouvements:
     - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
       - code spécifique de correction intégré le 3/11/2020
+    - Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064
+      - code spécifique de correction intégré le 4/11/2020
+    - avant le rétablissement du 1/1/2014 Bois-Guillaume-Bihorel (76108) a une déléguée propre
+      - code spécifique de correction intégré le 4/11/2020
+
 
   Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom.
   Ce test permet d'une certaine façon de valider la cohérence de la démarche.
+  J'ai été obligé de rajouter du code spécifique pour la gestion des Ardts de Lyon car la référénce à Lyon n'est pas dans les mvts
 
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
@@ -53,7 +59,9 @@ journal: |
   4/11/2020:
     - implem du Cas de rattachement d'une commune nouvelle à une commune simple
     - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
-    - reste 6 erreurs tavap dont 4 pour les ardts de Lyon
+    - correction incohérence sur Gonaincourt et Bois-Guillaume
+    - correction du Rpicom par ajout des crat des ardts de Lyon vers Lyon (69123) qui ne peuvent pas être déduites des mouvements.
+    - il ne reste plus d'erreurs tavap
   3/11/2020:
     - améliorations
   29/10/2020:
@@ -1337,7 +1345,6 @@ while ($record = fgetcsv($fevts, 0, ',')) { // lecture du fichier et soit affich
 //  - Ronchères (89325/89344) et Septfonds (89389/89344) voir 89344.yaml
 if ($_GET['action']=='corrections')
   echo "Correction de l'incohérence Insee: Ronchères (89325/89344) et Septfonds (89389/89344) voir 89344.yaml\n";
-
 $evts['1977-01-01'][21][] = [
   'av'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
   'ap'=> ['typecom'=> 'COMA', 'com'=> 89325, 'libelle'=> 'Ronchères'],
@@ -1348,6 +1355,25 @@ $evts['1977-01-01'][21][] = [
   'ap'=> ['typecom'=> 'COMA', 'com'=> 89389, 'libelle'=> 'Septfonds'],
   'nolcsv'=> -1,
 ];
+
+// - Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée
+if ($_GET['action']=='corrections')
+  echo "Correction de l'incohérence Insee: Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée\n";
+$evts['2016-06-01'][32][] = [
+  'av'=> ['typecom'=> 'COMA', 'com'=> 52224, 'libelle'=> 'Gonaincourt'],
+  'ap'=> ['typecom'=> 'COMD', 'com'=> 52224, 'libelle'=> 'Gonaincourt'],
+  'nolcsv'=> -1,
+];
+
+// - avant le rétablissement du 1/1/2014 Bois-Guillaume-Bihorel (76108) a une déléguée propre
+if ($_GET['action']=='corrections')
+  echo "Avant le rétablissement du 1/1/2014 Bois-Guillaume-Bihorel (76108) a une déléguée propre\n";
+$evts['2014-01-01'][21][] = [
+  'av'=> ['typecom'=> 'COMD', 'com'=> 76108, 'libelle'=> 'Bois-Guillaume'],
+  'ap'=> ['typecom'=> 'COM', 'com'=> 76108, 'libelle'=> 'Bois-Guillaume'],
+  'nolcsv'=> -1,
+];
+
 
 if (in_array($_GET['action'], ['showPlainEvts','doublons'])) {
   die("</table>\nFin $_GET[action]\n");
@@ -1411,6 +1437,12 @@ if ($_GET['action'] == 'showEvts') {
   die("Fin $_GET[action]\n");
 }
 
+if ($_GET['action'] == 'mvtserreurs') {
+  //print_r(Mvt::$mvtsErreurs);
+  foreach (Mvt::$mvtsErreurs as $mvtsErreur)
+    showEvts($mvtsErreur['date_eff'], $mvtsErreur['mod'], $mvtsErreur['evts']);
+}
+
 if (in_array($_GET['action'], ['rpicom','tavap'])) { // initialisation de $rpicoms
   $coms = Yaml::parseFile('../insee/com20200101.yaml');
   $rpicoms = [];
@@ -1448,11 +1480,19 @@ foreach ($evts as $date_eff => $evts1) {
     }
   }
 }
-if ($_GET['action'] == 'mvtserreurs') {
-  //print_r(Mvt::$mvtsErreurs);
-  foreach (Mvt::$mvtsErreurs as $mvtsErreur)
-    showEvts($mvtsErreur['date_eff'], $mvtsErreur['mod'], $mvtsErreur['evts']);
+
+if (in_array($_GET['action'], ['rpicom','tavap'])) { // corrections sur Rpicom
+  // ajout des crat des ardts de Lyon vers Lyon (69123). Ces infos ne peuvent pas être déduites des mouvements.
+  $rpicoms[69387]['1959-02-08']['après']['crat'] = 69123;
+  $rpicoms[69387]['1959-02-08']['état']['crat'] = 69123;
+  $rpicoms[69388]['1959-02-08']['après']['crat'] = 69123;
+  $rpicoms[69385]['1964-08-12']['après']['crat'] = 69123;
+  $rpicoms[69385]['1964-08-12']['état']['crat'] = 69123;
+  $rpicoms[69389]['1964-08-12']['après']['crat'] = 69123;
 }
+
+
+
 if ($_GET['action'] == 'rpicom') {
   ksort($rpicoms);
   echo Yaml::dump($rpicoms, 3, 2),"\n";
