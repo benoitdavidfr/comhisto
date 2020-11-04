@@ -49,7 +49,9 @@ doc: |
 
   Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom.
   Ce test permet d'une certaine façon de valider la cohérence de la démarche.
-  J'ai été obligé de rajouter du code spécifique pour la gestion des Ardts de Lyon car la référénce à Lyon n'est pas dans les mvts
+  J'ai été obligé de rajouter du code spécifique pour la gestion des Ardts de Lyon car la référénce à Lyon n'est pas dans les mvts.
+  Par contre, je n'ai pas modifié la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans
+  le 5ème Ardt car il faudra de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
 
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
@@ -1489,6 +1491,8 @@ if (in_array($_GET['action'], ['rpicom','tavap'])) { // corrections sur Rpicom
   $rpicoms[69385]['1964-08-12']['après']['crat'] = 69123;
   $rpicoms[69385]['1964-08-12']['état']['crat'] = 69123;
   $rpicoms[69389]['1964-08-12']['après']['crat'] = 69123;
+  // Je ne modifie pas la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
+  // Il faudrait de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
 }
 
 
