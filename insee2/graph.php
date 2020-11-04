@@ -796,7 +796,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
       && ($codeFus[1] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[1]])) {
         // cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
         //echo Yaml::dump($this->asArray(), 6, 2);
-        echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01 NON implémenté</b>\n";
+        //echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01 NON implémenté</b>\n";
         // $fusionnees contient les 2 communes nouvelles
         // $rattachees contient les communes déléguées ainsi que les nouvelles communes intégrées
         $codeCheflieuAv2 = $codeFus[1]; // la seconde commune nouvelle, celle qui disparait
