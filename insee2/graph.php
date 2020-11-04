@@ -52,6 +52,7 @@ doc: |
 journal: |
   4/11/2020:
     - implem du Cas de rattachement d'une commune nouvelle à une commune simple
+    - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
   3/11/2020:
     - améliorations
   29/10/2020:
@@ -172,7 +173,9 @@ class AutreMvt extends Mvt { // Mvt par défaut utilisé pour le développement
   function buildRpicom(string $date_eff, array &$rpicoms): void {}
 };
 
-function setMerge(&$dest, $value): void {// affecte $value à $dest s'il n'est pas déjà défini, sinon lui affecte le merge des 2 valeurs
+// affecte $value à $dest s'il n'est pas déjà défini, sinon lui affecte le merge des 2 valeurs
+// Permet d'empêcher un éventuel écrasement d'une valeur par une autre
+function setMerge(&$dest, $value): void {
   if (!isset($dest))
     $dest = $value;
   else
@@ -731,71 +734,120 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
     $absorbees = $fusionnees; unset($absorbees[$codeCheflieuAp]);
     $codeFus = array_keys($this->fusionnees);
     try { // permet de capturer l'exception lancée par setMerge() pour afficher le cas en cause
-      if ((count($this->fusionnees)==1)
-        && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
-          // Traitement des 2 cas de changement de rattachement d'une commune nouvelle à une commune simple:
-          // - 49065/49080@2019-01-01 - Les Hauts-d'Anjou - rattachement de la commune nouvelle 49065 à la commune simple 49080
-          // - 49149/49261@2018-01-01 - Gennes-Val de Loire - rattachement de la commune nouvelle 49149 à la commune simple 49261
-          //echo Yaml::dump($this->asArray(), 6, 2);
-          //echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple NON implémenté</b>\n";
-          
-          $codeCheflieuAv = $codeFus[0]; // le code du cheflieu de l'ancienne commune nouvelle
-          // Je commence par traiter les anciennes communes déléguées qui sont transférées à l'exception des chefs-lieux
-          foreach ($rattachees as $rcom => $rattachee) {
-            if (!in_array($rcom, [$codeCheflieuAv, $codeCheflieuAp])) {
-              setMerge($rpicoms[$rcom][$date_eff], [
-                'après'=> [
-                  'statut'=> $rattachee['ap']['typecom'],
-                  'name'=> $rattachee['ap']['libelle'],
-                  'crat'=> $codeCheflieuAp,
-                ],
-                'évts' => ['type'=> $typeLabel, 'changeDeChefLieuPour' => $codeCheflieuAp],
-                'état' => [
-                  'statut'=> $rattachee['av']['typecom'],
-                  'name'=> $rattachee['av']['libelle'],
-                  'crat'=> $codeCheflieuAv,
-                ],
-              ]);
-            }
+      if ((count($this->fusionnees)==1) && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
+        // Traitement des 2 cas de changement de rattachement d'une commune nouvelle à une commune simple:
+        // - 49065/49080@2019-01-01 - Les Hauts-d'Anjou - rattachement de la commune nouvelle 49065 à la commune simple 49080
+        // - 49149/49261@2018-01-01 - Gennes-Val de Loire - rattachement de la commune nouvelle 49149 à la commune simple 49261
+        //echo Yaml::dump($this->asArray(), 6, 2);
+        //echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple NON implémenté</b>\n";
+        
+        $codeCheflieuAv = $codeFus[0]; // le code du cheflieu de l'ancienne commune nouvelle
+        // Je commence par traiter les anciennes communes déléguées qui sont transférées à l'exception des chefs-lieux
+        foreach ($rattachees as $rcom => $rattachee) {
+          if (!in_array($rcom, [$codeCheflieuAv, $codeCheflieuAp])) {
+            setMerge($rpicoms[$rcom][$date_eff], [
+              'après'=> [
+                'statut'=> $rattachee['ap']['typecom'],
+                'name'=> $rattachee['ap']['libelle'],
+                'crat'=> $codeCheflieuAp,
+              ],
+              'évts' => ['type'=> $typeLabel, 'changeDeChefLieuPour' => $codeCheflieuAp],
+              'état' => [
+                'statut'=> $rattachee['av']['typecom'],
+                'name'=> $rattachee['av']['libelle'],
+                'crat'=> $codeCheflieuAv,
+              ],
+            ]);
           }
-          // cas du chef lieu de l'ancienne commune nouvelle
-          $fusionnee = array_values($this->fusionnees)[0];
-          setMerge($rpicoms[$codeCheflieuAv][$date_eff], [
-            'après'=> [
-              'statut'=> $rattachees[$codeCheflieuAv]['ap']['typecom'],
-              'name'=> $rattachees[$codeCheflieuAv]['ap']['libelle'],
-              'crat'=> $codeCheflieuAp,
-            ],
-            'évts' => ['type'=> $typeLabel, 'transfertChefLieuAlOccasionCréationCommuneNouvelleDe' => $codeCheflieuAp],
-            'état' => [
-              'statut'=> $fusionnee['av']['typecom'],
-              'name'=> $fusionnee['av']['libelle'],
-              'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv]['av']['libelle']],
-            ],
-          ]);
-          // cas du chef lieu de la nouvelle commune nouvelle
-          setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
-            'après'=> [
-              'statut'=> $this->cheflieu['ap']['typecom'],
-              'name'=> $this->cheflieu['ap']['libelle'],
-              'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
-            ],
-            'évts' => ['type'=> $typeLabel, 'devientChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
-            'état' => [
-              'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
-              'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
-            ],
-          ]);
-          
-          return;
+        }
+        // cas du chef lieu de l'ancienne commune nouvelle
+        $fusionnee = array_values($this->fusionnees)[0];
+        setMerge($rpicoms[$codeCheflieuAv][$date_eff], [
+          'après'=> [
+            'statut'=> $rattachees[$codeCheflieuAv]['ap']['typecom'],
+            'name'=> $rattachees[$codeCheflieuAv]['ap']['libelle'],
+            'crat'=> $codeCheflieuAp,
+          ],
+          'évts' => ['type'=> $typeLabel, 'transfertChefLieuAlOccasionCréationCommuneNouvelleDe' => $codeCheflieuAp],
+          'état' => [
+            'statut'=> $fusionnee['av']['typecom'],
+            'name'=> $fusionnee['av']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv]['av']['libelle']],
+          ],
+        ]);
+        // cas du chef lieu de la nouvelle commune nouvelle
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+          ],
+          'évts' => ['type'=> $typeLabel, 'devientChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
+          'état' => [
+            'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
+            'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
+          ],
+        ]);
+        
+        return;
       }
       elseif ((count($this->fusionnees)==2)
-        && ($codeFus[0] == $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])
-        && ($codeFus[1] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[1]])) {
-          // cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01
-          //echo Yaml::dump($this->asArray(), 6, 2);
-          echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01 NON implémenté</b>\n";
-          return;
+      && ($codeFus[0] == $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])
+      && ($codeFus[1] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[1]])) {
+        // cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
+        //echo Yaml::dump($this->asArray(), 6, 2);
+        echo "<b>Cas de fusion de 2 communes nouvelles: 49101->49018@2016-01-01 NON implémenté</b>\n";
+        // $fusionnees contient les 2 communes nouvelles
+        // $rattachees contient les communes déléguées ainsi que les nouvelles communes intégrées
+        $codeCheflieuAv2 = $codeFus[1]; // la seconde commune nouvelle, celle qui disparait
+        // traitement des rattachees
+        // Je commence par traiter les anciennes communes déléguées et supplémentaires à l'exception des chefs-lieux
+        foreach ($rattachees as $rcom => $rattachee) {
+          if (!in_array($rcom, [$codeCheflieuAv2, $codeCheflieuAp])) {
+            setMerge($rpicoms[$rcom][$date_eff], [
+              'après'=> [
+                'statut'=> $rattachee['ap']['typecom'],
+                'name'=> $rattachee['ap']['libelle'],
+                'crat'=> $codeCheflieuAp,
+              ],
+              'évts' => ['type'=> $typeLabel, 'devientDéléguéeDe' => $codeCheflieuAp],
+              'état' => [
+                'statut'=> $rattachee['av']['typecom'],
+                'name'=> $rattachee['av']['libelle'],
+              ],
+            ]);
+          }
+        }
+        // traitement de la commune nouvelle qui disparait (49101)
+        setMerge($rpicoms[$codeCheflieuAv2][$date_eff], [
+          'après'=> [
+            'statut'=> $rattachees[$codeCheflieuAv2]['ap']['typecom'],
+            'name'=> $rattachees[$codeCheflieuAv2]['ap']['libelle'],
+            'crat'=> $codeCheflieuAp,
+          ],
+          'évts' => ['type'=> $typeLabel, 'devientDéléguéeDe' => $codeCheflieuAp],
+          'état' => [
+            'statut'=> $fusionnees[$codeCheflieuAv2]['av']['typecom'],
+            'name'=> $fusionnees[$codeCheflieuAv2]['av']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv2]['av']['libelle']],
+          ],
+        ]);
+        // traitement de la commune nouvelle qui reste (49018)
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+          ],
+          'évts' => ['type'=> $typeLabel, 'resteChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
+          'état' => [
+            'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
+            'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
+            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['av']['libelle']],
+          ],
+        ]);
+
+        return;
       }
       elseif (isset($fusionnees[$codeCheflieuAp]) && isset($rattachees[$codeCheflieuAp])) { // modif. d'une commune nouvelle existante
         setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
