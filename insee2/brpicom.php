@@ -1,7 +1,7 @@
 <?php
 /*PhpDoc:
-name: rpicom.php
-title: rpicom.php - construction du fichier rpicom.yaml par exploitation des mouvements Insee
+name: brpicom.php
+title: brpicom.php - construction du fichier rpicom.yaml par exploitation des mouvements Insee
 doc: |
   réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
   Ce script permet:
@@ -103,7 +103,7 @@ if (php_sapi_name() <> 'cli') {
     die();
   }
   else {
-    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>graph $_GET[action]</title></head><body><pre>\n";
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>brpicom $_GET[action]</title></head><body><pre>\n";
   }
 }
 else {
@@ -1476,7 +1476,7 @@ foreach ($evts as $date_eff => $evts1) {
       if ($mvtsAsArray)
         echo Yaml::dump([$date_eff => $mvtsAsArray], 7, 2),"\n";
     }
-    elseif (in_array($_GET['action'], ['rpicom','tavap'])) {
+    elseif (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) {
       foreach ($mvts as $mvt) {
         $mvt->buildRpicom($date_eff, $rpicoms);
       }
@@ -1528,7 +1528,7 @@ EOT;
           'writePserReally'=> true,
         ],
         'contents'=> $rpicoms,
-      ], 3, 2)
+      ], 4, 2)
   );
 }
 elseif ($_GET['action'] == 'tavap') {

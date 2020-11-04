@@ -7,7 +7,7 @@ journal: |
   20/10/2020:
     - création
 phpScripts:
-  - rpicom.php
+  - brpicom.php
   - comp.php
 phpIncludes:
   - html.inc.php
