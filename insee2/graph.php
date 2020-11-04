@@ -1,18 +1,24 @@
 <?php
 /*PhpDoc:
 name: graph.php
-title: graph.php - structuration et visualisation des mouvements Insee et construction du Rpicom à partir de ces mouvements
+title: graph.php - exploitation des mouvements Insee notamment pour construire le Rpicom
 doc: |
-  réécriture de l'interprétation des lignes du fichier mvtcommune2020
-  Le script permet:
-    - diverses visualisations des données (fichier brut, doublons, évts groupés, mouvements interprétés),
+  réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
+  Ce script permet:
+    - diverses visualisations des données de mouvement (fichier brut, doublons, évts groupés, mouvements interprétés),
     - l'affichage de specs
     - l'extraction des lignes non conformes aux specs,
     - la construction du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
     - le test de la cohérence entre les états avant et après du Rpicom
 
-  Le fichier mvtcommune2020 est constitué un ensemble de lignes.
+  Le fichier mvtcommune2020 est constitué d'un ensemble de lignes.
   J'appelle mouvement un regroupement de ces lignes qui correspond à une opération logique, ex création d'une commune nouvelle.
+    
+  Par ailleurs, la notion d'évènement est définie dans le Rpicom comme une opération sur un code Insee particulier qui permet
+  de passer d'un état à un autre. Par exemple la création d'une commune nouvelle peut être définie par:
+    - l'évènement suivant sur le code Insee du chef-lieu (01015): { prendPourDéléguées: ['01015', '01340'] }
+    - l'évènement suivant sur le code Insee de l'autre commune (01340): { devientDéléguéeDe: '01015' }
+  Ici, le mouvement de création d'une commune nouvelle est donc décomposé en 2 évènements.
 
   La principale difficulté de cette démarche est la quasi-absence de spécifications du fichier des mouvements
   qui se résument à 2 exemples simples alors qu'il existe des cas assez complexes.
