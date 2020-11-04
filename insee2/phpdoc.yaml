@@ -2,6 +2,13 @@ title: comhisto/insee2 - nlle version essayant de simplifier la précédente
 path: /yamldoc/pub/comhisto/insee2
 doc: |
 journal: |
+  4/11/2020:
+    - traitement des cas dans rpicom.php
+  20/10/2020:
+    - création
 phpScripts:
+  - rpicom.php
+  - comp.php
 phpIncludes:
+  - html.inc.php
 htmlFiles:

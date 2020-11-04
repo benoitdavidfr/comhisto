@@ -1,7 +1,7 @@
 <?php
 /*PhpDoc:
-name: graph.php
-title: graph.php - exploitation des mouvements Insee notamment pour construire le Rpicom
+name: rpicom.php
+title: rpicom.php - construction du fichier rpicom.yaml par exploitation des mouvements Insee
 doc: |
   réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
   Ce script permet:
