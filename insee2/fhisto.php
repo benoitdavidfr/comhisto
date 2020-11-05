@@ -99,11 +99,20 @@ foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de 
 if ($action == 'histo')
   echo Yaml::dump($histos, 3, 2);
 elseif ($action == 'enregistreHisto') {
+  // code Php intégré dans le document pour définir l'affichage résumé de la commune
   $buildNameAdministrativeArea = <<<'EOT'
-if (isset($item['now']['état']['name']))
-  return $item['now']['état']['name']." ($skey)";
-else
-  return '<s>'.array_values($item)[0]['état']['name']." ($skey)</s>";
+krsort($item);
+$first = true;
+foreach($item as $ddebut => $version) {
+  if (isset($item[$ddebut]['état'])) {
+    if ($first)
+      return $item[$ddebut]['état']['name']." ($skey)";
+    else
+      return '<s>'.$item[$ddebut]['état']['name']." ($skey)</s>";
+  }
+  $first = false;
+}
+return 'XXXX';
 EOT;
   file_put_contents(
     __DIR__.'/histo.yaml',
