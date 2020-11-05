@@ -57,6 +57,7 @@ doc: |
   La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
 
   Bugs:
+    - 04155@1978-01-01 ne devrait pas associer 04114 qui l'est déjà
 
   A FAIRE:
     - améliorer les specs

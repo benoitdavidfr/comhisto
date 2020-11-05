@@ -79,9 +79,10 @@ foreach ($rpicoms as $cinsee => $rpicom) { // passage de rpicom à histo
 
 foreach ($histos as $cinsee => $histo) { // ajout du champ erat
   foreach ($histo as $ddebut => $version) {
-    if ($crat = $version['état']['crat'] ?? null) {
+    if ($crat = $version['état']['crat'] ?? null) // entité rattachée
       $histos[$crat][$ddebut]['erat'][] = $cinsee;
-    }
+    elseif (isset($version['état']['nomCommeDéléguée'])) // commune déléguée propre
+      $histos[$cinsee][$ddebut]['erat'][] = $cinsee;
   }
 }
 foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de changement de nom
