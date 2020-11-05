@@ -156,7 +156,7 @@ Ma compréhension est qu'il manque dans le fichier des mouvements les 2 lignes s
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
-| 21  | 1977-01-01 |    COMA    | 89325  | Ronchères  |    COMA    | 89325  | Ronchères  |
+| 21  | 1977-01-01 |   COMA     | 89325  | Ronchères  |    COMA    | 89325  | Ronchères  |
 | 21  | 1977-01-01 |   COMA     | 89389  | Septfonds  |    COMA    | 89389  | Septfonds  |
 
 ### Correction d'un mouvement sur Gonaincourt (52224)
@@ -185,6 +185,9 @@ Pour intégrer:
 
 ### Saint-Martin et Saint-Barthélemy
 Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
+
+### Mayotte
+Les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
 
 
 ## Extrait
