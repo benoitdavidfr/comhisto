@@ -117,7 +117,7 @@ Outre cette date, chaque version correspond:
 - dans un champ `état` à l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version
   jusqu'à la date de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
   cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité (ex. fusion),
-- dans un champ `erat`, s'il y en a, la liste des entités rattachées, déduites de l'état de ces entités rattachées.
+- dans un champ `erat`, la liste des entités rattachées, s'il y en a, déduites de l'état de ces entités rattachées.
 
 Certaines informations peuvent être déduites des informations primaires ; cela est alors signalé dans les commentaires du schéma.  
 Outre ce dictionnaire défini dans le champs contents, le document contient différentes champs,
@@ -144,22 +144,6 @@ Dans le premier cas on dit que la version est périmée, dans le second qu'elle 
 La liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux)
 est définie pour les communes simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
 Cette propriété est absente si ces infos ne sont pas déduites.
-
-## Cas particuliers
-
-Quelques cas particuliers complexes sont listés ci-dessous:
-
-- [Cas unique de création d'une nouvelle commune avec un nouveau code par fusion de 2 anciennes communes](eg14764.yaml)
-- [Cas simple de changement de rattachement](eg55273.yaml)
-- [Exemple de Saint-Fargeau (89344) qui grossit puis rétrécit](eg89344.yaml)
-- [Cas de L'Oudon, chef-lieu tournant au sein des associées](eg14624.yaml)
-- [Cas 22183 illustrant la nécessité d'un évènement de suppression de la commune délégué propre](eg22183.yaml)
-- [Cas de regroupement des 2 communes nouvelles 49018 et 49101 en une seule](eg49018.yaml)
-- [Cas d'intégration dans la commune nouvelle Les Hauts d''Anjou (49065) de Châteauneuf-sur-Sarthe (49080)
-  qui prend le chef-lieu](eg49080.yaml)
-- [Cas d'intégration dans la commune nouvelle Gennes-Val de Loire (49149) de Les Rosiers-sur-Loire (49261)
-  qui prend le chef-lieu](eg49261.yaml)
-- [Cas de Lyon non traité](eg69123.yaml)
 
 
 ## Liste des modifications apportées aux données Insee
@@ -188,7 +172,7 @@ L'extrait ci-dessous illustre le contenu du référentiel.
 
     title: 'Référentiel historique des communes'
     description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-    created: '2020-11-05T19:01:15+00:00'
+    created: '2020-11-05T19:19:48+00:00'
     valid: '2020-01-01'
     $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
     ydADscrBhv:
