@@ -148,16 +148,33 @@ Cette propriété est absente si ces infos ne sont pas déduites.
 
 ## Liste des modifications apportées aux données Insee
 
-### Saint-Martin et Saint-Barthélemy
-Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
-
-### Suppression du rétablissement de Bures-sur-Dives (14114)
-Ce rétablissement est ambigü dans les informations fournies par l'Insee et est contredit par IGN et wikipédia.
-
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
 Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
 et de rétablissement le 1977-01-01 sont incompatibles.  
-Les associations sont transformées en fusions.
+Les mouvements du 1/1/1977 sur Ronchères (89325) et Septfonds (89389) sont transformés en resteRattachéeA.  
+Ma compréhension est qu'il manque dans le fichier des mouvements les 2 lignes suivantes:
+
+| mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
+| --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
+| 21  | 1977-01-01 |    COMA    | 89325  | Ronchères  |    COMA    | 89325  | Ronchères  |
+| 21  | 1977-01-01 |   COMA     | 89389  | Septfonds  |    COMA    | 89389  | Septfonds  |
+
+### Correction d'un mouvement sur Gonaincourt (52224)
+Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064.    
+Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suivante:
+
+| mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
+| --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
+| 32  | 2016-01-01 |   COMA     | 52224  | Gonaincourt|    COMD    | 52224  | Gonaincourt|
+
+### Correction d'un mouvement sur Bois-Guillaume-Bihorel (76108)
+Avant son rétablissement du 1/1/2014, Bois-Guillaume-Bihorel (76108) a une commune déléguée ayant le même code.    
+Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suivante:
+
+| mod |  date_eff  | typecom_av | com_av | libelle_av    | typecom_ap | com_ap | libelle_ap    |
+| --- | ---------- | ---------- | ------ | ------------- | ---------- | ------ | ------------- |
+| 21  | 2014-01-01 |   COMD     | 76108  | Bois-Guillaume|    COM     | 76108  | Bois-Guillaume|
+
 
 ### Redéfinition des évènements sur les arrondissements de Lyon
 Pour intégrer:
@@ -165,6 +182,10 @@ Pour intégrer:
 - la scission en 2 du 7ème arrdt le 8/2/1959 pour créer le 8ème arrdt,
 - l'absorbtion de Saint-Rambert-l'Île-Barbe (69232) le 7/8/1963 dans dans le 5ème arrdt,
 - la scission en 2 du 5ème arrdt le 12/8/1964 pour créer le 9ème arrdt.
+
+### Saint-Martin et Saint-Barthélemy
+Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
+
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
