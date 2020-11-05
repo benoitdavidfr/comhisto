@@ -92,13 +92,13 @@ $schema:
         absorbe:
           description: entité en absorbant d'autres (mirroir déduit de fusionneDans)
           $ref: '#/definitions/listeDeCodesInsee'
-        crééeCommeCOMParScissionDe:
+        crééeCOMParScissionDe:
           description: c. simple créée par scission d'un e. existante avec son code (mirroir seScindePourCréer)
           $ref: '#/definitions/codeInsee'
-        crééeCommeCOMAParScissionDe:
+        crééeCOMAParScissionDe:
           description: c. associée créée par scission d'un e. existante avec son code (mirroir seScindePourCréer)
           $ref: '#/definitions/codeInsee'
-        crééCommeARMParScissionDe:
+        crééARMParScissionDe:
           description: arrdt municipal créé par scission d'un e. existante avec son code (mirroir seScindePourCréer)
           $ref: '#/definitions/codeInsee'
         seScindePourCréer:

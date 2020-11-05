@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-05T17:45:04+00:00'
+created: '2020-11-05T19:01:15+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -10643,7 +10643,7 @@ contents:
     '1964-10-01':
       évts: { fusionneDans: '08119' }
     '1986-01-01':
-      évts: { crééeCommeCOMParScissionDe: '08119' }
+      évts: { crééeCOMParScissionDe: '08119' }
       état: { statut: COM, name: Saint-Aignan }
   '08378':
     '1943-01-01':
@@ -12115,7 +12115,6 @@ contents:
     '1992-09-01':
       évts: { changeDeNomPour: Soueix-Rogalle }
       état: { statut: COM, name: Soueix-Rogalle }
-      erat: ['09248']
     '2015-01-01':
       évts: { absorbe: ['09248'] }
       état: { statut: COM, name: Soueix-Rogalle }
@@ -12272,7 +12271,7 @@ contents:
       état: { statut: COM, name: Viviès }
   '09342':
     '1949-01-08':
-      évts: { crééeCommeCOMParScissionDe: '09277' }
+      évts: { crééeCOMParScissionDe: '09277' }
       état: { statut: COM, name: Sainte-Suzanne }
   2A001:
     '1976-01-01':
@@ -17727,7 +17726,7 @@ contents:
       évts: { fusionneDans: 12056 }
   12307:
     '1952-12-03':
-      évts: { crééeCommeCOMParScissionDe: 12253 }
+      évts: { crééeCOMParScissionDe: 12253 }
       état: { statut: COM, name: Curan }
   13001:
     '1943-01-01':
@@ -18107,11 +18106,11 @@ contents:
       état: { statut: COM, name: Vitrolles }
   13118:
     '1950-05-12':
-      évts: { crééeCommeCOMParScissionDe: 13114 }
+      évts: { crééeCOMParScissionDe: 13114 }
       état: { statut: COM, name: Coudoux }
   13119:
     '1966-08-29':
-      évts: { crééeCommeCOMParScissionDe: 13085 }
+      évts: { crééeCOMParScissionDe: 13085 }
       état: { statut: COM, name: Carnoux-en-Provence }
   13201:
     '1943-01-01':
@@ -18679,7 +18678,7 @@ contents:
     '2017-01-01':
       évts: { fusionneDans: 14712 }
     '2019-12-31':
-      évts: { crééeCommeCOMAParScissionDe: 14712 }
+      évts: { crééeCOMAParScissionDe: 14712 }
       état: { statut: COMA, name: Bures-sur-Dives, crat: 14712 }
   14115:
     '1943-01-01':
@@ -22736,7 +22735,7 @@ contents:
       état: { statut: COM, name: Ytrac }
   15268:
     '1945-09-17':
-      évts: { crééeCommeCOMParScissionDe: 15196 }
+      évts: { crééeCOMParScissionDe: 15196 }
       état: { statut: COM, name: 'Le Rouget' }
     '2016-01-01':
       évts: { prendPourDéléguées: [15150, 15268] }
@@ -22744,7 +22743,7 @@ contents:
       erat: [15150]
   15269:
     '1953-03-07':
-      évts: { crééeCommeCOMParScissionDe: 15179 }
+      évts: { crééeCOMParScissionDe: 15179 }
       état: { statut: COM, name: Besse }
   16001:
     '1943-01-01':
@@ -26135,15 +26134,15 @@ contents:
       état: { statut: COM, name: Yves }
   17484:
     '1947-09-19':
-      évts: { crééeCommeCOMParScissionDe: 17375 }
+      évts: { crééeCOMParScissionDe: 17375 }
       état: { statut: COM, name: Port-des-Barques }
   17485:
     '1949-12-14':
-      évts: { crééeCommeCOMParScissionDe: 17411 }
+      évts: { crééeCOMParScissionDe: 17411 }
       état: { statut: COM, name: 'Le Grand-Village-Plage' }
   17486:
     '1951-12-12':
-      évts: { crééeCommeCOMParScissionDe: 17337 }
+      évts: { crééeCOMParScissionDe: 17337 }
       état: { statut: COM, name: 'La Brée-les-Bains' }
   18001:
     '1943-01-01':
@@ -29859,7 +29858,7 @@ contents:
       évts: { changeDeCodePour: 2B365 }
   20366:
     '1947-04-12':
-      évts: { crééeCommeCOMParScissionDe: 20342 }
+      évts: { crééeCOMParScissionDe: 20342 }
       état: { statut: COM, name: Chisa }
     '1976-01-01':
       évts: { changeDeCodePour: 2B366 }
@@ -36022,7 +36021,6 @@ contents:
     '1974-06-07':
       évts: { changeDeNomPour: 'La Roche-Chalais' }
       état: { statut: COM, name: 'La Roche-Chalais' }
-      erat: [24467, 24469]
   24355:
     '1943-01-01':
       état: { statut: COM, name: 'La Roque-Gageac' }
@@ -37644,7 +37642,6 @@ contents:
     '1995-11-17':
       évts: { changeDeNomPour: Dambelin }
       état: { statut: COM, name: Dambelin }
-      erat: [25363]
   25188:
     '1943-01-01':
       état: { statut: COM, name: Dambenois }
@@ -40595,19 +40592,19 @@ contents:
       état: { statut: COM, name: Volvent }
   26379:
     '1946-10-01':
-      évts: { crééeCommeCOMParScissionDe: 26038 }
+      évts: { crééeCOMParScissionDe: 26038 }
       état: { statut: COM, name: Granges-les-Beaumont }
   26380:
     '1948-06-24':
-      évts: { crééeCommeCOMParScissionDe: 26119 }
+      évts: { crééeCOMParScissionDe: 26119 }
       état: { statut: COM, name: Gervans }
   26381:
     '1950-02-19':
-      évts: { crééeCommeCOMParScissionDe: 26039 }
+      évts: { crééeCOMParScissionDe: 26039 }
       état: { statut: COM, name: Jaillans }
   26382:
     '1954-12-18':
-      évts: { crééeCommeCOMParScissionDe: 26079 }
+      évts: { crééeCOMParScissionDe: 26079 }
       état: { statut: COM, name: Saint-Vincent-la-Commanderie }
   27001:
     '1943-01-01':
@@ -41074,7 +41071,7 @@ contents:
     '1943-12-01':
       évts: { fusionneDans: 27078 }
     '1947-12-19':
-      évts: { crééeCommeCOMParScissionDe: 27078 }
+      évts: { crééeCOMParScissionDe: 27078 }
       état: { statut: COM, name: Bretagnolles }
   27112:
     '1943-01-01':
@@ -41240,7 +41237,6 @@ contents:
     '1975-01-01':
       évts: { changeDeNomPour: Chauvincourt-Provemont }
       état: { statut: COM, name: Chauvincourt-Provemont }
-      erat: [27479]
   27154:
     '1943-01-01':
       état: { statut: COM, name: Chavigny-Bailleul }
@@ -43061,7 +43057,7 @@ contents:
     '1943-12-01':
       évts: { fusionneDans: 27078 }
     '1947-12-19':
-      évts: { crééeCommeCOMParScissionDe: 27078 }
+      évts: { crééeCOMParScissionDe: 27078 }
       état: { statut: COM, name: Serez }
   27622:
     '1943-01-01':
@@ -47271,15 +47267,15 @@ contents:
       état: { statut: COM, name: Vissec }
   30354:
     '1947-10-01':
-      évts: { crééeCommeCOMParScissionDe: 30183 }
+      évts: { crééeCOMParScissionDe: 30183 }
       état: { statut: COM, name: Montagnac }
   30355:
     '1949-03-30':
-      évts: { crééeCommeCOMParScissionDe: 30092 }
+      évts: { crééeCOMParScissionDe: 30092 }
       état: { statut: COM, name: Saint-Paul-les-Fonts }
   30356:
     '1961-09-20':
-      évts: { crééeCommeCOMParScissionDe: 30047 }
+      évts: { crééeCOMParScissionDe: 30047 }
       état: { statut: COM, name: Rodilhan }
   31001:
     '1943-01-01':
@@ -49184,19 +49180,19 @@ contents:
       état: { statut: COM, name: Villenouvelle }
   31590:
     '1948-07-22':
-      évts: { crééeCommeCOMParScissionDe: 31040 }
+      évts: { crééeCOMParScissionDe: 31040 }
       état: { statut: COM, name: Binos }
   31591:
     '1953-02-12':
-      évts: { crééeCommeCOMParScissionDe: 31059 }
+      évts: { crééeCOMParScissionDe: 31059 }
       état: { statut: COM, name: Escoulis }
   31592:
     '1955-06-20':
-      évts: { crééeCommeCOMParScissionDe: 31232 }
+      évts: { crééeCOMParScissionDe: 31232 }
       état: { statut: COM, name: Larra }
   31593:
     '1958-03-28':
-      évts: { crééeCommeCOMParScissionDe: 31251 }
+      évts: { crééeCOMParScissionDe: 31251 }
       état: { statut: COM, name: Cazac }
   32001:
     '1943-01-01':
@@ -50697,11 +50693,11 @@ contents:
       état: { statut: COM, name: Viozan }
   32467:
     '1947-11-09':
-      évts: { crééeCommeCOMParScissionDe: 32165 }
+      évts: { crééeCOMParScissionDe: 32165 }
       état: { statut: COM, name: Saint-Caprais }
   32468:
     '1949-05-14':
-      évts: { crééeCommeCOMParScissionDe: 32287 }
+      évts: { crééeCOMParScissionDe: 32287 }
       état: { statut: COM, name: Aussos }
   33001:
     '1943-01-01':
@@ -52568,7 +52564,7 @@ contents:
       état: { statut: COM, name: Yvrac }
   33555:
     '1946-11-01':
-      évts: { crééeCommeCOMParScissionDe: 33051 }
+      évts: { crééeCOMParScissionDe: 33051 }
       état: { statut: COM, name: Marcheprime }
   34001:
     '1943-01-01':
@@ -53664,7 +53660,7 @@ contents:
       état: { statut: COM, name: Viols-le-Fort }
   34344:
     '1974-10-01':
-      évts: { crééeCommeCOMParScissionDe: 34154 }
+      évts: { crééeCOMParScissionDe: 34154 }
       état: { statut: COM, name: 'La Grande-Motte' }
   35001:
     '1943-01-01':
@@ -54992,11 +54988,11 @@ contents:
       état: { statut: COM, name: 'Le Vivier-sur-Mer' }
   35362:
     '1953-07-05':
-      évts: { crééeCommeCOMParScissionDe: 35224 }
+      évts: { crééeCOMParScissionDe: 35224 }
       état: { statut: COM, name: 'Le Tronchet' }
   35363:
     '1986-01-01':
-      évts: { crééeCommeCOMParScissionDe: 35266 }
+      évts: { crééeCOMParScissionDe: 35266 }
       état: { statut: COM, name: Pont-Péan }
   36001:
     '1943-01-01':
@@ -61150,7 +61146,7 @@ contents:
       état: { statut: COM, name: Vulvoz }
   39586:
     '1950-11-11':
-      évts: { crééeCommeCOMParScissionDe: 39374 }
+      évts: { crééeCOMParScissionDe: 39374 }
       état: { statut: COM, name: Aresches }
   40001:
     '1943-01-01':
@@ -64468,7 +64464,7 @@ contents:
       état: { statut: COM, name: Vougy }
   42339:
     '1947-04-27':
-      évts: { crééeCommeCOMParScissionDe: 42282 }
+      évts: { crééeCOMParScissionDe: 42282 }
       état: { statut: COM, name: Chausseterre }
   43001:
     '1943-01-01':
@@ -66188,19 +66184,19 @@ contents:
       état: { statut: COM, name: Vue }
   44221:
     '1949-11-27':
-      évts: { crééeCommeCOMParScissionDe: 44138 }
+      évts: { crééeCOMParScissionDe: 44138 }
       état: { statut: COM, name: 'La Chevallerais' }
   44222:
     '1950-10-11':
-      évts: { crééeCommeCOMParScissionDe: 44163 }
+      évts: { crééeCOMParScissionDe: 44163 }
       état: { statut: COM, name: 'La Roche-Blanche' }
   44223:
     '1954-09-06':
-      évts: { crééeCommeCOMParScissionDe: 44102 }
+      évts: { crééeCOMParScissionDe: 44102 }
       état: { statut: COM, name: Geneston }
   44224:
     '1959-01-01':
-      évts: { crééeCommeCOMParScissionDe: 44214 }
+      évts: { crééeCOMParScissionDe: 44214 }
       état: { statut: COM, name: 'La Grigonnais' }
   44225:
     '2018-01-01':
@@ -68617,11 +68613,11 @@ contents:
       état: { statut: COM, name: Vire-sur-Lot }
   46337:
     '1946-06-01':
-      évts: { crééeCommeCOMParScissionDe: 46293 }
+      évts: { crééeCOMParScissionDe: 46293 }
       état: { statut: COM, name: Mayrac }
   46338:
     '1947-10-23':
-      évts: { crééeCommeCOMParScissionDe: 46269 }
+      évts: { crééeCOMParScissionDe: 46269 }
       état: { statut: COM, name: Bessonies }
   46339:
     '1948-06-17':
@@ -68629,7 +68625,7 @@ contents:
       état: { statut: COM, name: Saint-Jean-Lagineste }
   46340:
     '1951-01-03':
-      évts: { crééeCommeCOMParScissionDe: 46188 }
+      évts: { crééeCOMParScissionDe: 46188 }
       état: { statut: COM, name: Saint-Pierre-Lafeuille }
   47001:
     '1943-01-01':
@@ -69410,7 +69406,6 @@ contents:
     '1979-12-31':
       évts: { changeDeNomPour: Réaup-Lisse }
       état: { statut: COM, name: Réaup-Lisse }
-      erat: [47149]
   47222:
     '1943-01-01':
       état: { statut: COM, name: 'La Réunion' }
@@ -69788,7 +69783,7 @@ contents:
       état: { statut: COM, name: Xaintrailles }
   47328:
     '1947-04-12':
-      évts: { crééeCommeCOMParScissionDe: 47283 }
+      évts: { crééeCOMParScissionDe: 47283 }
       état: { statut: COM, name: Saint-Georges }
   48001:
     '1943-01-01':
@@ -73631,7 +73626,6 @@ contents:
     '1979-12-31':
       évts: { changeDeNomPour: Dragey-Ronthon }
       état: { statut: COM, name: Dragey-Ronthon }
-      erat: [50439]
   50168:
     '1943-01-01':
       état: { statut: COM, name: Ducey }
@@ -78324,7 +78318,7 @@ contents:
       état: { statut: COM, name: Witry-lès-Reims }
   51663:
     '1965-02-01':
-      évts: { crééeCommeCOMParScissionDe: 51210 }
+      évts: { crééeCOMParScissionDe: 51210 }
       état: { statut: COM, name: Magenta }
   51664:
     '2016-12-31':
@@ -79278,7 +79272,6 @@ contents:
     '1992-11-01':
       évts: { changeDeNomPour: Doulevant-le-Château }
       état: { statut: COM, name: Doulevant-le-Château }
-      erat: [52533]
   52179:
     '1943-01-01':
       état: { statut: COM, name: Doulevant-le-Petit }
@@ -79390,7 +79383,6 @@ contents:
     '1999-12-29':
       évts: { changeDeNomPour: Fayl-Billot }
       état: { statut: COM, name: Fayl-Billot }
-      erat: [52077, 52112]
   52198:
     '1943-01-01':
       état: { statut: COM, name: Fays }
@@ -79878,7 +79870,6 @@ contents:
     '1983-04-17':
       évts: { changeDeNomPour: Longeau-Percey }
       état: { statut: COM, name: Longeau-Percey }
-      erat: [52381]
   52293:
     '1943-01-01':
       état: { statut: COM, name: Longeville-sur-la-Laines }
@@ -83697,7 +83688,7 @@ contents:
     '1971-02-01':
       évts: { fusionneDans: 54142 }
     '1987-04-08':
-      évts: { crééeCommeCOMParScissionDe: 54142 }
+      évts: { crééeCOMParScissionDe: 54142 }
       état: { statut: COM, name: Ormes-et-Ville }
   54412:
     '1943-01-01':
@@ -84164,7 +84155,7 @@ contents:
     '1971-02-01':
       évts: { fusionneDans: 54142 }
     '1987-04-08':
-      évts: { crééeCommeCOMParScissionDe: 54142 }
+      évts: { crééeCOMParScissionDe: 54142 }
       état: { statut: COM, name: Vaudigny }
   54555:
     '1943-01-01':
@@ -84933,7 +84924,7 @@ contents:
     '1973-01-01':
       évts: { fusionneDans: 55298 }
     '2014-01-01':
-      évts: { crééeCommeCOMParScissionDe: 55298 }
+      évts: { crééeCOMParScissionDe: 55298 }
       état: { statut: COM, name: Culey }
   55139:
     '1943-01-01':
@@ -87760,15 +87751,15 @@ contents:
       état: { statut: COM, name: 'La Vraie-Croix' }
   56262:
     '1947-10-01':
-      évts: { crééeCommeCOMParScissionDe: 56167 }
+      évts: { crééeCOMParScissionDe: 56167 }
       état: { statut: COM, name: Bono }
   56263:
     '1950-02-26':
-      évts: { crééeCommeCOMParScissionDe: 56176 }
+      évts: { crééeCOMParScissionDe: 56176 }
       état: { statut: COM, name: 'Sainte-Anne-d''Auray' }
   56264:
     '1955-06-11':
-      évts: { crééeCommeCOMParScissionDe: 56210 }
+      évts: { crééeCOMParScissionDe: 56210 }
       état: { statut: COM, name: Kernascléden }
   57001:
     '1943-01-01':
@@ -89825,7 +89816,7 @@ contents:
     '1972-01-01':
       évts: { fusionneDans: 57306 }
     '1987-02-17':
-      évts: { crééeCommeCOMParScissionDe: 57306 }
+      évts: { crééeCOMParScissionDe: 57306 }
       état: { statut: COM, name: Ranguevaux }
   57563:
     '1943-01-01':
@@ -90474,7 +90465,7 @@ contents:
     '1971-02-01':
       évts: { fusionneDans: 57465 }
     '1982-01-01':
-      évts: { crééeCommeCOMParScissionDe: 57465 }
+      évts: { crééeCOMParScissionDe: 57465 }
       état: { statut: COM, name: Volstroff }
   57734:
     '1943-01-01':
@@ -90580,7 +90571,7 @@ contents:
       état: { statut: COM, name: Zoufftgen }
   57765:
     '1954-01-01':
-      évts: { crééeCommeCOMParScissionDe: 57550 }
+      évts: { crééeCOMParScissionDe: 57550 }
       état: { statut: COM, name: Diesen }
   57766:
     '1958-01-01':
@@ -90590,7 +90581,7 @@ contents:
       évts: { fusionneDans: 57306 }
   57767:
     '1989-01-01':
-      évts: { crééeCommeCOMParScissionDe: 57372 }
+      évts: { crééeCOMParScissionDe: 57372 }
       état: { statut: COM, name: Stuckange }
   58001:
     '1943-01-01':
@@ -93856,7 +93847,7 @@ contents:
       état: { statut: COM, name: Zuytpeene }
   59670:
     '1948-06-06':
-      évts: { crééeCommeCOMParScissionDe: 59011 }
+      évts: { crééeCOMParScissionDe: 59011 }
       état: { statut: COM, name: Don }
   60001:
     '1943-01-01':
@@ -96160,7 +96151,7 @@ contents:
       état: { statut: COM, name: Welles-Pérennes }
   60703:
     '1954-01-15':
-      évts: { crééeCommeCOMParScissionDe: 60586 }
+      évts: { crééeCOMParScissionDe: 60586 }
       état: { statut: COM, name: 'Aux Marais' }
   61001:
     '1943-01-01':
@@ -101184,11 +101175,11 @@ contents:
       état: { statut: COM, name: Zutkerque }
   62907:
     '1947-09-28':
-      évts: { crééeCommeCOMParScissionDe: 62215 }
+      évts: { crééeCOMParScissionDe: 62215 }
       état: { statut: COM, name: Libercourt }
   62908:
     '1949-06-29':
-      évts: { crééeCommeCOMParScissionDe: 62075 }
+      évts: { crééeCOMParScissionDe: 62075 }
       état: { statut: COM, name: 'La Capelle-lès-Boulogne' }
   62909:
     '1971-01-01':
@@ -102759,7 +102750,7 @@ contents:
     '1973-02-01':
       évts: { fusionneDans: 64252 }
     '1983-01-01':
-      évts: { crééeCommeCOMParScissionDe: 64252 }
+      évts: { crééeCOMParScissionDe: 64252 }
       état: { statut: COM, name: Agnos }
   64008:
     '1943-01-01':
@@ -102777,7 +102768,6 @@ contents:
     '1984-11-19':
       évts: { changeDeNomPour: Aïcirits-Camou-Suhast }
       état: { statut: COM, name: Aïcirits-Camou-Suhast }
-      erat: [64163]
   64011:
     '1943-01-01':
       état: { statut: COM, name: Aincille }
@@ -103544,7 +103534,7 @@ contents:
     '1967-01-01':
       évts: { fusionneDans: 64493 }
     '1997-01-01':
-      évts: { crééeCommeCOMParScissionDe: 64493 }
+      évts: { crééeCOMParScissionDe: 64493 }
       état: { statut: COM, name: Garris }
   64236:
     '1943-01-01':
@@ -104265,7 +104255,6 @@ contents:
     '1981-03-13':
       évts: { changeDeNomPour: Ozenx-Montestrucq }
       état: { statut: COM, name: Ozenx-Montestrucq }
-      erat: [64402]
   64441:
     '1943-01-01':
       état: { statut: COM, name: Pagolle }
@@ -106256,11 +106245,11 @@ contents:
       évts: { fusionneDans: 65399 }
   65481:
     '1946-08-16':
-      évts: { crééeCommeCOMParScissionDe: 65089 }
+      évts: { crééeCOMParScissionDe: 65089 }
       état: { statut: COM, name: Barèges }
   65482:
     '1958-05-16':
-      évts: { crééeCommeCOMParScissionDe: 65455 }
+      évts: { crééeCOMParScissionDe: 65455 }
       état: { statut: COM, name: Cantaous }
   66001:
     '1943-01-01':
@@ -107059,7 +107048,7 @@ contents:
     '1973-03-01':
       évts: { fusionneDans: 66161 }
     '1983-02-21':
-      évts: { crééeCommeCOMParScissionDe: 66161 }
+      évts: { crééeCOMParScissionDe: 66161 }
       état: { statut: COM, name: Urbanya }
   66220:
     '1943-01-01':
@@ -108406,7 +108395,6 @@ contents:
     '1983-04-17':
       évts: { changeDeNomPour: Obermodern-Zutzendorf }
       état: { statut: COM, name: Obermodern-Zutzendorf }
-      erat: [67562]
   67348:
     '1943-01-01':
       état: { statut: COM, name: Obernai }
@@ -111696,11 +111684,11 @@ contents:
       état: { statut: ARM, name: 'Lyon 7e Arrondissement', crat: 69123 }
   69388:
     '1959-02-08':
-      évts: { crééCommeARMParScissionDe: 69387 }
+      évts: { crééARMParScissionDe: 69387 }
       état: { statut: ARM, name: 'Lyon 8e Arrondissement', crat: 69123 }
   69389:
     '1964-08-12':
-      évts: { crééCommeARMParScissionDe: 69385 }
+      évts: { crééARMParScissionDe: 69385 }
       état: { statut: ARM, name: 'Lyon 9e Arrondissement', crat: 69123 }
   70001:
     '1943-01-01':
@@ -111919,7 +111907,6 @@ contents:
     '1977-10-05':
       évts: { changeDeNomPour: Beaumotte-Aubertans }
       état: { statut: COM, name: Beaumotte-Aubertans }
-      erat: [70033]
   70060:
     '1943-01-01':
       état: { statut: COM, name: Beaumotte-lès-Pin }
@@ -112064,7 +112051,6 @@ contents:
     '1974-02-13':
       évts: { changeDeNomPour: Broye-Aubigney-Montseugny }
       état: { statut: COM, name: Broye-Aubigney-Montseugny }
-      erat: [70034, 70370]
   70102:
     '1943-01-01':
       état: { statut: COM, name: Brussey }
@@ -115845,7 +115831,7 @@ contents:
       état: { statut: COM, name: Volesvres }
   71591:
     '1952-06-18':
-      évts: { crééeCommeCOMParScissionDe: 71569 }
+      évts: { crééeCOMParScissionDe: 71569 }
       état: { statut: COM, name: Fleurville }
   72001:
     '1943-01-01':
@@ -119427,7 +119413,6 @@ contents:
     '2007-04-01':
       évts: { changeDeNomPour: Reignier-Ésery }
       état: { statut: COM, name: Reignier-Ésery }
-      erat: [74113]
   74221:
     '1943-01-01':
       état: { statut: COM, name: 'Le Reposoir' }
@@ -121338,7 +121323,7 @@ contents:
     '1975-01-01':
       évts: { fusionneDans: 76025 }
     '1980-01-01':
-      évts: { crééeCommeCOMParScissionDe: 76025 }
+      évts: { crééeCOMParScissionDe: 76025 }
       état: { statut: COM, name: Fry }
   76293:
     '1943-01-01':
@@ -127900,7 +127885,7 @@ contents:
       évts: { changeDeCodePour: 91691 }
   78692:
     '1948-08-01':
-      évts: { crééeCommeCOMParScissionDe: 78039 }
+      évts: { crééeCOMParScissionDe: 78039 }
       état: { statut: COM, name: Butry-sur-Oise }
     '1968-01-01':
       évts: { changeDeCodePour: 95120 }
@@ -132580,7 +132565,7 @@ contents:
       état: { statut: COM, name: Yzeux }
   80836:
     '1986-01-01':
-      évts: { crééeCommeCOMParScissionDe: 80163 }
+      évts: { crééeCOMParScissionDe: 80163 }
       état: { statut: COM, name: Yonval }
   81001:
     '1943-01-01':
@@ -133632,7 +133617,7 @@ contents:
       état: { statut: COM, name: Viviers-lès-Montagnes }
   81326:
     '1950-05-12':
-      évts: { crééeCommeCOMParScissionDe: 81063 }
+      évts: { crééeCOMParScissionDe: 81063 }
       état: { statut: COM, name: Sainte-Croix }
   82001:
     '1943-01-01':
@@ -134742,18 +134727,18 @@ contents:
       état: { statut: COM, name: Vins-sur-Caramy }
   83152:
     '1949-07-25':
-      évts: { crééeCommeCOMParScissionDe: 83079 }
+      évts: { crééeCOMParScissionDe: 83079 }
       état: { statut: COM, name: Rayol-Canadel-sur-Mer }
   83153:
     '1950-04-24':
-      évts: { crééeCommeCOMParScissionDe: 83126 }
+      évts: { crééeCOMParScissionDe: 83126 }
       état: { statut: COM, name: Saint-Mandrier }
     '1951-04-19':
       évts: { changeDeNomPour: Saint-Mandrier-sur-Mer }
       état: { statut: COM, name: Saint-Mandrier-sur-Mer }
   83154:
     '1954-08-30':
-      évts: { crééeCommeCOMParScissionDe: 83051 }
+      évts: { crééeCOMParScissionDe: 83051 }
       état: { statut: COM, name: Saint-Antonin-du-Var }
   84001:
     '1943-01-01':
@@ -136513,7 +136498,7 @@ contents:
       état: { statut: COM, name: Xanton-Chassenon }
   85307:
     '1954-01-15':
-      évts: { crééeCommeCOMParScissionDe: 85294 }
+      évts: { crééeCOMParScissionDe: 85294 }
       état: { statut: COM, name: 'La Faute-sur-Mer' }
   86001:
     '1943-01-01':
@@ -137011,7 +136996,6 @@ contents:
     '1978-08-25':
       évts: { changeDeNomPour: Lathus-Saint-Rémy }
       état: { statut: COM, name: Lathus-Saint-Rémy }
-      erat: [86240]
   86121:
     '1943-01-01':
       état: { statut: COM, name: Latillé }
@@ -144926,11 +144910,11 @@ contents:
       état: { statut: COM, name: 'Le Vauclin' }
   97233:
     '1949-03-25':
-      évts: { crééeCommeCOMParScissionDe: 97204 }
+      évts: { crééeCOMParScissionDe: 97204 }
       état: { statut: COM, name: 'Le Morne-Vert' }
   97234:
     '1950-08-26':
-      évts: { crééeCommeCOMParScissionDe: 97205 }
+      évts: { crééeCOMParScissionDe: 97205 }
       état: { statut: COM, name: Bellefontaine }
   97301:
     '1943-01-01':
@@ -145003,7 +144987,7 @@ contents:
       état: { statut: COM, name: Montsinéry-Tonnegrande }
   97314:
     '1950-04-07':
-      évts: { crééeCommeCOMParScissionDe: 97308 }
+      évts: { crééeCOMParScissionDe: 97308 }
       état: { statut: COM, name: Ouanary }
   97351:
     '1943-01-01':
@@ -145055,7 +145039,7 @@ contents:
       état: { statut: COM, name: Camopi }
   97357:
     '1953-01-01':
-      évts: { crééeCommeCOMParScissionDe: 97353 }
+      évts: { crééeCOMParScissionDe: 97353 }
       état: { statut: COM, name: Grand-Santi }
     '1969-03-27':
       évts: { changeDeNomPour: Grand-Santi-Papaichton }
@@ -145068,28 +145052,28 @@ contents:
       état: { statut: COM, name: Grand-Santi }
   97358:
     '1953-01-01':
-      évts: { crééeCommeCOMParScissionDe: 97312 }
+      évts: { crééeCOMParScissionDe: 97312 }
       état: { statut: COM, name: 'Centre (chef-lieu Sinnamary)' }
     '1969-03-27':
       évts: { changeDeNomPour: Saint-Élie }
       état: { statut: COM, name: Saint-Élie }
   97359:
     '1953-01-01':
-      évts: { crééeCommeCOMParScissionDe: 97310 }
+      évts: { crééeCOMParScissionDe: 97310 }
       état: { statut: COM, name: 'La Comté (chef-lieu Dégrad-Edmond)' }
     '1969-03-27':
       évts: { fusionneDans: 97310 }
   97360:
     '1976-11-12':
-      évts: { crééeCommeCOMParScissionDe: 97357 }
+      évts: { crééeCOMParScissionDe: 97357 }
       état: { statut: COM, name: Apatou }
   97361:
     '1989-01-01':
-      évts: { crééeCommeCOMParScissionDe: 97306 }
+      évts: { crééeCOMParScissionDe: 97306 }
       état: { statut: COM, name: Awala-Yalimapo }
   97362:
     '1993-01-01':
-      évts: { crééeCommeCOMParScissionDe: 97357 }
+      évts: { crééeCOMParScissionDe: 97357 }
       état: { statut: COM, name: Papaichton }
   97401:
     '1943-01-01':
@@ -145165,7 +145149,7 @@ contents:
       état: { statut: COM, name: 'Les Trois-Bassins' }
   97424:
     '1965-02-05':
-      évts: { crééeCommeCOMParScissionDe: 97414 }
+      évts: { crééeCOMParScissionDe: 97414 }
       état: { statut: COM, name: Cilaos }
   97601:
     '2011-03-31':

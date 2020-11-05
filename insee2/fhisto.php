@@ -78,17 +78,17 @@ foreach ($rpicoms as $cinsee => $rpicom) { // passage de rpicom à histo
 }
 
 foreach ($histos as $cinsee => $histo) { // ajout du champ erat
-  foreach ($histo as $ddebut => $histoD) {
-    if ($crat = $histoD['état']['crat'] ?? null) {
+  foreach ($histo as $ddebut => $version) {
+    if ($crat = $version['état']['crat'] ?? null) {
       $histos[$crat][$ddebut]['erat'][] = $cinsee;
     }
   }
 }
 foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de changement de nom
   $erat = [];
-  foreach ($histo as $ddebut => $histoD) {
-    if (!isset($histoD['état']) || ($histoD['état']['statut']<>'COM')) continue;
-    if ($erat && (array_keys($histoD['évts'])==['changeDeNomPour'])) {
+  foreach ($histo as $ddebut => $version) {
+    if (!isset($version['état']) || ($version['état']['statut']<>'COM')) continue;
+    if ($erat && (array_keys($version['évts'])==['changeDeNomPour'])) {
       //echo "Propagation d'erat pour $cinsee/$ddebut\n";
       $histos[$cinsee][$ddebut]['erat'] = $erat;
     }

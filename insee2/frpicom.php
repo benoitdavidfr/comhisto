@@ -509,15 +509,15 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
         $rpicoms[$this->source['ap']['com']][$date_eff]['état']['nomCommeDéléguée'] = $entite['av']['libelle'];
       }
       elseif (!isset($entite['av'])) { // cas de création d'une nouvelle entité
-        $creeCommeXXXParScissionDeLabel =
-          (($entite['ap']['typecom']=='ARM') ? 'crééComme' : 'crééeComme').$entite['ap']['typecom'].'ParScissionDe';
+        $creeXXXParScissionDeLabel =
+          (($entite['ap']['typecom']=='ARM') ? 'créé' : 'créée').$entite['ap']['typecom'].'ParScissionDe';
         setMerge($rpicoms[$entite['ap']['com']][$date_eff], [
           'après'=> [
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
           ]
             + (in_array($entite['ap']['typecom'], ['COMA','COMD']) ? ['crat'=> $this->source['ap']['com']] : []),
-          'évts'=> [$creeCommeXXXParScissionDeLabel => $this->source['av']['com']],
+          'évts'=> [$creeXXXParScissionDeLabel => $this->source['av']['com']],
         ]);
       }
       elseif ($entite['ap'] <> $entite['av']) { // modification
