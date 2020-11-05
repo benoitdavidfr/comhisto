@@ -4,8 +4,7 @@ description: |
   Le schéma du référentiel est contenu dans le champ $schema de ce document.
   Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
   Ce schéma correspond à plusieurs versions de l'historique:
-    - histo directement issu de rpicom
-    - histov qui comporte un traitement de validation complémentaire
+    - histo dérivé de rpicom par histo.php
     - histelit0 dans lequel une simplification est effectuée et chaque version est décrite par des elits positifs ou négatifs
     - histelit issu de histelit0 en remplacant les élits par des élits positifs
     - histelitp issu de histelit en en effectuant des corrections
@@ -183,17 +182,7 @@ $schema:
         Enregistre la liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux) pour les communes
         simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
         Cette propriété est absente si ces infos ne sont pas déduites.
-      type: object
-      properties:
-        aPourAssociées:
-          description: liste des c. associées déduite de statut et crat
-          $ref: '#/definitions/listeDeCodesInsee'
-        aPourDéléguées:
-          description: liste des c. déléguées déduite de statut et crat
-          $ref: '#/definitions/listeDeCodesInsee'
-        aPourArdm:
-          description: liste des arrondissements municipaux déduite de statut et crat
-          $ref: '#/definitions/listeDeCodesInsee'
+      $ref: '#/definitions/listeDeCodesInsee'
   type: object
   properties:
     title:

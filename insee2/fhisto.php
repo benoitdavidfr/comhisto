@@ -74,15 +74,31 @@ foreach ($rpicoms as $cinsee => $rpicom) { // passage de rpicom à histo
       $histo[$dfin]['état'] = $val['après']; // le champ après du rpicom, plus fiable que le champ état
   }
   unset($rpicoms[$cinsee]);
-  if ($action == 'histo')
-    echo Yaml::dump([$cinsee => $histo], 3, 2);
   $histos[$cinsee] = $histo;
 }
 
 foreach ($histos as $cinsee => $histo) { // ajout du champ erat
+  foreach ($histo as $ddebut => $histoD) {
+    if ($crat = $histoD['état']['crat'] ?? null) {
+      $histos[$crat][$ddebut]['erat'][] = $cinsee;
+    }
+  }
+}
+foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de changement de nom
+  $erat = [];
+  foreach ($histo as $ddebut => $histoD) {
+    if (!isset($histoD['état']) || ($histoD['état']['statut']<>'COM')) continue;
+    if ($erat && (array_keys($histoD['évts'])==['changeDeNomPour'])) {
+      //echo "Propagation d'erat pour $cinsee/$ddebut\n";
+      $histos[$cinsee][$ddebut]['erat'] = $erat;
+    }
+    $erat = isset($histoD['erat']) ? $histoD['erat'] : [];
+  }
 }
 
-if ($action == 'enregistreHisto') {
+if ($action == 'histo')
+  echo Yaml::dump($histos, 3, 2);
+elseif ($action == 'enregistreHisto') {
   $buildNameAdministrativeArea = <<<'EOT'
 if (isset($item['now']['état']['name']))
   return $item['now']['état']['name']." ($skey)";

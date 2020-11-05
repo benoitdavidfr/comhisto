@@ -60,11 +60,11 @@ doc: |
 
   A FAIRE:
     - améliorer les specs
-    - ajouter la sortie de StBarth et StMartin
 
 journal: |
   5/11/2020:
     - définition du schéma de histo et alignement de rpicom sur ce schéma
+    - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
   4/11/2020:
     - implem du Cas de rattachement d'une commune nouvelle à une commune simple
     - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
@@ -1545,6 +1545,22 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
   $rpicoms[69389]['1964-08-12']['après']['crat'] = 69123;
   // Je ne modifie pas la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
   // Il faudrait de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
+  
+  // Ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
+  $rpicoms[97123] = [
+    '2007-07-15'=> [
+      'après'=> [],
+      'évts'=> ['sortDuPérimètreDuRéférentiel'=> null],
+      'état'=> [ 'statut'=> 'COM', 'name'=> "Saint-Barthélemy"],
+    ]
+  ];
+  $rpicoms[97127] = [
+    '2007-07-15'=> [
+      'après'=> [],
+      'évts'=> ['sortDuPérimètreDuRéférentiel'=> null],
+      'état'=> [ 'statut'=> 'COM', 'name'=> "Saint-Martin"],
+    ]
+  ];
 }
 
 
