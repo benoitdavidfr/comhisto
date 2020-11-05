@@ -1,0 +1,120 @@
+title: définition du schéma des fichiers de communes avec en exemple un extrait d'un tel fichier
+modified: '2020-11-05'
+$schema:
+  title: schéma des fichiers donnant une photo instantanée des communes à la date de validité
+  $id: http://id.georef.eu/comhisto/insee2/exfcoms/$schema
+  $schema: http://json-schema.org/draft-07/schema#
+  description: |
+    Liste de communes, communes associées, communes déléguées et ardts m. chacun identifié par son code INSEE.
+    Les communes associées, déléguées et ardts m. renvoient vers leur commune parente.
+  type: object
+  required: [title, valid]
+  additionalProperties: false
+  properties:
+    title:
+      description: titre du fichier obligatoire
+      type: string
+    description:
+      type: string
+    source:
+      type: string
+    modified:
+      type: string
+    created:
+      type: string
+    valid:
+      description: date de validité du fichier obligatoire
+      type: string
+    $schema:
+      oneOf:
+        - $ref: http://json-schema.org/draft-07/schema#
+        - type: string
+    ydADscrBhv:
+      description: paramètres de comportement utilisés par le code Php de la classe AutoDescribed
+      type: object
+      additionalProperties: false
+      properties:
+        jsonLdContext:
+          description: contexte JSON-LD à ajouter
+          type: string
+        firstLevelType:
+          description: type des enregistrements de premier niveau dans contents
+          type: string
+        buildName:
+          description: définition de l'affichage réduit par type d'objet, code Php par type défini dans definitions
+          type: object
+          additionalProperties:
+            description: Pour chaque type le code Php d'affichage réduit est défini comme chaine
+            type: string
+        writePserReally:
+          description: si défini alors le doc est stocké en pser
+          type: boolean
+    contents:
+      description: dictionnaire associant à un code Insee une entité et parfois 2
+      type: object
+      patternProperties:
+        '^\d[\dAB]\d\d\d$': # code INSEE
+          description: description de la commune ou l'entité rattachée associée au code Insee
+          type: object
+          required: [name]
+          additionalProperties: false
+          properties:
+            statut:
+              description: statut de l'entité
+              enum:
+                - COM # commune simple cad non rattachée
+                - COMA # commune associée
+                - COMD # commune déléguée
+                - ARM # arrondissement municipal
+            name:
+              description: nom de l'entité en typographie riche en minuscules avec article
+              type: string
+            crat:
+              description: pour une entité rattachée, code Insee de la commune de rattachement
+              type: [string, integer]
+              pattern: '^\d[\dAB]\d\d\d$' # code INSEE
+            commeDéléguée:
+              description: |
+                lorsque le code Insee correspond à une commune nouvelle et une commune déléguée, infos relatives à la commune déléguée
+              type: object
+              properties:
+                name:
+                  description: nom de l'entité en typographie riche en minuscules avec article
+                  type: string
+              additionalProperties: false
+    eof:
+      type: 'null'
+ydADscrBhv:
+  jsonLdContext: http://schema.org
+  firstLevelType: AdministrativeArea
+  buildName: # définition de l'affichage réduit par type d'objet, code Php par type
+    AdministrativeArea: 'return "$item[name] ($skey)";'
+valid: '2020-01-01'
+contents:
+  '01001':
+    statut: COM
+    name: 'L''Abergement-Clémenciat'
+  '01015':
+    statut: COM
+    name: 'Arboys en Bugey'
+    commeDéléguée:
+      name: Arbignieu
+  '01340':
+    statut: COMD
+    name: Saint-Bois
+    crat: '01015'
+  '01120':
+    statut: COMA
+    name: Cordieux
+    crat: '01262'
+  '01262':
+    statut: COM
+    name: Montluel
+  13055:
+    statut: COM
+    name: Marseille
+  13202:
+    statut: ARM
+    name: 'Marseille 2e Arrondissement'
+    crat: 13055
+eof:

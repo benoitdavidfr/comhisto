@@ -58,7 +58,13 @@ doc: |
 
   Bugs:
 
+  A FAIRE:
+    - améliorer les specs
+    - ajouter la sortie de StBarth et StMartin
+
 journal: |
+  5/11/2020:
+    - définition du schéma de histo et alignement de rpicom sur ce schéma
   4/11/2020:
     - implem du Cas de rattachement d'une commune nouvelle à une commune simple
     - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
@@ -88,7 +94,7 @@ require_once __DIR__.'/html.inc.php';
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-if (php_sapi_name() <> 'cli') {
+if (php_sapi_name() <> 'cli') { // Menu en NON CLI
   if (!isset($_GET['action'])) {
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom</title></head><body>\n";
     echo "<a href='?action=specs'>Affichage des specs</a><br>\n";
@@ -107,13 +113,12 @@ if (php_sapi_name() <> 'cli') {
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom $_GET[action]</title></head><body><pre>\n";
   }
 }
-else {
-  //echo "argc=$argc\n"; print_r($argv);
+else { // Menu en CLI
   if ($argc == 1) {
     echo "usage: php $argv[0] {option}\n";
     echo " où {option} peut prendre les valeurs suivantes:\n";
     echo "  - enregistreRpicom : pour enregistrer le Rpicom dans rpicom.yaml\n";
-    echo "  - specs : pour générer le fhier Html des specrs\n";
+    echo "  - specs : pour générer le fichier Html des specs\n";
     die();
   }
   else {
@@ -493,7 +498,7 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
         'statut'=> $this->source['ap']['typecom'],
         'name'=> $this->source['ap']['libelle'],
       ],
-      'évts'=> ($creeeIds ? ['seScindeEtCrée'=> $creeeIds] : []) + ($detacheeIds ? ['seScindeEtDétache'=> $detacheeIds] : []),
+      'évts'=> ($creeeIds ? ['seScindePourCréer'=> $creeeIds] : []) + ($detacheeIds ? ['détacheCommeSimples'=> $detacheeIds] : []),
       'état'=> [
         'statut'=> $this->source['av']['typecom'],
         'name'=> $this->source['av']['libelle'],
@@ -501,16 +506,18 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
     ]);
     foreach ($this->entites as $entite) {
       if ($entite['ap']['com'] == $this->source['ap']['com']) { // cas particulier d'intégration de la déléguée propre
-        $rpicoms[$this->source['ap']['com']][$date_eff]['état']['commeDéléguée']['name'] = $entite['av']['libelle'];
+        $rpicoms[$this->source['ap']['com']][$date_eff]['état']['nomCommeDéléguée'] = $entite['av']['libelle'];
       }
       elseif (!isset($entite['av'])) { // cas de création d'une nouvelle entité
+        $creeCommeXXXParScissionDeLabel =
+          (($entite['ap']['typecom']=='ARM') ? 'crééComme' : 'crééeComme').$entite['ap']['typecom'].'ParScissionDe';
         setMerge($rpicoms[$entite['ap']['com']][$date_eff], [
           'après'=> [
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
           ]
-          + (in_array($entite['ap']['typecom'], ['COMA','COMD']) ? ['crat'=> $this->source['ap']['com']] : []),
-          'évts'=> ['crééeParScissionDe'=> $this->source['av']['com']],
+            + (in_array($entite['ap']['typecom'], ['COMA','COMD']) ? ['crat'=> $this->source['ap']['com']] : []),
+          'évts'=> [$creeCommeXXXParScissionDeLabel => $this->source['av']['com']],
         ]);
       }
       elseif ($entite['ap'] <> $entite['av']) { // modification
@@ -519,7 +526,7 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
             'statut'=> $entite['ap']['typecom'],
             'name'=> $entite['ap']['libelle'],
           ],
-          'évts'=> ['seDétacheAlOccasionDeLaScissionDe'=> $this->source['av']['com']],
+          'évts'=> ['seDétacheDe'=> $this->source['av']['com']],
           'état'=> [
             'statut'=> $entite['av']['typecom'],
             'name'=> $entite['av']['libelle'],
@@ -534,7 +541,7 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
             'name'=> $entite['ap']['libelle'],
             'crat'=> $this->source['ap']['com'],
           ],
-          'évts'=> ['conservéeLorsDeLaScissionDe'=> $this->source['av']['com']],
+          'évts'=> ['resteRattachéeA'=> $this->source['av']['com']],
           'état'=> [
             'statut'=> $entite['av']['typecom'],
             'name'=> $entite['av']['libelle'],
@@ -776,7 +783,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
                 'name'=> $rattachee['ap']['libelle'],
                 'crat'=> $codeCheflieuAp,
               ],
-              'évts' => ['type'=> $typeLabel, 'changeDeChefLieuPour' => $codeCheflieuAp],
+              'évts' => ['type'=> $typeLabel, 'type2'=> 'changeDeChefLieu', 'devientDéléguéeDe'=> $codeCheflieuAp],
               'état' => [
                 'statut'=> $rattachee['av']['typecom'],
                 'name'=> $rattachee['av']['libelle'],
@@ -793,11 +800,12 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
             'name'=> $rattachees[$codeCheflieuAv]['ap']['libelle'],
             'crat'=> $codeCheflieuAp,
           ],
-          'évts' => ['type'=> $typeLabel, 'transfertChefLieuAlOccasionCréationCommuneNouvelleDe' => $codeCheflieuAp],
+          'évts' => [
+            'type'=> $typeLabel, 'type2'=> 'perdCheflieu', 'devientDéléguéeDe'=> $codeCheflieuAp],
           'état' => [
             'statut'=> $fusionnee['av']['typecom'],
             'name'=> $fusionnee['av']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv]['av']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAv]['av']['libelle'],
           ],
         ]);
         // cas du chef lieu de la nouvelle commune nouvelle
@@ -805,9 +813,11 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
             'name'=> $this->cheflieu['ap']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['ap']['libelle'],
           ],
-          'évts' => ['type'=> $typeLabel, 'devientChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
+          'évts' => [
+            'type'=> $typeLabel, 'type2'=> 'devientChefLieu',
+             'prendPourDéléguées'=> array_keys($rattachees)],
           'état' => [
             'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
@@ -854,7 +864,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'état' => [
             'statut'=> $fusionnees[$codeCheflieuAv2]['av']['typecom'],
             'name'=> $fusionnees[$codeCheflieuAv2]['av']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAv2]['av']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAv2]['av']['libelle'],
           ],
         ]);
         // traitement de la commune nouvelle qui reste (49018)
@@ -862,13 +872,16 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
             'name'=> $this->cheflieu['ap']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['ap']['libelle'],
           ],
-          'évts' => ['type'=> $typeLabel, 'resteChefLieuAlOccasionCréationCommuneNouvelleDe' => array_keys($rattachees)],
+          'évts' => [
+            'type'=> $typeLabel, 'type2'=> 'resteChefLieuAlOccasionCréationCommuneNouvelle',
+            'prendPourDéléguées'=> array_keys($rattachees),
+          ],
           'état' => [
             'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['av']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
           ],
         ]);
 
@@ -879,7 +892,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
             'name'=> $this->cheflieu['ap']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']]
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['ap']['libelle'],
           ],
           'évts'=> ['type'=> $typeLabel, 'type2'=> 'modificationComNouvelle']
               + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
@@ -887,7 +900,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'état'=> [
             'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['av']['libelle']]
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
           ],
         ]);
         unset($fusionnees[$codeCheflieuAp]);
@@ -898,7 +911,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
             'name'=> $this->cheflieu['ap']['libelle'],
-            'commeDéléguée'=> ['name'=> $rattachees[$codeCheflieuAp]['ap']['libelle']],
+            'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['ap']['libelle'],
           ],
           'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleAvecCréationDeDéléguePropre']
               + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
@@ -1131,7 +1144,7 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
     }
     foreach ($this->integrees as $integree) {
       if ($integree['av']['com']==$this->cheflieu['av']['com']) { // cas d'intégration de la commune déléguée propre
-        $rpicoms[$this->cheflieu['ap']['com']][$date_eff]['état']['commeDéléguée']['name'] = $integree['av']['libelle'];
+        $rpicoms[$this->cheflieu['ap']['com']][$date_eff]['état']['nomCommeDéléguée'] = $integree['av']['libelle'];
       }
       else { // cas d'intégration d'une rattachée autre que la commune délégue propre
         setMerge($rpicoms[$integree['av']['com']][$date_eff], [
@@ -1243,7 +1256,7 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
   
   function asArray(): array {
     return [ $this->cheflieu_ap['ap']['com'] => [
-      'chgtCodeDuATransfChefLieu' => [
+      'chgtCodeDuATransfChefLieu(50)' => [
         'cheflieu_av'=> $this->cheflieu_av,
         'cheflieu_ap'=> $this->cheflieu_ap,
         'rattachees'=> $this->rattachees,
@@ -1252,38 +1265,63 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
   }
   
   function buildRpicom(string $date_eff, array &$rpicoms): void {
+    $rattachees_ap = []; // liste des codes Insee des rattachées après sauf cheflieu_av
+    foreach ($this->rattachees as $rattachee)
+      $rattachees_ap[] = $rattachee['ap']['com'];
+    // ancien chef-lieu
+    $seRattacheALabel = [
+      'COMA'=> 'sAssocieA',
+      'COMD'=> 'deviendDéléguéeDe',
+    ][$this->cheflieu_av['ap']['typecom']];
     setMerge($rpicoms[$this->cheflieu_av['ap']['com']][$date_eff], [
       'après'=> [
         'statut'=> $this->cheflieu_av['ap']['typecom'],
         'name'=> $this->cheflieu_av['ap']['libelle'],
         'crat'=> $this->cheflieu_ap['ap']['com'],
       ],
-      'évts'=> ['perdChefLieuAuProfitDe'=> $this->cheflieu_ap['ap']['com']],
+      'évts'=> [
+        'type'=> 'chgtCodeDuATransfChefLieu(50)', 'type2'=>'ancienChefLieu',
+        'détacheCommeSimples'=> [$this->cheflieu_ap['av']['com']] + $rattachees_ap,
+        $seRattacheALabel => $this->cheflieu_ap['ap']['com'],
+      ],
       'état'=> [
         'statut'=> $this->cheflieu_av['av']['typecom'],
         'name'=> $this->cheflieu_av['av']['libelle'],
       ],
     ]);
+    // Nouveau chef-lieu
+    $rattacheLabel = [
+      'COMA'=> 'associe',
+      'COMD'=> 'prendPourDéléguée',
+    ][$this->cheflieu_av['ap']['typecom']];
     setMerge($rpicoms[$this->cheflieu_ap['ap']['com']][$date_eff], [
       'après'=> [
         'statut'=> $this->cheflieu_ap['ap']['typecom'],
         'name'=> $this->cheflieu_ap['ap']['libelle'],
       ],
-      'évts'=> ['devientChefLieuALaPlaceDe'=> $this->cheflieu_av['av']['com']],
+      'évts'=> [
+        'type'=> 'chgtCodeDuATransfChefLieu(50)', 'type2'=>'nouveauChefLieu',
+        'seDétacheDe'=> $this->cheflieu_av['av']['com'], $rattacheLabel => [$this->cheflieu_av['ap']['com']] + $rattachees_ap,
+      ],
       'état'=> [
         'statut'=> $this->cheflieu_ap['av']['typecom'],
         'name'=> $this->cheflieu_ap['av']['libelle'],
         'crat'=> $this->cheflieu_av['av']['com'],
       ],
     ]);
+    // Chgt de rattachement
     foreach ($this->rattachees as $rattachee) {
+      $seRattacheALabel = [
+        'COMA'=> 'sAssocieA',
+        'COMD'=> 'deviendDéléguéeDe',
+      ][$rattachee['ap']['typecom']];
       setMerge($rpicoms[$rattachee['ap']['com']][$date_eff], [
         'après'=> [
           'statut'=> $rattachee['ap']['typecom'],
           'name'=> $rattachee['ap']['libelle'],
           'crat'=> $this->cheflieu_ap['ap']['com'],
         ],
-        'évts'=> ['changeDeChefLieuPour(50)'=> $this->cheflieu_ap['ap']['com']],
+        'évts'=> ['type'=> 'chgtCodeDuATransfChefLieu(50)', $seRattacheALabel => $this->cheflieu_ap['ap']['com']],
         'état'=> [
           'statut'=> $rattachee['av']['typecom'],
           'name'=> $rattachee['av']['libelle'],
@@ -1460,7 +1498,7 @@ if ($_GET['action'] == 'mvtserreurs') {
 }
 
 if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // initialisation de $rpicoms
-  $coms = Yaml::parseFile('../insee/com20200101.yaml');
+  $coms = Yaml::parseFile(__DIR__.'/com20200101.yaml');
   $rpicoms = [];
   foreach ($coms['contents'] as $ccom => $com) {
     $rpicoms[$ccom]['now']['état'] = $com;
@@ -1521,7 +1559,7 @@ elseif ($_GET['action'] == 'enregistreRpicom') {
 if (isset($item['now']['état']['name']))
   return $item['now']['état']['name']." ($skey)";
 else
-  return '<s>'.array_values($item)[0]['name']." ($skey)</s>";
+  return '<s>'.array_values($item)[0]['état']['name']." ($skey)</s>";
 EOT;
   file_put_contents(
     __DIR__.'/rpicom.yaml',

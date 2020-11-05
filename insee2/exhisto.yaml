@@ -1,0 +1,376 @@
+title: définition du schéma du référentiel historique des codes INSEE des communes avec illustration
+modified: '2020-11-05'
+description: |
+  Le schéma du référentiel est contenu dans le champ $schema de ce document.
+  Le champ contents fournit des exemples illustratifs d'éléments de ce référentiel pour faciliter la compréhension du schéma.
+  Ce schéma correspond à plusieurs versions de l'historique:
+    - histo directement issu de rpicom
+    - histov qui comporte un traitement de validation complémentaire
+    - histelit0 dans lequel une simplification est effectuée et chaque version est décrite par des elits positifs ou négatifs
+    - histelit issu de histelit0 en remplacant les élits par des élits positifs
+    - histelitp issu de histelit en en effectuant des corrections
+  Journal:
+    5/11/2020:
+      Définition d'un nouveau schéma dans le cadre de insee v2
+$schema:
+  title: schéma du référentiel historique des codes INSEE des communes
+  $id: http://id.georef.eu/comhisto/insee/exhisto/$schema
+  $schema: http://json-schema.org/draft-07/schema#
+  description: |
+    Le référentiel historique des codes INSEE des communes est principalement constitué d'un dictionnaire des codes INSEE des communes
+    simples et des entités rattachées (communes associées, communes déléguées et arrondissements municipaux) ayant existé depuis le
+    1/1/1943 associant à chaque code des infos versionnées indexées par la date de la version.
+    Outre cette date, chaque version correspond à:
+      - un ou des évènement(s) de création/modification/suppression de la version, sauf pour la version initiale datée du 1/1/1943,
+        sauf pour les communes de Mayotte, dont l'état initial est daté du 31/3/2011, date à laquelle Mayotte est devenu un département
+        francais,
+      - l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version jusqu'à la date
+        de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
+        cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité.
+    Certaines informations peuvent être déduites des informations primaires ; cela est alors signalé dans les commentaires.
+    Le champ ydADscrBhv peut être utilisé pour afficher le fichier.
+  definitions:
+    codeInsee:
+      description: code Insee
+      oneOf:
+        - description: un code Insee commencant par '0', '2A' ou '2B' est encodé comme une chaine
+          type: string
+          pattern: '^(0[1-9]|2[AB])\d\d\d$'
+        - description: les autres sont encodés comme un entier
+          type: number
+          pattern: '^[1-9]\d\d\d\d$'
+    listeDeCodesInsee:
+      description: liste de codes INSEE
+      type: array
+      items:
+        $ref: '#/definitions/codeInsee'
+    évts:
+      description: |
+        Les opérations sur les entités sont décrites par des évènements de création/modification/suppression s'appliquant
+        à un code Insee ; la plupart prennent en objet un ou une liste de codes INSEE et, dans ce cas, les codes INSEE objets
+        portent à la même un date un évènement appelé mirroir.
+        La définition de ces types d'évènement respecte les principes suivants:
+          - le nombre de types d'évènements est limité afin de faciliter la compréhension du modèle
+          - l'état issu d'un évènement doit être défini par l'état précédent ainsi que les infos portées par l'évènement,
+            sauf pour les changements de nom,
+          - le fichier doit permettre à un humain de comprendre facilement l'évolution de(s) l'entité(s) associée(s) à un code Insee
+        Certains évènements, comme mentionnés dans les commentaires, peuvent être déduits de leurs évènements mirroirs. Lorsque
+        l'information déduite est absente alors l'objet de l'évènement est une liste vide.
+      type: object
+      additionalProperties: false
+      properties:
+        changeDeNomPour:
+          description: le sujet change de nom avec comme objet le nouveau nom (pas d'evt. mirroir)
+          type: string
+        sortDuPérimètreDuRéférentiel:
+          description: le sujet sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+          type: 'null'
+        changeDeCodePour:
+          description: le sujet change de code, en général lors d'un chgt de dépt, avec comme objet le nouv code (mirroir avaitPourCode)
+          $ref: '#/definitions/codeInsee'
+        avaitPourCode:
+          description: |
+            le sujet est le nouveau code, en général lors d'un changement de département, avec comme objet l'ancien code
+            (mirroir changeDeCodePour)
+          $ref: '#/definitions/codeInsee'
+        seDissoutDans:
+          description: c. supprimée avec en objets les c. dans lesquelles son territoire est réparti (m. déduit de reçoitUnePartieDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        reçoitUnePartieDe:
+          description: c. recevant une partie du territoire d'une c. supprimée avec le code de celle-ci (mirroir seDissoutDans)
+          $ref: '#/definitions/codeInsee'
+        crééeAPartirDe:
+          description: c. créée avec liste des codes des communes dont provient son territoire (mirroir déduit de contribueA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        contribueA:
+          description: commune contribuant à la création d'une commune avec le code de la c. créée (mirroir crééeAPartirDe)
+          $ref: '#/definitions/codeInsee'
+        fusionneDans:
+          description: |
+            entité supprimée par fusion de son territoire dans une autre dont le code est en param. (mirroir absorbe).
+            Le cas particulier de la fusion de 2 entités pour en créer une nouvelle est traduit par changeDeCodePour+absorbe
+          $ref: '#/definitions/codeInsee'
+        absorbe:
+          description: entité en absorbant d'autres (mirroir déduit de fusionneDans)
+          $ref: '#/definitions/listeDeCodesInsee'
+        crééeCommeCOMParScissionDe:
+          description: c. simple créée par scission d'un e. existante avec son code (mirroir seScindePourCréer)
+          $ref: '#/definitions/codeInsee'
+        crééeCommeCOMAParScissionDe:
+          description: c. associée créée par scission d'un e. existante avec son code (mirroir seScindePourCréer)
+          $ref: '#/definitions/codeInsee'
+        crééCommeARMParScissionDe:
+          description: arrdt municipal créé par scission d'un e. existante avec son code (mirroir seScindePourCréer)
+          $ref: '#/definitions/codeInsee'
+        seScindePourCréer:
+          description: entité se scindant pour en créer de nouvelles avec leur code (mirroir déduit de crééeCommeXXXParScissionDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        estModifiéeIndirectementPar:
+          description: |
+            CS modifiée par un évt intervenant sur ses ER avec codes de ces ER
+            Type d'évt utilisé uniquement pour la commune de Lyon à l'occasion de la fusion de la commune de Saint-Rambert-l'Île-Barbe
+            dans le 5ème arrondissement de Lyon.
+          $ref: '#/definitions/listeDeCodesInsee'
+        sAssocieA:
+          description: |
+            Commune simple s'associe à une commune de rattachement (mirroir prendPourAssociées)
+            La commune de rattachement objet doit être une commune simple.
+            Si le sujet était auparavant rattaché à une autre CS alors il doit s'en détacher explicitement simultanément
+            Si le sujet avait des ER alors elles doivent simultanément s'en détacher
+            Si le sujet était mixte alors son ER est rattachée à l'objet et sa CS disparait.
+          $ref: '#/definitions/codeInsee'
+        associe:
+          description: liste des associées prises par le sujet (mirroir déduit de sAssocieA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        devientDéléguéeDe:
+          description: |
+            Entité devient déléguée lors de la création/évolution d'une c. nouv. avec code de cette dernière (m. prendPourDéléguées)
+            La commune de rattachement objet doit être une commune simple.
+            Si le sujet était rattaché à une autre CS alors il doit s'en détacher explicitement au préalable (c'est nécessaire pour
+            que l'ancienne commune de ratachement sache qu'elle la détache).
+            Par contre l'entité peut auparavant être associée à la même c. de rattachement.
+            Si le sujet avait des ER alors elles doivent simultanément s'en détacher.
+            Si le sujet était mixte alors son ER est rattachée à l'objet et la CS disparait.
+          $ref: '#/definitions/codeInsee'
+        prendPourDéléguées:
+          description: |
+            Liste des déléguées prises lors de la création/évolution d'une c. nouv. sujet (mirroir déduit de devientDéléguéeDe)
+            Si la c. de ratt. et la c. déléguée ont même code alors il doit y avoir un evt devientDéléguéeDe
+          $ref: '#/definitions/listeDeCodesInsee'
+        seDétacheDe:
+          description: c. associée ou déléguée se détache de sa c. de rattachement et devient c. simple (mirroir détacheCommeSimples)
+          $ref: '#/definitions/codeInsee'
+        détacheCommeSimples:
+          description: c. de ratt. se sépare de certaines de ses c. associées ou déléguées comme c. simples (m. déduit de seDétacheDe)
+          $ref: '#/definitions/listeDeCodesInsee'
+        resteRattachéeA:
+          description: c. associée/déléguée le reste à l'occasion d'une évolution (mirroir gardeCommeRattachées)
+          $ref: '#/definitions/codeInsee'
+        gardeCommeRattachées:
+          description: CS ayant des c. rattachées en garde certaines à l'occas. d'une évol. (mirroir déduit de resteAttachéeA)
+          $ref: '#/definitions/listeDeCodesInsee'
+        aucun:
+          description: lorsqu'un évènement est simplifié, il peut être remplacé par un évt vide codé par aucun
+          type: 'null'
+    état:
+      description: |
+        Etat résultant des évènements et valide à partir de la date de la version et soit, s'il y a une version suivante, jusqu'à sa
+        date, soit, sinon, valide à la date de validité du référentiel. Dans le premier cas on dit que la version est périmée, dans
+        le second qu'elle est valide.
+      type: object
+      required: [name, statut]
+      additionalProperties: false
+      properties:
+        name:
+          description: nom de l'entité pour cette version
+          type: string
+        statut:
+          description: statut de l'entité
+          type: string
+          enum:
+            - COM # le code correspond à une commune simple cad non rattachée
+            - COMA # le code correspond à une commune associée
+            - COMD # le code correspond à une commune déléguée
+            - ARM # le code correspond à un arrondissement municipal
+        crat:
+          description: code INSEE de la commune de rattachement ssi le statut est COMA, COMD ou ARDM
+          $ref: '#/definitions/codeInsee'
+        nomCommeDéléguée:
+          description: ssi statut=COM et le code correspond aussi à une commune déléguée alors nom de la commune déléguée
+          type: string
+    erat:
+      description: |
+        Enregistre la liste des entités rattachées (communes associées ou déléguées, ou arrondissements municipaux) pour les communes
+        simples en ayant. Ces infos sont déduites du statut et crat des entités rattachées.
+        Cette propriété est absente si ces infos ne sont pas déduites.
+      type: object
+      properties:
+        aPourAssociées:
+          description: liste des c. associées déduite de statut et crat
+          $ref: '#/definitions/listeDeCodesInsee'
+        aPourDéléguées:
+          description: liste des c. déléguées déduite de statut et crat
+          $ref: '#/definitions/listeDeCodesInsee'
+        aPourArdm:
+          description: liste des arrondissements municipaux déduite de statut et crat
+          $ref: '#/definitions/listeDeCodesInsee'
+  type: object
+  properties:
+    title:
+      description: titre du document contenant le référentiel
+      type: string
+    '@id':
+      description: identifiant du document contenant le référentiel
+      type: string
+    description:
+      description: explication sur le document contenant le référentiel
+      type: string
+    created:
+      description: date de création du document
+      type: string
+    modified:
+      description: date de mise à jour du document
+      type: string
+    valid:
+      description: date de validité du référentiel
+      type: string
+    $schema:
+      description: soit le schéma du document soit un lien vers ce schéma
+      oneOf:
+        - $ref: http://json-schema.org/draft-07/schema#
+        - type: string
+    ydADscrBhv:
+      description: paramètres de comportement utilisés par le code Php de la classe AutoDescribed
+      type: object
+      additionalProperties: false
+      properties:
+        jsonLdContext:
+          description: contexte JSON-LD à ajouter
+          type: string
+        firstLevelType:
+          description: type des enregistrements de premier niveau dans contents
+          type: string
+        buildName:
+          description: définition de l'affichage réduit par type d'objet, code Php par type défini dans definitions
+          type: object
+          additionalProperties:
+            description: Pour chaque type le code Php d'affichage réduit est défini comme chaine
+            type: string
+        writePserReally:
+          description: si défini alors le doc est stocké en pser
+          type: boolean
+    contents:
+      description: contenu du référentiel comme dictionnaire associant à chaque code INSEE ses différentes versions
+      type: object
+      additionalProperties: false
+      patternProperties:
+        '^\d[\dAB]\d\d\d$': # code INSEE
+          description: les différentes versions indexées par une date et listées par ordre chronologique
+          type: object
+          additionalProperties: false
+          patternProperties:
+            '^\d\d\d\d-\d\d-\d\d$': # date de la version
+              description: |
+                Version composée essentiellement d'une part d'évènements de création/modification/suppression (sauf pour la version
+                intiale) et, d'autre part, de l'état, résultant des évènements, valide à partir de la date de la version jusqu'à la
+                date de version suivante, sauf en cas d'évènement de suppression pour lequel il n'existe pas d'état résultant
+                car le code n'est plus valide.
+                En plus erat contient évent. la liste des entités rattachées et elts contient évent. la défition sus forme d'élts. 
+              type: object
+              additionalProperties: false
+              properties:
+                évtsSrc:
+                  description: Les evts d'origine ssi evts contient une liste simplifiée
+                  $ref: '#/definitions/évts'
+                évts:
+                  description: liste d'évènements de création/modification/suppression, evt simplifiés
+                  $ref: '#/definitions/évts'
+                état:
+                  description: nouvel état résultant des évènements
+                  $ref: '#/definitions/état'
+                erat:
+                  description: éventuellement entités rattachées ; champ distinct pour améliorer la lisibilité du fichier
+                  $ref: '#/definitions/erat'
+                élits0:
+                  description: éventuellement définition du territoire sous la forme d'éléments intemporels propres, évt négatifs
+                  type: string
+                élits:
+                  description: |
+                    définition du territoire sous la forme d'éléments intemporels propres positifs.
+                    Les élits propres d'une COMS sont ceux ne correspondant pas à une ERAT.
+                    Pour une commune mixte, ce sont ceux correspondant à la déléguée ; ceux évt correspondant à la CRAT sont définis
+                    dans la propriété elitsNonDélégués
+                  $ref: '#/definitions/listeDeCodesInsee'
+                élitsNonDélégués:
+                  description: |
+                    pour une ComNouvelle, éventuellement définition sous la forme d'élits du territoire non délégué.
+                    N'est utilisé que pour 33055 qui est une commune mixte qui a des elits pour sa déléguée propre et d'autres
+                    non délégués
+                  $ref: '#/definitions/listeDeCodesInsee'
+    eof:
+      type: 'null'
+ydADscrBhv:
+  jsonLdContext: http://schema.org
+  firstLevelType: AdministrativeArea
+  buildName: # définition de l'affichage réduit par type d'objet, code Php par type
+    AdministrativeArea: |
+      $ckey = array_keys($item)[0];
+      if (isset($item[$ckey]['etat']))
+        return $item[$ckey]['etat']['name']." ($skey)";
+      else
+        return '<s>'.$item[array_keys($item)[1]]['etat']['name']." ($skey)</s>";
+contents:
+  '01015':
+    '1943-01-01':
+      état: { name: Arbignieu, statut: COM }
+    '2016-01-01':
+      évts: { prendPourDéléguées: ['01015', '01340'] }
+      état: { name: 'Arboys en Bugey', statut: COM, nomCommeDéléguée: Arbignieu }
+  '01079':
+    '1943-01-01':
+      état: { name: Champagne, statut: COM }
+    '1956-10-19':
+      évts: { changeDeNomPour: Champagne-en-Valromey }
+      état: { name: Champagne-en-Valromey, statut: COM }
+    '1973-01-01':
+      évts: { associe: ['01217', '01287'] }
+      état: { name: Champagne-en-Valromey, statut: COM }
+    '1997-01-01':
+      évts: { absorbe: ['01217', '01287'] }
+      état: { name: Champagne-en-Valromey, statut: COM }
+  '01217':
+    '1943-01-01':
+      état: { name: Lilignod, statut: COM }
+    '1973-01-01':
+      évts: { sAssocieA: '01079' }
+      état: { name: Lilignod, statut: COMA, crat: '01079' }
+    '1997-01-01':
+      évts: { fusionneDans: '01079' }
+  13201:
+    '1943-01-01':
+      état: { name: 'Marseille 1er Arrondissement', statut: ARM, crat: 13055 }
+  14513:
+    '1943-01-01':
+      état: { name: Pont-Farcy, statut: COM }
+    '1973-05-01':
+      évts: { associe: [14507] }
+      état: { name: Pont-Farcy, statut: COM }
+    '2018-01-01':
+      évts: { absorbe: [14507], changeDeCodePour: 50649 }
+  55273:
+    '1943-01-01':
+      état: { name: Lamarche-en-Woëvre, statut: COM }
+    '1973-01-01':
+      évts: { sAssocieA: 55245 }
+      état: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55245 }
+    '1983-01-01':
+      évts: { seDétacheDe: 55245, sAssocieA: 55386 }
+      état: { name: Lamarche-en-Woëvre, statut: COMA, crat: 55386 }
+  55245:
+    '1943-01-01':
+      état: { name: Heudicourt-sous-les-Côtes, statut: COM }
+    '1973-01-01':
+      évts: { associe: [55273, 55386] }
+      état: { name: Madine, statut: COM }
+    '1983-01-01':
+      évts: { détacheCommeSimples: [55273, 55386] }
+      état: { name: Heudicourt-sous-les-Côtes, statut: COM }
+  55386:
+    '1943-01-01':
+      état: { name: Nonsard, statut: COM }
+    '1973-01-01':
+      évts: { sAssocieA: 55245 }
+      état: { name: Nonsard, statut: COM }
+    '1983-01-01':
+      évts: { seDétacheDe: 55245, associe: [55273] }
+      état: { name: Nonsard-Lamarche, statut: COM }
+  78001:
+    '1943-01-01':
+      état: { name: Abbéville-la-Rivière, statut: COM }
+    '1968-01-01':
+      évts: { changeDeCodePour: 91001 }
+  91001:
+    '1968-01-01':
+      évts: { avaitPourCode: 78001 }
+      état: { name: Abbéville-la-Rivière, statut: COM }
+eof:

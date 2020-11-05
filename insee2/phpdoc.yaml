@@ -1,17 +1,20 @@
 title: comhisto/insee2 - construction d'un fichier historique des codes Insee à partir des données Insee - version 2
 path: /yamldoc/pub/comhisto/insee2
 doc: |
-  Cette construction se fait en 3 étapes:
-    1) fabrication du Rpicom - historique par code Insee dans l'ordre chronologique inverse
-    2) conversion en format histo - historique par code Insee dans l'ordre chronologique directe, ajout des erats
-    3) ajout des elits
+  Cette construction se fait en 4 étapes:
+    - fabrication du fichier Yaml de l'état des communes au 1/1/2020
+    - fabrication du Rpicom - historique par code Insee dans l'ordre chronologique inverse
+    - conversion en format histo - historique par code Insee dans l'ordre chronologique directe, ajout des erats
+    - ajout des elits
 journal: |
   4/11/2020:
     - traitement des cas dans rpicom.php
   20/10/2020:
     - création
 phpScripts:
+  - insee.php
   - frpicom.php
+  - fhisto.php
   - comp.php
 phpIncludes:
   - html.inc.php
