@@ -158,8 +158,9 @@ Un document de spécifications du fichier est en cours d'écriture
 pour lequel un premier brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
 ### Lignes du fichier des mouvements non interprétés car non conformes
-Ces lignes sont [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html).
-Le champ nol fournit le numéro de ligne dans le fichier.
+Les lignes [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html)
+n'ont pu être interprétées.
+Dans ce document, le champ nol correspond au numéro de ligne dans le fichier.
 
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
 Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
