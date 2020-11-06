@@ -146,8 +146,16 @@ est définie pour les communes simples en ayant. Ces infos sont déduites du sta
 Cette propriété est absente si ces infos ne sont pas déduites.
 
 
-## Difficultés recontrées lors de la lecture de mvtcommune2020
-Le fichier utilisé a été téléchargé le 20/2/2020.
+## Difficultés recontrées lors de l'utilisation de mvtcommune2020
+Le fichier utilisé a été téléchargé le 20/2/2020.  
+La correction du 13/5/2020 n'a pas été prise en compte car elle crée une erreur par rapport aux spécifications ci-dessous.
+
+### Spécifications du fichier
+Une difficulté importante rencontrée est l'insuffisance des spécifications du fichier.
+Je n'ai trouvé qu'une description courte et 2 exemples simples dans https://www.insee.fr/fr/information/4316069
+alors que certains cas sont beaucoup plus compliqués.  
+Un document de spécifications du fichier est en cours d'écriture.
+Un premier brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
 ### Lignes du fichier des mouvements non interprétés car non comprises
 Ces lignes sont [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html).  
@@ -192,11 +200,6 @@ Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 ca
 
 ### Mayotte
 Les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
-
-### Spécifications du fchier
-Une difficulté importante rencontrée est l'insuffisance des spécifications du fchier.
-Un document de spécifications du fichier est en cours d'écriture.
-Un brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
