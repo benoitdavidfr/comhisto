@@ -146,7 +146,7 @@ est définie pour les communes simples en ayant. Ces infos sont déduites du sta
 Cette propriété est absente si ces infos ne sont pas déduites.
 
 
-## Difficultés recontrées lors de l'utilisation de mvtcommune2020
+## Difficultés rencontrées lors de l'utilisation de mvtcommune2020
 Le fichier utilisé a été téléchargé le 20/2/2020.  
 La correction du 13/5/2020 n'a pas été prise en compte car elle crée une erreur par rapport aux spécifications ci-dessous.
 
@@ -154,17 +154,17 @@ La correction du 13/5/2020 n'a pas été prise en compte car elle crée une erre
 Une difficulté importante rencontrée est l'insuffisance des spécifications du fichier.
 Je n'ai trouvé qu'une description courte et 2 exemples simples dans https://www.insee.fr/fr/information/4316069
 alors que certains cas sont beaucoup plus compliqués.  
-Un document de spécifications du fichier est en cours d'écriture.
-Un premier brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
+Un document de spécifications du fichier est en cours d'écriture
+pour lequel un premier brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
-### Lignes du fichier des mouvements non interprétés car non comprises
+### Lignes du fichier des mouvements non interprétés car non conformes
 Ces lignes sont [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html).  
 
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
 Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
 et de rétablissement le 1977-01-01 sont incompatibles.  
 Les mouvements du 1/1/1977 sur Ronchères (89325) et Septfonds (89389) sont transformés en resteRattachéeA.  
-Ma compréhension est qu'il manque dans le fichier des mouvements les 2 lignes suivantes:
+Ma compréhension est qu'il manque dans le fichier les 2 lignes suivantes:
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
@@ -173,7 +173,7 @@ Ma compréhension est qu'il manque dans le fichier des mouvements les 2 lignes s
 
 ### Correction d'un mouvement sur Gonaincourt (52224)
 Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064.    
-Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suivante:
+Ma compréhension est qu'il manque dans le fichier la ligne suivante:
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
@@ -181,7 +181,7 @@ Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suiva
 
 ### Correction d'un mouvement sur Bois-Guillaume-Bihorel (76108)
 Avant son rétablissement du 1/1/2014, Bois-Guillaume-Bihorel (76108) a une commune déléguée ayant le même code.    
-Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suivante:
+Ma compréhension est qu'il manque dans le fichier la ligne suivante:
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av    | typecom_ap | com_ap | libelle_ap    |
 | --- | ---------- | ---------- | ------ | ------------- | ---------- | ------ | ------------- |
@@ -189,6 +189,9 @@ Ma compréhension est qu'il manque dans le fichier des mouvements la ligne suiva
 
 
 ### Redéfinition des évènements sur les arrondissements de Lyon
+Au delà de la conformité aux spécifications, il existe quelques cas qui posent des difficultés
+et qui ont été corrigés.
+
 Pour intégrer:
 
 - la scission en 2 du 7ème arrdt le 8/2/1959 pour créer le 8ème arrdt,
