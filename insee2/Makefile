@@ -5,6 +5,10 @@
 all: histo
 clean:
 	rm -f histo.yaml rpicom.yaml com20200101.yaml *.pser
+specs.html: frpicom.php
+	php frpicom.php specs > $@
+mvtserreurs.html: frpicom.php
+	php frpicom.php mvtserreurs > $@
 # Vérif. de histo / son schéma
 histo: histo.yaml exhisto
 	php check.php comhisto/insee2/histo

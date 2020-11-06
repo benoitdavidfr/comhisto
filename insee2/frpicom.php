@@ -2,91 +2,96 @@
 /*PhpDoc:
 name: frpicom.php
 title: frpicom.php - fabrication du fichier rpicom.yaml par exploitation des mouvements Insee et de l'état au 1/1/2020
-doc: |
-  réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
-  Ce script permet:
-    - diverses visualisations des données de mouvement (fichier brut, doublons, évts groupés, mouvements interprétés),
-    - l'affichage de specs
-    - l'extraction des lignes non conformes aux specs,
-    - la fabrication et l'affichage du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
-    - le test de la cohérence entre les états avant et après du Rpicom
-    - la fabrication et l'enregistrement du Rpicom
-
-  Le fichier mvtcommune2020 est constitué d'un ensemble de lignes.
-  J'appelle mouvement un regroupement de ces lignes qui correspond à une opération logique, ex création d'une commune nouvelle.
-    
-  Par ailleurs, la notion d'évènement est définie dans le Rpicom comme une opération sur un code Insee particulier qui permet
-  de passer d'un état à un autre. Par exemple la création d'une commune nouvelle peut être définie par:
-    - l'évènement suivant sur le code Insee du chef-lieu (01015): { prendPourDéléguées: ['01015', '01340'] }
-    - l'évènement suivant sur le code Insee de l'autre commune (01340): { devientDéléguéeDe: '01015' }
-  Ici, le mouvement de création d'une commune nouvelle est donc décomposé en 2 évènements.
-
-  La principale difficulté de cette démarche est la quasi-absence de spécifications du fichier des mouvements
-  qui se résument à 2 exemples simples alors qu'il existe des cas assez complexes.
-  Un autre difficulté est l'existence de non-conformités mais il est quasiment impossible de les expliciter en raison de l'absence 
-  de spécifications.
-  Enfin, une autre difficulté est l'incohérence entre certains mouvements qui devraient s'enchainer.
-  
-  Pour avancer, j'ai cherché à rédiger des spécifications du fichier.
-
-  J'ai identifié des non-conformités par rapport à ces spécifications:
-    - le seul type de mvts 70
-    - 38 chgts de nom
-  Ces non-conformités sont affichées en utilisant l'action ?action=mvtserreurs
-
-  J'ai détecté une anomalie sur la création de la commune nouvelle de Brantôme en Périgord (24064) au 1/1/2019, voir 24064.yaml
-  Idem Mesnils-sur-Iton/Damville (27198) au 1/1/2019
-  Code spécifique intégré le 2/11/2020 pour corriger cette anomalie.
-  Je ne sais pas s'il s'agit ou non d'une non-conformité.
-  
-  J'ai aussi détecté des incohérences entre mouvements:
-    - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
-      - code spécifique de correction intégré le 3/11/2020
-    - Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064
-      - code spécifique de correction intégré le 4/11/2020
-    - avant le rétablissement du 1/1/2014 Bois-Guillaume-Bihorel (76108) a une déléguée propre
-      - code spécifique de correction intégré le 4/11/2020
-
-
-  Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom.
-  Ce test permet d'une certaine façon de valider la cohérence de la démarche.
-  J'ai été obligé de rajouter du code spécifique pour la gestion des Ardts de Lyon car la référénce à Lyon n'est pas dans les mvts.
-  Par contre, je n'ai pas modifié la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans
-  le 5ème Ardt car il faudra de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
-
-  La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
-
-  Bugs:
-    - 04155@1978-01-01 ne devrait pas associer 04114 qui l'est déjà
-
-  A FAIRE:
-    - améliorer les specs
-
-journal: |
-  5/11/2020:
-    - définition du schéma de histo et alignement de rpicom sur ce schéma
-    - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
-  4/11/2020:
-    - implem du Cas de rattachement d'une commune nouvelle à une commune simple
-    - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
-    - correction incohérence sur Gonaincourt et Bois-Guillaume
-    - correction du Rpicom par ajout des crat des ardts de Lyon vers Lyon (69123) qui ne peuvent pas être déduites des mouvements.
-    - il ne reste plus d'erreurs tavap
-  3/11/2020:
-    - améliorations
-  29/10/2020:
-    - rédaction des spécifications du fichier des mouvements sur les communes
-  27/10/2020:
-    - 1ère version un peu complète à améliorer encore
-  23/10/2020:
-    - début de construction Rpicom
-  20/10/2020:
-    - création
+doc: Voir PHPDOC
 includes:
 screens:
 classes:
 functions:
 */
+{define('PHPDOC', [
+  'title'=> "frpicom.php - fabrication du fichier rpicom.yaml par exploitation des mouvements Insee et de l'état au 1/1/2020",
+  'doc'=> "
+    réécriture de l'interprétation des lignes du fichier mvtcommune2020 de ../insee/
+    Ce script permet:
+      - diverses visualisations des données de mouvement (fichier brut, doublons, évts groupés, mouvements interprétés),
+      - l'affichage de specs
+      - l'extraction des lignes non conformes aux specs,
+      - la fabrication et l'affichage du Rpicom, cad l'historique par code Insee et par date en ordre chrono inverse
+      - le test de la cohérence entre les états avant et après du Rpicom
+      - la fabrication et l'enregistrement du Rpicom
+
+    Le fichier mvtcommune2020 est constitué d'un ensemble de lignes.
+    J'appelle mouvement un regroupement de ces lignes qui correspond à une opération logique, ex création d'une commune nouvelle.
+    
+    Par ailleurs, la notion d'évènement est définie dans le Rpicom comme une opération sur un code Insee particulier qui permet
+    de passer d'un état à un autre. Par exemple la création d'une commune nouvelle peut être définie par:
+      - l'évènement suivant sur le code Insee du chef-lieu (01015): { prendPourDéléguées: ['01015', '01340'] }
+      - l'évènement suivant sur le code Insee de l'autre commune (01340): { devientDéléguéeDe: '01015' }
+    Ici, le mouvement de création d'une commune nouvelle est donc décomposé en 2 évènements.
+
+    La principale difficulté de cette démarche est la quasi-absence de spécifications du fichier des mouvements
+    qui se résument à 2 exemples simples alors qu'il existe des cas assez complexes.
+    Un autre difficulté est l'existence de non-conformités mais il est quasiment impossible de les expliciter en raison de l'absence 
+    de spécifications.
+    Enfin, une autre difficulté est l'incohérence entre certains mouvements qui devraient s'enchainer.
+  
+    Pour avancer, j'ai cherché à rédiger des spécifications du fichier.
+
+    J'ai identifié des non-conformités par rapport à ces spécifications:
+      - le seul type de mvts 70
+      - 38 chgts de nom
+    Ces non-conformités sont affichées en utilisant l'action ?action=mvtserreurs
+
+    J'ai détecté une anomalie sur la création de la commune nouvelle de Brantôme en Périgord (24064) au 1/1/2019, voir 24064.yaml
+    Idem Mesnils-sur-Iton/Damville (27198) au 1/1/2019
+    Code spécifique intégré le 2/11/2020 pour corriger cette anomalie.
+    Je ne sais pas s'il s'agit ou non d'une non-conformité.
+  
+    J'ai aussi détecté des incohérences entre mouvements:
+      - Ronchères (89325/89344) et Septfonds (89389/89344), voir 89344.yaml
+        - code spécifique de correction intégré le 3/11/2020
+      - Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064
+        - code spécifique de correction intégré le 4/11/2020
+      - avant le rétablissement du 1/1/2014 Bois-Guillaume-Bihorel (76108) a une déléguée propre
+        - code spécifique de correction intégré le 4/11/2020
+
+
+    Dans un souci de cohérence du Rpicom, j'ai mis en place un test de la cohérence entre les états avant et après du Rpicom.
+    Ce test permet d'une certaine façon de valider la cohérence de la démarche.
+    J'ai été obligé de rajouter du code spécifique pour la gestion des Ardts de Lyon car la référénce à Lyon n'est pas dans les mvts.
+    Par contre, je n'ai pas modifié la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans
+    le 5ème Ardt car il faudra de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
+
+    La mise à jour du 13/5/2020 rend le fichier invalide. Je ne l'utilise donc pas.
+
+    Bugs:
+      - 04155@1978-01-01 ne devrait pas associer 04114 qui l'est déjà
+
+    A FAIRE:
+      - améliorer les specs
+  ",
+  'journal'=> "
+    5/11/2020:
+      - définition du schéma de histo et alignement de rpicom sur ce schéma
+      - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
+    4/11/2020:
+      - implem du Cas de rattachement d'une commune nouvelle à une commune simple
+      - implem du cas unique de fusion de 2 communes nouvelles: 49101->49018@2016-01-01, voir 49018.yaml
+      - correction incohérence sur Gonaincourt et Bois-Guillaume
+      - correction du Rpicom par ajout des crat des ardts de Lyon vers Lyon (69123) qui ne peuvent pas être déduites des mouvements.
+      - il ne reste plus d'erreurs tavap
+    3/11/2020:
+      - améliorations
+    29/10/2020:
+      - rédaction des spécifications du fichier des mouvements sur les communes
+    27/10/2020:
+      - 1ère version un peu complète à améliorer encore
+    23/10/2020:
+      - début de construction Rpicom
+    20/10/2020:
+      - création
+  ",
+]);}
 ini_set('memory_limit', '2G');
 
 require_once __DIR__.'/../../../vendor/autoload.php';
@@ -98,6 +103,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 if (php_sapi_name() <> 'cli') { // Menu en NON CLI
   if (!isset($_GET['action'])) {
     echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom</title></head><body>\n";
+    echo "<a href='?action=phpdoc'>Affichage de la doc</a><br>\n";
     echo "<a href='?action=specs'>Affichage des specs</a><br>\n";
     echo "<a href='?action=showPlainEvts'>Affichage des evts Insee simplement</a><br>\n";
     echo "<a href='?action=doublons'>Affichage des evts Insee en doublon</a><br>\n";
@@ -120,6 +126,7 @@ else { // Menu en CLI
     echo " où {option} peut prendre les valeurs suivantes:\n";
     echo "  - enregistreRpicom : pour enregistrer le Rpicom dans rpicom.yaml\n";
     echo "  - specs : pour générer le fichier Html des specs\n";
+    echo "  - mvtserreurs : pour générer le fichier Html des mvts non conformes aux specs\n";
     die();
   }
   else {
@@ -127,6 +134,13 @@ else { // Menu en CLI
     if ($_GET['action']=='specs')
       echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>frpicom $_GET[action]</title></head><body><pre>\n";
   }
+}
+
+if ($_GET['action'] == 'phpdoc') {
+  //print_r($phpDoc);
+  foreach (PHPDOC as $key => $label)
+    echo "<h3>$key</h3> $label";
+  die();
 }
 
 { // Les types d'évènements et leur libellé Insee
@@ -1492,12 +1506,6 @@ if ($_GET['action'] == 'showEvts') {
   die("Fin $_GET[action]\n");
 }
 
-if ($_GET['action'] == 'mvtserreurs') {
-  //print_r(Mvt::$mvtsErreurs);
-  foreach (Mvt::$mvtsErreurs as $mvtsErreur)
-    showEvts($mvtsErreur['date_eff'], $mvtsErreur['mod'], $mvtsErreur['evts']);
-}
-
 if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // initialisation de $rpicoms
   $coms = Yaml::parseFile(__DIR__.'/com20200101.yaml');
   $rpicoms = [];
@@ -1534,6 +1542,13 @@ foreach ($evts as $date_eff => $evts1) {
       }
     }
   }
+}
+
+if ($_GET['action'] == 'mvtserreurs') {
+  //print_r(Mvt::$mvtsErreurs);
+  foreach (Mvt::$mvtsErreurs as $mvtsErreur)
+    showEvts($mvtsErreur['date_eff'], $mvtsErreur['mod'], $mvtsErreur['evts']);
+  die();
 }
 
 if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corrections sur Rpicom
