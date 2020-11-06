@@ -154,19 +154,19 @@ La correction du 13/5/2020 n'a pas été prise en compte car elle crée une erre
 Une difficulté importante rencontrée est l'insuffisance des spécifications du fichier.
 Je n'ai trouvé qu'une description courte et 2 exemples simples dans https://www.insee.fr/fr/information/4316069
 alors que certains cas sont beaucoup plus compliqués.  
-Un document de spécifications du fichier est en cours d'écriture
+J'ai commencé à écrire un document de spécifications
 pour lequel un premier brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
 ### Lignes du fichier des mouvements non interprétés car non conformes
 Les lignes [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html)
 n'ont pu être interprétées.
-Dans ce document, le champ nol correspond au numéro de ligne dans le fichier.
+Dans ce document, le champ *nol* correspond au numéro de ligne dans le fichier.
 
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
-Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
-et de rétablissement le 1977-01-01 sont incompatibles.  
+Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par le fichier d'association le 1/12/1972
+et de rétablissement le 1/1/1977 sont incompatibles.  
 Les mouvements du 1/1/1977 sur Ronchères (89325) et Septfonds (89389) sont transformés en resteRattachéeA.  
-Ma compréhension est qu'il manque dans le fichier les 2 lignes suivantes:
+Ma compréhension de cette difficulté est qu'il manque dans le fichier les 2 lignes suivantes :
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
@@ -175,7 +175,7 @@ Ma compréhension est qu'il manque dans le fichier les 2 lignes suivantes:
 
 ### Correction d'un mouvement sur Gonaincourt (52224)
 Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064.    
-Ma compréhension est qu'il manque dans le fichier la ligne suivante:
+Ma compréhension est qu'il manque dans le fichier la ligne suivante :
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
@@ -183,28 +183,27 @@ Ma compréhension est qu'il manque dans le fichier la ligne suivante:
 
 ### Correction d'un mouvement sur Bois-Guillaume-Bihorel (76108)
 Avant son rétablissement du 1/1/2014, Bois-Guillaume-Bihorel (76108) a une commune déléguée ayant le même code.    
-Ma compréhension est qu'il manque dans le fichier la ligne suivante:
+Ma compréhension est qu'il manque dans le fichier la ligne suivante :
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av    | typecom_ap | com_ap | libelle_ap    |
 | --- | ---------- | ---------- | ------ | ------------- | ---------- | ------ | ------------- |
 | 21  | 2014-01-01 |   COMD     | 76108  | Bois-Guillaume|    COM     | 76108  | Bois-Guillaume|
 
 
-### Redéfinition des évènements sur les arrondissements de Lyon
-Au delà de la conformité aux spécifications, il existe quelques cas qui posent des difficultés
-et qui ont été corrigés.
+### Sortie de Saint-Barthélemy et de Saint-Martin du référentiel
+Au delà de la conformité aux spécifications, il existe quelques cas qui posent des difficultés et qui ont été corrigés.
 
-Pour intégrer:
+Tout d'abord,
+Saint-Barthélemy (97123) et Saint-Martin (97127) sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
 
-- la scission en 2 du 7ème arrdt le 8/2/1959 pour créer le 8ème arrdt,
-- l'absorbtion de Saint-Rambert-l'Île-Barbe (69232) le 7/8/1963 dans dans le 5ème arrdt,
-- la scission en 2 du 5ème arrdt le 12/8/1964 pour créer le 9ème arrdt.
+### Entrée des communes de Mayotte dans le référentiel au 31 mars 2011
+Ensuite,
+les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
 
-### Saint-Martin et Saint-Barthélemy
-Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
+### Fusion de Saint-Rambert-l'Île-Barbe (69232) dans Lyon
+Enfin, le fichier indique que Saint-Rambert-l'Île-Barbe (69232) a été fusionné dans Lyon le 7/8/1963.
+Il est plus précis d'indiquer que cette fusion a été effectuée dans le 5ème arrondissement.
 
-### Mayotte
-Les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
