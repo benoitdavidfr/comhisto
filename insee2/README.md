@@ -149,7 +149,7 @@ Cette propriété est absente si ces infos ne sont pas déduites.
 ## Liste des modifications apportées aux données Insee
 
 ### Lignes du fichier des mouvements non interprétés car non comprises
-Ces lignes sont [listées ici](mvtserreurs.html).
+Ces lignes sont [listées ici](http://rawgit.com/benoitdavidfr/comhisto/master/mvtserreurs.html).
 
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
 Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
