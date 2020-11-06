@@ -146,10 +146,11 @@ est définie pour les communes simples en ayant. Ces infos sont déduites du sta
 Cette propriété est absente si ces infos ne sont pas déduites.
 
 
-## Liste des modifications apportées aux données Insee
+## Difficultés recontrées lors de la lecture de mvtcommune2020
+Le fichier utilisé a été téléchargé le 20/2/2020.
 
 ### Lignes du fichier des mouvements non interprétés car non comprises
-Ces lignes sont [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html).
+Ces lignes sont [listées ici](https://benoitdavidfr.github.io/comhisto/mvtserreurs.html).  
 
 ### Correction des mouvements sur Ronchères (89325) et Septfonds (89389)
 Sur Ronchères (89325) et Septfonds (89389) les mouvements définis par l'Insee d'association le 1972-12-01
@@ -192,6 +193,10 @@ Saint-Martin et Saint-Barthélemy sortent du référentiel le 15 juillet 2007 ca
 ### Mayotte
 Les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
 
+### Spécifications du fchier
+Une difficulté importante rencontrée est l'insuffisance des spécifications du fchier.
+Un document de spécifications du fichier est en cours d'écriture.
+Un brouillon [est disponible ici](https://benoitdavidfr.github.io/comhisto/specs.html).
 
 ## Extrait
 L'extrait ci-dessous illustre le contenu du référentiel.
