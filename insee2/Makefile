@@ -5,10 +5,11 @@
 all: histo
 clean:
 	rm -f histo.yaml rpicom.yaml com20200101.yaml *.pser
+# Génération des fichiers html et déplacement dans ../docs/ utilisé par GitHub Pages
 specs.html: frpicom.php
-	php frpicom.php specs > $@
+	php frpicom.php specs > $@ ; mv $@ ../docs/
 mvtserreurs.html: frpicom.php
-	php frpicom.php mvtserreurs > $@
+	php frpicom.php mvtserreurs > $@ ; mv $@ ../docs/
 # Vérif. de histo / son schéma
 histo: histo.yaml exhisto
 	php check.php comhisto/insee2/histo
