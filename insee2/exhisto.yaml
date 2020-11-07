@@ -87,10 +87,13 @@ $schema:
         fusionneDans:
           description: |
             entité supprimée par fusion de son territoire dans une autre dont le code est en param. (mirroir absorbe).
-            Le cas particulier de la fusion de 2 entités pour en créer une nouvelle est traduit par changeDeCodePour+absorbe
+            Le cas particulier de la fusion de 2 entités pour en créer une nouvelle est traduit par absorbe+changeDeCodePour
           $ref: '#/definitions/codeInsee'
         absorbe:
-          description: entité en absorbant d'autres (mirroir déduit de fusionneDans)
+          description: |
+            entité en absorbant d'autres (mirroir déduit de fusionneDans)
+            On trouve le cas particulier d'une commune déléguée propre absorbée par sa crat, ce qui signifie une suppression
+            de la déléguée propre ; dans ce cas il n'y a pas d'évt fusionneDans correspondant.
           $ref: '#/definitions/listeDeCodesInsee'
         crééeCOMParScissionDe:
           description: c. simple créée par scission d'un e. existante avec son code (mirroir seScindePourCréer)

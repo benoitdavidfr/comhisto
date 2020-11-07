@@ -3,15 +3,7 @@
 name: cmphisto.php
 title: cmphisto.php - comparaison le fichier histo.yaml v2 avec le fichier histov.yaml v1
 doc: |
-  Erreurs détectées dans le nouveau histo:
-    - absence de l'évt gardeCommeAssociées
-    - gardeCommeAssociées -> associe 
-    - resteRattachée -> sAssocieA
-    * gardeCommeAssociées -> détacheCommeSimples (09306) - change la sémantique
-    - seDétacheDe+sAssocieA -> sAssocieA (14010,...)
-      - on peut considérer que dans un chgt d'association, il n'est pas nécessaire de se détacher avant
-    - resteDéléguéeDe -> devientDéléguéeDe
-    * 14472@2014-01-07 - manque l'association de 14010 - change la sémantique
+  De nbx écarts sont dus à la gestion de la déléguée propre mal gérée dans l'ancienne version
 journal: |
   6-7/11/2020:
     - création
@@ -67,10 +59,12 @@ function old2newFmt(string $cinsee, array $oldV): array {
   ];
   $evtKeyConv = [ // chgt de clé d'évt
     'resteAssociéeA' => 'resteRattachéeA',
+    'resteDéléguéeDe' => 'resteRattachéeA',
     'prendPourAssociées' => 'associe',
     'crééeCommeSimpleParScissionDe'=> 'crééeCOMParScissionDe',
     'crééeCommeAssociéeParScissionDe'=> 'crééeCOMAParScissionDe',
     'gardeCommeAssociées'=> 'gardeCommeRattachées',
+    'gardeCommeDéléguées'=> 'gardeCommeRattachées',
   ];
   $newV = [];
   if (isset($oldV['evts'])) {

@@ -506,11 +506,14 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
   }
   
   function buildRpicom(string $date_eff, array &$rpicoms): void {
-    $creeeIds = [];
-    $detacheeIds = [];
+    $creeeIds = []; // celles qui sont créées
+    $detacheeIds = []; // celles qui sont détachées
+    $inchangeeIds = []; // celles qui restent inchangées
     foreach ($this->entites as $entite) {
       if (!isset($entite['av']))
         $creeeIds[] = $entite['ap']['com'];
+      elseif ($entite['ap']['typecom'] == $entite['av']['typecom'])
+        $inchangeeIds[] = $entite['ap']['com'];
       else
         $detacheeIds[] = $entite['ap']['com'];
     }
@@ -519,7 +522,10 @@ class Retablissement extends Mvt { // 21 - Rétablissement - Je préfère plutô
         'statut'=> $this->source['ap']['typecom'],
         'name'=> $this->source['ap']['libelle'],
       ],
-      'évts'=> ($creeeIds ? ['seScindePourCréer'=> $creeeIds] : []) + ($detacheeIds ? ['détacheCommeSimples'=> $detacheeIds] : []),
+      'évts'=>
+        ($creeeIds ? ['seScindePourCréer'=> $creeeIds] : [])
+        + ($detacheeIds ? ['détacheCommeSimples'=> $detacheeIds] : [])
+        + ($inchangeeIds ? ['gardeCommeRattachées'=> $inchangeeIds] : []),
       'état'=> [
         'statut'=> $this->source['av']['typecom'],
         'name'=> $this->source['av']['libelle'],
@@ -939,10 +945,19 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
             'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
           ],
         ]);
-
         return;
       }
-      elseif (isset($fusionnees[$codeCheflieuAp]) && isset($rattachees[$codeCheflieuAp])) { // modif. d'une commune nouvelle existante
+      
+      // après traitement des 3 cas particuliers ci-dessus, j'ai le cas général avec 3 cas de figure
+      $resteRats = []; // celles qui restent rattachées
+      $nouvRats = []; // les nouvelles rattachées et qui passent de COMA à COMD
+      foreach ($rattachees as $rcom => $rattachee) {
+        if ($rattachee['av']['typecom'] == $rattachee['ap']['typecom']) // elle est déjà rattachée donc elle resteRattachéeA
+          $resteRats[$rcom] = 1;
+        else // sinon c'est une nouvelle rattachée
+          $nouvRats[$rcom] = 1;
+      }
+      if (isset($fusionnees[$codeCheflieuAp]) && isset($rattachees[$codeCheflieuAp])) { // modif. d'une commune nouvelle existante
         setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
@@ -951,7 +966,8 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           ],
           'évts'=> ['type'=> $typeLabel, 'type2'=> 'modificationComNouvelle']
               + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
-              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+              + ($nouvRats? [$rattacheLabel => array_keys($nouvRats)]:[])
+              + ($resteRats? ['gardeCommeRattachées' => array_keys($resteRats)]:[]),
           'état'=> [
             'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
@@ -970,7 +986,8 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           ],
           'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleAvecCréationDeDéléguePropre']
               + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
-              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+              + ($nouvRats? [$rattacheLabel => array_keys($nouvRats)]:[])
+              + ($resteRats? ['gardeCommeRattachées' => array_keys($resteRats)]:[]),
           'état'=> [
             'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
@@ -984,9 +1001,10 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
             'statut'=> $this->cheflieu['ap']['typecom'],
             'name'=> $this->cheflieu['ap']['libelle'],
           ],
-          'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleSsDéléguePropreOuAssociationOuFusion']
+          'évts'=> ['type'=> $typeLabel, 'type2'=> 'comNouvelleSsDéléguePropreOuAssociationOuFusion']
               + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
-              + ($rattachees? [$rattacheLabel => array_keys($rattachees)]:[]),
+              + ($nouvRats? [$rattacheLabel => array_keys($nouvRats)]:[])
+              + ($resteRats? ['gardeCommeRattachées' => array_keys($resteRats)]:[]),
           'état'=> [
             'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $fusionnees[$codeCheflieuAp]['av']['libelle'],
@@ -1353,7 +1371,7 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
       ],
       'évts'=> [
         'type'=> 'chgtCodeDuATransfChefLieu(50)', 'type2'=>'ancienChefLieu',
-        'détacheCommeSimples'=> [$this->cheflieu_ap['av']['com']] + $rattachees_ap,
+        'détacheCommeSimples'=> array_merge($rattachees_ap, [$this->cheflieu_ap['av']['com']]),
         $seRattacheALabel => $this->cheflieu_ap['ap']['com'],
       ],
       'état'=> [
@@ -1361,6 +1379,7 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
         'name'=> $this->cheflieu_av['av']['libelle'],
       ],
     ]);
+    sort($rpicoms[$this->cheflieu_av['ap']['com']][$date_eff]['évts']['détacheCommeSimples']);
     // Nouveau chef-lieu
     $rattacheLabel = [
       'COMA'=> 'associe',
@@ -1373,7 +1392,8 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
       ],
       'évts'=> [
         'type'=> 'chgtCodeDuATransfChefLieu(50)', 'type2'=>'nouveauChefLieu',
-        'seDétacheDe'=> $this->cheflieu_av['av']['com'], $rattacheLabel => [$this->cheflieu_av['ap']['com']] + $rattachees_ap,
+        'seDétacheDe'=> $this->cheflieu_av['av']['com'],
+        $rattacheLabel => array_merge($rattachees_ap, [$this->cheflieu_av['ap']['com']]),
       ],
       'état'=> [
         'statut'=> $this->cheflieu_ap['av']['typecom'],
@@ -1381,6 +1401,7 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
         'crat'=> $this->cheflieu_av['av']['com'],
       ],
     ]);
+    sort($rpicoms[$this->cheflieu_ap['ap']['com']][$date_eff]['évts'][$rattacheLabel]);
     // Chgt de rattachement
     foreach ($this->rattachees as $rattachee) {
       $seRattacheALabel = [
@@ -1393,7 +1414,10 @@ class ChgtCodeDuATransfChefLieu extends Mvt { // 50 - Changement de code dû à 
           'name'=> $rattachee['ap']['libelle'],
           'crat'=> $this->cheflieu_ap['ap']['com'],
         ],
-        'évts'=> ['type'=> 'chgtCodeDuATransfChefLieu(50)', $seRattacheALabel => $this->cheflieu_ap['ap']['com']],
+        'évts'=> [
+          'type'=> 'chgtCodeDuATransfChefLieu(50)',
+          'seDétacheDe'=> $this->cheflieu_av['av']['com'],
+          $seRattacheALabel => $this->cheflieu_ap['ap']['com']],
         'état'=> [
           'statut'=> $rattachee['av']['typecom'],
           'name'=> $rattachee['av']['libelle'],

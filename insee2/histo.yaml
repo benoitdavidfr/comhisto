@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T11:09:13+00:00'
+created: '2020-11-07T13:41:46+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -4304,7 +4304,7 @@ contents:
       état: { statut: COM, name: Tergnier }
       erat: ['02300', '02825']
     '1992-01-01':
-      évts: { associe: ['02300', '02630', '02825'] }
+      évts: { associe: ['02630'], gardeCommeRattachées: ['02300', '02825'] }
       état: { statut: COM, name: Tergnier }
       erat: ['02300', '02630', '02825']
   '02739':
@@ -6352,7 +6352,7 @@ contents:
       état: { statut: COM, name: Prads }
       erat: ['04114']
     '1978-01-01':
-      évts: { associe: ['04029', '04114'] }
+      évts: { associe: ['04029'], gardeCommeRattachées: ['04114'] }
       état: { statut: COM, name: Prads-Haute-Bléone }
       erat: ['04029', '04114']
     '1987-05-01':
@@ -10598,7 +10598,7 @@ contents:
       état: { statut: COM, name: Rocquigny-la-Hardoye }
       erat: ['08213']
     '1974-05-01':
-      évts: { associe: ['08213', '08265', '08266'] }
+      évts: { associe: ['08265', '08266'], gardeCommeRattachées: ['08213'] }
       état: { statut: COM, name: Rocquigny }
       erat: ['08213', '08265', '08266']
   '08367':
@@ -12150,7 +12150,7 @@ contents:
       état: { statut: COM, name: Tarascon-sur-Ariège }
       erat: ['09036', '09092']
     '1981-01-01':
-      évts: { détacheCommeSimples: ['09036', '09092'] }
+      évts: { détacheCommeSimples: ['09092'], gardeCommeRattachées: ['09036'] }
       état: { statut: COM, name: Tarascon-sur-Ariège }
       erat: ['09036']
   '09307':
@@ -18207,10 +18207,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Ammeville, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Ammeville, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Ammeville, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -18461,10 +18461,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Berville, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Berville, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Berville, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -19236,10 +19236,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Écots, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Écots, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Écots, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -19493,10 +19493,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Garnetot, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Garnetot, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Garnetot, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -19582,10 +19582,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Grandmesnil, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Grandmesnil, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Grandmesnil, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -19835,10 +19835,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Lieury, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Lieury, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Lieury, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -20237,10 +20237,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Montpinçon, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Montpinçon, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Montpinçon, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -20354,10 +20354,10 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Notre-Dame-de-Fresnay, crat: 14624 }
     '1990-02-01':
-      évts: { sAssocieA: 14697 }
+      évts: { seDétacheDe: 14624, sAssocieA: 14697 }
       état: { statut: COMA, name: Notre-Dame-de-Fresnay, crat: 14697 }
     '2014-01-07':
-      évts: { seDétacheDe: 14697, associe: [14697, 14067, 14234, 14295, 14314, 14363, 14447, 14624] }
+      évts: { seDétacheDe: 14697, associe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697] }
       état: { statut: COM, name: 'L''Oudon' }
       erat: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697]
     '2017-01-01':
@@ -20384,7 +20384,7 @@ contents:
       état: { statut: COM, name: Noyers-Missy, nomCommeDéléguée: Noyers-Bocage }
       erat: [14432, 14475]
     '2017-01-01':
-      évts: { prendPourDéléguées: [14373, 14432, 14475, 14702] }
+      évts: { prendPourDéléguées: [14373, 14702], gardeCommeRattachées: [14432, 14475] }
       état: { statut: COM, name: 'Val d''Arry', nomCommeDéléguée: Noyers-Bocage }
       erat: [14373, 14432, 14475, 14702]
   14476:
@@ -20869,7 +20869,7 @@ contents:
       état: { statut: COM, name: Seulline, nomCommeDéléguée: 'Saint-Georges-d''Aunay' }
       erat: [14188, 14579]
     '2017-01-01':
-      évts: { prendPourDéléguées: [14073, 14188, 14579] }
+      évts: { prendPourDéléguées: [14073], gardeCommeRattachées: [14188, 14579] }
       état: { statut: COM, name: Seulline, nomCommeDéléguée: 'Saint-Georges-d''Aunay' }
       erat: [14073, 14188, 14579]
   14580:
@@ -21089,10 +21089,10 @@ contents:
       état: { statut: COM, name: 'L''Oudon' }
       erat: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14697]
     '1990-02-01':
-      évts: { détacheCommeSimples: [14697, 14067, 14234, 14295, 14314, 14363, 14447, 14472], sAssocieA: 14697 }
+      évts: { détacheCommeSimples: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14697], sAssocieA: 14697 }
       état: { statut: COMA, name: Saint-Martin-de-Fresnay, crat: 14697 }
     '2014-01-07':
-      évts: { sAssocieA: 14472 }
+      évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Saint-Martin-de-Fresnay, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -21435,11 +21435,11 @@ contents:
       évts: { sAssocieA: 14624 }
       état: { statut: COMA, name: Tôtes, crat: 14624 }
     '1990-02-01':
-      évts: { seDétacheDe: 14624, associe: [14624, 14067, 14234, 14295, 14314, 14363, 14447, 14472] }
+      évts: { seDétacheDe: 14624, associe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624] }
       état: { statut: COM, name: 'L''Oudon' }
       erat: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624]
     '2014-01-07':
-      évts: { détacheCommeSimples: [14472, 14067, 14234, 14295, 14314, 14363, 14447, 14624], sAssocieA: 14472 }
+      évts: { détacheCommeSimples: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624], sAssocieA: 14472 }
       état: { statut: COMA, name: Tôtes, crat: 14472 }
     '2017-01-01':
       évts: { fusionneDans: 14654 }
@@ -21763,7 +21763,7 @@ contents:
       état: { statut: COM, name: Ally }
       erat: [15024, 15062]
     '1985-10-01':
-      évts: { détacheCommeSimples: [15024, 15062] }
+      évts: { détacheCommeSimples: [15024], gardeCommeRattachées: [15062] }
       état: { statut: COM, name: Ally }
       erat: [15062]
   15004:
@@ -22940,7 +22940,7 @@ contents:
       état: { statut: COM, name: 'Côteaux du Blanzacais', nomCommeDéléguée: Blanzac-Porcheresse }
       erat: [16046, 16115]
     '2019-01-01':
-      évts: { prendPourDéléguées: [16046, 16115, 16332] }
+      évts: { prendPourDéléguées: [16332], gardeCommeRattachées: [16046, 16115] }
       état: { statut: COM, name: Coteaux-du-Blanzacais, nomCommeDéléguée: Blanzac-Porcheresse }
       erat: [16046, 16115, 16332]
   16047:
@@ -23881,7 +23881,7 @@ contents:
       état: { statut: COM, name: Rouillac, nomCommeDéléguée: Rouillac }
       erat: [16262, 16286, 16371]
     '2019-01-01':
-      évts: { prendPourDéléguées: [16156, 16262, 16286, 16371] }
+      évts: { prendPourDéléguées: [16156], gardeCommeRattachées: [16262, 16286, 16371] }
       état: { statut: COM, name: Rouillac, nomCommeDéléguée: Rouillac }
       erat: [16156, 16262, 16286, 16371]
   16287:
@@ -27963,7 +27963,7 @@ contents:
       état: { statut: COM, name: Ussel }
       erat: [19197]
     '1977-01-01':
-      évts: { associe: [19197, 19267] }
+      évts: { associe: [19267], gardeCommeRattachées: [19197] }
       état: { statut: COM, name: Ussel }
       erat: [19197, 19267]
   19276:
@@ -32556,7 +32556,7 @@ contents:
       état: { statut: COM, name: Lamballe, nomCommeDéléguée: Lamballe }
       erat: [22093, 22151]
     '2019-01-01':
-      évts: { prendPourDéléguées: [22093, 22151, 22154, 22173] }
+      évts: { prendPourDéléguées: [22154, 22173], gardeCommeRattachées: [22093, 22151] }
       état: { statut: COM, name: Lamballe-Armor, nomCommeDéléguée: Lamballe }
       erat: [22093, 22151, 22154, 22173]
   22094:
@@ -34817,7 +34817,7 @@ contents:
       état: { statut: COM, name: 'Boulazac Isle Manoire', nomCommeDéléguée: Boulazac }
       erat: [24013, 24053, 24439]
     '2017-01-01':
-      évts: { prendPourDéléguées: [24013, 24053, 24439, 24447] }
+      évts: { prendPourDéléguées: [24447], gardeCommeRattachées: [24013, 24053, 24439] }
       état: { statut: COM, name: 'Boulazac Isle Manoire', nomCommeDéléguée: Boulazac }
       erat: [24013, 24053, 24439, 24447]
   24054:
@@ -34858,7 +34858,7 @@ contents:
       état: { statut: COM, name: 'Brantôme en Périgord', nomCommeDéléguée: Brantôme }
       erat: [24064, 24430]
     '2019-01-01':
-      évts: { absorbe: [24430], prendPourDéléguées: [24064, 24079, 24170, 24198, 24391, 24530, 24561] }
+      évts: { absorbe: [24430], prendPourDéléguées: [24079, 24170, 24198, 24391, 24530, 24561], gardeCommeRattachées: [24064] }
       état: { statut: COM, name: 'Brantôme en Périgord', nomCommeDéléguée: 'Brantôme en Périgord' }
       erat: [24064, 24079, 24170, 24198, 24391, 24530, 24561]
   24065:
@@ -34884,7 +34884,7 @@ contents:
       état: { statut: COM, name: 'Le Buisson-de-Cadouin' }
       erat: [24072, 24315, 24560]
     '1989-02-15':
-      évts: { détacheCommeSimples: [24072, 24315, 24560] }
+      évts: { détacheCommeSimples: [24560], gardeCommeRattachées: [24072, 24315] }
       état: { statut: COM, name: 'Le Buisson-de-Cadouin' }
       erat: [24072, 24315]
   24069:
@@ -36063,7 +36063,7 @@ contents:
       état: { statut: COM, name: 'Sainte-Alvère-Saint-Laurent Les Bâtons', nomCommeDéléguée: Sainte-Alvère }
       erat: [24362, 24435]
     '2017-01-01':
-      évts: { prendPourDéléguées: [24092, 24362, 24435] }
+      évts: { prendPourDéléguées: [24092], gardeCommeRattachées: [24362, 24435] }
       état: { statut: COM, name: 'Val de Louyre et Caudeau', nomCommeDéléguée: Sainte-Alvère }
       erat: [24092, 24362, 24435]
   24363:
@@ -36976,7 +36976,7 @@ contents:
       état: { statut: COM, name: Amancey }
       erat: [25017, 25155, 25236, 25359]
     '1979-01-01':
-      évts: { détacheCommeSimples: [25017, 25155, 25236, 25359] }
+      évts: { détacheCommeSimples: [25017], gardeCommeRattachées: [25155, 25236, 25359] }
       état: { statut: COM, name: Amancey }
       erat: [25155, 25236, 25359]
     '1981-01-01':
@@ -38109,7 +38109,7 @@ contents:
       état: { statut: COM, name: Jallerange }
       erat: [25172, 25414]
     '1982-01-01':
-      évts: { détacheCommeSimples: [25172, 25414] }
+      évts: { détacheCommeSimples: [25172], gardeCommeRattachées: [25414] }
       état: { statut: COM, name: Jallerange }
       erat: [25414]
     '1986-01-01':
@@ -40970,7 +40970,7 @@ contents:
       état: { statut: COM, name: Thénouville, nomCommeDéléguée: Bosc-Renoult-en-Roumois }
       erat: [27089, 27626]
     '2018-01-01':
-      évts: { prendPourDéléguées: [27089, 27626, 27657] }
+      évts: { prendPourDéléguées: [27657], gardeCommeRattachées: [27089, 27626] }
       état: { statut: COM, name: Thénouville, nomCommeDéléguée: Bosc-Renoult-en-Roumois }
       erat: [27089, 27626, 27657]
   27090:
@@ -41419,7 +41419,7 @@ contents:
       état: { statut: COM, name: Mesnils-sur-Iton, nomCommeDéléguée: Damville }
       erat: [27024, 27166, 27198, 27293, 27387, 27503]
     '2019-01-01':
-      évts: { absorbe: [27024, 27166, 27293, 27387, 27503], prendPourDéléguées: [27198, 27297, 27416, 27491] }
+      évts: { absorbe: [27024, 27166, 27293, 27387, 27503], prendPourDéléguées: [27297, 27416, 27491], gardeCommeRattachées: [27198] }
       état: { statut: COM, name: Mesnils-sur-Iton, nomCommeDéléguée: Mesnils-sur-Iton }
       erat: [27198, 27297, 27416, 27491]
   27199:
@@ -44255,7 +44255,7 @@ contents:
       état: { statut: COM, name: Maillebois }
       erat: [28043, 28125, 28351]
     '1982-01-01':
-      évts: { détacheCommeSimples: [28043, 28125, 28351] }
+      évts: { détacheCommeSimples: [28351], gardeCommeRattachées: [28043, 28125] }
       état: { statut: COM, name: Maillebois }
       erat: [28043, 28125]
   28227:
@@ -44953,7 +44953,7 @@ contents:
       état: { statut: COM, name: Eole-en-Beauce, nomCommeDéléguée: Viabon }
       erat: [28020, 28145, 28179, 28406]
     '2019-01-01':
-      évts: { prendPourDéléguées: [28020, 28145, 28179, 28406, 28412] }
+      évts: { prendPourDéléguées: [28412], gardeCommeRattachées: [28020, 28145, 28179, 28406] }
       état: { statut: COM, name: Éole-en-Beauce, nomCommeDéléguée: Viabon }
       erat: [28020, 28145, 28179, 28406, 28412]
   28407:
@@ -54146,7 +54146,7 @@ contents:
       état: { statut: COM, name: Hédé }
       erat: [35020, 35317]
     '2008-01-01':
-      évts: { détacheCommeSimples: [35020, 35317] }
+      évts: { détacheCommeSimples: [35317], gardeCommeRattachées: [35020] }
       état: { statut: COM, name: Hédé }
       erat: [35020]
     '2011-01-01':
@@ -55302,7 +55302,7 @@ contents:
       état: { statut: COM, name: Levroux, nomCommeDéléguée: Levroux }
       erat: [36093, 36201]
     '2019-01-01':
-      évts: { prendPourDéléguées: [36093, 36201, 36206] }
+      évts: { prendPourDéléguées: [36206], gardeCommeRattachées: [36093, 36201] }
       état: { statut: COM, name: Levroux, nomCommeDéléguée: Levroux }
       erat: [36093, 36201, 36206]
   36094:
@@ -59280,7 +59280,7 @@ contents:
       état: { statut: COM, name: Nanchez }
       erat: [39442]
     '2019-01-01':
-      évts: { prendPourDéléguées: [39417, 39442, 39562] }
+      évts: { prendPourDéléguées: [39417, 39562], gardeCommeRattachées: [39442] }
       état: { statut: COM, name: Nanchez }
       erat: [39417, 39442, 39562]
   39131:
@@ -59607,7 +59607,7 @@ contents:
       état: { statut: COM, name: 'Val-d''Épy', nomCommeDéléguée: 'Val d''Épy' }
       erat: [39209, 39226, 39382, 39509]
     '2018-01-01':
-      évts: { prendPourDéléguées: [39036, 39209, 39226, 39382, 39509] }
+      évts: { prendPourDéléguées: [39036], gardeCommeRattachées: [39209, 39226, 39382, 39509] }
       état: { statut: COM, name: 'Val-d''Épy', nomCommeDéléguée: 'Val d''Épy' }
       erat: [39036, 39209, 39226, 39382, 39509]
   39210:
@@ -59920,7 +59920,7 @@ contents:
       état: { statut: COM, name: Lavans-lès-Saint-Claude }
       erat: [39438]
     '2019-01-01':
-      évts: { prendPourDéléguées: [39286, 39438, 39440] }
+      évts: { prendPourDéléguées: [39286, 39440], gardeCommeRattachées: [39438] }
       état: { statut: COM, name: Lavans-lès-Saint-Claude, nomCommeDéléguée: Lavans-lès-Saint-Claude }
       erat: [39286, 39438, 39440]
   39287:
@@ -60307,7 +60307,7 @@ contents:
       état: { statut: COM, name: 'Les Trois Châteaux', nomCommeDéléguée: Nanc-lès-Saint-Amour }
       erat: [39023, 39135, 39378]
     '2019-01-01':
-      évts: { prendPourDéléguées: [39023, 39135, 39378, 39484] }
+      évts: { prendPourDéléguées: [39484], gardeCommeRattachées: [39023, 39135, 39378] }
       état: { statut: COM, name: 'Les Trois-Châteaux', nomCommeDéléguée: Nanc-lès-Saint-Amour }
       erat: [39023, 39135, 39378, 39484]
   39379:
@@ -62733,7 +62733,7 @@ contents:
       état: { statut: COM, name: Valencisse, nomCommeDéléguée: Molineuf }
       erat: [41142, 41169]
     '2017-01-01':
-      évts: { prendPourDéléguées: [41033, 41142, 41169] }
+      évts: { prendPourDéléguées: [41033], gardeCommeRattachées: [41142, 41169] }
       état: { statut: COM, name: Valencisse, nomCommeDéléguée: Molineuf }
       erat: [41033, 41142, 41169]
   41143:
@@ -71142,7 +71142,7 @@ contents:
       état: { statut: COM, name: Chemillé-Melay, nomCommeDéléguée: Chemillé }
       erat: [49092, 49199]
     '2015-12-15':
-      évts: { absorbe: [49146], prendPourDéléguées: [49071, 49074, 49092, 49111, 49153, 49169, 49199, 49225, 49268, 49281, 49300, 49325, 49351] }
+      évts: { absorbe: [49146], prendPourDéléguées: [49071, 49074, 49111, 49153, 49169, 49225, 49268, 49281, 49300, 49325, 49351], gardeCommeRattachées: [49092, 49199] }
       état: { statut: COM, name: Chemillé-en-Anjou, nomCommeDéléguée: Chemillé }
       erat: [49071, 49074, 49092, 49111, 49153, 49169, 49199, 49225, 49268, 49281, 49300, 49325, 49351]
   49093:
@@ -71889,7 +71889,7 @@ contents:
       état: { statut: COM, name: Morannes-sur-Sarthe }
       erat: [49093]
     '2017-01-01':
-      évts: { prendPourDéléguées: [49093, 49119] }
+      évts: { prendPourDéléguées: [49119], gardeCommeRattachées: [49093] }
       état: { statut: COM, name: 'Morannes sur Sarthe-Daumeray' }
       erat: [49093, 49119]
   49221:
@@ -73102,11 +73102,11 @@ contents:
       état: { statut: COM, name: Jullouville }
       erat: [50102, 50526, 50532]
     '1978-01-01':
-      évts: { détacheCommeSimples: [50102, 50526, 50532] }
+      évts: { détacheCommeSimples: [50532], gardeCommeRattachées: [50102, 50526] }
       état: { statut: COM, name: Jullouville }
       erat: [50102, 50526]
     '2000-01-01':
-      évts: { détacheCommeSimples: [50102, 50526] }
+      évts: { détacheCommeSimples: [50102], gardeCommeRattachées: [50526] }
       état: { statut: COM, name: Jullouville }
       erat: [50526]
   50067:
@@ -73264,11 +73264,11 @@ contents:
       état: { statut: COM, name: 'Carentan les Marais', nomCommeDéléguée: Carentan }
       erat: [50010, 50099, 50249, 50458]
     '2017-01-01':
-      évts: { prendPourDéléguées: [50010, 50080, 50099, 50249, 50458, 50534, 50631] }
+      évts: { prendPourDéléguées: [50080, 50534, 50631], gardeCommeRattachées: [50010, 50099, 50249, 50458] }
       état: { statut: COM, name: 'Carentan les Marais', nomCommeDéléguée: Carentan }
       erat: [50010, 50080, 50099, 50249, 50458, 50534, 50631]
     '2019-01-01':
-      évts: { prendPourDéléguées: [50010, 50080, 50089, 50099, 50107, 50249, 50348, 50458, 50485, 50534, 50631, 50636] }
+      évts: { prendPourDéléguées: [50089, 50107, 50348, 50485, 50636], gardeCommeRattachées: [50010, 50080, 50099, 50249, 50458, 50534, 50631] }
       état: { statut: COM, name: Carentan-les-Marais, nomCommeDéléguée: Carentan }
       erat: [50010, 50080, 50089, 50099, 50107, 50249, 50348, 50458, 50485, 50534, 50631, 50636]
   50100:
@@ -73475,7 +73475,7 @@ contents:
       état: { statut: COM, name: Condé-sur-Vire, nomCommeDéléguée: Condé-sur-Vire }
       erat: [50139, 50319]
     '2017-01-01':
-      évts: { prendPourDéléguées: [50139, 50319, 50608] }
+      évts: { prendPourDéléguées: [50608], gardeCommeRattachées: [50139, 50319] }
       état: { statut: COM, name: Condé-sur-Vire, nomCommeDéléguée: Condé-sur-Vire }
       erat: [50139, 50319, 50608]
   50140:
@@ -73622,7 +73622,7 @@ contents:
       état: { statut: COM, name: Dragey-Tombelaine }
       erat: [50199, 50439, 50496]
     '1979-01-01':
-      évts: { détacheCommeSimples: [50199, 50439, 50496] }
+      évts: { détacheCommeSimples: [50199, 50496], gardeCommeRattachées: [50439] }
       état: { statut: COM, name: Dragey }
       erat: [50439]
     '1979-12-31':
@@ -73881,7 +73881,7 @@ contents:
       état: { statut: COM, name: 'Gouville sur Mer', nomCommeDéléguée: Gouville-sur-Mer }
       erat: [50061, 50215]
     '2019-01-01':
-      évts: { prendPourDéléguées: [50014, 50061, 50215, 50354, 50573] }
+      évts: { prendPourDéléguées: [50014, 50354, 50573], gardeCommeRattachées: [50061, 50215] }
       état: { statut: COM, name: Gouville-sur-Mer, nomCommeDéléguée: Gouville-sur-Mer }
       erat: [50014, 50061, 50215, 50354, 50573]
   50216:
@@ -74750,7 +74750,7 @@ contents:
       état: { statut: COM, name: Picauville, nomCommeDéléguée: Picauville }
       erat: [50005, 50153, 50212, 50250, 50400, 50642]
     '2017-01-01':
-      évts: { prendPourDéléguées: [50005, 50153, 50212, 50250, 50333, 50400, 50642] }
+      évts: { prendPourDéléguées: [50333], gardeCommeRattachées: [50005, 50153, 50212, 50250, 50400, 50642] }
       état: { statut: COM, name: Picauville, nomCommeDéléguée: Picauville }
       erat: [50005, 50153, 50212, 50250, 50333, 50400, 50642]
   50401:
@@ -74800,7 +74800,7 @@ contents:
       état: { statut: COM, name: Pontorson }
       erat: [50017, 50042, 50065, 50141, 50157, 50331, 50392]
     '1989-01-01':
-      évts: { détacheCommeSimples: [50017, 50042, 50065, 50141, 50157, 50331, 50392] }
+      évts: { détacheCommeSimples: [50042], gardeCommeRattachées: [50017, 50065, 50141, 50157, 50331, 50392] }
       état: { statut: COM, name: Pontorson }
       erat: [50017, 50065, 50141, 50157, 50331, 50392]
     '2016-01-01':
@@ -74866,7 +74866,7 @@ contents:
       état: { statut: COM, name: Quettreville-sur-Sienne, nomCommeDéléguée: Quettreville-sur-Sienne }
       erat: [50255, 50419]
     '2019-01-01':
-      évts: { prendPourDéléguées: [50140, 50223, 50244, 50255, 50419, 50605] }
+      évts: { prendPourDéléguées: [50140, 50223, 50244, 50605], gardeCommeRattachées: [50255, 50419] }
       état: { statut: COM, name: Quettreville-sur-Sienne, nomCommeDéléguée: Quettreville-sur-Sienne }
       erat: [50140, 50223, 50244, 50255, 50419, 50605]
   50420:
@@ -75332,7 +75332,7 @@ contents:
       état: { statut: COM, name: Sainte-Mère-Église, nomCommeDéléguée: Sainte-Mère-Église }
       erat: [50051, 50127, 50170, 50191, 50523]
     '2019-01-01':
-      évts: { prendPourDéléguées: [50051, 50103, 50127, 50170, 50191, 50427, 50523] }
+      évts: { prendPourDéléguées: [50103, 50427], gardeCommeRattachées: [50051, 50127, 50170, 50191, 50523] }
       état: { statut: COM, name: Sainte-Mère-Église, nomCommeDéléguée: Sainte-Mère-Église }
       erat: [50051, 50103, 50127, 50170, 50191, 50427, 50523]
   50524:
@@ -75369,7 +75369,7 @@ contents:
       état: { statut: COM, name: Pierrepont-en-Cotentin }
       erat: [50035, 50063, 50548]
     '1980-01-01':
-      évts: { détacheCommeSimples: [50035, 50063, 50548] }
+      évts: { détacheCommeSimples: [50035], gardeCommeRattachées: [50063, 50548] }
       état: { statut: COM, name: Pierrepont-en-Cotentin }
       erat: [50063, 50548]
     '1983-01-01':
@@ -75391,7 +75391,7 @@ contents:
       état: { statut: COM, name: Saint-Ovin }
       erat: [50067, 50317]
     '1985-01-01':
-      évts: { détacheCommeSimples: [50067, 50317] }
+      évts: { détacheCommeSimples: [50317], gardeCommeRattachées: [50067] }
       état: { statut: COM, name: Saint-Ovin }
       erat: [50067]
   50532:
@@ -75468,7 +75468,7 @@ contents:
       état: { statut: COM, name: Bourgvallées, nomCommeDéléguée: Saint-Samson-de-Bonfossé }
       erat: [50213, 50287, 50545, 50546]
     '2019-01-01':
-      évts: { prendPourDéléguées: [50213, 50287, 50313, 50545, 50546, 50581] }
+      évts: { prendPourDéléguées: [50313, 50581], gardeCommeRattachées: [50213, 50287, 50545, 50546] }
       état: { statut: COM, name: Bourgvallées, nomCommeDéléguée: Saint-Samson-de-Bonfossé }
       erat: [50213, 50287, 50313, 50545, 50546, 50581]
   50547:
@@ -75696,7 +75696,7 @@ contents:
       état: { statut: COM, name: 'Tessy Bocage', nomCommeDéléguée: Tessy-sur-Vire }
       erat: [50180, 50592]
     '2018-01-01':
-      évts: { prendPourDéléguées: [50180, 50592, 50649] }
+      évts: { prendPourDéléguées: [50649], gardeCommeRattachées: [50180, 50592] }
       état: { statut: COM, name: Tessy-Bocage, nomCommeDéléguée: Tessy-sur-Vire }
       erat: [50180, 50592, 50649]
   50593:
@@ -78478,7 +78478,7 @@ contents:
       état: { statut: COM, name: Autreville-sur-la-Renne }
       erat: [52278, 52451, 52501]
     '2012-01-01':
-      évts: { détacheCommeSimples: [52278, 52451, 52501] }
+      évts: { détacheCommeSimples: [52278], gardeCommeRattachées: [52451, 52501] }
       état: { statut: COM, name: Autreville-sur-la-Renne }
       erat: [52451, 52501]
   52032:
@@ -78682,7 +78682,7 @@ contents:
       état: { statut: COM, name: Bourmont-entre-Meuse-et-Mouzon, nomCommeDéléguée: Bourmont }
       erat: [52064, 52224, 52351]
     '2019-01-01':
-      évts: { prendPourDéléguées: [52064, 52225, 52351] }
+      évts: { prendPourDéléguées: [52225], gardeCommeRattachées: [52064, 52351] }
       état: { statut: COM, name: Bourmont-entre-Meuse-et-Mouzon, nomCommeDéléguée: Bourmont }
       erat: [52064, 52225, 52351]
   52065:
@@ -78824,7 +78824,7 @@ contents:
       état: { statut: COM, name: Chalmessin }
       erat: [52530]
     '1973-04-01':
-      évts: { associe: [52261, 52345, 52530, 52531] }
+      évts: { associe: [52261, 52345, 52531], gardeCommeRattachées: [52530] }
       état: { statut: COM, name: Vals-des-Tilles }
       erat: [52261, 52345, 52530, 52531]
   52095:
@@ -78929,7 +78929,7 @@ contents:
       état: { statut: COM, name: Chassigny-Aisey }
       erat: [52145, 52170]
     '1974-02-01':
-      évts: { associe: [52145, 52170, 52228] }
+      évts: { associe: [52228], gardeCommeRattachées: [52145, 52170] }
       état: { statut: COM, name: Chassigny-Aisey }
       erat: [52145, 52170, 52228]
     '1990-07-01':
@@ -79294,7 +79294,7 @@ contents:
       état: { statut: COM, name: Éclaron-Braucourt }
       erat: [52068]
     '1975-01-01':
-      évts: { associe: [51494, 52068] }
+      évts: { associe: [51494], gardeCommeRattachées: [52068] }
       état: { statut: COM, name: Éclaron-Braucourt-Sainte-Livière }
       erat: [51494, 52068]
   52183:
@@ -79417,7 +79417,7 @@ contents:
       état: { statut: COM, name: Foulain }
       erat: [52154, 52297]
     '1979-02-01':
-      évts: { détacheCommeSimples: [52154, 52297] }
+      évts: { détacheCommeSimples: [52297], gardeCommeRattachées: [52154] }
       état: { statut: COM, name: Foulain }
       erat: [52154]
   52206:
@@ -79606,7 +79606,7 @@ contents:
       état: { statut: COM, name: Haute-Amance }
       erat: [52333, 52496]
     '1972-11-01':
-      évts: { associe: [52333, 52435, 52496] }
+      évts: { associe: [52435], gardeCommeRattachées: [52333, 52496] }
       état: { statut: COM, name: Haute-Amance }
       erat: [52333, 52435, 52496]
   52243:
@@ -80049,11 +80049,11 @@ contents:
       état: { statut: COM, name: 'Le Val-de-Meuse' }
       erat: [52033, 52186, 52281, 52317, 52410, 52417, 52418, 52465]
     '1974-03-09':
-      évts: { associe: [52033, 52186, 52281, 52283, 52317, 52410, 52417, 52418, 52465] }
+      évts: { associe: [52283], gardeCommeRattachées: [52033, 52186, 52281, 52317, 52410, 52417, 52418, 52465] }
       état: { statut: COM, name: Val-de-Meuse }
       erat: [52033, 52186, 52281, 52283, 52317, 52410, 52417, 52418, 52465]
     '2012-01-01':
-      évts: { détacheCommeSimples: [52033, 52186, 52281, 52283, 52317, 52410, 52417, 52418, 52465] }
+      évts: { détacheCommeSimples: [52033, 52465], gardeCommeRattachées: [52186, 52281, 52283, 52317, 52410, 52417, 52418] }
       état: { statut: COM, name: Val-de-Meuse }
       erat: [52186, 52281, 52283, 52317, 52410, 52417, 52418]
   52333:
@@ -80607,7 +80607,7 @@ contents:
       état: { statut: COM, name: Rolampont }
       erat: [52042, 52111, 52270, 52498]
     '1989-02-15':
-      évts: { détacheCommeSimples: [52042, 52111, 52270, 52498] }
+      évts: { détacheCommeSimples: [52042], gardeCommeRattachées: [52111, 52270, 52498] }
       état: { statut: COM, name: Rolampont }
       erat: [52111, 52270, 52498]
   52433:
@@ -80991,7 +80991,7 @@ contents:
       état: { statut: COM, name: Terre-Natale }
       erat: [52103, 52124]
     '1986-01-01':
-      évts: { détacheCommeSimples: [52103, 52124] }
+      évts: { détacheCommeSimples: [52103], gardeCommeRattachées: [52124] }
       état: { statut: COM, name: Terre-Natale }
       erat: [52124]
     '2012-01-01':
@@ -81224,7 +81224,7 @@ contents:
       état: { statut: COM, name: Ambrières-les-Vallées }
       erat: [53070, 53111]
     '1987-01-01':
-      évts: { détacheCommeSimples: [53070, 53111] }
+      évts: { détacheCommeSimples: [53111], gardeCommeRattachées: [53070] }
       état: { statut: COM, name: Ambrières-les-Vallées }
       erat: [53070]
     '2014-10-15':
@@ -81725,7 +81725,7 @@ contents:
       état: { statut: COM, name: Lassay-les-Châteaux }
       erat: [53020, 53149]
     '1974-10-01':
-      évts: { associe: [53020, 53149, 53166] }
+      évts: { associe: [53166], gardeCommeRattachées: [53020, 53149] }
       état: { statut: COM, name: Lassay-les-Châteaux }
       erat: [53020, 53149, 53166]
     '2014-07-01':
@@ -81880,7 +81880,7 @@ contents:
       état: { statut: COM, name: Montsûrs-Saint-Céneré, nomCommeDéléguée: Montsûrs }
       erat: [53161, 53205]
     '2019-01-01':
-      évts: { prendPourDéléguées: [53092, 53159, 53161, 53205, 53244] }
+      évts: { prendPourDéléguées: [53092, 53159, 53244], gardeCommeRattachées: [53161, 53205] }
       état: { statut: COM, name: Montsûrs, nomCommeDéléguée: Montsûrs }
       erat: [53092, 53159, 53161, 53205, 53244]
   53162:
@@ -84815,7 +84815,7 @@ contents:
       état: { statut: COM, name: Clermont-en-Argonne }
       erat: [55020]
     '1973-07-01':
-      évts: { associe: [55020, 55259, 55402] }
+      évts: { associe: [55259, 55402], gardeCommeRattachées: [55020] }
       état: { statut: COM, name: Clermont-en-Argonne }
       erat: [55020, 55259, 55402]
   55118:
@@ -86515,7 +86515,7 @@ contents:
       état: { statut: COM, name: 'Seuil-d''Argonne' }
       erat: [55409, 55480]
     '1990-01-01':
-      évts: { détacheCommeSimples: [55409, 55480] }
+      évts: { détacheCommeSimples: [55409], gardeCommeRattachées: [55480] }
       état: { statut: COM, name: 'Seuil-d''Argonne' }
       erat: [55480]
   55518:
@@ -87803,11 +87803,11 @@ contents:
       état: { statut: COM, name: Albestroff }
       erat: [57248, 57346, 57494, 57573, 57675]
     '1983-03-01':
-      évts: { détacheCommeSimples: [57248, 57346, 57494, 57573, 57675] }
+      évts: { détacheCommeSimples: [57494], gardeCommeRattachées: [57248, 57346, 57573, 57675] }
       état: { statut: COM, name: Albestroff }
       erat: [57248, 57346, 57573, 57675]
     '1984-01-01':
-      évts: { détacheCommeSimples: [57248, 57346, 57573, 57675] }
+      évts: { détacheCommeSimples: [57346], gardeCommeRattachées: [57248, 57573, 57675] }
       état: { statut: COM, name: Albestroff }
       erat: [57248, 57573, 57675]
     '1998-01-01':
@@ -88081,7 +88081,7 @@ contents:
       état: { statut: COM, name: Belles-Forêts }
       erat: [57023, 57173]
     '1986-01-01':
-      évts: { détacheCommeSimples: [57023, 57173] }
+      évts: { détacheCommeSimples: [57173], gardeCommeRattachées: [57023] }
       état: { statut: COM, name: Belles-Forêts }
       erat: [57023]
   57087:
@@ -89458,7 +89458,7 @@ contents:
       état: { statut: COM, name: Merten }
       erat: [57069, 57570]
     '1974-01-01':
-      évts: { associe: [57069, 57570, 57720] }
+      évts: { associe: [57720], gardeCommeRattachées: [57069, 57570] }
       état: { statut: COM, name: Merten }
       erat: [57069, 57570, 57720]
     '1981-01-01':
@@ -92221,7 +92221,7 @@ contents:
       état: { statut: COM, name: Dunkerque }
       erat: [59380]
     '2010-12-09':
-      évts: { associe: [59248, 59380, 59540] }
+      évts: { associe: [59248, 59540], gardeCommeRattachées: [59380] }
       état: { statut: COM, name: Dunkerque }
       erat: [59248, 59380, 59540]
   59184:
@@ -92781,7 +92781,7 @@ contents:
       état: { statut: COM, name: Lille }
       erat: [59298]
     '2000-02-27':
-      évts: { associe: [59298, 59355] }
+      évts: { associe: [59355], gardeCommeRattachées: [59298] }
       état: { statut: COM, name: Lille }
       erat: [59298, 59355]
   59351:
@@ -96770,7 +96770,7 @@ contents:
       état: { statut: COM, name: Écouché-les-Vallées, nomCommeDéléguée: Écouché }
       erat: [61027, 61127, 61153, 61236, 61441, 61470]
     '2018-01-01':
-      évts: { prendPourDéléguées: [61027, 61127, 61153, 61173, 61236, 61441, 61470] }
+      évts: { prendPourDéléguées: [61173], gardeCommeRattachées: [61027, 61127, 61153, 61236, 61441, 61470] }
       état: { statut: COM, name: Écouché-les-Vallées, nomCommeDéléguée: Écouché }
       erat: [61027, 61127, 61153, 61173, 61236, 61441, 61470]
   61154:
@@ -98639,11 +98639,11 @@ contents:
       état: { statut: COM, name: Béthune }
       erat: [62847]
     '1994-01-01':
-      évts: { associe: [62126, 62847] }
+      évts: { associe: [62126], gardeCommeRattachées: [62847] }
       état: { statut: COM, name: Béthune }
       erat: [62126, 62847]
     '1997-11-20':
-      évts: { détacheCommeSimples: [62126, 62847] }
+      évts: { détacheCommeSimples: [62126], gardeCommeRattachées: [62847] }
       état: { statut: COM, name: Béthune }
       erat: [62847]
     '2008-01-01':
@@ -103122,7 +103122,7 @@ contents:
       état: { statut: COM, name: Bergouey-Arancou-Viellenave }
       erat: [64031, 64553]
     '1977-11-15':
-      évts: { détacheCommeSimples: [64031, 64553] }
+      évts: { détacheCommeSimples: [64031], gardeCommeRattachées: [64553] }
       état: { statut: COM, name: Bergouey-Viellenave }
       erat: [64553]
   64114:
@@ -103660,7 +103660,7 @@ contents:
       état: { statut: COM, name: Idron-Lée-Ousse-Sendets }
       erat: [64329, 64439, 64518]
     '1989-01-01':
-      évts: { détacheCommeSimples: [64329, 64439, 64518] }
+      évts: { détacheCommeSimples: [64329], gardeCommeRattachées: [64439, 64518] }
       état: { statut: COM, name: Idron-Ousse-Sendets }
       erat: [64439, 64518]
     '2001-03-11':
@@ -108495,7 +108495,7 @@ contents:
       état: { statut: COM, name: 'Val de Moder', nomCommeDéléguée: Pfaffenhoffen }
       erat: [67372, 67496, 67512]
     '2019-01-01':
-      évts: { prendPourDéléguées: [67372, 67402, 67496, 67512] }
+      évts: { prendPourDéléguées: [67402], gardeCommeRattachées: [67372, 67496, 67512] }
       état: { statut: COM, name: Val-de-Moder, nomCommeDéléguée: Pfaffenhoffen }
       erat: [67372, 67402, 67496, 67512]
   67373:
@@ -108914,7 +108914,7 @@ contents:
       état: { statut: COM, name: Stundwiller }
       erat: [67012, 67349]
     '1988-01-01':
-      évts: { détacheCommeSimples: [67012, 67349] }
+      évts: { détacheCommeSimples: [67012], gardeCommeRattachées: [67349] }
       état: { statut: COM, name: Stundwiller }
       erat: [67349]
     '1989-01-01':
@@ -109045,7 +109045,7 @@ contents:
       état: { statut: COM, name: 'Le Ban-de-la-Roche' }
       erat: [67026, 67027]
     '1975-01-01':
-      évts: { associe: [67026, 67027, 67144] }
+      évts: { associe: [67144], gardeCommeRattachées: [67026, 67027] }
       état: { statut: COM, name: 'Le Ban-de-la-Roche' }
       erat: [67026, 67027, 67144]
     '1992-01-01':
@@ -111122,7 +111122,7 @@ contents:
       état: { statut: COM, name: 'Porte des Pierres Dorées', nomCommeDéléguée: Pouilly-le-Monial }
       erat: [69114, 69159]
     '2019-01-01':
-      évts: { prendPourDéléguées: [69101, 69114, 69159] }
+      évts: { prendPourDéléguées: [69101], gardeCommeRattachées: [69114, 69159] }
       état: { statut: COM, name: 'Porte des Pierres Dorées', nomCommeDéléguée: Pouilly-le-Monial }
       erat: [69101, 69114, 69159]
   69160:
@@ -112136,7 +112136,7 @@ contents:
       état: { statut: COM, name: Champlitte }
       erat: [70123, 70300, 70333, 70354, 70382]
     '1974-07-01':
-      évts: { associe: [52210, 70123, 70300, 70333, 70354, 70382] }
+      évts: { associe: [52210], gardeCommeRattachées: [70123, 70300, 70333, 70354, 70382] }
       état: { statut: COM, name: Champlitte }
       erat: [52210, 70123, 70300, 70333, 70354, 70382]
   70123:
@@ -113852,7 +113852,7 @@ contents:
       état: { statut: COM, name: Autun }
       erat: [71414, 71467]
     '1985-10-01':
-      évts: { détacheCommeSimples: [71414, 71467] }
+      évts: { détacheCommeSimples: [71414], gardeCommeRattachées: [71467] }
       état: { statut: COM, name: Autun }
       erat: [71467]
     '2013-01-01':
@@ -114691,7 +114691,7 @@ contents:
       état: { statut: COM, name: Louhans }
       erat: [71056, 71114, 71528]
     '1979-03-01':
-      évts: { détacheCommeSimples: [71056, 71114, 71528] }
+      évts: { détacheCommeSimples: [71056, 71528], gardeCommeRattachées: [71114] }
       état: { statut: COM, name: Louhans }
       erat: [71114]
     '2013-01-01':
@@ -114728,7 +114728,7 @@ contents:
       état: { statut: COM, name: Mâcon }
       erat: [71432, 71511]
     '1972-07-01':
-      évts: { associe: [71260, 71432, 71511] }
+      évts: { associe: [71260], gardeCommeRattachées: [71432, 71511] }
       état: { statut: COM, name: Mâcon }
       erat: [71260, 71432, 71511]
   71271:
@@ -117219,7 +117219,7 @@ contents:
       état: { statut: COM, name: Aime }
       erat: [73291, 73325]
     '1973-02-12':
-      évts: { associe: [73148, 73291, 73325] }
+      évts: { associe: [73148], gardeCommeRattachées: [73291, 73325] }
       état: { statut: COM, name: Aime }
       erat: [73148, 73291, 73325]
     '2016-01-01':
@@ -118246,7 +118246,7 @@ contents:
       état: { statut: COM, name: 'Les Belleville', nomCommeDéléguée: Saint-Martin-de-Belleville }
       erat: [73257, 73321]
     '2019-01-01':
-      évts: { prendPourDéléguées: [73244, 73257, 73321] }
+      évts: { prendPourDéléguées: [73244], gardeCommeRattachées: [73257, 73321] }
       état: { statut: COM, name: 'Les Belleville', nomCommeDéléguée: Saint-Martin-de-Belleville }
       erat: [73244, 73257, 73321]
   73258:
@@ -119682,11 +119682,11 @@ contents:
       état: { statut: COM, name: Thonon-les-Bains }
       erat: [74166]
     '1974-01-01':
-      évts: { associe: [74013, 74166] }
+      évts: { associe: [74013], gardeCommeRattachées: [74166] }
       état: { statut: COM, name: Thonon-les-Bains }
       erat: [74013, 74166]
     '1983-01-01':
-      évts: { détacheCommeSimples: [74013, 74166] }
+      évts: { détacheCommeSimples: [74013], gardeCommeRattachées: [74166] }
       état: { statut: COM, name: Thonon-les-Bains }
       erat: [74166]
     '1995-05-25':
@@ -124042,11 +124042,11 @@ contents:
       état: { statut: COM, name: Orvanne, nomCommeDéléguée: Moret-sur-Loing }
       erat: [77166, 77316]
     '2016-01-01':
-      évts: { prendPourDéléguées: [77166, 77170, 77299, 77316] }
+      évts: { prendPourDéléguées: [77170, 77299], gardeCommeRattachées: [77166, 77316] }
       état: { statut: COM, name: 'Moret Loing et Orvanne', nomCommeDéléguée: Moret-sur-Loing }
       erat: [77166, 77170, 77299, 77316]
     '2017-01-01':
-      évts: { prendPourDéléguées: [77166, 77170, 77299, 77316, 77491] }
+      évts: { prendPourDéléguées: [77491], gardeCommeRattachées: [77166, 77170, 77299, 77316] }
       état: { statut: COM, name: Moret-Loing-et-Orvanne, nomCommeDéléguée: Moret-sur-Loing }
       erat: [77166, 77170, 77299, 77316, 77491]
   77317:
@@ -127914,7 +127914,7 @@ contents:
       état: { statut: COM, name: Airvault }
       erat: [79041, 79047, 79317]
     '1985-01-01':
-      évts: { détacheCommeSimples: [79041, 79047, 79317] }
+      évts: { détacheCommeSimples: [79047], gardeCommeRattachées: [79041, 79317] }
       état: { statut: COM, name: Airvault }
       erat: [79041, 79317]
     '2019-01-01':
@@ -128171,7 +128171,7 @@ contents:
       état: { statut: COM, name: Bressuire }
       erat: [79028, 79038, 79052, 79065, 79093, 79192, 79193, 79296, 79324]
     '1983-02-15':
-      évts: { détacheCommeSimples: [79028, 79038, 79052, 79065, 79093, 79192, 79193, 79296, 79324] }
+      évts: { détacheCommeSimples: [79038], gardeCommeRattachées: [79028, 79052, 79065, 79093, 79192, 79193, 79296, 79324] }
       état: { statut: COM, name: Bressuire }
       erat: [79028, 79052, 79065, 79093, 79192, 79193, 79296, 79324]
   79050:
@@ -128366,7 +128366,7 @@ contents:
       état: { statut: COM, name: Mauléon }
       erat: [79073, 79155, 79186, 79233, 79235, 79237, 79323]
     '1992-01-01':
-      évts: { détacheCommeSimples: [79073, 79155, 79186, 79233, 79235, 79237, 79323] }
+      évts: { détacheCommeSimples: [79235], gardeCommeRattachées: [79073, 79155, 79186, 79233, 79237, 79323] }
       état: { statut: COM, name: Mauléon }
       erat: [79073, 79155, 79186, 79233, 79237, 79323]
   79080:
@@ -128841,7 +128841,7 @@ contents:
       état: { statut: COM, name: Mougon-Thorigné, nomCommeDéléguée: Mougon }
       erat: [79185, 79327]
     '2019-01-01':
-      évts: { prendPourDéléguées: [79004, 79185, 79240, 79327] }
+      évts: { prendPourDéléguées: [79004, 79240], gardeCommeRattachées: [79185, 79327] }
       état: { statut: COM, name: Aigondigné, nomCommeDéléguée: Mougon }
       erat: [79004, 79185, 79240, 79327]
   79186:
@@ -128932,7 +128932,7 @@ contents:
       état: { statut: COM, name: Oiron }
       erat: [79036, 79054, 79194]
     '1983-02-14':
-      évts: { détacheCommeSimples: [79036, 79054, 79194] }
+      évts: { détacheCommeSimples: [79054], gardeCommeRattachées: [79036, 79194] }
       état: { statut: COM, name: Oiron }
       erat: [79036, 79194]
     '2014-01-01':
@@ -137168,7 +137168,7 @@ contents:
       état: { statut: COM, name: Moncontour }
       erat: [86155]
     '1973-01-01':
-      évts: { associe: [86155, 86185, 86216] }
+      évts: { associe: [86185, 86216], gardeCommeRattachées: [86155] }
       état: { statut: COM, name: Moncontour }
       erat: [86155, 86185, 86216]
   86162:
@@ -137629,7 +137629,7 @@ contents:
       état: { statut: COM, name: 'Saint Martin la Pallu', nomCommeDéléguée: Vendeuvre-du-Poitou }
       erat: [86030, 86060, 86071, 86281]
     '2019-01-01':
-      évts: { prendPourDéléguées: [86030, 86060, 86071, 86277, 86281] }
+      évts: { prendPourDéléguées: [86277], gardeCommeRattachées: [86030, 86060, 86071, 86281] }
       état: { statut: COM, name: Saint-Martin-la-Pallu, nomCommeDéléguée: Vendeuvre-du-Poitou }
       erat: [86030, 86060, 86071, 86277, 86281]
   86282:
@@ -139582,7 +139582,7 @@ contents:
       état: { statut: COM, name: Plombières-les-Bains }
       erat: [88048, 88217, 88405]
     '1978-01-01':
-      évts: { détacheCommeSimples: [88048, 88217, 88405] }
+      évts: { détacheCommeSimples: [88048], gardeCommeRattachées: [88217, 88405] }
       état: { statut: COM, name: Plombières-les-Bains }
       erat: [88217, 88405]
     '1991-06-01':
@@ -140412,7 +140412,7 @@ contents:
       état: { statut: COM, name: Brienon-sur-Armançon }
       erat: [89047, 89288]
     '2003-12-31':
-      évts: { détacheCommeSimples: [89047, 89288] }
+      évts: { détacheCommeSimples: [89288], gardeCommeRattachées: [89047] }
       état: { statut: COM, name: Brienon-sur-Armançon }
       erat: [89047]
   89056:
@@ -141103,7 +141103,7 @@ contents:
       état: { statut: COM, name: Lucy-sur-Cure }
       erat: [89040, 89157]
     '1982-01-01':
-      évts: { détacheCommeSimples: [89040, 89157] }
+      évts: { détacheCommeSimples: [89040], gardeCommeRattachées: [89157] }
       état: { statut: COM, name: Lucy-sur-Cure }
       erat: [89157]
   89234:
@@ -141315,7 +141315,7 @@ contents:
       état: { statut: COM, name: Ouanne }
       erat: [89090, 89252]
     '1980-01-01':
-      évts: { détacheCommeSimples: [89090, 89252] }
+      évts: { détacheCommeSimples: [89252], gardeCommeRattachées: [89090] }
       état: { statut: COM, name: Ouanne }
       erat: [89090]
   89284:
@@ -141599,11 +141599,11 @@ contents:
       état: { statut: COM, name: Saint-Fargeau }
       erat: [89220, 89254, 89325, 89352, 89389]
     '1977-01-01':
-      évts: { détacheCommeSimples: [89220, 89254, 89325, 89352, 89389] }
+      évts: { détacheCommeSimples: [89220, 89254, 89352], gardeCommeRattachées: [89325, 89389] }
       état: { statut: COM, name: Saint-Fargeau }
       erat: [89325, 89389]
     '1999-01-01':
-      évts: { détacheCommeSimples: [89325, 89389] }
+      évts: { détacheCommeSimples: [89325], gardeCommeRattachées: [89389] }
       état: { statut: COM, name: Saint-Fargeau }
       erat: [89389]
   89345:
@@ -141931,7 +141931,7 @@ contents:
       état: { statut: COM, name: Treigny }
       erat: [89293, 89340]
     '1977-01-01':
-      évts: { détacheCommeSimples: [89293, 89340] }
+      évts: { détacheCommeSimples: [89340], gardeCommeRattachées: [89293] }
       état: { statut: COM, name: Treigny }
       erat: [89293]
     '2019-01-01':
@@ -142308,7 +142308,7 @@ contents:
       état: { statut: COM, name: Delle }
       erat: [90056, 90063]
     '1980-01-01':
-      évts: { détacheCommeSimples: [90056, 90063] }
+      évts: { détacheCommeSimples: [90063], gardeCommeRattachées: [90056] }
       état: { statut: COM, name: Delle }
       erat: [90056]
     '1983-01-01':
