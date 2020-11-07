@@ -845,11 +845,8 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
                 'crat'=> $codeCheflieuAp,
               ],
               'évts' => ['type'=> $typeLabel, 'type2'=> 'changeDeChefLieu', 'devientDéléguéeDe'=> $codeCheflieuAp],
-              'état' => [
-                'statut'=> $rattachee['av']['typecom'],
-                'name'=> $rattachee['av']['libelle'],
-                'crat'=> $codeCheflieuAv,
-              ],
+              'état' => ['statut'=> $rattachee['av']['typecom'],'name'=> $rattachee['av']['libelle']]
+                + ($rattachee['av']['typecom'] <> 'COM' ? ['crat'=> $codeCheflieuAv] : []),
             ]);
           }
         }
@@ -897,21 +894,42 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
         // $rattachees contient les communes déléguées ainsi que les nouvelles communes intégrées
         $codeCheflieuAv2 = $codeFus[1]; // la seconde commune nouvelle, celle qui disparait
         // traitement des rattachees
+        // La répartition entre prendPourDéléguées et gardeCommeRattachées ne semble pas possible !!!
+        $gardeCommeRattachées = [49018, 49213, 49245, 49303, 49372];
         // Je commence par traiter les anciennes communes déléguées et supplémentaires à l'exception des chefs-lieux
         foreach ($rattachees as $rcom => $rattachee) {
           if (!in_array($rcom, [$codeCheflieuAv2, $codeCheflieuAp])) {
-            setMerge($rpicoms[$rcom][$date_eff], [
-              'après'=> [
-                'statut'=> $rattachee['ap']['typecom'],
-                'name'=> $rattachee['ap']['libelle'],
-                'crat'=> $codeCheflieuAp,
-              ],
-              'évts' => ['type'=> $typeLabel, 'devientDéléguéeDe' => $codeCheflieuAp],
-              'état' => [
-                'statut'=> $rattachee['av']['typecom'],
-                'name'=> $rattachee['av']['libelle'],
-              ],
-            ]);
+            if (in_array($rcom, $gardeCommeRattachées)) {
+              setMerge($rpicoms[$rcom][$date_eff], [
+                'après'=> [
+                  'statut'=> $rattachee['ap']['typecom'],
+                  'name'=> $rattachee['ap']['libelle'],
+                  'crat'=> $codeCheflieuAp,
+                ],
+                'évts' => ['type'=> $typeLabel, 'resteRattachéeA' => $codeCheflieuAp],
+                'état' => [
+                  'statut'=> $rattachee['av']['typecom'],
+                  'name'=> $rattachee['av']['libelle'],
+                  'crat'=> $codeCheflieuAp,
+                ],
+              ]);
+              
+            }
+            else {
+              setMerge($rpicoms[$rcom][$date_eff], [
+                'après'=> [
+                  'statut'=> $rattachee['ap']['typecom'],
+                  'name'=> $rattachee['ap']['libelle'],
+                  'crat'=> $codeCheflieuAp,
+                ],
+                'évts' => ['type'=> $typeLabel, 'devientDéléguéeDe' => $codeCheflieuAp],
+                'état' => [
+                  'statut'=> $rattachee['av']['typecom'],
+                  'name'=> $rattachee['av']['libelle'],
+                ],
+              ]);
+              
+            }
           }
         }
         // traitement de la commune nouvelle qui disparait (49101)
@@ -929,6 +947,9 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           ],
         ]);
         // traitement de la commune nouvelle qui reste (49018)
+        foreach (array_keys($rattachees) as $ratId)
+          if (!in_array($ratId, $gardeCommeRattachées))
+            $prendPourDéléguées[$ratId] = 1;
         setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
           'après'=> [
             'statut'=> $this->cheflieu['ap']['typecom'],
@@ -937,7 +958,8 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
           ],
           'évts' => [
             'type'=> $typeLabel, 'type2'=> 'resteChefLieuAlOccasionCréationCommuneNouvelle',
-            'prendPourDéléguées'=> array_keys($rattachees),
+            'prendPourDéléguées'=> array_keys($prendPourDéléguées),
+            'gardeCommeRattachées'=> $gardeCommeRattachées,
           ],
           'état' => [
             'statut'=> $fusionnees[$codeCheflieuAp]['av']['typecom'],
@@ -984,10 +1006,10 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
             'name'=> $this->cheflieu['ap']['libelle'],
             'nomCommeDéléguée'=> $rattachees[$codeCheflieuAp]['ap']['libelle'],
           ],
-          'évts'=> []//['type'=> $typeLabel, 'type2'=> 'comNouvelleAvecCréationDeDéléguePropre']
-              + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
-              + ($nouvRats? [$rattacheLabel => array_keys($nouvRats)]:[])
-              + ($resteRats? ['gardeCommeRattachées' => array_keys($resteRats)]:[]),
+          'évts'=> ['type'=> $typeLabel, 'type2'=> 'comNouvelleAvecCréationDeDéléguePropre']
+                    + ($absorbees? ['absorbe'=> array_keys($absorbees)]:[])
+                    + ($nouvRats? [$rattacheLabel => array_keys($nouvRats)]:[])
+                    + ($resteRats? ['gardeCommeRattachées' => array_keys($resteRats)]:[]),
           'état'=> [
             'statut'=> $rattachees[$codeCheflieuAp]['av']['typecom'],
             'name'=> $rattachees[$codeCheflieuAp]['av']['libelle'],
@@ -1105,11 +1127,14 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
     Les autres arcs arrivant au noeud d'arrivée du chef-lieu (1) ont pour noeud de départ
     soit une entité fusionnée si aucun autre arc n'en part (3),
     soit une entité restant rattachée si un arc en part (3') vers (4).  
-    <i>Note:</i> Le mouvement peut s'appliquer aussi à une commune nouvelle et pas uniquement à une fusion association.
+    <i>Note:</i>  
+    &nbsp;- Le mouvement peut s'appliquer aussi à une commune nouvelle et pas uniquement à une fusion association.
+    &nbsp;- Le mouvement peut transformer une commune associée en commune délégue.
     ";
   const EXAMPLES = [
     '2020-01-01'=> "",
     '2008-01-01'=> "",
+    '2014-04-01'=> "Cas de la transformation de Goux (39256) de commune associée en commune déléguée.",
     '1983-01-01'=> "Cas où certaines rattachées le restent, ici Cesseins (01070).",
     '2018-01-01'=> "Cas particulier de changement de département de Pont-Farcy après l'intégration de Pleines-Œuvres.",
   ];
@@ -1208,7 +1233,10 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
       ]);
       setMerge($rpicoms[$this->cheflieu['av']['com']][$date_eff], [
         'après'=> [],
-        'évts'=> ['absorbe'=> [], 'gardeCommeRattachées'=> [], 'changeDeCodePour'=> $this->cheflieu['ap']['com']],
+        'évts'=> [
+          'absorbe'=> [], 'prendPourDéléguées'=> [], 'gardeCommeRattachées'=> [],
+          'changeDeCodePour'=> $this->cheflieu['ap']['com'],
+        ],
         'état'=> [
           'statut'=> $this->cheflieu['av']['typecom'],
           'name'=> $this->cheflieu['av']['libelle'],
@@ -1216,13 +1244,13 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
       ]);
     }
     else {
-      // cas général où le chef-lieu ne chanfe
+      // cas général où le chef-lieu ne change pas de code
       setMerge($rpicoms[$this->cheflieu['ap']['com']][$date_eff], [
         'après'=> [
           'statut'=> $this->cheflieu['ap']['typecom'],
           'name'=> $this->cheflieu['ap']['libelle'],
         ],
-        'évts'=> ['type'=> 'Intégration(34)', 'absorbe'=> [], 'gardeCommeRattachées'=> []],
+        'évts'=> ['type'=> 'Intégration(34)', 'absorbe'=> [], 'prendPourDéléguées'=> [], 'gardeCommeRattachées'=> []],
         'état'=> [
           'statut'=> $this->cheflieu['av']['typecom'],
           'name'=> $this->cheflieu['av']['libelle'],
@@ -1246,23 +1274,43 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
       $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['absorbe'][] = $integree['av']['com'];
     }
     foreach ($this->resteRats as $resteRat) {
-      setMerge($rpicoms[$resteRat['av']['com']][$date_eff], [
-        'après'=> [
-          'statut'=> $resteRat['ap']['typecom'],
-          'name'=> $resteRat['ap']['libelle'],
-          'crat'=> $this->cheflieu['av']['com'],
-        ],
-        'évts'=> ['resteRattachéeA'=> $this->cheflieu['av']['com']],
-        'état'=> [
-          'statut'=> $resteRat['av']['typecom'],
-          'name'=> $resteRat['av']['libelle'],
-          'crat'=> $this->cheflieu['av']['com'],
-        ],
-      ]);
-      $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées'][] = $resteRat['av']['com'];
+      if (($resteRat['ap']['typecom']=='COMD') && ($resteRat['av']['typecom']=='COMA')) { // cas COMA -> COMD
+        setMerge($rpicoms[$resteRat['av']['com']][$date_eff], [
+          'après'=> [
+            'statut'=> $resteRat['ap']['typecom'],
+            'name'=> $resteRat['ap']['libelle'],
+            'crat'=> $this->cheflieu['av']['com'],
+          ],
+          'évts'=> ['devientDéléguéeDe'=> $this->cheflieu['av']['com']],
+          'état'=> [
+            'statut'=> $resteRat['av']['typecom'],
+            'name'=> $resteRat['av']['libelle'],
+            'crat'=> $this->cheflieu['av']['com'],
+          ],
+        ]);
+        $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['prendPourDéléguées'][] = $resteRat['av']['com'];
+      }
+      else { // cas général
+        setMerge($rpicoms[$resteRat['av']['com']][$date_eff], [
+          'après'=> [
+            'statut'=> $resteRat['ap']['typecom'],
+            'name'=> $resteRat['ap']['libelle'],
+            'crat'=> $this->cheflieu['av']['com'],
+          ],
+          'évts'=> ['resteRattachéeA'=> $this->cheflieu['av']['com']],
+          'état'=> [
+            'statut'=> $resteRat['av']['typecom'],
+            'name'=> $resteRat['av']['libelle'],
+            'crat'=> $this->cheflieu['av']['com'],
+          ],
+        ]);
+        $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées'][] = $resteRat['av']['com'];
+      }
     }
-    if (!$rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées'])
-      unset($rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées']);
+    // efface les champs vides
+    foreach (['absorbe', 'prendPourDéléguées', 'gardeCommeRattachées'] as $keyLabel)
+      if (!$rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts'][$keyLabel])
+        unset($rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts'][$keyLabel]);
   }
 };
 
@@ -1634,12 +1682,23 @@ if ($_GET['action'] == 'mvtserreurs') {
 
 if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corrections sur Rpicom
   // ajout des crat des ardts de Lyon vers Lyon (69123). Ces infos ne peuvent pas être déduites des mouvements.
-  $rpicoms[69387]['1959-02-08']['après']['crat'] = 69123;
-  $rpicoms[69387]['1959-02-08']['état']['crat'] = 69123;
-  $rpicoms[69388]['1959-02-08']['après']['crat'] = 69123;
   $rpicoms[69385]['1964-08-12']['après']['crat'] = 69123;
   $rpicoms[69385]['1964-08-12']['état']['crat'] = 69123;
   $rpicoms[69389]['1964-08-12']['après']['crat'] = 69123;
+  $rpicoms[69123]['1964-08-12'] = [
+    'après'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+    'évts'=> ['estModifiéeIndirectementPar' => [69385]],
+    'état'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+  ];
+  $rpicoms[69387]['1959-02-08']['après']['crat'] = 69123;
+  $rpicoms[69387]['1959-02-08']['état']['crat'] = 69123;
+  $rpicoms[69388]['1959-02-08']['après']['crat'] = 69123;
+  $rpicoms[69123]['1959-02-08'] = [
+    'après'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+    'évts'=> ['estModifiéeIndirectementPar' => [69387]],
+    'état'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+  ];
+  krsort($rpicoms[69123]);
   // Je ne modifie pas la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
   // Il faudrait de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
   

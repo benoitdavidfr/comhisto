@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T13:41:46+00:00'
+created: '2020-11-07T19:05:34+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -59548,7 +59548,7 @@ contents:
       état: { statut: COM, name: Dole }
       erat: [39256]
     '2014-04-01':
-      évts: { absorbe: {  }, gardeCommeRattachées: [39256] }
+      évts: { prendPourDéléguées: [39256] }
       état: { statut: COM, name: Dole }
       erat: [39256]
   39199:
@@ -59790,7 +59790,7 @@ contents:
       évts: { sAssocieA: 39198 }
       état: { statut: COMA, name: Goux, crat: 39198 }
     '2014-04-01':
-      évts: { resteRattachéeA: 39198 }
+      évts: { devientDéléguéeDe: 39198 }
       état: { statut: COMD, name: Goux, crat: 39198 }
   39257:
     '1943-01-01':
@@ -70723,7 +70723,7 @@ contents:
       évts: { sAssocieA: 49328 }
       état: { statut: COMA, name: Bagneux, crat: 49328 }
     '2014-04-01':
-      évts: { resteRattachéeA: 49328 }
+      évts: { devientDéléguéeDe: 49328 }
       état: { statut: COMD, name: Bagneux, crat: 49328 }
   49017:
     '1943-01-01':
@@ -70736,7 +70736,7 @@ contents:
       état: { statut: COM, name: Baugé-en-Anjou, nomCommeDéléguée: Baugé }
       erat: [49018, 49213, 49245, 49303, 49372]
     '2016-01-01':
-      évts: { prendPourDéléguées: [49018, 49031, 49079, 49097, 49101, 49116, 49128, 49143, 49157, 49213, 49245, 49303, 49315, 49372, 49380] }
+      évts: { prendPourDéléguées: [49031, 49079, 49097, 49101, 49116, 49128, 49143, 49157, 49315, 49380], gardeCommeRattachées: [49018, 49213, 49245, 49303, 49372] }
       état: { statut: COM, name: Baugé-en-Anjou, nomCommeDéléguée: Baugé }
       erat: [49018, 49031, 49079, 49097, 49101, 49116, 49128, 49143, 49157, 49213, 49245, 49303, 49315, 49372, 49380]
   49019:
@@ -71299,7 +71299,7 @@ contents:
       évts: { sAssocieA: 49328 }
       état: { statut: COMA, name: Dampierre-sur-Loire, crat: 49328 }
     '2014-04-01':
-      évts: { resteRattachéeA: 49328 }
+      évts: { devientDéléguéeDe: 49328 }
       état: { statut: COMD, name: Dampierre-sur-Loire, crat: 49328 }
   49119:
     '1943-01-01':
@@ -71462,7 +71462,6 @@ contents:
   49149:
     '1943-01-01':
       état: { statut: COM, name: Gennes }
-      erat: [49304]
     '2016-01-01':
       évts: { absorbe: [49357], prendPourDéléguées: [49094, 49149, 49154, 49279, 49346] }
       état: { statut: COM, name: 'Gennes-Val de Loire', nomCommeDéléguée: Gennes }
@@ -71847,7 +71846,7 @@ contents:
       évts: { devientDéléguéeDe: 49018 }
       état: { statut: COMD, name: Montpollin, crat: 49018 }
     '2016-01-01':
-      évts: { devientDéléguéeDe: 49018 }
+      évts: { resteRattachéeA: 49018 }
       état: { statut: COMD, name: Montpollin, crat: 49018 }
   49214:
     '1943-01-01':
@@ -72018,7 +72017,7 @@ contents:
       évts: { devientDéléguéeDe: 49018 }
       état: { statut: COMD, name: Pontigné, crat: 49018 }
     '2016-01-01':
-      évts: { devientDéléguéeDe: 49018 }
+      évts: { resteRattachéeA: 49018 }
       état: { statut: COMD, name: Pontigné, crat: 49018 }
   49246:
     '1943-01-01':
@@ -72244,7 +72243,7 @@ contents:
       évts: { sAssocieA: 49328 }
       état: { statut: COMA, name: Saint-Hilaire-Saint-Florent, crat: 49328 }
     '2014-04-01':
-      évts: { resteRattachéeA: 49328 }
+      évts: { devientDéléguéeDe: 49328 }
       état: { statut: COMD, name: Saint-Hilaire-Saint-Florent, crat: 49328 }
   49288:
     '1943-01-01':
@@ -72278,7 +72277,7 @@ contents:
       évts: { sAssocieA: 49328 }
       état: { statut: COMA, name: Saint-Lambert-des-Levées, crat: 49328 }
     '2014-04-01':
-      évts: { resteRattachéeA: 49328 }
+      évts: { devientDéléguéeDe: 49328 }
       état: { statut: COMD, name: Saint-Lambert-des-Levées, crat: 49328 }
   49294:
     '1943-01-01':
@@ -72334,11 +72333,11 @@ contents:
       évts: { devientDéléguéeDe: 49018 }
       état: { statut: COMD, name: 'Saint-Martin-d''Arcé', crat: 49018 }
     '2016-01-01':
-      évts: { devientDéléguéeDe: 49018 }
+      évts: { resteRattachéeA: 49018 }
       état: { statut: COMD, name: 'Saint-Martin-d''Arcé', crat: 49018 }
   49304:
     '1943-01-01':
-      état: { statut: COM, name: Saint-Martin-de-la-Place, crat: 49149 }
+      état: { statut: COM, name: Saint-Martin-de-la-Place }
     '2018-01-01':
       évts: { devientDéléguéeDe: 49261 }
       état: { statut: COMD, name: Saint-Martin-de-la-Place, crat: 49261 }
@@ -72475,7 +72474,7 @@ contents:
       état: { statut: COM, name: Saumur }
       erat: [49016, 49118, 49287, 49293]
     '2014-04-01':
-      évts: { absorbe: {  }, gardeCommeRattachées: [49016, 49118, 49287, 49293] }
+      évts: { prendPourDéléguées: [49016, 49118, 49287, 49293] }
       état: { statut: COM, name: Saumur }
       erat: [49016, 49118, 49287, 49293]
   49329:
@@ -72690,7 +72689,7 @@ contents:
       évts: { devientDéléguéeDe: 49018 }
       état: { statut: COMD, name: 'Le Vieil-Baugé', crat: 49018 }
     '2016-01-01':
-      évts: { devientDéléguéeDe: 49018 }
+      évts: { resteRattachéeA: 49018 }
       état: { statut: COMD, name: 'Le Vieil-Baugé', crat: 49018 }
   49373:
     '1943-01-01':
@@ -78750,7 +78749,7 @@ contents:
       évts: { sAssocieA: 52121 }
       état: { statut: COMA, name: Brottes, crat: 52121 }
     '2014-04-01':
-      évts: { resteRattachéeA: 52121 }
+      évts: { devientDéléguéeDe: 52121 }
       état: { statut: COMD, name: Brottes, crat: 52121 }
   52079:
     '1943-01-01':
@@ -78984,7 +78983,7 @@ contents:
       état: { statut: COM, name: Chaumont }
       erat: [52078]
     '2014-04-01':
-      évts: { absorbe: {  }, gardeCommeRattachées: [52078] }
+      évts: { prendPourDéléguées: [52078] }
       état: { statut: COM, name: Chaumont }
       erat: [52078]
   52122:
@@ -110973,13 +110972,18 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Lyon }
       erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387]
+    '1959-02-08':
+      évts: { estModifiéeIndirectementPar: [69387] }
+      état: { statut: COM, name: Lyon }
+      erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388]
     '1963-08-07':
       évts: { absorbe: [69232] }
       état: { statut: COM, name: Lyon }
+      erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388]
     '1964-08-12':
-      erat: [69385, 69389]
-    '1959-02-08':
-      erat: [69387, 69388]
+      évts: { estModifiéeIndirectementPar: [69385] }
+      état: { statut: COM, name: Lyon }
+      erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388, 69389]
   69124:
     '1943-01-01':
       état: { statut: COM, name: Marchampt }

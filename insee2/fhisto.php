@@ -51,8 +51,7 @@ else {
   $rpicoms = $rpicoms['contents'];
 }
   
-//$rpicoms = ['01033'=> $rpicoms['01033']];
-  
+//$rpicoms = ['69123'=> $rpicoms['69123']];
 //echo Yaml::dump($rpicoms, 3, 2);
 
 $histos = []; // contenu du fichier histo en ordre chrono direct, [cinsee => [ddébut => ['évts' => évts]]]
@@ -96,6 +95,10 @@ foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de 
     $erat = isset($histoD['erat']) ? $histoD['erat'] : [];
   }
 }
+$histos[69123]['1959-02-08']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388];
+$histos[69123]['1963-08-07']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388];
+$histos[69123]['1964-08-12']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388, 69389];
+  
 
 if ($action == 'histo')
   echo Yaml::dump($histos, 3, 2);

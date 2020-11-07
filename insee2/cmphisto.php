@@ -3,7 +3,8 @@
 name: cmphisto.php
 title: cmphisto.php - comparaison le fichier histo.yaml v2 avec le fichier histov.yaml v1
 doc: |
-  De nbx écarts sont dus à la gestion de la déléguée propre mal gérée dans l'ancienne version
+  De nbx écarts sont dus à la gestion de la déléguée propre mal gérée dans l'ancienne version,
+  notamment la suppression de la déléguée propre formalisée par une absorption d'un code par lui même.
 journal: |
   6-7/11/2020:
     - création
@@ -63,6 +64,7 @@ function old2newFmt(string $cinsee, array $oldV): array {
     'prendPourAssociées' => 'associe',
     'crééeCommeSimpleParScissionDe'=> 'crééeCOMParScissionDe',
     'crééeCommeAssociéeParScissionDe'=> 'crééeCOMAParScissionDe',
+    'crééCommeArrondissementMunicipalParScissionDe'=> 'crééARMParScissionDe',
     'gardeCommeAssociées'=> 'gardeCommeRattachées',
     'gardeCommeDéléguées'=> 'gardeCommeRattachées',
   ];
