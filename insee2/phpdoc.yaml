@@ -6,6 +6,8 @@ doc: |
     - fabrication du Rpicom - historique par code Insee dans l'ordre chronologique inverse (frpicom.php)
     - conversion en format histo - historique par code Insee dans l'ordre chronologique directe, ajout des erats (fhisto.php)
 journal: |
+  7/11/2020:
+    - amélioration suite à comparaison avec ../insee
   4/11/2020:
     - traitement des cas dans rpicom.php
   20/10/2020:

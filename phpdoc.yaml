@@ -3,9 +3,6 @@ path: /yamldoc/pub/comhisto
 doc: |
   Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
   Réutilisation du code produit dans rpicom, renommage du projet.
-
-  A Faire:
-    - documenter les erreurs Insee
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
   
@@ -13,6 +10,8 @@ doc: |
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
 journal: |
+  20/10-7/11/2020:
+    - écriture d'une nlle version de insee améliorant notament la doc des erreurs Insee
   23/9/2020:
     - correction erreur sur 78613/91613 (Thionville)
     - ajout St Barth et St Martin
@@ -39,6 +38,7 @@ journal: |
 submodules:
   - /yamldoc/pub/comhisto/data
   - /yamldoc/pub/comhisto/insee
+  - /yamldoc/pub/comhisto/insee2
   - /yamldoc/pub/comhisto/elits
   - /yamldoc/pub/comhisto/ign
   - /yamldoc/pub/comhisto/stbarthmartin
