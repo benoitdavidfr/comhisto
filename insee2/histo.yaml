@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-05T22:39:41+00:00'
+created: '2020-11-07T09:02:33+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -20435,7 +20435,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Ouilly-le-Basset }
     '1947-08-27':
-      évts: { fusionneDans: 14764 }
+      évts: { fusionneDans: 14612 }
   14486:
     '1943-01-01':
       état: { statut: COM, name: Ouilly-le-Tesson }
@@ -21023,7 +21023,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: 'Saint-Marc-d''Ouilly' }
     '1947-08-27':
-      évts: { fusionneDans: 14764 }
+      évts: { absorbe: [14485], changeDeCodePour: 14764 }
   14613:
     '1943-01-01':
       état: { statut: COM, name: Saint-Marcouf }
@@ -21743,7 +21743,8 @@ contents:
       évts: { devientDéléguéeDe: 14342 }
       état: { statut: COMD, name: Vouilly, crat: 14342 }
   14764:
-    '1943-01-01':
+    '1947-08-27':
+      évts: { avaitPourCode: 14612 }
       état: { statut: COM, name: 'Pont-d''Ouilly' }
   15001:
     '1943-01-01':

@@ -1,7 +1,7 @@
 title: 'Fichier des communes au 2020-01-01 avec entrée par code INSEE des communes associées ou déléguées et des ardt. mun.'
-created: '2020-11-05T08:06:06+00:00'
+created: '2020-11-07T08:58:19+00:00'
 valid: '2020-01-01'
-source: 'création par traduction du fichier ../data/communes2020.csv de l''INSEE en utilisant la commande ''insee.php ../data/communes2020.csv 2020-01-01 csv'''
+source: 'création par traduction du fichier ../data/communes2020.csv de l''INSEE en utilisant la commande ''fetat.php ../data/communes2020.csv 2020-01-01 csv'''
 $schema: 'http://id.georef.eu/comhisto/insee2/exfcoms/$schema'
 ydADscrBhv:
   jsonLdContext: 'http://schema.org'

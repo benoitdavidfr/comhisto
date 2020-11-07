@@ -62,7 +62,7 @@ $schema:
           description: le sujet change de nom avec comme objet le nouveau nom (pas d'evt. mirroir)
           type: string
         sortDuPérimètreDuRéférentiel:
-          description: le sujet sort du périmètre du référentiel, cas de Saint-Martin et Saint-Barthélémy (pas d'évt mirroir)
+          description: le sujet sort du périmètre du référentiel, cas de Saint-Barthélémy et Saint-Martin (pas d'évt mirroir)
           type: 'null'
         changeDeCodePour:
           description: le sujet change de code, en général lors d'un chgt de dépt, avec comme objet le nouv code (mirroir avaitPourCode)
@@ -126,7 +126,7 @@ $schema:
             Entité devient déléguée lors de la création/évolution d'une c. nouv. avec code de cette dernière (m. prendPourDéléguées)
             La commune de rattachement objet doit être une commune simple.
             Si le sujet était rattaché à une autre CS alors il doit s'en détacher explicitement au préalable (c'est nécessaire pour
-            que l'ancienne commune de ratachement sache qu'elle la détache).
+            que l'ancienne commune de rattachement sache qu'elle la détache).
             Par contre l'entité peut auparavant être associée à la même c. de rattachement.
             Si le sujet avait des ER alors elles doivent simultanément s'en détacher.
             Si le sujet était mixte alors son ER est rattachée à l'objet et la CS disparait.

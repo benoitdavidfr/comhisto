@@ -69,8 +69,9 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - évènements: `A.fusionneDans.B / B.absorbe.(A)`
   - exemple: `{'01003': {évts: {fusionneDans: '01165'}}, '01165': {évts: {absorbe: ['01003']}}}`
   - cas particulier:
-    le cas de 2 entités qui fusionnent pour en créer une nouvelle avec un nouveau code Insee est traité par une fusion suivie
-    d'un changement de code
+    le cas de 2 entités qui fusionnent pour en créer une nouvelle avec un nouveau code Insee
+    (il s'agit de la création le 7/8/1947 de Pont-d'Ouilly (14764) à partir d'Ouilly-le-Basset (14485) et Saint-Marc-d'Ouilly (14612))
+    est traité par une fusion suivie d'un changement de code
 - une entité A se scinde en 2 pour en créer une nouvelle B, les évènements définissent le type de l'entités créée
   - évènements: `A.seScindePourCréer.(B) / B.crééeCOMParScissionDe.A, B.crééeCOMAParScissionDe.A, B.crééARMParScissionDe.A`
   - exemple: `{97414: {évts: {seScindePourCréer: [97424]}}, 97424: {évts: {crééeCommeSimpleParScissionDe: 97414}}}`

@@ -71,6 +71,9 @@ functions:
       - améliorer les specs
   ",
   'journal'=> "
+    7/11/2020:
+      - implem du Cas particulier de fusion le 27/8/1947 d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612)
+        dans Pont-d'Ouilly avec création du nouveau code 14764
     5/11/2020:
       - définition du schéma de histo et alignement de rpicom sur ce schéma
       - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
@@ -781,13 +784,47 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
     $absorbees = $fusionnees; unset($absorbees[$codeCheflieuAp]);
     $codeFus = array_keys($this->fusionnees);
     try { // permet de capturer l'exception lancée par setMerge() pour afficher le cas en cause
-      if ((count($this->fusionnees)==1) && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
+      if (($this->mod==31) && !isset($fusionnees[$codeCheflieuAp])) { // cas particulier de fusion dans une nouvelle commune
+        // Le 27/8/1947 fusion d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612) dans Pont-d'Ouilly
+        // avec création du nouveau code 14764
+        // Ce cas est implémenté comme la concaténation d'une part de la fusion d'une commune dans l'autre
+        // puis d'un changement de code.
+        $fcom1 = array_keys($fusionnees)[0];
+        $fcom2 = array_keys($fusionnees)[1];
+        // fcom1 fusionne dans fcom2
+        setMerge($rpicoms[$fcom1][$date_eff], [
+          'après'=> [],
+          'évts' => ['type'=> $typeLabel, 'fusionneDans'=> $fcom2],
+          'état' => [
+            'statut'=> $fusionnees[$fcom1]['av']['typecom'],
+            'name'=> $fusionnees[$fcom1]['av']['libelle']
+          ],
+        ]);
+        // fcom2 absorbe fcom1 puis chandeDeCodePour codeCheflieuAp
+        setMerge($rpicoms[$fcom2][$date_eff], [
+          'après'=> [],
+          'évts' => ['type'=> $typeLabel, 'absorbe'=> [$fcom1], 'changeDeCodePour'=> $codeCheflieuAp],
+          'état' => [
+            'statut'=> $fusionnees[$fcom2]['av']['typecom'],
+            'name'=> $fusionnees[$fcom2]['av']['libelle']
+          ],
+        ]);
+        // $codeCheflieuAp est créé par changement de code
+        setMerge($rpicoms[$codeCheflieuAp][$date_eff], [
+          'après'=> [
+            'statut'=> $this->cheflieu['ap']['typecom'],
+            'name'=> $this->cheflieu['ap']['libelle']
+          ],
+          'évts' => ['type'=> $typeLabel, 'avaitPourCode'=> $fcom2],
+        ]);
+        return;
+      }
+      elseif ((count($this->fusionnees)==1) && ($codeFus[0] <> $codeCheflieuAp) && isset($this->rattachees[$codeFus[0]])) {
         // Traitement des 2 cas de changement de rattachement d'une commune nouvelle à une commune simple:
         // - 49065/49080@2019-01-01 - Les Hauts-d'Anjou - rattachement de la commune nouvelle 49065 à la commune simple 49080
         // - 49149/49261@2018-01-01 - Gennes-Val de Loire - rattachement de la commune nouvelle 49149 à la commune simple 49261
         //echo Yaml::dump($this->asArray(), 6, 2);
         //echo "<b>Cas de rattachement d'une commune nouvelle à une commune simple NON implémenté</b>\n";
-        
         $codeCheflieuAv = $codeFus[0]; // le code du cheflieu de l'ancienne commune nouvelle
         // Je commence par traiter les anciennes communes déléguées qui sont transférées à l'exception des chefs-lieux
         foreach ($rattachees as $rcom => $rattachee) {
@@ -994,12 +1031,14 @@ class Fusion extends FusionRattachement { // 31 - Fusion simple
     ayant plus d'un arc entrant (1).
     Parmi les noeuds de départ de ces arcs, un porte le même code que le noeud d'arrivée, c'est l'état avant du chef-lieu.
     Les autres noeuds de départ correspondent aux entités fusionnées.  
-    <i>Cas particulier:</i> 
+    <i>Cas particulier:</i>  
+    Le 27/8/1947 fusion d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612) dans Pont-d'Ouilly
+    avec création du nouveau code 14764 (exemple no 2) ;
+    il est impossible de savoir laquelle des 2 anciennes communes est le chef-lieu.
     ";
   const EXAMPLES = [
     '2006-09-01'=> "",
-    '1947-08-27'=> "Cas particulier de création du nouveau code 14764 par cette fusion ;
-      il parait impossible de savoir laquelle des 2 est chef-lieu."
+    '1947-08-27'=> "Cas particulier de création du nouveau code 14764 par cette fusion."
   ];
 };
 

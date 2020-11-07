@@ -21,6 +21,7 @@ else {
 }
 
 require_once __DIR__.'/../../../inc.php';
+
 $doc = new_doc($params['docid'], 'pub');
 if ($doc->checkSchemaConformity('/')->ok())
   exit(0);

@@ -29,5 +29,5 @@ com20200101: com20200101.yaml exfcoms
 exfcoms: exfcoms.yaml
 	php check.php comhisto/insee2/exfcoms
 # génération de com20200101.yaml
-com20200101.yaml: ../data/communes2020.csv insee.php
-	php insee.php ../data/communes2020.csv 2020-01-01 csv > $@
+com20200101.yaml: ../data/communes2020.csv fetat.php
+	php fetat.php ../data/communes2020.csv 2020-01-01 csv > $@
