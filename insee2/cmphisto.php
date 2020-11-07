@@ -4,7 +4,6 @@ name: cmphisto.php
 title: cmphisto.php - comparaison le fichier histo.yaml v2 avec le fichier histov.yaml v1
 doc: |
   Erreurs détectées dans le nouveau histo:
-    * 14764 - mauvaise gestion de la fusion de 2 communes dans une nouvelle
     - absence de l'évt gardeCommeAssociées
     - gardeCommeAssociées -> associe 
     - resteRattachée -> sAssocieA
@@ -13,13 +12,8 @@ doc: |
       - on peut considérer que dans un chgt d'association, il n'est pas nécessaire de se détacher avant
     - resteDéléguéeDe -> devientDéléguéeDe
     * 14472@2014-01-07 - manque l'association de 14010 - change la sémantique
-  Règles à définir:
-    - resteRattachéeA est obligatoire afin qu'il y ait un évt sur chaque rattachée lors d'une modification d'un groupe (ok)
-      Une autre possibilité serait d'avoir systématiquement un sAssocieA/devientDéléguéeDe à la place d'un resteRattachéeA (NON)
-      par contre gardeCommeRattachées n'est pas utile et donc à ne pas conserver car il existe déjà d'autres évts (ok)
-    - lorsque une entité change de rattachement, il n'est pas utile d'effectuer un détachement au préalable
 journal: |
-  6/11/2020:
+  6-7/11/2020:
     - création
 */
 ini_set('memory_limit', '2G');
@@ -29,8 +23,10 @@ require_once __DIR__.'/../../../vendor/autoload.php';
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-if (php_sapi_name() <> 'cli')
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>cmphisto</title></head><body><pre>\n";
+{
+  if (php_sapi_name() <> 'cli')
+    echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>cmphisto</title></head><body><pre>\n";
+}
 
 class AutoDescribed { // Pour garder une compatibilité avec YamlDoc, le pser est enregistré comme objet AutoDescribed
   protected $_id;
@@ -74,6 +70,7 @@ function old2newFmt(string $cinsee, array $oldV): array {
     'prendPourAssociées' => 'associe',
     'crééeCommeSimpleParScissionDe'=> 'crééeCOMParScissionDe',
     'crééeCommeAssociéeParScissionDe'=> 'crééeCOMAParScissionDe',
+    'gardeCommeAssociées'=> 'gardeCommeRattachées',
   ];
   $newV = [];
   if (isset($oldV['evts'])) {
@@ -100,8 +97,10 @@ function old2newFmt(string $cinsee, array $oldV): array {
   return $newV;
 }
 
+$nbEcarts = 0;
+
 if (!isset($_GET['cinsee'])) {
-  // 1) détection des codes en +/- dans histos / histovs
+  // 1) détection des codes/ddebut en +/- dans histos / histovs
   $cinsees = [];
   foreach ($histos as $cinsee => $histo) {
     $cinsees[$cinsee] = 1;
@@ -126,10 +125,14 @@ if (!isset($_GET['cinsee'])) {
       $ddebs = array_unique($ddebs);
       //echo Yaml::dump(['$ddebs' => $ddebs]);
       foreach ($ddebs as $ddeb) {
-        if (!isset($histov[$ddeb]))
+        if (!isset($histov[$ddeb])) {
           echo "> <a href='?cinsee=$cinsee'>$cinsee/$ddeb</a>\n";
-        elseif (!isset($histo[$ddeb]))
+          $nbEcarts++;
+        }
+        elseif (!isset($histo[$ddeb])) {
           echo "< <a href='?cinsee=$cinsee'>$cinsee/$ddeb</a>\n";
+          $nbEcarts++;
+        }
       }
     }
   }
@@ -144,12 +147,14 @@ if (!isset($_GET['cinsee'])) {
         echo "<> <a href='?cinsee=$cinsee'>$cinsee@$ddebut</a>\n";
         echo "  < ",Yaml::dump($oldV, 0),"\n";
         echo "  > ",Yaml::dump($histos[$cinsee][$ddebut], 0),"\n";
+        $nbEcarts++;
       }
       else {
         //echo "== $cinsee/$ddebut\n";
       }
     }
   }
+  echo "$nbEcarts écarts détectés\n";
 }
 else {
   $cinsee = $_GET['cinsee'];

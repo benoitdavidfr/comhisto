@@ -76,6 +76,7 @@ functions:
         dans Pont-d'Ouilly avec création du nouveau code 14764
       - ajout évt gardeCommeRattachées dans Integration::buildRpicom()
       - amélioration des specs de Integration(34)
+      - ajout resteRattachéeA dans FusionRattachement::buildRpicom()
     5/11/2020:
       - définition du schéma de histo et alignement de rpicom sur ce schéma
       - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
@@ -997,7 +998,7 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
         foreach ($fusionnees as $fcom => $fusionnee) {
           setMerge($rpicoms[$fcom][$date_eff], [
             'après'=> [],
-            'évts' => [/*'type'=> $typeLabel, */'fusionneDans'=> $codeCheflieuAp],
+            'évts' => ['type'=> $typeLabel, 'fusionneDans'=> $codeCheflieuAp],
             'état' => [
               'statut'=> $fusionnee['av']['typecom'],
               'name'=> $fusionnee['av']['libelle']
@@ -1007,15 +1008,24 @@ abstract class FusionRattachement extends Mvt { // 31 (Fusion simple) || 32 (Cr�
       }
       if ($rattachees) {
         foreach ($rattachees as $rcom => $rattachee) {
-          setMerge($rpicoms[$rcom][$date_eff], [
-            'après'=> [
-              'statut'=> $rattachee['ap']['typecom'],
-              'name'=> $rattachee['ap']['libelle'],
-              'crat'=> $codeCheflieuAp,
-            ],
-            'évts' => [/*'type'=> $typeLabel, */$seRattacheALabel => $codeCheflieuAp],
-            'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle']],
-          ]);
+          if ($rattachee['av']['typecom'] == $rattachee['ap']['typecom']) { // elle est déjà rattachée donc elle resteRattachéeA
+            setMerge($rpicoms[$rcom][$date_eff], [
+              'après'=> ['statut'=> $rattachee['ap']['typecom'], 'name'=> $rattachee['ap']['libelle'], 'crat'=> $codeCheflieuAp],
+              'évts' => ['type'=> $typeLabel, 'resteRattachéeA' => $codeCheflieuAp],
+              'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle'], 'crat'=> $codeCheflieuAp],
+            ]);
+          }
+          else { // cas std
+            setMerge($rpicoms[$rcom][$date_eff], [
+              'après'=> [
+                'statut'=> $rattachee['ap']['typecom'],
+                'name'=> $rattachee['ap']['libelle'],
+                'crat'=> $codeCheflieuAp,
+              ],
+              'évts' => ['type'=> $typeLabel, $seRattacheALabel => $codeCheflieuAp],
+              'état' => ['statut'=> $rattachee['av']['typecom'], 'name'=> $rattachee['av']['libelle']],
+            ]);
+          }
         }
       }
     }

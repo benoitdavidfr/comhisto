@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T10:20:10+00:00'
+created: '2020-11-07T11:09:13+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -2845,7 +2845,7 @@ contents:
       évts: { sAssocieA: '02738' }
       état: { statut: COMA, name: Fargniers, crat: '02738' }
     '1992-01-01':
-      évts: { sAssocieA: '02738' }
+      évts: { resteRattachéeA: '02738' }
       état: { statut: COMA, name: Fargniers, crat: '02738' }
   '02301':
     '1943-01-01':
@@ -4605,7 +4605,7 @@ contents:
       évts: { sAssocieA: '02738' }
       état: { statut: COMA, name: Vouël, crat: '02738' }
     '1992-01-01':
-      évts: { sAssocieA: '02738' }
+      évts: { resteRattachéeA: '02738' }
       état: { statut: COMA, name: Vouël, crat: '02738' }
   '02826':
     '1943-01-01':
@@ -6173,7 +6173,7 @@ contents:
       évts: { sAssocieA: '04155' }
       état: { statut: COMA, name: Mariaud, crat: '04155' }
     '1978-01-01':
-      évts: { sAssocieA: '04155' }
+      évts: { resteRattachéeA: '04155' }
       état: { statut: COMA, name: Mariaud, crat: '04155' }
     '1987-05-01':
       évts: { fusionneDans: '04155' }
@@ -10021,7 +10021,7 @@ contents:
       évts: { sAssocieA: '08366' }
       état: { statut: COMA, name: 'La Hardoye', crat: '08366' }
     '1974-05-01':
-      évts: { sAssocieA: '08366' }
+      évts: { resteRattachéeA: '08366' }
       état: { statut: COMA, name: 'La Hardoye', crat: '08366' }
   '08214':
     '1943-01-01':
@@ -19017,7 +19017,7 @@ contents:
       évts: { devientDéléguéeDe: 14579 }
       état: { statut: COMD, name: Coulvain, crat: 14579 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 14579 }
+      évts: { resteRattachéeA: 14579 }
       état: { statut: COMD, name: Coulvain, crat: 14579 }
   14189:
     '1943-01-01':
@@ -20166,7 +20166,7 @@ contents:
       évts: { devientDéléguéeDe: 14475 }
       état: { statut: COMD, name: Missy, crat: 14475 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 14475 }
+      évts: { resteRattachéeA: 14475 }
       état: { statut: COMD, name: Missy, crat: 14475 }
   14433:
     '1943-01-01':
@@ -23214,7 +23214,7 @@ contents:
       évts: { devientDéléguéeDe: 16046 }
       état: { statut: COMD, name: Cressac-Saint-Genis, crat: 16046 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 16046 }
+      évts: { resteRattachéeA: 16046 }
       état: { statut: COMD, name: Cressac-Saint-Genis, crat: 16046 }
   16116:
     '1943-01-01':
@@ -23782,7 +23782,7 @@ contents:
       évts: { devientDéléguéeDe: 16286 }
       état: { statut: COMD, name: Plaizac, crat: 16286 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 16286 }
+      évts: { resteRattachéeA: 16286 }
       état: { statut: COMD, name: Plaizac, crat: 16286 }
   16263:
     '1943-01-01':
@@ -24250,7 +24250,7 @@ contents:
       évts: { devientDéléguéeDe: 16286 }
       état: { statut: COMD, name: Sonneville, crat: 16286 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 16286 }
+      évts: { resteRattachéeA: 16286 }
       état: { statut: COMD, name: Sonneville, crat: 16286 }
   16372:
     '1943-01-01':
@@ -27694,7 +27694,7 @@ contents:
       évts: { sAssocieA: 19275 }
       état: { statut: COMA, name: Saint-Dézery, crat: 19275 }
     '1977-01-01':
-      évts: { sAssocieA: 19275 }
+      évts: { resteRattachéeA: 19275 }
       état: { statut: COMA, name: Saint-Dézery, crat: 19275 }
   19198:
     '1943-01-01':
@@ -32780,7 +32780,7 @@ contents:
       évts: { devientDéléguéeDe: 22093 }
       état: { statut: COMD, name: Meslin, crat: 22093 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 22093 }
+      évts: { resteRattachéeA: 22093 }
       état: { statut: COMD, name: Meslin, crat: 22093 }
   22152:
     '1943-01-01':
@@ -34644,7 +34644,7 @@ contents:
       évts: { devientDéléguéeDe: 24053 }
       état: { statut: COMD, name: Atur, crat: 24053 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 24053 }
+      évts: { resteRattachéeA: 24053 }
       état: { statut: COMD, name: Atur, crat: 24053 }
   24014:
     '1943-01-01':
@@ -36344,7 +36344,7 @@ contents:
       évts: { devientDéléguéeDe: 24362 }
       état: { statut: COMD, name: Saint-Laurent-des-Bâtons, crat: 24362 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 24362 }
+      évts: { resteRattachéeA: 24362 }
       état: { statut: COMD, name: Saint-Laurent-des-Bâtons, crat: 24362 }
   24436:
     '1943-01-01':
@@ -36362,7 +36362,7 @@ contents:
       évts: { devientDéléguéeDe: 24053 }
       état: { statut: COMD, name: Saint-Laurent-sur-Manoire, crat: 24053 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 24053 }
+      évts: { resteRattachéeA: 24053 }
       état: { statut: COMD, name: Saint-Laurent-sur-Manoire, crat: 24053 }
   24440:
     '1943-01-01':
@@ -43079,7 +43079,7 @@ contents:
       évts: { devientDéléguéeDe: 27089 }
       état: { statut: COMD, name: Theillement, crat: 27089 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 27089 }
+      évts: { resteRattachéeA: 27089 }
       état: { statut: COMD, name: Theillement, crat: 27089 }
   27627:
     '1943-01-01':
@@ -43467,7 +43467,7 @@ contents:
       évts: { devientDéléguéeDe: 28406 }
       état: { statut: COMD, name: Baignolet, crat: 28406 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 28406 }
+      évts: { resteRattachéeA: 28406 }
       état: { statut: COMD, name: Baignolet, crat: 28406 }
   28021:
     '1943-01-01':
@@ -43934,7 +43934,7 @@ contents:
       évts: { devientDéléguéeDe: 28406 }
       état: { statut: COMD, name: Fains-la-Folie, crat: 28406 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 28406 }
+      évts: { resteRattachéeA: 28406 }
       état: { statut: COMD, name: Fains-la-Folie, crat: 28406 }
   28146:
     '1943-01-01':
@@ -44070,7 +44070,7 @@ contents:
       évts: { devientDéléguéeDe: 28406 }
       état: { statut: COMD, name: Germignonville, crat: 28406 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 28406 }
+      évts: { resteRattachéeA: 28406 }
       état: { statut: COMD, name: Germignonville, crat: 28406 }
   28180:
     '1943-01-01':
@@ -55648,7 +55648,7 @@ contents:
       évts: { devientDéléguéeDe: 36093 }
       état: { statut: COMD, name: Saint-Martin-de-Lamps, crat: 36093 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 36093 }
+      évts: { resteRattachéeA: 36093 }
       état: { statut: COMD, name: Saint-Martin-de-Lamps, crat: 36093 }
   36202:
     '1943-01-01':
@@ -58886,7 +58886,7 @@ contents:
       évts: { devientDéléguéeDe: 39378 }
       état: { statut: COMD, name: 'L''Aubépin', crat: 39378 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 39378 }
+      évts: { resteRattachéeA: 39378 }
       état: { statut: COMD, name: 'L''Aubépin', crat: 39378 }
   39024:
     '1943-01-01':
@@ -59305,7 +59305,7 @@ contents:
       évts: { devientDéléguéeDe: 39378 }
       état: { statut: COMD, name: Chazelles, crat: 39378 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 39378 }
+      évts: { resteRattachéeA: 39378 }
       état: { statut: COMD, name: Chazelles, crat: 39378 }
   39136:
     '1943-01-01':
@@ -59678,7 +59678,7 @@ contents:
       évts: { devientDéléguéeDe: 39209 }
       état: { statut: COMD, name: Florentia, crat: 39209 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 39209 }
+      évts: { resteRattachéeA: 39209 }
       état: { statut: COMD, name: Florentia, crat: 39209 }
   39227:
     '1943-01-01':
@@ -60326,7 +60326,7 @@ contents:
       évts: { devientDéléguéeDe: 39209 }
       état: { statut: COMD, name: Nantey, crat: 39209 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 39209 }
+      évts: { resteRattachéeA: 39209 }
       état: { statut: COMD, name: Nantey, crat: 39209 }
   39383:
     '1943-01-01':
@@ -60549,7 +60549,7 @@ contents:
       évts: { devientDéléguéeDe: 39286 }
       état: { statut: COMD, name: Ponthoux, crat: 39286 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 39286 }
+      évts: { resteRattachéeA: 39286 }
       état: { statut: COMD, name: Ponthoux, crat: 39286 }
   39439:
     '1943-01-01':
@@ -60577,7 +60577,7 @@ contents:
       évts: { devientDéléguéeDe: 39130 }
       état: { statut: COMD, name: Prénovel, crat: 39130 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 39130 }
+      évts: { resteRattachéeA: 39130 }
       état: { statut: COMD, name: Prénovel, crat: 39130 }
   39443:
     '1943-01-01':
@@ -60837,7 +60837,7 @@ contents:
       évts: { devientDéléguéeDe: 39209 }
       état: { statut: COMD, name: Senaud, crat: 39209 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 39209 }
+      évts: { resteRattachéeA: 39209 }
       état: { statut: COMD, name: Senaud, crat: 39209 }
   39510:
     '1943-01-01':
@@ -62844,7 +62844,7 @@ contents:
       évts: { devientDéléguéeDe: 41142 }
       état: { statut: COMD, name: Orchaise, crat: 41142 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 41142 }
+      évts: { resteRattachéeA: 41142 }
       état: { statut: COMD, name: Orchaise, crat: 41142 }
   41170:
     '1943-01-01':
@@ -71152,7 +71152,7 @@ contents:
       évts: { devientDéléguéeDe: 49220 }
       état: { statut: COMD, name: Chemiré-sur-Sarthe, crat: 49220 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 49220 }
+      évts: { resteRattachéeA: 49220 }
       état: { statut: COMD, name: Chemiré-sur-Sarthe, crat: 49220 }
   49094:
     '1943-01-01':
@@ -71764,7 +71764,7 @@ contents:
       évts: { devientDéléguéeDe: 49092 }
       état: { statut: COMD, name: Melay, crat: 49092 }
     '2015-12-15':
-      évts: { devientDéléguéeDe: 49092 }
+      évts: { resteRattachéeA: 49092 }
       état: { statut: COMD, name: Melay, crat: 49092 }
   49200:
     '1943-01-01':
@@ -72781,7 +72781,7 @@ contents:
       évts: { devientDéléguéeDe: 50400 }
       état: { statut: COMD, name: Amfreville, crat: 50400 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50400 }
+      évts: { resteRattachéeA: 50400 }
       état: { statut: COMD, name: Amfreville, crat: 50400 }
   50006:
     '1943-01-01':
@@ -72811,10 +72811,10 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: Angoville-au-Plain, crat: 50099 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Angoville-au-Plain, crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Angoville-au-Plain, crat: 50099 }
   50011:
     '1943-01-01':
@@ -73015,7 +73015,7 @@ contents:
       évts: { devientDéléguéeDe: 50523 }
       état: { statut: COMD, name: Beuzeville-au-Plain, crat: 50523 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50523 }
+      évts: { resteRattachéeA: 50523 }
       état: { statut: COMD, name: Beuzeville-au-Plain, crat: 50523 }
   50052:
     '1943-01-01':
@@ -73060,7 +73060,7 @@ contents:
       évts: { devientDéléguéeDe: 50215 }
       état: { statut: COMD, name: Boisroger, crat: 50215 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50215 }
+      évts: { resteRattachéeA: 50215 }
       état: { statut: COMD, name: Boisroger, crat: 50215 }
   50062:
     '1943-01-01':
@@ -73174,7 +73174,7 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: Brévands, crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Brévands, crat: 50099 }
   50081:
     '1943-01-01':
@@ -73407,7 +73407,7 @@ contents:
       évts: { devientDéléguéeDe: 50523 }
       état: { statut: COMD, name: Chef-du-Pont, crat: 50523 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50523 }
+      évts: { resteRattachéeA: 50523 }
       état: { statut: COMD, name: Chef-du-Pont, crat: 50523 }
   50128:
     '1943-01-01':
@@ -73549,7 +73549,7 @@ contents:
       évts: { devientDéléguéeDe: 50400 }
       état: { statut: COMD, name: Cretteville, crat: 50400 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50400 }
+      évts: { resteRattachéeA: 50400 }
       état: { statut: COMD, name: Cretteville, crat: 50400 }
   50154:
     '1943-01-01':
@@ -73651,7 +73651,7 @@ contents:
       évts: { devientDéléguéeDe: 50523 }
       état: { statut: COMD, name: Écoquenéauville, crat: 50523 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50523 }
+      évts: { resteRattachéeA: 50523 }
       état: { statut: COMD, name: Écoquenéauville, crat: 50523 }
   50171:
     '1943-01-01':
@@ -73699,7 +73699,7 @@ contents:
       évts: { devientDéléguéeDe: 50592 }
       état: { statut: COMD, name: Fervaches, crat: 50592 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 50592 }
+      évts: { resteRattachéeA: 50592 }
       état: { statut: COMD, name: Fervaches, crat: 50592 }
   50181:
     '1943-01-01':
@@ -73748,7 +73748,7 @@ contents:
       évts: { devientDéléguéeDe: 50523 }
       état: { statut: COMD, name: Foucarville, crat: 50523 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50523 }
+      évts: { resteRattachéeA: 50523 }
       état: { statut: COMD, name: Foucarville, crat: 50523 }
   50192:
     '1943-01-01':
@@ -73859,7 +73859,7 @@ contents:
       évts: { devientDéléguéeDe: 50400 }
       état: { statut: COMD, name: Gourbesville, crat: 50400 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50400 }
+      évts: { resteRattachéeA: 50400 }
       état: { statut: COMD, name: Gourbesville, crat: 50400 }
   50213:
     '1943-01-01':
@@ -73868,7 +73868,7 @@ contents:
       évts: { devientDéléguéeDe: 50546 }
       état: { statut: COMD, name: Gourfaleur, crat: 50546 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50546 }
+      évts: { resteRattachéeA: 50546 }
       état: { statut: COMD, name: Gourfaleur, crat: 50546 }
   50214:
     '1943-01-01':
@@ -74036,10 +74036,10 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: Houesville, crat: 50099 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Houesville, crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Houesville, crat: 50099 }
   50250:
     '1943-01-01':
@@ -74048,7 +74048,7 @@ contents:
       évts: { devientDéléguéeDe: 50400 }
       état: { statut: COMD, name: Houtteville, crat: 50400 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50400 }
+      évts: { resteRattachéeA: 50400 }
       état: { statut: COMD, name: Houtteville, crat: 50400 }
   50251:
     '1943-01-01':
@@ -74072,7 +74072,7 @@ contents:
       évts: { devientDéléguéeDe: 50419 }
       état: { statut: COMD, name: Hyenville, crat: 50419 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50419 }
+      évts: { resteRattachéeA: 50419 }
       état: { statut: COMD, name: Hyenville, crat: 50419 }
   50256:
     '1943-01-01':
@@ -74222,7 +74222,7 @@ contents:
       évts: { devientDéléguéeDe: 50546 }
       état: { statut: COMD, name: 'La Mancellière-sur-Vire', crat: 50546 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50546 }
+      évts: { resteRattachéeA: 50546 }
       état: { statut: COMD, name: 'La Mancellière-sur-Vire', crat: 50546 }
   50288:
     '1943-01-01':
@@ -74376,7 +74376,7 @@ contents:
       évts: { devientDéléguéeDe: 50139 }
       état: { statut: COMD, name: 'Le Mesnil-Raoult', crat: 50139 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50139 }
+      évts: { resteRattachéeA: 50139 }
       état: { statut: COMD, name: 'Le Mesnil-Raoult', crat: 50139 }
   50320:
     '1943-01-01':
@@ -75046,10 +75046,10 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: Saint-Côme-du-Mont, crat: 50099 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Saint-Côme-du-Mont, crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Saint-Côme-du-Mont, crat: 50099 }
   50459:
     '1943-01-01':
@@ -75413,7 +75413,7 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: Saint-Pellerin, crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: Saint-Pellerin, crat: 50099 }
   50535:
     '1943-01-01':
@@ -75458,7 +75458,7 @@ contents:
       évts: { devientDéléguéeDe: 50546 }
       état: { statut: COMD, name: Saint-Romphaire, crat: 50546 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50546 }
+      évts: { resteRattachéeA: 50546 }
       état: { statut: COMD, name: Saint-Romphaire, crat: 50546 }
   50546:
     '1943-01-01':
@@ -75893,7 +75893,7 @@ contents:
       évts: { devientDéléguéeDe: 50099 }
       état: { statut: COMD, name: 'Les Veys', crat: 50099 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 50099 }
+      évts: { resteRattachéeA: 50099 }
       état: { statut: COMD, name: 'Les Veys', crat: 50099 }
   50632:
     '1943-01-01':
@@ -75960,7 +75960,7 @@ contents:
       évts: { devientDéléguéeDe: 50400 }
       état: { statut: COMD, name: Vindefontaine, crat: 50400 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 50400 }
+      évts: { resteRattachéeA: 50400 }
       état: { statut: COMD, name: Vindefontaine, crat: 50400 }
   50643:
     '1943-01-01':
@@ -78494,7 +78494,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Avrecourt, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Avrecourt, crat: 52332 }
     '2012-01-01':
       évts: { seDétacheDe: 52332 }
@@ -78701,7 +78701,7 @@ contents:
       évts: { sAssocieA: 52182 }
       état: { statut: COMA, name: Braucourt, crat: 52182 }
     '1975-01-01':
-      évts: { sAssocieA: 52182 }
+      évts: { resteRattachéeA: 52182 }
       état: { statut: COMA, name: Braucourt, crat: 52182 }
   52069:
     '1943-01-01':
@@ -79107,7 +79107,7 @@ contents:
       évts: { sAssocieA: 52113 }
       état: { statut: COMA, name: Coublanc, crat: 52113 }
     '1974-02-01':
-      évts: { sAssocieA: 52113 }
+      évts: { resteRattachéeA: 52113 }
       état: { statut: COMA, name: Coublanc, crat: 52113 }
     '1990-07-01':
       évts: { seDétacheDe: 52113 }
@@ -79227,7 +79227,7 @@ contents:
       évts: { sAssocieA: 52113 }
       état: { statut: COMA, name: Dommarien, crat: 52113 }
     '1974-02-01':
-      évts: { sAssocieA: 52113 }
+      évts: { resteRattachéeA: 52113 }
       état: { statut: COMA, name: Dommarien, crat: 52113 }
     '1990-07-01':
       évts: { seDétacheDe: 52113 }
@@ -79313,7 +79313,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Épinant, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Épinant, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -79811,7 +79811,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Lécourt, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Lécourt, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -79979,7 +79979,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Maulain, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Maulain, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -80063,7 +80063,7 @@ contents:
       évts: { sAssocieA: 52242 }
       état: { statut: COMA, name: Montlandon, crat: 52242 }
     '1972-11-01':
-      évts: { sAssocieA: 52242 }
+      évts: { resteRattachéeA: 52242 }
       état: { statut: COMA, name: Montlandon, crat: 52242 }
   52334:
     '1943-01-01':
@@ -80151,7 +80151,7 @@ contents:
       évts: { devientDéléguéeDe: 52064 }
       état: { statut: COMD, name: Nijon, crat: 52064 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 52064 }
+      évts: { resteRattachéeA: 52064 }
       état: { statut: COMD, name: Nijon, crat: 52064 }
   52352:
     '1943-01-01':
@@ -80474,7 +80474,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Provenchères-sur-Meuse, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Provenchères-sur-Meuse, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -80514,7 +80514,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Ravennefontaines, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Ravennefontaines, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -80526,7 +80526,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Récourt, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Récourt, crat: 52332 }
     '2012-01-01':
       évts: { resteRattachéeA: 52332 }
@@ -80778,7 +80778,7 @@ contents:
       évts: { sAssocieA: 52332 }
       état: { statut: COMA, name: Saulxures, crat: 52332 }
     '1974-03-09':
-      évts: { sAssocieA: 52332 }
+      évts: { resteRattachéeA: 52332 }
       état: { statut: COMA, name: Saulxures, crat: 52332 }
     '2012-01-01':
       évts: { seDétacheDe: 52332 }
@@ -80938,7 +80938,7 @@ contents:
       évts: { sAssocieA: 52242 }
       état: { statut: COMA, name: Troischamps, crat: 52242 }
     '1972-11-01':
-      évts: { sAssocieA: 52242 }
+      évts: { resteRattachéeA: 52242 }
       état: { statut: COMA, name: Troischamps, crat: 52242 }
   52497:
     '1943-01-01':
@@ -81120,7 +81120,7 @@ contents:
       évts: { sAssocieA: 52094 }
       état: { statut: COMA, name: Villemervry, crat: 52094 }
     '1973-04-01':
-      évts: { sAssocieA: 52094 }
+      évts: { resteRattachéeA: 52094 }
       état: { statut: COMA, name: Villemervry, crat: 52094 }
   52531:
     '1943-01-01':
@@ -81298,7 +81298,7 @@ contents:
       évts: { sAssocieA: 53127 }
       état: { statut: COMA, name: 'La Baroche-Gondouin', crat: 53127 }
     '1974-10-01':
-      évts: { sAssocieA: 53127 }
+      évts: { resteRattachéeA: 53127 }
       état: { statut: COMA, name: 'La Baroche-Gondouin', crat: 53127 }
     '2014-07-01':
       évts: { fusionneDans: 53127 }
@@ -81825,7 +81825,7 @@ contents:
       évts: { sAssocieA: 53127 }
       état: { statut: COMA, name: Melleray-la-Vallée, crat: 53127 }
     '1974-10-01':
-      évts: { sAssocieA: 53127 }
+      évts: { resteRattachéeA: 53127 }
       état: { statut: COMA, name: Melleray-la-Vallée, crat: 53127 }
     '2014-07-01':
       évts: { fusionneDans: 53127 }
@@ -82063,7 +82063,7 @@ contents:
       évts: { devientDéléguéeDe: 53161 }
       état: { statut: COMD, name: Saint-Céneré, crat: 53161 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 53161 }
+      évts: { resteRattachéeA: 53161 }
       état: { statut: COMD, name: Saint-Céneré, crat: 53161 }
   53206:
     '1943-01-01':
@@ -84404,7 +84404,7 @@ contents:
       évts: { sAssocieA: 55117 }
       état: { statut: COMA, name: Auzéville-en-Argonne, crat: 55117 }
     '1973-07-01':
-      évts: { sAssocieA: 55117 }
+      évts: { resteRattachéeA: 55117 }
       état: { statut: COMA, name: Auzéville-en-Argonne, crat: 55117 }
   55021:
     '1943-01-01':
@@ -88015,7 +88015,7 @@ contents:
       évts: { sAssocieA: 57460 }
       état: { statut: COMA, name: Berviller-en-Moselle, crat: 57460 }
     '1974-01-01':
-      évts: { sAssocieA: 57460 }
+      évts: { resteRattachéeA: 57460 }
       état: { statut: COMA, name: Berviller-en-Moselle, crat: 57460 }
     '1981-01-01':
       évts: { seDétacheDe: 57460 }
@@ -89848,7 +89848,7 @@ contents:
       évts: { sAssocieA: 57460 }
       état: { statut: COMA, name: Rémering-lès-Hargarten, crat: 57460 }
     '1974-01-01':
-      évts: { sAssocieA: 57460 }
+      évts: { resteRattachéeA: 57460 }
       état: { statut: COMA, name: Rémering-lès-Hargarten, crat: 57460 }
     '1981-01-01':
       évts: { seDétacheDe: 57460 }
@@ -92602,7 +92602,7 @@ contents:
       évts: { sAssocieA: 59350 }
       état: { statut: COMA, name: Hellemmes-Lille, crat: 59350 }
     '2000-02-27':
-      évts: { sAssocieA: 59350 }
+      évts: { resteRattachéeA: 59350 }
       état: { statut: COMA, name: Hellemmes-Lille, crat: 59350 }
   59299:
     '1943-01-01':
@@ -92887,7 +92887,7 @@ contents:
       évts: { sAssocieA: 59183 }
       état: { statut: COMA, name: Mardyck, crat: 59183 }
     '2010-12-09':
-      évts: { sAssocieA: 59183 }
+      évts: { resteRattachéeA: 59183 }
       état: { statut: COMA, name: Mardyck, crat: 59183 }
   59381:
     '1943-01-01':
@@ -96267,7 +96267,7 @@ contents:
       évts: { devientDéléguéeDe: 61153 }
       état: { statut: COMD, name: Batilly, crat: 61153 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 61153 }
+      évts: { resteRattachéeA: 61153 }
       état: { statut: COMD, name: Batilly, crat: 61153 }
   61028:
     '1943-01-01':
@@ -96655,7 +96655,7 @@ contents:
       évts: { devientDéléguéeDe: 61153 }
       état: { statut: COMD, name: 'La Courbe', crat: 61153 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 61153 }
+      évts: { resteRattachéeA: 61153 }
       état: { statut: COMD, name: 'La Courbe', crat: 61153 }
   61128:
     '1943-01-01':
@@ -97129,7 +97129,7 @@ contents:
       évts: { devientDéléguéeDe: 61153 }
       état: { statut: COMD, name: Loucé, crat: 61153 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 61153 }
+      évts: { resteRattachéeA: 61153 }
       état: { statut: COMD, name: Loucé, crat: 61153 }
   61237:
     '1943-01-01':
@@ -97951,7 +97951,7 @@ contents:
       évts: { devientDéléguéeDe: 61153 }
       état: { statut: COMD, name: Saint-Ouen-sur-Maire, crat: 61153 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 61153 }
+      évts: { resteRattachéeA: 61153 }
       état: { statut: COMD, name: Saint-Ouen-sur-Maire, crat: 61153 }
   61442:
     '1943-01-01':
@@ -98070,7 +98070,7 @@ contents:
       évts: { devientDéléguéeDe: 61153 }
       état: { statut: COMD, name: Serans, crat: 61153 }
     '2018-01-01':
-      évts: { devientDéléguéeDe: 61153 }
+      évts: { resteRattachéeA: 61153 }
       état: { statut: COMD, name: Serans, crat: 61153 }
   61471:
     '1943-01-01':
@@ -100979,7 +100979,7 @@ contents:
       évts: { sAssocieA: 62119 }
       état: { statut: COMA, name: Verquigneul, crat: 62119 }
     '1994-01-01':
-      évts: { sAssocieA: 62119 }
+      évts: { resteRattachéeA: 62119 }
       état: { statut: COMA, name: Verquigneul, crat: 62119 }
     '1997-11-20':
       évts: { resteRattachéeA: 62119 }
@@ -107217,7 +107217,7 @@ contents:
       évts: { sAssocieA: 67513 }
       état: { statut: COMA, name: Bellefosse, crat: 67513 }
     '1975-01-01':
-      évts: { sAssocieA: 67513 }
+      évts: { resteRattachéeA: 67513 }
       état: { statut: COMA, name: Bellefosse, crat: 67513 }
     '1992-01-01':
       évts: { seDétacheDe: 67513 }
@@ -107229,7 +107229,7 @@ contents:
       évts: { sAssocieA: 67513 }
       état: { statut: COMA, name: Belmont, crat: 67513 }
     '1975-01-01':
-      évts: { sAssocieA: 67513 }
+      évts: { resteRattachéeA: 67513 }
       état: { statut: COMA, name: Belmont, crat: 67513 }
     '1992-01-01':
       évts: { seDétacheDe: 67513 }
@@ -108981,7 +108981,7 @@ contents:
       évts: { devientDéléguéeDe: 67372 }
       état: { statut: COMD, name: Uberach, crat: 67372 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 67372 }
+      évts: { resteRattachéeA: 67372 }
       état: { statut: COMD, name: Uberach, crat: 67372 }
   67497:
     '1943-01-01':
@@ -109035,7 +109035,7 @@ contents:
       évts: { devientDéléguéeDe: 67372 }
       état: { statut: COMD, name: 'La Walck', crat: 67372 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 67372 }
+      évts: { resteRattachéeA: 67372 }
       état: { statut: COMD, name: 'La Walck', crat: 67372 }
   67513:
     '1943-01-01':
@@ -110940,7 +110940,7 @@ contents:
       évts: { devientDéléguéeDe: 69159 }
       état: { statut: COMD, name: Liergues, crat: 69159 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 69159 }
+      évts: { resteRattachéeA: 69159 }
       état: { statut: COMD, name: Liergues, crat: 69159 }
   69115:
     '1943-01-01':
@@ -112146,7 +112146,7 @@ contents:
       évts: { sAssocieA: 70122 }
       état: { statut: COMA, name: Champlitte-la-Ville, crat: 70122 }
     '1974-07-01':
-      évts: { sAssocieA: 70122 }
+      évts: { resteRattachéeA: 70122 }
       état: { statut: COMA, name: Champlitte-la-Ville, crat: 70122 }
   70124:
     '1943-01-01':
@@ -112778,7 +112778,7 @@ contents:
       évts: { sAssocieA: 70122 }
       état: { statut: COMA, name: Leffond, crat: 70122 }
     '1974-07-01':
-      évts: { sAssocieA: 70122 }
+      évts: { resteRattachéeA: 70122 }
       état: { statut: COMA, name: Leffond, crat: 70122 }
   70301:
     '1943-01-01':
@@ -112898,7 +112898,7 @@ contents:
       évts: { sAssocieA: 70122 }
       état: { statut: COMA, name: Margilley, crat: 70122 }
     '1974-07-01':
-      évts: { sAssocieA: 70122 }
+      évts: { resteRattachéeA: 70122 }
       état: { statut: COMA, name: Margilley, crat: 70122 }
   70334:
     '1943-01-01':
@@ -112973,7 +112973,7 @@ contents:
       évts: { sAssocieA: 70122 }
       état: { statut: COMA, name: Montarlot-lès-Champlitte, crat: 70122 }
     '1974-07-01':
-      évts: { sAssocieA: 70122 }
+      évts: { resteRattachéeA: 70122 }
       état: { statut: COMA, name: Montarlot-lès-Champlitte, crat: 70122 }
   70355:
     '1943-01-01':
@@ -113085,7 +113085,7 @@ contents:
       évts: { sAssocieA: 70122 }
       état: { statut: COMA, name: Neuvelle-lès-Champlitte, crat: 70122 }
     '1974-07-01':
-      évts: { sAssocieA: 70122 }
+      évts: { resteRattachéeA: 70122 }
       état: { statut: COMA, name: Neuvelle-lès-Champlitte, crat: 70122 }
   70383:
     '1943-01-01':
@@ -115267,7 +115267,7 @@ contents:
       évts: { sAssocieA: 71270 }
       état: { statut: COMA, name: Saint-Jean-le-Priche, crat: 71270 }
     '1972-07-01':
-      évts: { sAssocieA: 71270 }
+      évts: { resteRattachéeA: 71270 }
       état: { statut: COMA, name: Saint-Jean-le-Priche, crat: 71270 }
   71433:
     '1943-01-01':
@@ -115542,7 +115542,7 @@ contents:
       évts: { sAssocieA: 71270 }
       état: { statut: COMA, name: Sennecé-lès-Mâcon, crat: 71270 }
     '1972-07-01':
-      évts: { sAssocieA: 71270 }
+      évts: { resteRattachéeA: 71270 }
       état: { statut: COMA, name: Sennecé-lès-Mâcon, crat: 71270 }
   71512:
     '1943-01-01':
@@ -118391,7 +118391,7 @@ contents:
       évts: { sAssocieA: 73006 }
       état: { statut: COMA, name: Tessens, crat: 73006 }
     '1973-02-12':
-      évts: { sAssocieA: 73006 }
+      évts: { resteRattachéeA: 73006 }
       état: { statut: COMA, name: Tessens, crat: 73006 }
     '2016-01-01':
       évts: { fusionneDans: 73006 }
@@ -118506,7 +118506,7 @@ contents:
       évts: { devientDéléguéeDe: 73257 }
       état: { statut: COMD, name: Villarlurin, crat: 73257 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 73257 }
+      évts: { resteRattachéeA: 73257 }
       état: { statut: COMD, name: Villarlurin, crat: 73257 }
   73322:
     '1943-01-01':
@@ -118524,7 +118524,7 @@ contents:
       évts: { sAssocieA: 73006 }
       état: { statut: COMA, name: Villette, crat: 73006 }
     '1973-02-12':
-      évts: { sAssocieA: 73006 }
+      évts: { resteRattachéeA: 73006 }
       état: { statut: COMA, name: Villette, crat: 73006 }
     '2016-01-01':
       évts: { fusionneDans: 73006 }
@@ -119183,7 +119183,7 @@ contents:
       évts: { sAssocieA: 74281 }
       état: { statut: COMA, name: Marin, crat: 74281 }
     '1974-01-01':
-      évts: { sAssocieA: 74281 }
+      évts: { resteRattachéeA: 74281 }
       état: { statut: COMA, name: Marin, crat: 74281 }
     '1983-01-01':
       évts: { resteRattachéeA: 74281 }
@@ -123516,10 +123516,10 @@ contents:
       évts: { devientDéléguéeDe: 77316 }
       état: { statut: COMD, name: Écuelles, crat: 77316 }
     '2016-01-01':
-      évts: { devientDéléguéeDe: 77316 }
+      évts: { resteRattachéeA: 77316 }
       état: { statut: COMD, name: Écuelles, crat: 77316 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 77316 }
+      évts: { resteRattachéeA: 77316 }
       état: { statut: COMD, name: Écuelles, crat: 77316 }
   77167:
     '1943-01-01':
@@ -123537,7 +123537,7 @@ contents:
       évts: { devientDéléguéeDe: 77316 }
       état: { statut: COMD, name: Épisy, crat: 77316 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 77316 }
+      évts: { resteRattachéeA: 77316 }
       état: { statut: COMD, name: Épisy, crat: 77316 }
   77171:
     '1943-01-01':
@@ -123975,7 +123975,7 @@ contents:
       évts: { devientDéléguéeDe: 77316 }
       état: { statut: COMD, name: Montarlot, crat: 77316 }
     '2017-01-01':
-      évts: { devientDéléguéeDe: 77316 }
+      évts: { resteRattachéeA: 77316 }
       état: { statut: COMD, name: Montarlot, crat: 77316 }
   77300:
     '1943-01-01':
@@ -129537,7 +129537,7 @@ contents:
       évts: { devientDéléguéeDe: 79185 }
       état: { statut: COMD, name: Thorigné, crat: 79185 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 79185 }
+      évts: { resteRattachéeA: 79185 }
       état: { statut: COMD, name: Thorigné, crat: 79185 }
   79328:
     '1943-01-01':
@@ -136615,7 +136615,7 @@ contents:
       évts: { devientDéléguéeDe: 86281 }
       état: { statut: COMD, name: Blaslay, crat: 86281 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 86281 }
+      évts: { resteRattachéeA: 86281 }
       état: { statut: COMD, name: Blaslay, crat: 86281 }
   86031:
     '1943-01-01':
@@ -136740,7 +136740,7 @@ contents:
       évts: { devientDéléguéeDe: 86281 }
       état: { statut: COMD, name: Charrais, crat: 86281 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 86281 }
+      évts: { resteRattachéeA: 86281 }
       état: { statut: COMD, name: Charrais, crat: 86281 }
   86061:
     '1943-01-01':
@@ -136793,7 +136793,7 @@ contents:
       évts: { devientDéléguéeDe: 86281 }
       état: { statut: COMD, name: Cheneché, crat: 86281 }
     '2019-01-01':
-      évts: { devientDéléguéeDe: 86281 }
+      évts: { resteRattachéeA: 86281 }
       état: { statut: COMD, name: Cheneché, crat: 86281 }
   86072:
     '1943-01-01':
@@ -137133,7 +137133,7 @@ contents:
       évts: { sAssocieA: 86161 }
       état: { statut: COMA, name: Messais, crat: 86161 }
     '1973-01-01':
-      évts: { sAssocieA: 86161 }
+      évts: { resteRattachéeA: 86161 }
       état: { statut: COMA, name: Messais, crat: 86161 }
   86156:
     '1943-01-01':
