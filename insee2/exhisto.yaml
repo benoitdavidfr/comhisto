@@ -13,7 +13,7 @@ description: |
       Définition d'un nouveau schéma dans le cadre de insee v2
 $schema:
   title: schéma du référentiel historique des codes INSEE des communes
-  $id: http://id.georef.eu/comhisto/insee/exhisto/$schema
+  $id: http://id.georef.eu/comhisto/insee2/exhisto/$schema
   $schema: http://json-schema.org/draft-07/schema#
   description: |
     Le référentiel historique des codes INSEE des communes est principalement constitué d'un dictionnaire des codes INSEE des communes

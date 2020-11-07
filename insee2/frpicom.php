@@ -74,6 +74,8 @@ functions:
     7/11/2020:
       - implem du Cas particulier de fusion le 27/8/1947 d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612)
         dans Pont-d'Ouilly avec création du nouveau code 14764
+      - ajout évt gardeCommeRattachées dans Integration::buildRpicom()
+      - amélioration des specs de Integration(34)
     5/11/2020:
       - définition du schéma de histo et alignement de rpicom sur ce schéma
       - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
@@ -1069,18 +1071,20 @@ class Association extends FusionRattachement { // 33 - Fusion association
 };
 
 class Integration extends Mvt { // 34 - Transformation de fusion association en fusion simple 
-  const TITLE = "34 - Transformation de fusion association en fusion simple ";
-  const SPECS = "Chaque mouvement de Transformation de fusion association en fusion simple s'effectue autour d'un chef-lieu défini
+  const TITLE = "34 - Transformation de fusion association en fusion simple - s'applique aussi aux communes nouvelles";
+  const SPECS = "Chaque mouvement s'effectue autour d'un chef-lieu défini
     par un arc ayant un noeud de départ (2) et un noeud d'arrivée (1) tous les 2 de type COM.
-    Les autres noeuds de départ des arcs arrivant au noeud d'arrivée (1) du chef-lieu correspondent aux entités fusionnées (3).  
+    Les autres arcs arrivant au noeud d'arrivée du chef-lieu (1) ont pour noeud de départ
+    soit une entité fusionnée si aucun autre arc n'en part (3),
+    soit une entité restant rattachée si un arc en part (3') vers (4).  
     <i>Note:</i> Le mouvement peut s'appliquer aussi à une commune nouvelle et pas uniquement à une fusion association.
     ";
   const EXAMPLES = [
     '2020-01-01'=> "",
     '2008-01-01'=> "",
+    '1983-01-01'=> "Cas où certaines rattachées le restent, ici Cesseins (01070).",
     '2018-01-01'=> "Cas particulier de changement de département de Pont-Farcy après l'intégration de Pleines-Œuvres.",
   ];
-  
   
   // Un mvt correspond à un chef-lieu et toutes ses intégrées/rattachées
   protected $cheflieu; // ['av'=>['typecom','com','libelle'], 'ap'=>[...], 'nolcsv'=> nolcsv]
@@ -1165,21 +1169,8 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
   }
 
   function buildRpicom(string $date_eff, array &$rpicoms): void {
-    //return;
-    if ($this->cheflieu['av']['com'] == $this->cheflieu['ap']['com']) {
-      setMerge($rpicoms[$this->cheflieu['ap']['com']][$date_eff], [
-        'après'=> [
-          'statut'=> $this->cheflieu['ap']['typecom'],
-          'name'=> $this->cheflieu['ap']['libelle'],
-        ],
-        'évts'=> ['type'=> 'Intégration(34)', 'absorbe'=> []],
-        'état'=> [
-          'statut'=> $this->cheflieu['av']['typecom'],
-          'name'=> $this->cheflieu['av']['libelle'],
-        ],
-      ]);
-    }
-    else {
+    if ($this->cheflieu['av']['com'] <> $this->cheflieu['ap']['com']) {
+      // cas particulier où le chef-lieu change de code à la fin du mouvement
       setMerge($rpicoms[$this->cheflieu['ap']['com']][$date_eff], [
         'après'=> [
           'statut'=> $this->cheflieu['ap']['typecom'],
@@ -1189,7 +1180,21 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
       ]);
       setMerge($rpicoms[$this->cheflieu['av']['com']][$date_eff], [
         'après'=> [],
-        'évts'=> ['absorbe'=> [], 'changeDeCodePour'=> $this->cheflieu['ap']['com']],
+        'évts'=> ['absorbe'=> [], 'gardeCommeRattachées'=> [], 'changeDeCodePour'=> $this->cheflieu['ap']['com']],
+        'état'=> [
+          'statut'=> $this->cheflieu['av']['typecom'],
+          'name'=> $this->cheflieu['av']['libelle'],
+        ],
+      ]);
+    }
+    else {
+      // cas général où le chef-lieu ne chanfe
+      setMerge($rpicoms[$this->cheflieu['ap']['com']][$date_eff], [
+        'après'=> [
+          'statut'=> $this->cheflieu['ap']['typecom'],
+          'name'=> $this->cheflieu['ap']['libelle'],
+        ],
+        'évts'=> ['type'=> 'Intégration(34)', 'absorbe'=> [], 'gardeCommeRattachées'=> []],
         'état'=> [
           'statut'=> $this->cheflieu['av']['typecom'],
           'name'=> $this->cheflieu['av']['libelle'],
@@ -1210,7 +1215,7 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
           ],
         ]);
       }
-      $rpicoms[$this->cheflieu['ap']['com']][$date_eff]['évts']['absorbe'][] = $integree['av']['com'];
+      $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['absorbe'][] = $integree['av']['com'];
     }
     foreach ($this->resteRats as $resteRat) {
       setMerge($rpicoms[$resteRat['av']['com']][$date_eff], [
@@ -1226,7 +1231,10 @@ class Integration extends Mvt { // 34 - Transformation de fusion association en 
           'crat'=> $this->cheflieu['av']['com'],
         ],
       ]);
+      $rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées'][] = $resteRat['av']['com'];
     }
+    if (!$rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées'])
+      unset($rpicoms[$this->cheflieu['av']['com']][$date_eff]['évts']['gardeCommeRattachées']);
   }
 };
 

@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T09:02:33+00:00'
+created: '2020-11-07T10:20:10+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -680,7 +680,7 @@ contents:
       état: { statut: COM, name: Amareins-Francheleins-Cesseins }
       erat: ['01003', '01070']
     '1983-01-01':
-      évts: { absorbe: ['01003'] }
+      évts: { absorbe: ['01003'], gardeCommeRattachées: ['01070'] }
       état: { statut: COM, name: Amareins-Francheleins-Cesseins }
       erat: ['01070']
     '1996-08-01':
@@ -1023,7 +1023,7 @@ contents:
       état: { statut: COM, name: Bohas-Meyriat-Rignat }
       erat: ['01048', '01324']
     '2000-01-01':
-      évts: { absorbe: ['01048'] }
+      évts: { absorbe: ['01048'], gardeCommeRattachées: ['01324'] }
       état: { statut: COM, name: Bohas-Meyriat-Rignat }
       erat: ['01324']
   '01246':
@@ -5992,7 +5992,7 @@ contents:
       état: { statut: COM, name: Entrepierres }
       erat: ['04196', '04238']
     '1977-03-01':
-      évts: { absorbe: ['04196'] }
+      évts: { absorbe: ['04196'], gardeCommeRattachées: ['04238'] }
       état: { statut: COM, name: Entrepierres }
       erat: ['04238']
     '1983-11-10':
@@ -6356,7 +6356,7 @@ contents:
       état: { statut: COM, name: Prads-Haute-Bléone }
       erat: ['04029', '04114']
     '1987-05-01':
-      évts: { absorbe: ['04114'] }
+      évts: { absorbe: ['04114'], gardeCommeRattachées: ['04029'] }
       état: { statut: COM, name: Prads-Haute-Bléone }
       erat: ['04029']
   '04156':
@@ -20553,7 +20553,7 @@ contents:
       état: { statut: COM, name: Pont-Farcy }
       erat: [14507]
     '2018-01-01':
-      évts: { absorbe: {  }, changeDeCodePour: 50649 }
+      évts: { absorbe: [14507], changeDeCodePour: 50649 }
   14514:
     '1943-01-01':
       état: { statut: COM, name: 'Pont-l''Évêque' }
@@ -32917,7 +32917,7 @@ contents:
       état: { statut: COM, name: 'Les Moulins', nomCommeDéléguée: Plémet }
       erat: [22058, 22183]
     '2017-12-25':
-      évts: { absorbe: [22183] }
+      évts: { absorbe: [22183], gardeCommeRattachées: [22058] }
       état: { statut: COM, name: Plémet }
       erat: [22058]
   22184:
@@ -59548,7 +59548,7 @@ contents:
       état: { statut: COM, name: Dole }
       erat: [39256]
     '2014-04-01':
-      évts: { absorbe: {  } }
+      évts: { absorbe: {  }, gardeCommeRattachées: [39256] }
       état: { statut: COM, name: Dole }
       erat: [39256]
   39199:
@@ -65854,7 +65854,7 @@ contents:
       état: { statut: COM, name: Pornic }
       erat: [44042, 44177]
     '1987-09-08':
-      évts: { absorbe: [44042] }
+      évts: { absorbe: [44042], gardeCommeRattachées: [44177] }
       état: { statut: COM, name: Pornic }
       erat: [44177]
     '2007-07-01':
@@ -72475,7 +72475,7 @@ contents:
       état: { statut: COM, name: Saumur }
       erat: [49016, 49118, 49287, 49293]
     '2014-04-01':
-      évts: { absorbe: {  } }
+      évts: { absorbe: {  }, gardeCommeRattachées: [49016, 49118, 49287, 49293] }
       état: { statut: COM, name: Saumur }
       erat: [49016, 49118, 49287, 49293]
   49329:
@@ -73776,7 +73776,7 @@ contents:
       état: { statut: COM, name: Gavray }
       erat: [50307, 50314]
     '1988-08-01':
-      évts: { absorbe: [50307] }
+      évts: { absorbe: [50307], gardeCommeRattachées: [50314] }
       état: { statut: COM, name: Gavray }
       erat: [50314]
     '2019-01-01':
@@ -75993,7 +75993,7 @@ contents:
       état: { statut: COM, name: Yvetot-Bocage }
   50649:
     '2018-01-01':
-      évts: { avaitPourCode: 14513, devientDéléguéeDe: 50592, absorbe: [14507] }
+      évts: { avaitPourCode: 14513, devientDéléguéeDe: 50592 }
       état: { statut: COMD, name: Pont-Farcy, crat: 50592 }
   51001:
     '1943-01-01':
@@ -78984,7 +78984,7 @@ contents:
       état: { statut: COM, name: Chaumont }
       erat: [52078]
     '2014-04-01':
-      évts: { absorbe: {  } }
+      évts: { absorbe: {  }, gardeCommeRattachées: [52078] }
       état: { statut: COM, name: Chaumont }
       erat: [52078]
   52122:
@@ -113045,7 +113045,7 @@ contents:
       état: { statut: COM, name: 'La Roche-Morey' }
       erat: [70068, 70465, 70495]
     '1990-04-01':
-      évts: { absorbe: [70495] }
+      évts: { absorbe: [70495], gardeCommeRattachées: [70068, 70465] }
       état: { statut: COM, name: 'La Roche-Morey' }
       erat: [70068, 70465]
   70374:
@@ -113424,7 +113424,7 @@ contents:
       état: { statut: COM, name: Saulnot }
       erat: [70173, 70270]
     '1997-05-01':
-      évts: { absorbe: [70270] }
+      évts: { absorbe: [70270], gardeCommeRattachées: [70173] }
       état: { statut: COM, name: Saulnot }
       erat: [70173]
   70478:
@@ -123853,7 +123853,7 @@ contents:
       état: { statut: COM, name: Louan-Villegruis-Fontaine }
       erat: [77189, 77503]
     '2017-01-01':
-      évts: { absorbe: [77503] }
+      évts: { absorbe: [77503], gardeCommeRattachées: [77189] }
       état: { statut: COM, name: Louan-Villegruis-Fontaine }
       erat: [77189]
   77263:
@@ -128052,7 +128052,7 @@ contents:
       état: { statut: COM, name: Beauvoir-sur-Niort }
       erat: [79097, 79227]
     '2004-01-01':
-      évts: { absorbe: [79227] }
+      évts: { absorbe: [79227], gardeCommeRattachées: [79097] }
       état: { statut: COM, name: Beauvoir-sur-Niort }
       erat: [79097]
     '2009-07-01':
