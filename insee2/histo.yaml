@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T19:05:34+00:00'
+created: '2020-11-07T20:27:02+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -110977,7 +110977,7 @@ contents:
       état: { statut: COM, name: Lyon }
       erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388]
     '1963-08-07':
-      évts: { absorbe: [69232] }
+      évts: { estModifiéeIndirectementPar: [69385] }
       état: { statut: COM, name: Lyon }
       erat: [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388]
     '1964-08-12':
@@ -111402,7 +111402,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: 'Saint-Rambert-l''Île-Barbe' }
     '1963-08-07':
-      évts: { fusionneDans: 69123 }
+      évts: { fusionneDans: 69385 }
   69233:
     '1943-01-01':
       état: { statut: COM, name: 'Saint-Romain-au-Mont-d''Or' }
@@ -111675,6 +111675,9 @@ contents:
       état: { statut: ARM, name: 'Lyon 4e Arrondissement', crat: 69123 }
   69385:
     '1943-01-01':
+      état: { statut: ARM, name: 'Lyon 5e Arrondissement', crat: 69123 }
+    '1963-08-07':
+      évts: { absorbe: [69232] }
       état: { statut: ARM, name: 'Lyon 5e Arrondissement', crat: 69123 }
     '1964-08-12':
       évts: { seScindePourCréer: [69389] }

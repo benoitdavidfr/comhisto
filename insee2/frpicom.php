@@ -77,6 +77,8 @@ functions:
       - ajout évt gardeCommeRattachées dans Integration::buildRpicom()
       - amélioration des specs de Integration(34)
       - ajout resteRattachéeA dans FusionRattachement::buildRpicom()
+      - ...
+      - modif. fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
     5/11/2020:
       - définition du schéma de histo et alignement de rpicom sur ce schéma
       - ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
@@ -1690,6 +1692,19 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
     'évts'=> ['estModifiéeIndirectementPar' => [69385]],
     'état'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
   ];
+  // Je modifie aussi la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
+  $rpicoms[69385]['1963-08-07'] = [
+    'après'=> ['statut'=> 'ARM', 'name'=> 'Lyon 5e Arrondissement', 'crat'=> 69123],
+    'évts'=> ['absorbe'=> [69232]],
+    'état'=> ['statut'=> 'ARM', 'name'=> 'Lyon 5e Arrondissement', 'crat'=> 69123],
+  ];
+  $rpicoms[69232]['1963-08-07']['évts'] = ['fusionneDans'=> 69385];
+  krsort($rpicoms[69385]);
+  $rpicoms[69123]['1963-08-07'] = [
+    'après'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+    'évts'=> ['estModifiéeIndirectementPar' => [69385]],
+    'état'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
+  ];
   $rpicoms[69387]['1959-02-08']['après']['crat'] = 69123;
   $rpicoms[69387]['1959-02-08']['état']['crat'] = 69123;
   $rpicoms[69388]['1959-02-08']['après']['crat'] = 69123;
@@ -1699,8 +1714,6 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
     'état'=> ['statut'=> 'COM', 'name'=> 'Lyon'],
   ];
   krsort($rpicoms[69123]);
-  // Je ne modifie pas la fusion de Saint-Rambert-l'Île-Barbe (69232) indiquée dans Lyon (69123) alors qu'elle a lieu dans le 5ème Ardt
-  // Il faudrait de toutes facons revenir dessus pour mettre finalement 69232 dans le 9ème ardt
   
   // Ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
   $rpicoms[97123] = [
