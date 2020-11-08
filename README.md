@@ -68,15 +68,15 @@ La première étape consiste à produire, à partir des données de mouvements e
 l'historique de chaque code Insee sous la forme de versions datées pour chaque code Insee
 présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
 
-Une première version de ce [fichier appelé histov.yaml est disponible ici](insee/histov.yaml).
-Sa structuration est spécifiée par un schéma JSON défini dans le champ $schema du fichier [exhisto.yaml](insee/exhisto.yaml) ;
+Une première version de ce [fichier appelé histo.yaml est disponible ici](insee2/histo.yaml).
+Sa structuration est spécifiée par un schéma JSON défini dans le champ $schema du fichier [exhisto.yaml](insee2/exhisto.yaml) ;
 le champ contents donnant des exemples d'enregistrements.
 
 Le fichier Insee des mouvements est complété de certaines données manquantes
 (comme par exemple la prise en compte des communes de Mayotte devenu un DOM le 31/3/2011)
-et corrigé de quelques erreurs manifestes.
+et corrigé de quelques erreurs.
 
-Cette étape est [documentée plus en détail ici](insee/README.md).
+Cette étape est [documentée plus en détail ici](insee2/README.md).
 
 ## 2ème étape - construire des éléments administratifs intemporels (elits)
 La seconde étape consiste à :
@@ -108,7 +108,8 @@ Les éléments administratifs intemporels correspondent généralement au territ
 sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
 dans ce cas l'élit est le territoire le plus petit après ces scissions.  
 De manière générale:
-  - il existe un et un seul elit pour chaque *code Insee ne correspondant pas à un changement de code*
+
+  - il existe un et un seul élit pour chaque *code Insee ne correspondant pas à un changement de code*
     et chaque élit correspond à un et un seul code Insee ;
   - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
     moins l'union des territoires des autres codes Insee ;
@@ -116,7 +117,7 @@ De manière générale:
   - à tout moment les élits forment une partition du territoire ayant été concernés par le référentiel.
 
 Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
-Cela signifie qu'ils ne sont intemporels que pour une version donnée de référentiel.
+Cela signifie qu'**ils ne sont intemporels que pour une version donnée de référentiel**.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
@@ -140,9 +141,9 @@ et saisie interactive à partir des cartes IGN et de Wikipédia.
 Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.geojson).
 
 ## 6ème étape - croiser les données Insee avec celles de l'IGN
-Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des elits correspondants.
+Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des élits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
-Sinon, la géométrie de l'entité est découpée par l'algorithme de Voronoï en elits
+Sinon, la géométrie de l'entité est découpée en elits par l'algorithme de **Voronoï**
 en se fondant sur les chefs-lieux asssociés aux élits.
 Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
@@ -157,7 +158,7 @@ Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s0
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
 Ce croisement nécessite plusieurs corrections.
-Le fichier Yaml corrigé des codes Insee avec les elits est disponible ici](croise/histelitp.yaml).
+Le fichier Yaml corrigé des codes Insee avec les elits est disponible ici](croise2/histelitp.yaml).
 
 ## 7ème étape - exporter le référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
