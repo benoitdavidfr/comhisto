@@ -77,12 +77,12 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
     est traité par une fusion suivie d'un changement de code
 - une entité A se scinde en 2 pour en créer une nouvelle B, les évènements définissent le type de l'entités créée
   - évènements: `A.seScindePourCréer.(B) / B.crééeCOMParScissionDe.A, B.crééeCOMAParScissionDe.A, B.crééARMParScissionDe.A`
-  - exemple: `{97414: {évts: {seScindePourCréer: [97424]}}, 97424: {évts: {crééeCommeSimpleParScissionDe: 97414}}}`
+  - exemple: `{97414: {évts: {seScindePourCréer: [97424]}}, 97424: {évts: {crééeCOMParScissionDe: 97414}}}`
 
 #### Les opérations ensemblistes
 
 - rattachement (par association ou délégation) d'une entité A à une COM B
-  - *évènements*: `A.sAssocieA.B / B.prendPourAssociées.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
+  - *évènements*: `A.sAssocieA.B / B.associe.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
   - exemple: `{ '02166': {évts: {sAssocieA: '02524'}}, '02524': {évts: {associe: ['02166']}}}`
 - détachement d'une entité A d'une COM B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
