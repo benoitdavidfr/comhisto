@@ -1,4 +1,4 @@
-title: comhisto/elits - production des éléments intemporels (elits) v2
+title: comhisto/elits2 - production des éléments intemporels (elits) v2
 path: /yamldoc/pub/comhisto/elits2
 doc: |
   defelit0.php complète les versions de code Insee de ../insee/histov.yaml par des d'élits et stocke le résultat dans histelit0.yaml

@@ -24,6 +24,7 @@ journal: |
   20/10-8/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
     - je ne suis pas certain que le nouvel export est effectivement fondé sur la nouvelle version
+    - archivage v1 (targz -> archives)
   23/9/2020:
     - correction erreur sur 78613/91613 (Thionville)
     - ajout St Barth et St Martin
@@ -49,14 +50,16 @@ journal: |
     - création à la suite de rpicom pour réécrire le code
 submodules:
   - /yamldoc/pub/comhisto/data
-  - /yamldoc/pub/comhisto/insee
+  # archivé - /yamldoc/pub/comhisto/insee
   - /yamldoc/pub/comhisto/insee2
-  - /yamldoc/pub/comhisto/elits
+  # archivé - /yamldoc/pub/comhisto/elits
+  - /yamldoc/pub/comhisto/elits2
   - /yamldoc/pub/comhisto/ign
   - /yamldoc/pub/comhisto/stbarthmartin
   - /yamldoc/pub/comhisto/cheflieu
-  - /yamldoc/pub/comhisto/croise
+  # archivé - /yamldoc/pub/comhisto/croise
   - /yamldoc/pub/comhisto/croise2
+  - /yamldoc/pub/comhisto/export
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:

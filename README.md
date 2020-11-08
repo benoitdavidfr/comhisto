@@ -1,5 +1,6 @@
 # Référentiel communal historique simplifié (ComHisto)
 ### Utilisation du code Insee des communes comme référentiel pivot
+Mise à jour importante 8/11/2020.
 
 ## Objectif du projet
 L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
