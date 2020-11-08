@@ -1,6 +1,6 @@
 # Référentiel communal historique simplifié (ComHisto)
 ### Utilisation du code Insee des communes comme référentiel pivot
-Mise à jour importante 8/11/2020.
+Mise à jour importante le 8/11/2020.
 
 ## Objectif du projet
 L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
@@ -37,7 +37,7 @@ Sa date de validité est le 1/1/2020.
 
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition
 sous la forme d'un fichier [au format GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
-[sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson)
+[publié sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson)
 et [zippé ici (6.0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
@@ -110,25 +110,25 @@ sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
 dans ce cas l'élit est le territoire le plus petit après ces scissions.  
 De manière générale:
 
-  - il existe un et un seul élit pour chaque *code Insee ne correspondant pas à un changement de code*
+  - il existe un et un seul élit pour chaque *code Insee ne correspondant pas à un changement de code* (sauf quelques exceptions)
     et chaque élit correspond à un et un seul code Insee ;
   - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
     moins l'union des territoires des autres codes Insee ;
   - le territoire de toute version de code Insee peut être défini comme un ensemble d'élits ;
-  - à tout moment les élits forment une partition du territoire ayant été concernés par le référentiel.
+  - les élits forment une partition du territoire ayant été concernés par le référentiel.
 
 Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une version donnée de référentiel**.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
-Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits2/histelit.yaml).
+Le [fichier Yaml non géoréférencé des codes Insee avec les élits est disponible ici](elits2/histelit.yaml).
 
 ## 3ème étape - géoréférencer les entités valides à partir des données IGN 
 On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal. 
 Les 3 derniers types d'entités sont appelés *entités rattachées*.
 
 Le produit IGN Admin-Express COG version 2020 permet de géoréférencer les zones correspondant à une commune
-ou à une entité rattachée valides au 1/1/2020.
+ou une entité rattachée valide au 1/1/2020.
 
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 

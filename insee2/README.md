@@ -1,7 +1,7 @@
 # Référentiel historique des codes Insee
 
 L'Insee publie la situation des communes au 1er janvier ainsi que les évolutions depuis le 1/1/1943.  
-Ce sous-projet consiste à restructurer ces informations afin d'en faciliter la réutilisation
+Ce sous-projet consiste à restructurer ces informations, afin d'en faciliter la réutilisation,
 sous la forme d'un document structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
 (par un humain et une machine) et à exploiter (par une machine). 
 Ce document est [disponible ici](histo.yaml) ;
@@ -9,7 +9,6 @@ sa structure est formellement définie par un [schéma JSON](https://json-schema
 
 Après avoir défini, dans une première partie, la notion d'évènement,
 cette page présente, dans une seconde, la structuration du référentiel.
-Puis quelques cas particuliers sont listés ainsi que des problèmes restants connus.
 Enfin, la liste des modifications apportées aux données Insee est listée et un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
@@ -29,13 +28,13 @@ Dans la suite le terme *entité* désignera une commune simple ou une entité ra
 
 ### Définition des opérations sur les entités et des évènements sur les codes Insee
 
-Les opérations sont exprimées sous la forme d'évènements:
+Les évolutions sur les communes sont exprimées sous la forme d'évènements :
 
 - s'appliquant à un code Insee,
 - ayant généralement en paramètres un code Insee ou une liste de codes Insee.
 
-Par exemple, l'opération de fusion de la commune d'Amareins (01003)
-dans la commune de Amareins-Francheleins-Cesseins (01165) s'exprime en Yaml par:
+Par exemple, la fusion de la commune d'Amareins (01003)
+dans la commune de Amareins-Francheleins-Cesseins (01165) s'exprime en Yaml par :
 
     {'01003': {évts: {fusionneDans: '01165'}}}
 
@@ -44,7 +43,7 @@ et s'exprime par:
 
     {'01165': {évts: {absorbe: ['01003']}}}
 
-3 catégories d'opérations sur entités sont définies:
+3 catégories d'évènements sur entités sont définies :
 
 - la première correspond aux opérations *topologiques*, pour lesquelles chaque entité est vue comme une zone géométrique,  
   par exemple l'opération de fusion d'une entité A dans une autre B ;
@@ -61,7 +60,10 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 - dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi
   - évènements: `A.seDissoutDans.(Bi) /  B.reçoitUnePartieDe.A`
-  - exemple: `{45117: {évts: {seDissoutDans: [45093,45313]}, 45093: {évts: {reçoitUnePartieDe: 45117}}, 45313: {évts: {reçoitUnePartieDe: 45117}}}`
+  - exemple: 
+      45117: {évts: {seDissoutDans: [45093,45313]}, 
+      5093: {évts: {reçoitUnePartieDe: 45117}}
+      45313: {évts: {reçoitUnePartieDe: 45117}}
 - création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
   - évènements: `A.crééeAPartirDe.(Bi) /  B.contribueA.A`
   - exemple: `{38567: {évts: {crééeAPartirDe: [38422,38478,38529] }}, 38422: {évts: {contribueA: 38567 }}}`
