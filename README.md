@@ -28,7 +28,7 @@ La conservation du code périmé dans la base évite ainsi des erreurs ou des ap
 La présente proposition consiste donc à créer un nouveau référentiel, appelé "Référentiel communal historique simplifié" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
 et leur associant les versions successives géoréférencées permettant de retrouver l'état de l'entité à une date donnée.  
-Ainsi les codes Insee intégrés un jour dans une base restent valables et peuvent être utilisés, par exemple pour géocoder
+Ainsi les codes Insee intégrés dans une base après le 1/1/1943 restent valables et peuvent être utilisés, par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes,
 à *condition cependant de conserver dans la base métier la date de validité du code Insee utilisé*.
 Ce référentiel a été généré par croisement des informations du COG publiées par l'Insee
@@ -121,7 +121,7 @@ Atention cependant les élits ne sont pas stables au travers des versions succes
 Cela signifie qu'**ils ne sont intemporels que pour une version donnée de référentiel**.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
-Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits/histelit.yaml).
+Le [fichier Yaml non géoréférencé des codes Insee avec les elits est disponible ici](elits2/histelit.yaml).
 
 ## 3ème étape - géoréférencer les entités valides à partir des données IGN 
 On appelle dans la suite *entité* une commune simple, une commune associée, une commune déléguée ou un arrondissement municipal. 
@@ -144,7 +144,8 @@ Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.ge
 ## 6ème étape - croiser les données Insee avec celles de l'IGN
 Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des élits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
-Sinon, la géométrie de l'entité est découpée en elits par l'algorithme de **Voronoï**
+Sinon, la géométrie de l'entité est découpée en élits par
+l'[algorithme de **Voronoï**](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF)
 en se fondant sur les chefs-lieux asssociés aux élits.
 Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
@@ -159,7 +160,7 @@ Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s0
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
 Ce croisement nécessite plusieurs corrections.
-Le fichier Yaml corrigé des codes Insee avec les elits est disponible ici](croise2/histelitp.yaml).
+Le fichier Yaml corrigé des codes Insee avec les elits [est disponible ici](croise2/histelitp.yaml).
 
 ## 7ème étape - exporter le référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
