@@ -61,9 +61,9 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 - dissolution d'une entité A par répartition de son territoire entre plusieurs autres entités préexistantes Bi
   - évènements: `A.seDissoutDans.(Bi) /  B.reçoitUnePartieDe.A`
   - exemple: 
-      45117: {évts: {seDissoutDans: [45093,45313]}, 
-      5093: {évts: {reçoitUnePartieDe: 45117}}
-      45313: {évts: {reçoitUnePartieDe: 45117}}
+        45117: {évts: {seDissoutDans: [45093,45313]}, 
+        5093: {évts: {reçoitUnePartieDe: 45117}}
+        45313: {évts: {reçoitUnePartieDe: 45117}}
 - création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
   - évènements: `A.crééeAPartirDe.(Bi) /  B.contribueA.A`
   - exemple: `{38567: {évts: {crééeAPartirDe: [38422,38478,38529] }}, 38422: {évts: {contribueA: 38567 }}}`
