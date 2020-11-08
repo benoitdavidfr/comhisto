@@ -236,6 +236,14 @@ $histelts['contents'][69385]['1963-08-07']['élits'] = [69232, 69385, 69389];
 $histelts['contents'][69385]['1964-08-12']['élits'] = [69385];
 $histelts['contents'][69389]['1964-08-12']['élits'] = [69232, 69389];
 
+$yaml['contents'][69123]['1943-01-01']['élits'] = [];
+$yaml['contents'][69123]['1963-08-07']['élits'] = [];
+$yaml['contents'][69123]['1964-08-12']['élits'] = [];
+
+// Marseille et Paris n'ont aucun élit
+$yaml['contents'][13055]['1943-01-01']['elits'] = [];
+$yaml['contents'][75056]['1943-01-01']['elits'] = [];
+
 
 // Vérif
 foreach ($histelts['contents'] as $cinsee => $histo) {

@@ -9,9 +9,21 @@ doc: |
   Résultats:
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
+  
+  A faire:
+    - remonter les erreurs notées dans croise2/corrige.php dans rpicom ou histo
+    - mettre à jour la doc Github pour passer en V2, archiver la V1 pour éviter les confusions
+    
+  Idées de valorisation:
+    - proposer une IHM donnant pour chaque code Insee l'historique des versions et une carte illustrant le ou les périmètres
+      correspondants, exposer cette IHM dans Google,
+    - opérationaliser sous la forme d'une API le cas d'usage de récupération de la géométrie de la commune/entité correspondant
+      à un code Insee donné et à une date donnée,
+    - exposer comhisto en données liées.
 journal: |
-  20/10-7/11/2020:
-    - écriture d'une nlle version de insee améliorant notament la doc des erreurs Insee
+  20/10-8/11/2020:
+    - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
+    - je ne suis pas certain que le nouvel export est effectivement fondé sur la nouvelle version
   23/9/2020:
     - correction erreur sur 78613/91613 (Thionville)
     - ajout St Barth et St Martin
@@ -44,6 +56,7 @@ submodules:
   - /yamldoc/pub/comhisto/stbarthmartin
   - /yamldoc/pub/comhisto/cheflieu
   - /yamldoc/pub/comhisto/croise
+  - /yamldoc/pub/comhisto/croise2
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:
