@@ -67,7 +67,7 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
         45313: {évts: {reçoitUnePartieDe: 45117}}
 - création d'une entité A par agrégation de morceaux de territoire pris à plusieurs autres entités Bi
   - évènements: `A.crééeAPartirDe.(Bi) /  B.contribueA.A`
-  - exemple: `{38567: {évts: {crééeAPartirDe: [38422,38478,38529] }}, 38422: {évts: {contribueA: 38567 }}}`
+  - exemple: `{38567: {évts: {crééeAPartirDe: [38422,38478,38529]}}, 38422: {évts: {contribueA: 38567}}}`
 - suppression d'une entité A par fusion de son territoire dans celui d'une autre B
   - évènements: `A.fusionneDans.B / B.absorbe.(A)`
   - exemple: `{'01003': {évts: {fusionneDans: '01165'}}, '01165': {évts: {absorbe: ['01003']}}}`
