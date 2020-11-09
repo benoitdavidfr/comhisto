@@ -6,6 +6,7 @@ doc: |
 journal: |
   8/11/2020:
     - passage en v2
+    - ajout du traitement des écarts entre Insee et IGN dans Version::cEntElits()
   18/9/2020:
     - création
 */
@@ -317,10 +318,10 @@ class Version {
   // construit la liste des couples CEntElts associés à une version valide
   function cEntElits(): array { // [CEntElits]
     /* Algo:
-    - je construis les objets CEntElts = couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
-      - si vvalide est un COMS sans ERAT alors (coms, elts)
-      - si vvalide est un ERAT  alors (erat, elts)
-      - si vvalide est un COMS avec ERAT alors il y a potentiellement 2 entités
+    - je construis les objets CEntElits = couple (entité (coms, erat, ecomp) définie dans COG2020, éléments correspondants)
+      - si $this est un COM sans ERAT alors (coms, elits)
+      - si $this est un ERAT  alors (erat, elits)
+      - si $this est un COM avec ERAT alors il y a potentiellement 2 entités
         - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
         - celle correspondant à une éventuelle ECOMP avec 3 cas d'ECOMP:
           - dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP (ex c38139)
@@ -328,25 +329,32 @@ class Version {
           - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
     */
     $cinsee = $this->cinsee;
-    if (in_array($this->statut(), ['COMD','COMA','ARM'])) { // ERAT
-      return [new CEntElits("r$cinsee", $this->eltSet())];
-    }
-    elseif (!($erats = $this->erats())) { // COMS sans ERAT
-      return [new CEntElits("s$cinsee", $this->eltSet())];
-    }
-    // COM avec ERAT
-    elseif ($this->estCAvecARM()) { // dans les cas de C. avec ARM aucun couple associé
+    
+    // cas particuliers des écarts entre Insee et IGN
+    if ($cinsee == 14114) // commune asssociée absente côté IGN
       return [];
-    }
-    elseif ($this->estAssociation()) { // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
+    elseif ($cinsee == 14712) // la commune à laquelle 14114 est associée, j'ajoute l'élit 14114
+      return [new CEntElits("s$cinsee", new EltSet($this->elitsAvecErat()))];
+    elseif ($cinsee == 52224) // commune déléguée absente côté IGN
+      return [];
+    elseif ($cinsee == 52064) // commune de rattachement de 52224 / côté IGN r52064 contient r52224
+      return [new CEntElits("r$cinsee", new EltSet([52224, 52064]))];
+    
+    // cas généraux
+    elseif (in_array($this->statut(), ['COMD','COMA','ARM'])) // ERAT
+      return [new CEntElits("r$cinsee", $this->eltSet())];
+    elseif (!($erats = $this->erats())) // COM sans ERAT
+      return [new CEntElits("s$cinsee", $this->eltSet())];
+    // COM avec ERAT
+    elseif ($this->estCAvecARM()) // dans les cas de C. avec ARM aucun couple associé
+      return [];
+    elseif ($this->estAssociation()) // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
       return [new CEntElits("c$cinsee", $this->eltSet())];
-    }
-    elseif ($this->eltSetND()) { // dans le cas de la C nouvelle 33055, la c d'origine 33338 est absorbées dans la c. nouv.
+    elseif ($this->eltSetND()) // dans le cas de la C nouvelle 33055, la c d'origine 33338 est absorbées dans la c. nouv.
       return [
-        new CEntElits("c$cinsee", $this->eltSetND()),
-        new CEntElits("r$cinsee", $this->eltSet()),
+        new CEntElits("c$cinsee", $this->eltSetND()), // le territoire non délégué, cad correspondant à l'ancienne 33338
+        new CEntElits("r$cinsee", $this->eltSet()), // la c. déléguée propre
       ];
-    }
     elseif ($this->estCNouvelle()) { // dans les autres cas de C. nouv., déléguée propre ou non
       if ($this->existeDelegueePropre()) // s'il existe une delegue propre
         return [new CEntElits("r$cinsee", $this->eltSet())];

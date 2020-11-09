@@ -3,14 +3,14 @@
 name: fcomhisto.php
 title: fcomhisto.php - fabriquer les elits puis les comhistog3 à partir de ces elits
 doc: |
-  La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les éléments associés
-  et à en déduire la géométrie associée à chaque élément.
-    a) on part d'histeltd.yaml produit par corrige.php que l'on charge dans la structure Histo/Version
+  La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les élits correspondants
+  et à en déduire la géométrie associée à chaque élit.
+    a) on part d'histelitp.yaml produit par corrige.php que l'on charge dans la structure Histo/Version
     b) on sélectionne pour chaque code Insee sa version valide, s'il y en a une
     c) différents cas de figure
       - la version valide correspond à une COM sans ERAT alors c'est une entité
       - la version valide correspond à une ERAT alors c'est une entité
-      - la version valide correspond à une COMS avec ERAT alors il y a potentiellement 2 entités
+      - la version valide correspond à une COM avec ERAT alors il y a potentiellement 2 entités
         - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
         - celle correspondant à une éventuelle ECOMP
       J'ai 3 cas d'ECOMP:
@@ -25,7 +25,7 @@ journal: |
   9/11/2020:
     - passage en v2
     - erreurs sur 14114/14712 du à l'absence de 14114 par IGN et sur 52224 due à son absence par IGN
-    - il faut modifier le code pour prendre en compte la possibilité d'un écart entre Insee et IGN.
+    - ajout du traitement des écarts entre Insee et IGN dans Version::cEntElits() dans histo.inc.php
   18/9/2020:
     - renommage de voronoi.php en fcomhisto.php
     - restructuration du code en éclatant la déf. des classes dans différents fichiers
@@ -88,10 +88,10 @@ else {
 echo "-- Début à ",date(DATE_ATOM),"\n";
 
 class Params {
-  const GEN_ELTS = true; // si true on génère les élits dans la table elt, sinon on n'y touche pas
+  const GEN_ELTS = true; // si true on génère les élits dans la table elit, sinon on n'y touche pas
 };
 if (!Params::GEN_ELTS)
-  echo "Attention: Les élts ne sont pas générés\n";
+  echo "Attention: Les élits ne sont pas générés\n";
 
 ChefLieu::load(__DIR__.'/../cheflieu');
 //print_r(ChefLieu::$all);
@@ -112,30 +112,29 @@ elseif (Params::GEN_ELTS) {
 }
 //print_r($entites);
 
-// Phase 1 - création des éléments dans la table elt
+// Phase 1 - création des élits dans la table elit
 if (Params::GEN_ELTS) {
   foreach (Histo::$all as $cinsee => $histo) {
     //if (substr($cinsee, 0, 2) <> 97) continue;
     //if (substr($cinsee, 0, 1) < 8) continue;
-    if (!($vvalide = $histo->vvalide())) {
+    if (!($vvalide = $histo->vvalide())) { // code Insee non valide
       //echo "$cinsee non valide\n";
       continue;
     }
-    //echo Yaml::dump([$cinsee => ['histo'=> $histo->asArray(), 'v2020'=> $v2020->asArray()]], 4, 2);
-    $cEntElts = $vvalide->cEntElits();
-    if (!$cEntElts) {
+    $cEntElits = $vvalide->cEntElits();
+    if (!$cEntElits) {
       if ($_GET['action']=='testEntites')
-        echo "Aucun cEntElt pour $cinsee\n";
+        echo "Aucun cEntElit pour $cinsee\n";
     }
     else {
-      foreach ($cEntElts as $cEntElt) {
+      foreach ($cEntElits as $cEntElit) {
         //echo '<b>',Yaml::dump(['$cEntElt'=> $cEntElt->asArray()]),"</b>\n";
         if ($_GET['action']=='testEntites') {
           // teste si chaque entité identifiée par ce process existe bien dans COG2020 et vice-versa
-          $cEntElt->testEntite($entites);
+          $cEntElit->testEntite($entites);
         }
         else {
-          $cEntElt->storeElts();
+          $cEntElit->storeElits();
         }
       }
     }

@@ -269,14 +269,14 @@ $schema:
                 élits:
                   description: |
                     définition du territoire sous la forme d'éléments intemporels propres positifs.
-                    Les élits propres d'une COMS sont ceux ne correspondant pas à une ERAT.
+                    Les élits propres d'une COM sont ceux ne correspondant pas à une ERAT.
                     Pour une commune mixte, ce sont ceux correspondant à la déléguée ; ceux évt correspondant à la CRAT sont définis
                     dans la propriété elitsNonDélégués
                   $ref: '#/definitions/listeDeCodesInsee'
                 élitsNonDélégués:
                   description: |
                     pour une ComNouvelle, éventuellement définition sous la forme d'élits du territoire non délégué.
-                    N'est utilisé que pour 33055 qui est une commune mixte qui a des elits pour sa déléguée propre et d'autres
+                    N'est utilisé que pour 33055 qui est une commune mixte qui a des élits pour sa déléguée propre et d'autres
                     non délégués
                   $ref: '#/definitions/listeDeCodesInsee'
     eof:

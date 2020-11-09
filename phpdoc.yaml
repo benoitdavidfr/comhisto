@@ -20,10 +20,10 @@ doc: |
       à un code Insee donné et à une date donnée,
     - exposer comhisto en données liées.
 journal: |
-  20/10-8/11/2020:
+  20/10-9/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
-    - je ne suis pas certain que le nouvel export est effectivement fondé sur la nouvelle version
     - archivage v1 (targz -> archives)
+    - génération de nouvelles couches
   23/9/2020:
     - correction erreur sur 78613/91613 (Thionville)
     - ajout St Barth et St Martin

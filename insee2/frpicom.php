@@ -71,6 +71,8 @@ functions:
       - améliorer les specs
   ",
   'journal'=> "
+    9/11/2020:
+      - correction 52064/52224
     7/11/2020:
       - implem du Cas particulier de fusion le 27/8/1947 d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612)
         dans Pont-d'Ouilly avec création du nouveau code 14764
@@ -1683,6 +1685,17 @@ if ($_GET['action'] == 'mvtserreurs') {
 }
 
 if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corrections sur Rpicom
+  // correction 52224/52064
+  // ajout de l'évt du 1/1/2019 sur 52224
+  $rpicoms[52224]['2019-01-01'] = [
+    'après'=> ['statut'=> 'COMD', 'name'=> 'Gonaincourt', 'crat'=> 52064],
+    'évts'=> ['resteRattachéeA'=> 52064],
+    'état'=> ['statut'=> 'COMD', 'name'=> 'Gonaincourt', 'crat'=> 52064],
+  ];
+  krsort($rpicoms[52224]);
+  // ajout de l'évt mirroir
+  $rpicoms[52064]['2019-01-01']['évts']['gardeCommeRattachées'][] = 52224;
+  
   // ajout des crat des ardts de Lyon vers Lyon (69123). Ces infos ne peuvent pas être déduites des mouvements.
   $rpicoms[69385]['1964-08-12']['après']['crat'] = 69123;
   $rpicoms[69385]['1964-08-12']['état']['crat'] = 69123;
@@ -1715,7 +1728,7 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
   ];
   krsort($rpicoms[69123]);
   
-  // Ajout de StBarth et StMartin sortis du référentiel le 15/7/2007
+  // Ajout de StBarth et StMartin qui sortent du référentiel le 15/7/2007
   $rpicoms[97123] = [
     '2007-07-15'=> [
       'après'=> [],

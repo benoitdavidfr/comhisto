@@ -42,9 +42,9 @@ class CEntElits {
     PgSql::query("comment on table elit is 'couche des éléments intemporels générée le $date_atom'");
   }
   
-  function storeElts(): void { // enregistre les élits dans la table des élits
+  function storeElits(): void { // enregistre les élits dans la table des élits
     $eid = $this->ent;
-    if ($this->eltSet->count() == 1) { // l'eadmin correspond à un seul élit donc la géométrie de l'élit est celle de l'eadmin
+    if ($this->eltSet->count() == 1) { // l'eadmin correspond à un seul élit => la géométrie de l'élit est celle de l'eadmin
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elit(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
       try {
@@ -59,7 +59,7 @@ class CEntElits {
         die("Erreur Sql ligne ".__LINE__."\n");
       }
     }
-    else { // l'eadmin correspond à un plusieurs élits donc la géométrie de chaque élit est calculée par Voronoi
+    else { // l'eadmin correspond à un plusieurs élits => la géométrie de chaque élit est calculée par Voronoi
       $eltMPoints = $this->eltMPoints();
       $voronoiPolygons = PgSqlSA::voronoiPolygons($eltMPoints, 0, "select geom from eadming3 where eid='$eid'");
       if (count($voronoiPolygons['geometries']) <> count($eltMPoints['coordinates'])) {

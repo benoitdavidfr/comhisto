@@ -176,13 +176,17 @@ Ma compréhension de cette difficulté est qu'il manque dans le fichier les 2 li
 | 21  | 1977-01-01 |   COMA     | 89325  | Ronchères  |    COMA    | 89325  | Ronchères  |
 | 21  | 1977-01-01 |   COMA     | 89389  | Septfonds  |    COMA    | 89389  | Septfonds  |
 
-### Correction d'un mouvement sur Gonaincourt (52224)
+### Correction de 2 mouvements sur Gonaincourt (52224)
 Gonaincourt (52224) au 1/6/2016 n'est pas fusionnée mais devient déléguée de 52064.    
 Ma compréhension est qu'il manque dans le fichier la ligne suivante :
 
 | mod |  date_eff  | typecom_av | com_av | libelle_av | typecom_ap | com_ap | libelle_ap |
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
 | 32  | 2016-01-01 |   COMA     | 52224  | Gonaincourt|    COMD    | 52224  | Gonaincourt|
+
+Par ailleurs, sa commune de rattachement est modifiée le 1/1/2019 et Gonaincourt n'est pas citée.
+Il convient donc d'ajouter un évènement au 1/1/2019 sur Gonaincourt pour indiquer qu'elle reste rattachée à 52064
+et un autre à la même date pour indiquer que 52064 gardeCommeRattachée 52224.
 
 ### Correction d'un mouvement sur Bois-Guillaume-Bihorel (76108)
 Avant son rétablissement du 1/1/2014, Bois-Guillaume-Bihorel (76108) a une commune déléguée ayant le même code.    

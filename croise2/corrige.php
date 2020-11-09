@@ -115,9 +115,9 @@ $yaml['contents'][14617]['2017-01-01']['évts']['fusionneDans'] = 14422; // et n
 $yaml['contents'][14233]['2017-01-01']['évts']['fusionneDans'] = 14422; // et non 14431
 $yaml['contents'][14567]['2017-01-01']['évts']['fusionneDans'] = 14422; // et non 14431
 unset($yaml['contents'][14431]['2017-01-01']['évts']['absorbe']); // et non [14233, 14567, 14617]
-$yaml['contents'][14431]['2017-01-01']['évts'] = [14133,14431]; // et non [14133, 14233, 14431, 14567, 14617]
+$yaml['contents'][14431]['2017-01-01']['élits'] = [14133,14431]; // et non [14133, 14233, 14431, 14567, 14617]
 $yaml['contents'][14422]['2017-01-01']['évts']['absorbe'] = [14233,14567,14617]; // en plus de { devientDéléguéeDe: 14431 }
-$yaml['contents'][14422]['2017-01-01']['évts'] = [14233,14422,14567,14617]; // et non [14422]
+$yaml['contents'][14422]['2017-01-01']['élits'] = [14233,14422,14567,14617]; // et non [14422]
 
 
 // L'INSEE indique que 14697 (Tôtes) fusionne dans 14654 (Saint-Pierre-en-Auge)

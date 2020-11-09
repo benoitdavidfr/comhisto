@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-09T08:13:24+00:00'
+created: '2020-11-09T10:57:35+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -78687,9 +78687,9 @@ contents:
       état: { statut: COM, name: Bourmont-entre-Meuse-et-Mouzon, nomCommeDéléguée: Bourmont }
       erat: [52064, 52224, 52351]
     '2019-01-01':
-      évts: { prendPourDéléguées: [52225], gardeCommeRattachées: [52064, 52351] }
+      évts: { prendPourDéléguées: [52225], gardeCommeRattachées: [52064, 52351, 52224] }
       état: { statut: COM, name: Bourmont-entre-Meuse-et-Mouzon, nomCommeDéléguée: Bourmont }
-      erat: [52064, 52225, 52351]
+      erat: [52064, 52224, 52225, 52351]
   52065:
     '1943-01-01':
       état: { statut: COM, name: Bouzancourt }
@@ -79517,6 +79517,9 @@ contents:
       état: { statut: COMA, name: Gonaincourt, crat: 52064 }
     '2016-06-01':
       évts: { devientDéléguéeDe: 52064 }
+      état: { statut: COMD, name: Gonaincourt, crat: 52064 }
+    '2019-01-01':
+      évts: { resteRattachéeA: 52064 }
       état: { statut: COMD, name: Gonaincourt, crat: 52064 }
   52225:
     '1943-01-01':
