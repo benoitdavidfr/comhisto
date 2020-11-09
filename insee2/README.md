@@ -211,12 +211,12 @@ les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à l
 Enfin, le fichier indique que Saint-Rambert-l'Île-Barbe (69232) a été fusionné dans Lyon le 7/8/1963.
 Il est plus précis d'indiquer que cette fusion a été effectuée dans le 5ème arrondissement.
 
-### A l'occasion de la cration d'une commune nouvelle, fusion vers une des déléguées
+### A l'occasion de la création d'une commune nouvelle, fusion vers une des déléguées
 Dans un certain nombre de cas de création d'une commune nouvelle, des fusions sont effectuées
 dans le chef-lieu de la commune nouvelle.
 Cependant, dans les données ADMIN EXPRESS produites par l'IGN la fusion est en fait effectuée dans une des communes rattachées.
-Dans ComHisto, pour permettre les croisement entre les données Insee et IGN, le choix a été fait d'appliquer la situation
-définie par l'IGN.
+Dans ComHisto, pour permettre les croisement entre les données Insee et IGN, le choix a été fait de retenir sur ce sujet
+le point de vue de l'IGN.
 Ces cas sont les suivants :
 
 |   date   | c. fusionnée                          | chef-lieu                    | c. déléguée dans laquelle la fusion est effectuée |
