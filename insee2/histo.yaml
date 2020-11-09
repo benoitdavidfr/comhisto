@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-07T20:27:02+00:00'
+created: '2020-11-09T08:13:24+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -12115,6 +12115,7 @@ contents:
     '1992-09-01':
       évts: { changeDeNomPour: Soueix-Rogalle }
       état: { statut: COM, name: Soueix-Rogalle }
+      erat: ['09248']
     '2015-01-01':
       évts: { absorbe: ['09248'] }
       état: { statut: COM, name: Soueix-Rogalle }
@@ -36022,6 +36023,7 @@ contents:
     '1974-06-07':
       évts: { changeDeNomPour: 'La Roche-Chalais' }
       état: { statut: COM, name: 'La Roche-Chalais' }
+      erat: [24467, 24469]
   24355:
     '1943-01-01':
       état: { statut: COM, name: 'La Roque-Gageac' }
@@ -37643,6 +37645,7 @@ contents:
     '1995-11-17':
       évts: { changeDeNomPour: Dambelin }
       état: { statut: COM, name: Dambelin }
+      erat: [25363]
   25188:
     '1943-01-01':
       état: { statut: COM, name: Dambenois }
@@ -41238,6 +41241,7 @@ contents:
     '1975-01-01':
       évts: { changeDeNomPour: Chauvincourt-Provemont }
       état: { statut: COM, name: Chauvincourt-Provemont }
+      erat: [27479]
   27154:
     '1943-01-01':
       état: { statut: COM, name: Chavigny-Bailleul }
@@ -69408,6 +69412,7 @@ contents:
     '1979-12-31':
       évts: { changeDeNomPour: Réaup-Lisse }
       état: { statut: COM, name: Réaup-Lisse }
+      erat: [47149]
   47222:
     '1943-01-01':
       état: { statut: COM, name: 'La Réunion' }
@@ -73627,6 +73632,7 @@ contents:
     '1979-12-31':
       évts: { changeDeNomPour: Dragey-Ronthon }
       état: { statut: COM, name: Dragey-Ronthon }
+      erat: [50439]
   50168:
     '1943-01-01':
       état: { statut: COM, name: Ducey }
@@ -79273,6 +79279,7 @@ contents:
     '1992-11-01':
       évts: { changeDeNomPour: Doulevant-le-Château }
       état: { statut: COM, name: Doulevant-le-Château }
+      erat: [52533]
   52179:
     '1943-01-01':
       état: { statut: COM, name: Doulevant-le-Petit }
@@ -79384,6 +79391,7 @@ contents:
     '1999-12-29':
       évts: { changeDeNomPour: Fayl-Billot }
       état: { statut: COM, name: Fayl-Billot }
+      erat: [52077, 52112]
   52198:
     '1943-01-01':
       état: { statut: COM, name: Fays }
@@ -79871,6 +79879,7 @@ contents:
     '1983-04-17':
       évts: { changeDeNomPour: Longeau-Percey }
       état: { statut: COM, name: Longeau-Percey }
+      erat: [52381]
   52293:
     '1943-01-01':
       état: { statut: COM, name: Longeville-sur-la-Laines }
@@ -102769,6 +102778,7 @@ contents:
     '1984-11-19':
       évts: { changeDeNomPour: Aïcirits-Camou-Suhast }
       état: { statut: COM, name: Aïcirits-Camou-Suhast }
+      erat: [64163]
   64011:
     '1943-01-01':
       état: { statut: COM, name: Aincille }
@@ -104256,6 +104266,7 @@ contents:
     '1981-03-13':
       évts: { changeDeNomPour: Ozenx-Montestrucq }
       état: { statut: COM, name: Ozenx-Montestrucq }
+      erat: [64402]
   64441:
     '1943-01-01':
       état: { statut: COM, name: Pagolle }
@@ -108396,6 +108407,7 @@ contents:
     '1983-04-17':
       évts: { changeDeNomPour: Obermodern-Zutzendorf }
       état: { statut: COM, name: Obermodern-Zutzendorf }
+      erat: [67562]
   67348:
     '1943-01-01':
       état: { statut: COM, name: Obernai }
@@ -111916,6 +111928,7 @@ contents:
     '1977-10-05':
       évts: { changeDeNomPour: Beaumotte-Aubertans }
       état: { statut: COM, name: Beaumotte-Aubertans }
+      erat: [70033]
   70060:
     '1943-01-01':
       état: { statut: COM, name: Beaumotte-lès-Pin }
@@ -112060,6 +112073,7 @@ contents:
     '1974-02-13':
       évts: { changeDeNomPour: Broye-Aubigney-Montseugny }
       état: { statut: COM, name: Broye-Aubigney-Montseugny }
+      erat: [70034, 70370]
   70102:
     '1943-01-01':
       état: { statut: COM, name: Brussey }
@@ -119422,6 +119436,7 @@ contents:
     '2007-04-01':
       évts: { changeDeNomPour: Reignier-Ésery }
       état: { statut: COM, name: Reignier-Ésery }
+      erat: [74113]
   74221:
     '1943-01-01':
       état: { statut: COM, name: 'Le Reposoir' }
@@ -137005,6 +137020,7 @@ contents:
     '1978-08-25':
       évts: { changeDeNomPour: Lathus-Saint-Rémy }
       état: { statut: COM, name: Lathus-Saint-Rémy }
+      erat: [86240]
   86121:
     '1943-01-01':
       état: { statut: COM, name: Latillé }

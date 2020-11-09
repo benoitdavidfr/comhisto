@@ -12,7 +12,6 @@ doc: |
   
   A faire:
     - remonter les erreurs notées dans croise2/corrige.php dans rpicom ou histo
-    - mettre à jour la doc Github pour passer en V2, archiver la V1 pour éviter les confusions
     
   Idées de valorisation:
     - proposer une IHM donnant pour chaque code Insee l'historique des versions et une carte illustrant le ou les périmètres

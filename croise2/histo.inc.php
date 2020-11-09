@@ -4,6 +4,8 @@ name: histo.inc.php
 title: histo.inc.php - classes Histo, Version et EltSet utilisées par fcomhisto.php
 doc: |
 journal: |
+  8/11/2020:
+    - passage en v2
   18/9/2020:
     - création
 */
@@ -32,7 +34,7 @@ class Histo {
     $vprec = null;
     foreach ($histo as $dv => $version) {
       if ($vprec)
-        $vprec->setFin($dv, $version['evts'] ?? []);
+        $vprec->setFin($dv, $version['évts'] ?? []);
       $this->versions[$dv] = new Version($cinsee, $dv, $version);
       $vprec = $this->versions[$dv];
     }
@@ -142,36 +144,33 @@ class Version {
   protected $evts;
   protected $evtsFin; // array
   protected $etat;
-  protected $erat; // [ ('aPourDéléguées'|'aPourAssociées'|'aPourArdm') => [{codeInsee}]] ou []
-  protected $eltSet; // ?EltSet - elts positifs et propres, cad hors ERAT
-  protected $eltSetND; // ?EltSet - dans le cas de 33055, elts non délégués
+  protected $erat; // [{codeInsee}]
+  protected $eltSet; // ?EltSet - elits positifs et propres, cad hors ERAT
+  protected $eltSetND; // ?EltSet - dans le cas de 33055, elits non délégués
   
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;
     $this->debut = $debut;
-    $this->evts = $version['evts'] ?? [];
+    $this->evts = $version['évts'] ?? [];
     $this->fin = null;
     $this->evtsFin = [];
-    $this->etat = $version['etat'] ?? [];
+    $this->etat = $version['état'] ?? [];
     $this->erat = $version['erat'] ?? [];
-    $this->eltSet = isset($version['elits']) ? new EltSet($version['elits']) : null;
-    $this->eltSetND = isset($version['elitsNonDélégués']) ? new EltSet($version['elitsNonDélégués']) : null;
+    $this->eltSet = isset($version['élits']) ? new EltSet($version['élits']) : null;
+    $this->eltSetND = isset($version['élitsNonDélégués']) ? new EltSet($version['élitsNonDélégués']) : null;
     //print_r($version);
   }
   
   function setFin(string $fin, $evtsFin) { $this->fin = $fin; $this->evtsFin = $evtsFin; }
-  function type(): string { return in_array($this->etat['statut'], ['COMA', 'COMD', 'ARDM']) ? 'r' : 's'; }
+  function type(): string { return in_array($this->etat['statut'], ['COMA', 'COMD', 'ARM']) ? 'r' : 's'; }
   function cinsee(): string { return $this->cinsee; }
   function statut(): string { return $this->etat['statut'] ?? 'undef'; }
   function etat(): array { return $this->etat; }
   
   function erats(): array { // [ Version ]
     $erats = [];
-    foreach ($this->erat as $listeCodesInsee) {
-      //print_r($listeCodesInsee);
-      foreach ($listeCodesInsee as $codeInsee) {
-        $erats[] = Histo::getVersion("r$codeInsee@$this->debut");
-      }
+    foreach ($this->erat as $codeInsee) {
+      $erats[] = Histo::getVersion("r$codeInsee@$this->debut");
     }
     return $erats;
   }
@@ -194,26 +193,25 @@ class Version {
   function asArray(): array {
     return array_merge(
       ['debut'=> $this->debut],
-      $this->evts ? ['evts'=> $this->evts] : [],
+      $this->evts ? ['évts'=> $this->evts] : [],
       $this->fin ? ['fin'=> $this->fin] : [],
-      $this->evtsFin ? ['evtsFin'=> $this->evtsFin] : [],
-      $this->etat ? ['etat'=> $this->etat] : [],
+      $this->evtsFin ? ['évtsFin'=> $this->evtsFin] : [],
+      $this->etat ? ['état'=> $this->etat] : [],
       $this->erat ? ['erat'=> $this->erat] : [],
       $this->eltSet ? ['eltsp'=> $this->eltSet->__toString()] : [],
       $this->eltSetND ? ['eltsNonDélégués'=> $this->eltSetND->__toString()] : []
     );
   }
   
-  function estAssociation(): bool { return (array_keys($this->erat) == ['aPourAssociées']); }
-  function estCNouvelle(): bool { return (array_keys($this->erat) == ['aPourDéléguées']); }
-  function estCAvecARDM(): bool { return (array_keys($this->erat) == ['aPourArdm']); }
+  function estAssociation(): bool { return ($erat0 = $this->erats()[0] ?? null) ? ($erat0->statut()=='COMA') : false; }
+  function estCNouvelle():  bool  { return ($erat0 = $this->erats()[0] ?? null) ? in_array($erat0->statut(), ['COMD','COM']) : false; }
+  function estCAvecARM():   bool  { return ($erat0 = $this->erats()[0] ?? null) ? ($erat0->statut()=='ARM') : false; }
   
   function existeDelegueePropre(): bool { // teste si la version correspond à une commune mixte cad nouvelle avec déléguée propre
-    $deleguees = $this->erat['aPourDéléguées'] ?? [];
-    return in_array($this->cinsee, $deleguees);
+    return in_array($this->cinsee, $this->erat);
   }
   
-  function eltsAvecErat(): array { // construit l'ensemble des elits associées à la version et à ses erat éventuels
+  function elitsAvecErat(): array { // construit l'ensemble des elits associés à la version et à ses erat éventuels
     $eltsAvecErat = $this->eltSet ? $this->eltSet->elts() : [];
     foreach ($this->erats() as $erat) {
       foreach ($erat->eltSet->elts() as $elt)
@@ -232,7 +230,7 @@ class Version {
       $this->delegueePropre()->insertComhisto(true);
       return;
     }
-    $elts = $this->eltsAvecErat();
+    $elts = $this->elitsAvecErat();
     if (count($elts) == 1) {
       $elt = $elts[0];
       $geomsql = "geom from elit where cinsee='$elt'";
@@ -253,7 +251,7 @@ class Version {
       $efin = 'null';
     }
     $statut = $this->statut();
-    if ($statut == 'COMS') {
+    if ($statut == 'COM') {
       if ($this->estAssociation())
         $statut = 'ASSO';
       elseif ($this->estCNouvelle())
@@ -330,14 +328,14 @@ class Version {
           - dans le cas de la commune nouvelle 33055, la commune d'origine 33338 est absorbées dans la c. nouv. (ex 33338/33055)
     */
     $cinsee = $this->cinsee;
-    if (in_array($this->statut(), ['COMD','COMA','ARDM'])) { // ERAT
+    if (in_array($this->statut(), ['COMD','COMA','ARM'])) { // ERAT
       return [new CEntElits("r$cinsee", $this->eltSet())];
     }
     elseif (!($erats = $this->erats())) { // COMS sans ERAT
       return [new CEntElits("s$cinsee", $this->eltSet())];
     }
     // COM avec ERAT
-    elseif ($this->estCAvecARDM()) { // dans les cas de C. avec ARDM aucun couple associé
+    elseif ($this->estCAvecARM()) { // dans les cas de C. avec ARM aucun couple associé
       return [];
     }
     elseif ($this->estAssociation()) { // dans le cas d'une association, le territoire de la commune chef-lieu est une ECOMP
@@ -357,6 +355,7 @@ class Version {
     }
     else {
       echo "Cas non traité dans Version::cEntElits() pour $cinsee\n";
+      print_r($this); die();
       return [];
     }
   }
@@ -374,13 +373,6 @@ class EltSet { // Ensemble d'éléments
   
   function __toString(): string { return implode('+', array_keys($this->set)); }
   
-  /*function diff(self $b): self { // $this - b
-    $result = clone $this;
-    foreach (array_keys($b->set) as $elt)
-      unset($result->set[$elt]);
-    return $result;
-  }*/
-  
   //function empty(): bool { return ($this->set==[]); }
   
   // nbre d'éléments dans l'ensemble
@@ -392,10 +384,5 @@ class EltSet { // Ensemble d'éléments
       $elts[] = substr($eelt, 1);
     return $elts;
   }
-
-  /*function ajout(self $b): void { // $this += $b 
-    $this->set = array_merge($this->set, $b->set);
-    ksort($this->set);
-  }*/
 };
 

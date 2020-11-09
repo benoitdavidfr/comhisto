@@ -81,10 +81,10 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 
 #### Les opérations ensemblistes
 
-- rattachement (par association ou délégation) d'une entité A à une COM B
+- rattachement (par association ou délégation) d'une entité A à une commune B
   - *évènements*: `A.sAssocieA.B / B.associe.(A), A.devientDéléguéeDe.B / B.prendPourDéléguées.(A)`
   - exemple: `{ '02166': {évts: {sAssocieA: '02524'}}, '02524': {évts: {associe: ['02166']}}}`
-- détachement d'une entité A d'une COM B
+- détachement d'une entité A d'une commune B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
   - exemple: `{'02166': {évts: {seDétacheDe: '02524'}}, '02524': {évts: {détacheCommeSimples: ['02166']}}}`
 - attachement conservée d'une entité A à une COM B
@@ -116,12 +116,11 @@ simples et des entités rattachées (communes associées, communes déléguées 
 Outre cette date, chaque version correspond:
 
 - dans un champ `évts` à un ou des évènement(s) de création/modification/suppression de la version, 
-  sauf pour la version initiale datée du 1/1/1943, sauf pour les communes de Mayotte,
-  dont l'état initial est daté du 31/3/2011, date à laquelle Mayotte est devenu un département francais,
+  sauf pour la version initiale datée du 1/1/1943 ou du 31/3/2011,
 - dans un champ `état` à l'état résultant du/des évènement(s) de l'entité associée au code, valide à partir de la date de la version
   jusqu'à la date de la version suivante s'il y en a une, sinon valide à la date de validité du référentiel ;
   cet état est absent ssi le(s) évènement(s) conduisent à une suppression de l'entité (ex. fusion),
-- dans un champ `erat`, la liste des entités rattachées, s'il y en a, déduites de l'état de ces entités rattachées.
+- dans un champ `erat`, la liste des codes Insee des entités rattachées, s'il y en a, déduites de l'état de ces entités rattachées.
 
 Certaines informations peuvent être déduites des informations primaires ; cela est alors signalé dans les commentaires du schéma.  
 Outre ce dictionnaire défini dans le champs contents, le document contient différentes champs,

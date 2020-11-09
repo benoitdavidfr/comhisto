@@ -11,7 +11,7 @@ journal: |
 class CEntElits {
   const ONLY_SHOW_SQL = false; // true <=> les reqêtes SQL de création d'elts sont affichées mais pas exécutées
   protected $ent; // eadmin (coms, erat, ecomp) définie dans COG2020 identifiée par le type et le code Insee
-  protected $eltSet; // ensemble d'élts, sous la forme d'un EltSet
+  protected $eltSet; // ensemble d'élits, sous la forme d'un EltSet
   
   function __construct(string $ent, EltSet $eltSet) {
     $this->ent = $ent;
@@ -42,17 +42,16 @@ class CEntElits {
     PgSql::query("comment on table elit is 'couche des éléments intemporels générée le $date_atom'");
   }
   
-  // enregistre les éléments dans la table des éléments
-  function storeElts(): void {
+  function storeElts(): void { // enregistre les élits dans la table des élits
     $eid = $this->ent;
-    if ($this->eltSet->count() == 1) {
+    if ($this->eltSet->count() == 1) { // l'eadmin correspond à un seul élit donc la géométrie de l'élit est celle de l'eadmin
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elit(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
       try {
         if (self::ONLY_SHOW_SQL)
           echo "sql=$sql\n";
-        else
-          PgSql::query($sql);
+        elseif (($affrows = PgSql::query($sql)->affected_rows()) <> 1)
+          echo "Erreur sur affected_rows=$affrows ligne ",__LINE__,", sql=$sql\n";
       }
       catch (Exception $e) {
         echo $e->getMessage(),"\n";
@@ -60,7 +59,7 @@ class CEntElits {
         die("Erreur Sql ligne ".__LINE__."\n");
       }
     }
-    else {
+    else { // l'eadmin correspond à un plusieurs élits donc la géométrie de chaque élit est calculée par Voronoi
       $eltMPoints = $this->eltMPoints();
       $voronoiPolygons = PgSqlSA::voronoiPolygons($eltMPoints, 0, "select geom from eadming3 where eid='$eid'");
       if (count($voronoiPolygons['geometries']) <> count($eltMPoints['coordinates'])) {
@@ -86,8 +85,8 @@ class CEntElits {
         try {
           if (self::ONLY_SHOW_SQL)
             echo "sql=$sql\n";
-          else
-            PgSql::query($sql);
+          elseif (($affrows = PgSql::query($sql)->affected_rows()) <> 1)
+            echo "Erreur sur affected_rows=$affrows ligne ",__LINE__,", sql=$sql\n";
         }
         catch (Exception $e) {
           echo $e->getMessage(),"\n";

@@ -5,10 +5,10 @@ title: fcomhisto.php - fabriquer les elits puis les comhistog3 à partir de ces 
 doc: |
   La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les éléments associés
   et à en déduire la géométrie associée à chaque élément.
-    a) on part d'histeltd.yaml produit par properat.php que l'on charge dans la structure Histo/Version
+    a) on part d'histeltd.yaml produit par corrige.php que l'on charge dans la structure Histo/Version
     b) on sélectionne pour chaque code Insee sa version valide, s'il y en a une
     c) différents cas de figure
-      - la version valide correspond à une COMS sans ERAT alors c'est une entité
+      - la version valide correspond à une COM sans ERAT alors c'est une entité
       - la version valide correspond à une ERAT alors c'est une entité
       - la version valide correspond à une COMS avec ERAT alors il y a potentiellement 2 entités
         - celle correspondant à une éventuelle commune déléguée propre (ex. r01015)
@@ -22,6 +22,10 @@ doc: |
   Le résultat est stocké dans la table comhistog3
 
 journal: |
+  9/11/2020:
+    - passage en v2
+    - erreurs sur 14114/14712 du à l'absence de 14114 par IGN et sur 52224 due à son absence par IGN
+    - il faut modifier le code pour prendre en compte la possibilité d'un écart entre Insee et IGN.
   18/9/2020:
     - renommage de voronoi.php en fcomhisto.php
     - restructuration du code en éclatant la déf. des classes dans différents fichiers
@@ -58,7 +62,6 @@ journal: |
     - création
 */
 ini_set('memory_limit', '1G');
-set_time_limit(2*60);
 
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
@@ -71,12 +74,13 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 if (php_sapi_name() <> 'cli') {
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>voronoi</title></head><body><pre>\n";
+  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>fcomhisto</title></head><body><pre>\n";
   if (!isset($_GET['action'])) {
     echo "</pre><a href='?action=testEntites'>test les entités</a><br>\n";
     echo "<a href='?action=voronoi'>génère les Voronoi</a><br>\n";
     die();
   }
+  set_time_limit(2*60);
 }
 else {
   $_GET['action'] = 'prod';
@@ -92,7 +96,7 @@ if (!Params::GEN_ELTS)
 ChefLieu::load(__DIR__.'/../cheflieu');
 //print_r(ChefLieu::$all);
 
-Histo::load('histelitp.yaml');
+Histo::load(__DIR__.'/histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
@@ -153,7 +157,7 @@ PgSql::query("create type StatutEntite AS enum (
   'NOUV', -- commune de rattachement d'une commune nouvelle
   'COMA', -- commune associée
   'COMD', -- commune déléguée
-  'ARDM'  -- arrondissement municipal
+  'ARM'  -- arrondissement municipal
 )");
 PgSql::query("create table comhistog3(
   id char(17) not null primary key, -- concaténation de type, cinsee, '@' et ddebut
@@ -164,7 +168,7 @@ PgSql::query("create table comhistog3(
   dfin char(10), -- date du lendemain de la fin de la version dans format YYYY-MM-DD, ou null ssi version valide à la date de référence
   efin jsonb, -- évts de fin de la version, ou null ssi version valide à la date de référence
   statut StatutEntite not null,
-  crat char(5), -- pour une entité rattachée (COMA, COMD, ARDM) code Insee de la commune de rattachement, sinon null
+  crat char(5), -- pour une entité rattachée (COMA, COMD, ARM) code Insee de la commune de rattachement, sinon null
   erats jsonb not null, -- pour une commune de rattachement (ASSO, NOUV) liste JSON des codes Insee des entités rattachées
   elits jsonb, -- liste JSON des éléments intemporels propres ou null ssi il n'y en a pas
   dnom varchar(256), -- dernier nom

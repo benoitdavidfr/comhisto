@@ -4,6 +4,8 @@ name: fhisto.php
 title: fhisto.php - fabrication du fichier histo.yaml à partir de rpicom.yaml
 doc: |
 journal: |
+  9/11/2020:
+    - correction d'un bug
   4/11/2020:
     - création
 */
@@ -67,8 +69,8 @@ foreach ($rpicoms as $cinsee => $rpicom) { // passage de rpicom à histo
   foreach ($rpicom as $dfin => $val) {
     if ($dfin == 'now') break;
     $histo[$dfin]['évts'] = $val['évts'];
-    unset($histo[$dfin]['évts']['type']);
-    unset($histo[$dfin]['évts']['type2']);
+    unset($histo[$dfin]['évts']['type']); // champ de debug dans rpicom
+    unset($histo[$dfin]['évts']['type2']); // champ de debug dans rpicom
     if ($val['après'])
       $histo[$dfin]['état'] = $val['après']; // le champ après du rpicom, plus fiable que le champ état
   }
@@ -92,9 +94,11 @@ foreach ($histos as $cinsee => $histo) { // propagation du champ erat en cas de 
       //echo "Propagation d'erat pour $cinsee/$ddebut\n";
       $histos[$cinsee][$ddebut]['erat'] = $erat;
     }
-    $erat = isset($histoD['erat']) ? $histoD['erat'] : [];
+    $erat = $version['erat'] ?? [];
   }
 }
+
+// modification des erats de Lyon (69123)
 $histos[69123]['1959-02-08']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388];
 $histos[69123]['1963-08-07']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388];
 $histos[69123]['1964-08-12']['erat'] = [69381, 69382, 69383, 69384, 69385, 69386, 69387, 69388, 69389];
