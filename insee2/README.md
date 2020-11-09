@@ -214,7 +214,8 @@ Il est plus précis d'indiquer que cette fusion a été effectuée dans le 5ème
 ### A l'occasion de la création d'une commune nouvelle, fusion vers une des déléguées
 Dans un certain nombre de cas de création d'une commune nouvelle, des fusions sont effectuées
 dans le chef-lieu de la commune nouvelle.
-Cependant, dans les données ADMIN EXPRESS produites par l'IGN la fusion est en fait effectuée dans une des communes rattachées.
+Cependant, dans les données ADMIN EXPRESS produites par l'IGN la fusion est en fait effectuée dans une des communes rattachées
+qui est souvent la précédente commune de rattachement de la commune fusionnée.
 Dans ComHisto, pour permettre les croisement entre les données Insee et IGN, le choix a été fait de retenir sur ce sujet
 le point de vue de l'IGN.
 Ces cas sont les suivants :
