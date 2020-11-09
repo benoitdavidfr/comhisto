@@ -1,6 +1,6 @@
 title: 'Référentiel historique des communes'
 description: 'Voir la documentation sur https://github.com/benoitdavidfr/comhisto'
-created: '2020-11-09T10:57:35+00:00'
+created: '2020-11-09T17:48:19+00:00'
 valid: '2020-01-01'
 $schema: 'http://id.georef.eu/comhisto/insee2/exhisto/$schema'
 ydADscrBhv:
@@ -18214,7 +18214,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Ammeville, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14011:
     '1943-01-01':
       état: { statut: COM, name: Anctoville }
@@ -18434,7 +18434,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: 'Le Bény-Bocage' }
     '2016-01-01':
-      évts: { absorbe: [14262], prendPourDéléguées: [14052, 14061, 14115, 14129, 14139, 14255, 14264, 14317, 14395, 14440, 14441, 14443, 14532, 14573, 14618, 14629, 14632, 14636, 14655, 14704] }
+      évts: { prendPourDéléguées: [14052, 14061, 14115, 14129, 14139, 14255, 14264, 14317, 14395, 14440, 14441, 14443, 14532, 14573, 14618, 14629, 14632, 14636, 14655, 14704] }
       état: { statut: COM, name: 'Souleuvre en Bocage', nomCommeDéléguée: 'Le Bény-Bocage' }
       erat: [14052, 14061, 14115, 14129, 14139, 14255, 14264, 14317, 14395, 14440, 14441, 14443, 14532, 14573, 14618, 14629, 14632, 14636, 14655, 14704]
   14062:
@@ -18468,7 +18468,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Berville, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14068:
     '1943-01-01':
       état: { statut: COM, name: Beuville }
@@ -18805,7 +18805,7 @@ contents:
       évts: { changeDeNomPour: 'Caumont-l''Éventé' }
       état: { statut: COM, name: 'Caumont-l''Éventé' }
     '2017-01-01':
-      évts: { absorbe: [14490], prendPourDéléguées: [14143, 14372, 14722] }
+      évts: { prendPourDéléguées: [14143, 14372, 14722] }
       état: { statut: COM, name: Caumont-sur-Aure, nomCommeDéléguée: 'Caumont-l''Éventé' }
       erat: [14143, 14372, 14722]
   14144:
@@ -19229,7 +19229,7 @@ contents:
       évts: { sAssocieA: 14422 }
       état: { statut: COMA, name: Écajeul, crat: 14422 }
     '2017-01-01':
-      évts: { fusionneDans: 14431 }
+      évts: { fusionneDans: 14422 }
   14234:
     '1943-01-01':
       état: { statut: COM, name: Écots }
@@ -19243,7 +19243,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Écots, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14235:
     '1943-01-01':
       état: { statut: COM, name: Écrammeville }
@@ -19347,7 +19347,7 @@ contents:
       évts: { sAssocieA: 14629 }
       état: { statut: COMA, name: 'La Ferrière-au-Doyen', crat: 14629 }
     '2016-01-01':
-      évts: { fusionneDans: 14061 }
+      évts: { fusionneDans: 14629 }
   14263:
     '1943-01-01':
       état: { statut: COM, name: 'La Ferrière-Duval' }
@@ -19500,7 +19500,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Garnetot, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14296:
     '1943-01-01':
       état: { statut: COM, name: 'Le Gast' }
@@ -19589,7 +19589,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Grandmesnil, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14315:
     '1943-01-01':
       état: { statut: COM, name: Grandouet }
@@ -19842,7 +19842,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Lieury, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14364:
     '1943-01-01':
       état: { statut: COM, name: Lingèvres }
@@ -19885,7 +19885,7 @@ contents:
       état: { statut: COM, name: Livry }
       erat: [14490]
     '2017-01-01':
-      évts: { devientDéléguéeDe: 14143 }
+      évts: { devientDéléguéeDe: 14143, absorbe: [14490] }
       état: { statut: COMD, name: Livry, crat: 14143 }
   14373:
     '1943-01-01':
@@ -20112,7 +20112,7 @@ contents:
       état: { statut: COM, name: 'Le Mesnil-Mauger' }
       erat: [14233, 14567, 14617]
     '2017-01-01':
-      évts: { devientDéléguéeDe: 14431 }
+      évts: { devientDéléguéeDe: 14431, absorbe: [14233, 14567, 14617] }
       état: { statut: COMD, name: 'Le Mesnil-Mauger', crat: 14431 }
   14423:
     '1943-01-01':
@@ -20157,7 +20157,7 @@ contents:
       évts: { absorbe: [14133] }
       état: { statut: COM, name: Mézidon-Canon }
     '2017-01-01':
-      évts: { absorbe: [14233, 14567, 14617], prendPourDéléguées: [14031, 14189, 14201, 14208, 14313, 14359, 14386, 14387, 14422, 14431, 14444, 14493, 14600, 14749] }
+      évts: { prendPourDéléguées: [14031, 14189, 14201, 14208, 14313, 14359, 14386, 14387, 14422, 14431, 14444, 14493, 14600, 14749] }
       état: { statut: COM, name: 'Mézidon Vallée d''Auge', nomCommeDéléguée: Mézidon-Canon }
       erat: [14031, 14189, 14201, 14208, 14313, 14359, 14386, 14387, 14422, 14431, 14444, 14493, 14600, 14749]
   14432:
@@ -20244,7 +20244,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Montpinçon, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14448:
     '1943-01-01':
       état: { statut: COM, name: Montreuil }
@@ -20362,7 +20362,7 @@ contents:
       état: { statut: COM, name: 'L''Oudon' }
       erat: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697]
     '2017-01-01':
-      évts: { devientDéléguéeDe: 14654 }
+      évts: { devientDéléguéeDe: 14654, absorbe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697] }
       état: { statut: COMD, name: 'L''Oudon', crat: 14654 }
   14473:
     '1943-01-01':
@@ -20459,7 +20459,7 @@ contents:
       évts: { sAssocieA: 14372 }
       état: { statut: COMA, name: 'Parfouru-l''Éclin', crat: 14372 }
     '2017-01-01':
-      évts: { fusionneDans: 14143 }
+      évts: { fusionneDans: 14372 }
   14491:
     '1943-01-01':
       état: { statut: COM, name: Parfouru-sur-Odon }
@@ -20805,7 +20805,7 @@ contents:
       évts: { sAssocieA: 14422 }
       état: { statut: COMA, name: Saint-Crespin, crat: 14422 }
     '2017-01-01':
-      évts: { fusionneDans: 14431 }
+      évts: { fusionneDans: 14422 }
   14568:
     '1943-01-01':
       état: { statut: COM, name: Sainte-Croix-Grand-Tonne }
@@ -21053,7 +21053,7 @@ contents:
       évts: { sAssocieA: 14422 }
       état: { statut: COMA, name: Sainte-Marie-aux-Anglais, crat: 14422 }
     '2017-01-01':
-      évts: { fusionneDans: 14431 }
+      évts: { fusionneDans: 14422 }
   14618:
     '1943-01-01':
       état: { statut: COM, name: Sainte-Marie-Laumont }
@@ -21096,7 +21096,7 @@ contents:
       évts: { seDétacheDe: 14697, sAssocieA: 14472 }
       état: { statut: COMA, name: Saint-Martin-de-Fresnay, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14625:
     '1943-01-01':
       état: { statut: COM, name: Saint-Martin-de-la-Lieue }
@@ -21120,7 +21120,7 @@ contents:
       état: { statut: COM, name: Saint-Martin-des-Besaces }
       erat: [14262]
     '2016-01-01':
-      évts: { devientDéléguéeDe: 14061 }
+      évts: { devientDéléguéeDe: 14061, absorbe: [14262] }
       état: { statut: COMD, name: Saint-Martin-des-Besaces, crat: 14061 }
   14630:
     '1943-01-01':
@@ -21232,7 +21232,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Saint-Pierre-sur-Dives }
     '2017-01-01':
-      évts: { absorbe: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697], prendPourDéléguées: [14081, 14099, 14331, 14433, 14450, 14472, 14489, 14580, 14616, 14654, 14688, 14729, 14750] }
+      évts: { prendPourDéléguées: [14081, 14099, 14331, 14433, 14450, 14472, 14489, 14580, 14616, 14654, 14688, 14729, 14750] }
       état: { statut: COM, name: Saint-Pierre-en-Auge, nomCommeDéléguée: Saint-Pierre-sur-Dives }
       erat: [14081, 14099, 14331, 14433, 14450, 14472, 14489, 14580, 14616, 14654, 14688, 14729, 14750]
   14655:
@@ -21443,7 +21443,7 @@ contents:
       évts: { détacheCommeSimples: [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14472, 14624], sAssocieA: 14472 }
       état: { statut: COMA, name: Tôtes, crat: 14472 }
     '2017-01-01':
-      évts: { fusionneDans: 14654 }
+      évts: { fusionneDans: 14472 }
   14698:
     '1943-01-01':
       état: { statut: COM, name: Touffréville }
@@ -34708,7 +34708,7 @@ contents:
       évts: { changeDeNomPour: Beaumont-du-Périgord }
       état: { statut: COM, name: Beaumont-du-Périgord }
     '2016-01-01':
-      évts: { absorbe: [24049], prendPourDéléguées: [24028, 24219, 24310, 24497] }
+      évts: { prendPourDéléguées: [24028, 24219, 24310, 24497] }
       état: { statut: COM, name: 'Beaumontois en Périgord', nomCommeDéléguée: Beaumont-du-Périgord }
       erat: [24028, 24219, 24310, 24497]
   24029:
@@ -34800,7 +34800,7 @@ contents:
       évts: { sAssocieA: 24497 }
       état: { statut: COMA, name: Born-de-Champs, crat: 24497 }
     '2016-01-01':
-      évts: { fusionneDans: 24028 }
+      évts: { fusionneDans: 24497 }
   24050:
     '1943-01-01':
       état: { statut: COM, name: Borrèze }
@@ -36579,7 +36579,7 @@ contents:
       état: { statut: COM, name: Sainte-Sabine-Born }
       erat: [24049]
     '2016-01-01':
-      évts: { devientDéléguéeDe: 24028 }
+      évts: { devientDéléguéeDe: 24028, absorbe: [24049] }
       état: { statut: COMD, name: Sainte-Sabine-Born, crat: 24028 }
   24498:
     '1943-01-01':
@@ -43393,7 +43393,7 @@ contents:
       état: { statut: COM, name: Allaines-Mervilliers }
       erat: [28244]
     '2019-01-01':
-      évts: { devientDéléguéeDe: 28199 }
+      évts: { devientDéléguéeDe: 28199, absorbe: [28244] }
       état: { statut: COMD, name: Allaines-Mervilliers, crat: 28199 }
   28003:
     '1943-01-01':
@@ -44155,7 +44155,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Janville }
     '2019-01-01':
-      évts: { absorbe: [28244], prendPourDéléguées: [28002, 28199, 28311] }
+      évts: { prendPourDéléguées: [28002, 28199, 28311] }
       état: { statut: COM, name: Janville-en-Beauce, nomCommeDéléguée: Janville }
       erat: [28002, 28199, 28311]
   28200:
@@ -44333,7 +44333,7 @@ contents:
       évts: { sAssocieA: 28002 }
       état: { statut: COMA, name: Mervilliers, crat: 28002 }
     '2019-01-01':
-      évts: { fusionneDans: 28199 }
+      évts: { fusionneDans: 28002 }
   28245:
     '1943-01-01':
       état: { statut: COM, name: Meslay-le-Grenet }
@@ -56842,7 +56842,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: 'Les Avenières' }
     '2016-01-01':
-      évts: { absorbe: [38506], prendPourDéléguées: [38022, 38541] }
+      évts: { prendPourDéléguées: [38022, 38541] }
       état: { statut: COM, name: 'Les Avenières Veyrins-Thuellin', nomCommeDéléguée: 'Les Avenières' }
       erat: [38022, 38541]
   38023:
@@ -58575,7 +58575,7 @@ contents:
       évts: { sAssocieA: 38541 }
       état: { statut: COMA, name: Thuellin, crat: 38541 }
     '2016-01-01':
-      évts: { fusionneDans: 38022 }
+      évts: { fusionneDans: 38541 }
   38507:
     '1943-01-01':
       état: { statut: COM, name: Tignieu-Jameyzieu }
@@ -58697,7 +58697,7 @@ contents:
       état: { statut: COM, name: Veyrins-Thuellin }
       erat: [38506]
     '2016-01-01':
-      évts: { devientDéléguéeDe: 38022 }
+      évts: { devientDéléguéeDe: 38022, absorbe: [38506] }
       état: { statut: COMD, name: Veyrins-Thuellin, crat: 38022 }
   38542:
     '1943-01-01':
@@ -71147,7 +71147,7 @@ contents:
       état: { statut: COM, name: Chemillé-Melay, nomCommeDéléguée: Chemillé }
       erat: [49092, 49199]
     '2015-12-15':
-      évts: { absorbe: [49146], prendPourDéléguées: [49071, 49074, 49111, 49153, 49169, 49225, 49268, 49281, 49300, 49325, 49351], gardeCommeRattachées: [49092, 49199] }
+      évts: { prendPourDéléguées: [49071, 49074, 49111, 49153, 49169, 49225, 49268, 49281, 49300, 49325, 49351], gardeCommeRattachées: [49092, 49199] }
       état: { statut: COM, name: Chemillé-en-Anjou, nomCommeDéléguée: Chemillé }
       erat: [49071, 49074, 49092, 49111, 49153, 49169, 49199, 49225, 49268, 49281, 49300, 49325, 49351]
   49093:
@@ -71167,7 +71167,7 @@ contents:
       état: { statut: COM, name: Chênehutte-Trèves-Cunault }
       erat: [49357]
     '2016-01-01':
-      évts: { devientDéléguéeDe: 49149 }
+      évts: { devientDéléguéeDe: 49149, absorbe: [49357] }
       état: { statut: COMD, name: Chênehutte-Trèves-Cunault, crat: 49149 }
     '2018-01-01':
       évts: { devientDéléguéeDe: 49261 }
@@ -71451,7 +71451,7 @@ contents:
       évts: { sAssocieA: 49281 }
       état: { statut: COMA, name: 'Les Gardes', crat: 49281 }
     '2015-12-15':
-      évts: { fusionneDans: 49092 }
+      évts: { fusionneDans: 49281 }
   49147:
     '1943-01-01':
       état: { statut: COM, name: Gée }
@@ -71468,7 +71468,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Gennes }
     '2016-01-01':
-      évts: { absorbe: [49357], prendPourDéléguées: [49094, 49149, 49154, 49279, 49346] }
+      évts: { prendPourDéléguées: [49094, 49149, 49154, 49279, 49346] }
       état: { statut: COM, name: 'Gennes-Val de Loire', nomCommeDéléguée: Gennes }
       erat: [49094, 49149, 49154, 49279, 49346]
     '2018-01-01':
@@ -72212,7 +72212,7 @@ contents:
       état: { statut: COM, name: Saint-Georges-des-Gardes }
       erat: [49146]
     '2015-12-15':
-      évts: { devientDéléguéeDe: 49092 }
+      évts: { devientDéléguéeDe: 49092, absorbe: [49146] }
       état: { statut: COMD, name: Saint-Georges-des-Gardes, crat: 49092 }
   49282:
     '1943-01-01':
@@ -72622,7 +72622,7 @@ contents:
       évts: { sAssocieA: 49094 }
       état: { statut: COMA, name: Trèves-Cunault, crat: 49094 }
     '2016-01-01':
-      évts: { fusionneDans: 49149 }
+      évts: { fusionneDans: 49094 }
   49358:
     '1943-01-01':
       état: { statut: COM, name: Turquant }
@@ -117751,7 +117751,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Hermillon }
     '2019-01-01':
-      évts: { absorbe: [73172], prendPourDéléguées: [73080, 73135, 73203] }
+      évts: { prendPourDéléguées: [73080, 73135, 73203] }
       état: { statut: COM, name: 'La Tour-en-Maurienne', nomCommeDéléguée: Hermillon }
       erat: [73080, 73135, 73203]
   73136:
@@ -117913,7 +117913,7 @@ contents:
       évts: { sAssocieA: 73203 }
       état: { statut: COMA, name: Montpascal, crat: 73203 }
     '2019-01-01':
-      évts: { fusionneDans: 73135 }
+      évts: { fusionneDans: 73203 }
   73173:
     '1943-01-01':
       état: { statut: COM, name: Montricher }
@@ -118046,7 +118046,7 @@ contents:
       état: { statut: COM, name: Pontamafrey-Montpascal }
       erat: [73172]
     '2019-01-01':
-      évts: { devientDéléguéeDe: 73135 }
+      évts: { devientDéléguéeDe: 73135, absorbe: [73172] }
       état: { statut: COMD, name: Pontamafrey-Montpascal, crat: 73135 }
   73204:
     '1943-01-01':
@@ -128794,7 +128794,7 @@ contents:
       état: { statut: COM, name: Mauzé-Thouarsais }
       erat: [79228]
     '2019-01-01':
-      évts: { devientDéléguéeDe: 79329 }
+      évts: { devientDéléguéeDe: 79329, absorbe: [79228] }
       état: { statut: COMD, name: Mauzé-Thouarsais, crat: 79329 }
   79172:
     '1943-01-01':
@@ -129099,7 +129099,7 @@ contents:
       évts: { sAssocieA: 79171 }
       état: { statut: COMA, name: Rigné, crat: 79171 }
     '2019-01-01':
-      évts: { fusionneDans: 79329 }
+      évts: { fusionneDans: 79171 }
   79229:
     '1943-01-01':
       état: { statut: COM, name: 'La Rochénard' }
@@ -129577,7 +129577,7 @@ contents:
     '1943-01-01':
       état: { statut: COM, name: Thouars }
     '2019-01-01':
-      évts: { absorbe: [79228], prendPourDéléguées: [79171, 79178, 79292] }
+      évts: { prendPourDéléguées: [79171, 79178, 79292] }
       état: { statut: COM, name: Thouars }
       erat: [79171, 79178, 79292]
   79330:

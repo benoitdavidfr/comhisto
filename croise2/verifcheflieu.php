@@ -18,7 +18,6 @@ journal: |
     - création
 */
 ini_set('memory_limit', '1G');
-set_time_limit(2*60);
 
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
@@ -30,14 +29,18 @@ require_once __DIR__.'/centelits.inc.php'; // classe CEntElits - couple (eadmin 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
+if (php_sapi_name() <> 'cli')
+  set_time_limit(2*60);
+
 ChefLieu::load(__DIR__.'/../cheflieu');
 //print_r(ChefLieu::$all);
 
-Histo::load('histelitp.yaml');
+Histo::load(__DIR__.'/histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
 
+$verif = true; // false si au moins une erreur
 foreach (Histo::$all as $cinsee => $histo) {
   //if (substr($cinsee, 0, 1) >= 4) break;
   //if (substr($cinsee, 0, 1) < 8) continue;
@@ -49,6 +52,7 @@ foreach (Histo::$all as $cinsee => $histo) {
     continue;
   }
   foreach ($cEntElits as $cEntElit) {
-    $cEntElit->verifChefLieuDansEadmin();
+    $verif = $verif && $cEntElit->verifChefLieuDansEadmin();
   }
 }
+exit($verif ? 0 : 1);

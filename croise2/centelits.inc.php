@@ -115,9 +115,10 @@ class CEntElits {
     return ['type'=> 'MultiPoint', 'coordinates'=> $points];
   }
 
-  function verifChefLieuDansEadmin(): void {
+  function verifChefLieuDansEadmin(): bool { // renvoie vrai ssi le chef-lieu est dans l'eadmin
+    $verif = true;
     if ($this->eltSet->count() == 1)
-      return;
+      return true;
     foreach ($this->eltSet->elts() as $elit) {
       $histo = Histo::get($elit);
       //echo "chefLieu->names=",implode(' / ', $histo->names()),"\n";
@@ -126,10 +127,15 @@ class CEntElits {
         ."where eid='$this->ent'";
       //echo "verifChefLieu: $sql\n";
       $tuples = PgSql::getTuples($sql);
-      if (count($tuples) <> 1)
+      if (count($tuples) <> 1) {
         echo "Erreur $this->ent n'existe pas\n";
-      elseif ($tuples[0]['st_within'] <> 't')
+        $verif = false;
+      }
+      elseif ($tuples[0]['st_within'] <> 't') {
         echo "Erreur sur elit=$elit (",implode(' / ', $histo->names()),") / $this->ent\n";
+        $verif = false;
+      }
     }
+    return $verif;
   }
 };

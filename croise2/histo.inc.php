@@ -24,6 +24,10 @@ class Histo {
   static function load(string $fpath) {
     $yaml = Yaml::parseFile($fpath);
     //print_r($yaml);
+    if (!isset($yaml['contents'])) {
+      echo "Erreur de lecture de $fpath\n";
+      exit(1);
+    }
     foreach ($yaml['contents'] as $cinsee => $histo) {
       self::$all[$cinsee] = new Histo($cinsee, $histo);
     }

@@ -73,6 +73,7 @@ functions:
   'journal'=> "
     9/11/2020:
       - correction 52064/52224
+      - transfert ici des modifications des fusions du chef-lieu vers une des déléguées de croise2/corrige.php
     7/11/2020:
       - implem du Cas particulier de fusion le 27/8/1947 d'Ouilly-le-Basset (14485) et de Saint-Marc-d'Ouilly (14612)
         dans Pont-d'Ouilly avec création du nouveau code 14764
@@ -1743,6 +1744,97 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
       'état'=> [ 'statut'=> 'COM', 'name'=> "Saint-Martin"],
     ]
   ];
+  
+  // Modification des fusions du chef-lieu vers une des déléguées
+  
+  // L'INSEE indique que 14697 (Tôtes) fusionne dans 14654 (Saint-Pierre-en-Auge)
+  // La carte et l'AE2020 montrent que ce chef-lieu est dans r14472, une COMD de 14654
+  // Je considère donc que 14697 fusionne dans 14472
+  // De même pour 14624 (Saint-Martin-de-Fresnay) qui fusionne dans 14472 et non 14654
+  // De même pour 14295 (Garnetot) qui fusionne dans 14472 et non 14654
+  // De même pour 14447 (Montpinçon) qui fusionne dans 14472 et non 14654
+  // De même pour 14314 (Grandmesnil) qui fusionne dans 14472 et non 14654
+  // De même pour 14010 (Ammeville) qui fusionne dans 14472 et non 14654
+  // De même pour 14234 (Écots) qui fusionne dans 14472 et non 14654
+  // De même pour 14363 (Lieury) qui fusionne dans 14472 et non 14654
+  // De même pour 14067 (Berville) qui fusionne dans 14472 et non 14654
+  $rpicoms[14010]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14067]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14234]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14295]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14314]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14363]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14447]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14624]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  $rpicoms[14697]['2017-01-01']['évts']['fusionneDans'] = 14472; // et non 14654
+  unset($rpicoms[14654]['2017-01-01']['évts']['absorbe']); // et non [14010, 14067, 14234, 14295, 14314, 14363, 14447, 14624, 14697]
+  $rpicoms[14472]['2017-01-01']['évts']['absorbe'] = [14010,14067,14234,14295,14314,14363,14447,14624,14697];
+    // en plus de devientDéléguéeDe
+  
+  // L'INSEE indique que 14262 (La Ferrière-au-Doyen) fusionne dans 14061
+  // La carte et l'AE2020 montrent que ce chef-lieu est dans r14629, une COMD de 14061
+  // Je considère donc que 14262 fusionne dans 14629
+  $rpicoms[14262]['2016-01-01']['évts']['fusionneDans'] = 14629; // et non 14061
+  unset($rpicoms[14061]['2016-01-01']['évts']['absorbe']); // au lieu de {absorbe: [14262]}
+  $rpicoms[14629]['2016-01-01']['évts']['absorbe'] = [14262]; // en plus de { devientDéléguéeDe: 14061 }
+
+  // L'INSEE indique que 14617 (Sainte-Marie-aux-Anglais) a été absorbée au 1/1/2017 par 14431 (Mézidon Vallée d'Auge).
+  // La carte montre que ce chef-lieu est dans r14422 (Le Mesnil-Mauger), une des COMD de 14431
+  // Je considère donc que 14617 fusionne dans 14422 et non dans 14431
+  // Cela a pour conséquence que l'elit 14617 se retrouve dans 14422
+  // Il faudrait faire cette correction avant la construction des élits
+  // Idem pour 14233 / 14431 -> 14422 
+  // Idem pour 14567 / 14431 -> 14422 
+  $rpicoms[14617]['2017-01-01']['évts']['fusionneDans'] = 14422; // et non 14431
+  $rpicoms[14233]['2017-01-01']['évts']['fusionneDans'] = 14422; // et non 14431
+  $rpicoms[14567]['2017-01-01']['évts']['fusionneDans'] = 14422; // et non 14431
+  unset($rpicoms[14431]['2017-01-01']['évts']['absorbe']); // et non [14233, 14567, 14617]
+  $rpicoms[14422]['2017-01-01']['évts']['absorbe'] = [14233,14567,14617]; // en plus de { devientDéléguéeDe: 14431 }
+
+  // L'INSEE indique que 14490 (Parfouru-l'Éclin) fusionne dans 14143
+  // La carte et l'AE2020 montrent que ce chef-lieu est dans r14372, une COMD de 14143
+  // Je considère donc que 14490 fusionne dans 14372
+  $rpicoms[14490]['2017-01-01']['évts']['fusionneDans'] = 14372; // et non 14143
+  unset($rpicoms[14143]['2017-01-01']['évts']['absorbe']); // au lieu de {absorbe: [14490]}
+  $rpicoms[14372]['2017-01-01']['évts']['absorbe'] = [14490]; // en plus de { devientDéléguéeDe: 14143 }
+
+  // L'INSEE indique que 24049 (Born-de-Champs) fusionne dans 24028
+  // La carte et l'AE2020 montrent que ce chef-lieu est dans 24497, ce que je transcris
+  $rpicoms[24049]['2016-01-01']['évts']['fusionneDans'] = 24497; // et non 24028
+  unset($rpicoms[24028]['2016-01-01']['évts']['absorbe']); // au lieu de {absorbe: [24049]}
+  $rpicoms[24497]['2016-01-01']['évts']['absorbe'] = [24049]; // en plus de { devientDéléguéeDe: 24028 }
+
+  // L'INSEE indique que 28244 (Mervilliers) fusionne dans 28199
+  // La carte et l'AE2020 montrent que ce chef-lieu est dans 28002, ce que je transcris
+  $rpicoms[28244]['2019-01-01']['évts']['fusionneDans'] = 28002; // et non 28199
+  unset($rpicoms[28199]['2019-01-01']['évts']['absorbe']); // au lieu de {absorbe: [28244]}
+  $rpicoms[28002]['2019-01-01']['évts']['absorbe'] = [28244]; // en plus de { devientDéléguéeDe: 28199 }
+
+  // Erreur sur elit=38506 (Thuellin) / r38022 -> r38541
+  $rpicoms[38506]['2016-01-01']['évts']['fusionneDans'] = 38541; // et non 38022 
+  unset($rpicoms[38022]['2016-01-01']['évts']['absorbe']); // au lieu de {absorbe: [38506]}
+  $rpicoms[38541]['2016-01-01']['évts']['absorbe'] = [38506]; // en plus de { devientDéléguéeDe: 38022 }
+
+  // Erreur sur elit=49146 (Les Gardes) / r49092 -> r49281
+  $rpicoms[49146]['2015-12-15']['évts']['fusionneDans'] = 49281; // et non 49092 
+  unset($rpicoms[49092]['2015-12-15']['évts']['absorbe']); // au lieu de {absorbe: [49146]}
+  $rpicoms[49281]['2015-12-15']['évts']['absorbe'] = [49146]; // en plus de { devientDéléguéeDe: 49092 }
+
+  // Erreur sur elit=49357 (Trèves-Cunault) / r49149 -> 49094
+  $rpicoms[49357]['2016-01-01']['évts']['fusionneDans'] = 49094; // et non 49149 
+  unset($rpicoms[49149]['2016-01-01']['évts']['absorbe']); // au lieu de {absorbe: [49357]}
+  $rpicoms[49094]['2016-01-01']['évts']['absorbe'] = [49357]; // en plus de { devientDéléguéeDe: 49149 }
+
+  // Erreur sur elit=73172 (Montpascal) / r73135 -> 73203
+  $rpicoms[73172]['2019-01-01']['évts']['fusionneDans'] = 73203; // et non 73135 
+  unset($rpicoms[73135]['2019-01-01']['évts']['absorbe']); // au lieu de {absorbe: [73172]}
+  $rpicoms[73203]['2019-01-01']['évts']['absorbe'] = [73172]; // en plus de { devientDéléguéeDe: 73135 }
+
+  // Erreur sur elit=79228 (Rigné) / c79329 -> 79171
+  $rpicoms[79228]['2019-01-01']['évts']['fusionneDans'] = 79171; // et non 79329 
+  unset($rpicoms[79329]['2019-01-01']['évts']['absorbe']); // au lieu de {absorbe: [79228]}
+  $rpicoms[79171]['2019-01-01']['évts']['absorbe'] = [79228]; // en plus de { devientDéléguéeDe: 79329 }
+  $rpicoms[79171]['2019-01-01']['élits'] = [79171,79228]; // et non [79171]
 }
 
 

@@ -188,11 +188,11 @@ class Version {
   function est1PosNNeg(string $elt): array { return $this->elts->est1PosNNeg($elt); }
 };
 
-$histelts = Yaml::parsefile(__DIR__.'/histelit0.yaml');
+$histelits = Yaml::parsefile(__DIR__.'/histelit0.yaml');
 
 // construction de la liste des remplacements
 $ajouts = []; // pour chaque elt qui prend au moins un négatif, la liste de ces négatifs pris
-foreach ($histelts['contents'] as $cinsee => $histov) {
+foreach ($histelits['contents'] as $cinsee => $histov) {
   $histo = new Histo($cinsee, $histov);
   //if ($histo->contientEltNegatif())
     //echo Yaml::dump([$cinsee => $histov], 3, 2);
@@ -208,7 +208,7 @@ if ($_GET['action']=='showAjouts') {
 }
 
 // Mise en oeuvre des remplacements
-foreach ($histelts['contents'] as $cinsee => &$histo) {
+foreach ($histelits['contents'] as $cinsee => &$histo) {
   foreach ($histo as $dv => &$version) {
     if (isset($version['élits0'])) {
       $eltSet = new EltSet($version['élits0']);
@@ -221,47 +221,51 @@ foreach ($histelts['contents'] as $cinsee => &$histo) {
 
 // Modifications ponctuelles
 // Le Vaudreuil (27528) contribue à 27701 après avoir absorbé 27443
-$histelts['contents'][27528]['1943-01-01']['élits'] = [27528, 27701];
-$histelts['contents'][27528]['1969-04-15']['élits'] = [27443, 27528, 27701];
-$histelts['contents'][27528]['1981-09-28']['élits'] = [27443, 27528];
+$histelits['contents'][27528]['1943-01-01']['élits'] = [27528, 27701];
+$histelits['contents'][27528]['1969-04-15']['élits'] = [27443, 27528, 27701];
+$histelits['contents'][27528]['1981-09-28']['élits'] = [27443, 27528];
 
 // 97306/97361
-$histelts['contents'][97306]['1943-01-01']['élits'] = [97306, 97361];
-$histelts['contents'][97306]['1969-03-27']['élits'] = [97306, 97355, 97361];
-$histelts['contents'][97306]['1989-01-01']['élits'] = [97306, 97355];
+$histelits['contents'][97306]['1943-01-01']['élits'] = [97306, 97361];
+$histelits['contents'][97306]['1969-03-27']['élits'] = [97306, 97355, 97361];
+$histelits['contents'][97306]['1989-01-01']['élits'] = [97306, 97355];
 
 // Lyon
-$histelts['contents'][69385]['1943-01-01']['élits'] = [69385, 69389];
-$histelts['contents'][69385]['1963-08-07']['élits'] = [69232, 69385, 69389];
-$histelts['contents'][69385]['1964-08-12']['élits'] = [69385];
-$histelts['contents'][69389]['1964-08-12']['élits'] = [69232, 69389];
+$histelits['contents'][69385]['1943-01-01']['élits'] = [69385, 69389];
+$histelits['contents'][69385]['1963-08-07']['élits'] = [69232, 69385, 69389];
+$histelits['contents'][69385]['1964-08-12']['élits'] = [69385];
+$histelits['contents'][69389]['1964-08-12']['élits'] = [69232, 69389];
 
-$yaml['contents'][69123]['1943-01-01']['élits'] = [];
-$yaml['contents'][69123]['1963-08-07']['élits'] = [];
-$yaml['contents'][69123]['1964-08-12']['élits'] = [];
+$histelits['contents'][69123]['1943-01-01']['élits'] = [];
+$histelits['contents'][69123]['1963-08-07']['élits'] = [];
+$histelits['contents'][69123]['1964-08-12']['élits'] = [];
 
 // Marseille et Paris n'ont aucun élit
-$yaml['contents'][13055]['1943-01-01']['elits'] = [];
-$yaml['contents'][75056]['1943-01-01']['elits'] = [];
-
-
+$histelits['contents'][13055]['1943-01-01']['élits'] = [];
+$histelits['contents'][75056]['1943-01-01']['élits'] = [];
+  
 // Vérif
-foreach ($histelts['contents'] as $cinsee => $histo) {
+foreach ($histelits['contents'] as $cinsee => $histo) {
   foreach ($histo as $dv => $version) {
-    if (isset($version['eltsp'])) {
-      foreach ($version['eltsp'] as $eltp) {
-        if (substr($eltp, 0, 1) == '-')
-          echo "Erreur dans $cinsee eltp $eltp négatif\n";
+    if (isset($version['élits'])) {
+      foreach ($version['élits'] as $elit) {
+        if (substr($elit, 0, 1) == '-') {
+          echo "Erreur dans $cinsee élit $elit négatif\n";
+          if (php_sapi_name() == 'cli')
+            fprintf(STDERR, "Erreur dans $cinsee élit $elit négatif\n");
+        }
       }
     }
   }
 }
 
-$histelts['title'] = "Historique des codes Insee augmenté de la définition de chaque version comme ensemble d'élts intemporels positifs";
-$histelts['@id'] = "http://id.georef.eu/comhisto/elits2/histelit";
-$histelts['description'] = "Voir la documentation sur https://github.com/benoitdavidfr/comhisto";
-$histelts['created'] = date(DATE_ATOM);
-$histelts['valid'] = '2020-01-01';
-$histelts['$schema'] = 'http://id.georef.eu/comhisto/insee2/exhisto/$schema';
-
-echo Yaml::dump($histelts, 4, 2);
+echo Yaml::dump([
+  'title'=> "Historique des codes Insee augmenté de la définition de chaque version comme ensemble d'élts intemporels positifs",
+  '@id'=> "http://id.georef.eu/comhisto/elits2/histelit",
+  'description'=> "Voir la documentation sur https://github.com/benoitdavidfr/comhisto",
+  'created'=> date(DATE_ATOM),
+  'valid'=> '2020-01-01',
+  '$schema'=> 'http://id.georef.eu/comhisto/insee2/exhisto/$schema',
+  'contents'=> $histelits['contents'],
+  'eof'=> null,
+], 4, 2);

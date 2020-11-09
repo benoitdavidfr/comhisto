@@ -23,7 +23,8 @@ journal: |
   20/10-9/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
     - archivage v1 (targz -> archives)
-    - génération de nouvelles couches
+    - évolution de croise2 pour traiter les écarts Insee/IGN sur 14114/14712 et 52224/52064
+    - génération des nouvelles couches, maj sur data.gouv.fr
   23/9/2020:
     - correction erreur sur 78613/91613 (Thionville)
     - ajout St Barth et St Martin
