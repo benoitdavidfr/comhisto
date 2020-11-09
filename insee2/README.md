@@ -221,16 +221,16 @@ Ces cas sont les suivants :
 
 |   date   | c. fusionnée                          | chef-lieu                    | c. déléguée dans laquelle la fusion est effectuée |
 | -------- | ------------------------------------- | ---------------------------- | ------------------------------------------------- |
-|2017-01-01| 14010 (Ammeville)                     | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14067 (Berville)                      | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14234 (Écots)                         | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14295 (Garnetot)                      | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14314 (Grandmesnil)                   | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14363 (Lieury)                        | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14447 (Montpinçon)                    | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14624 (Saint-Martin-de-Fresnay)       | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2017-01-01| 14697 (Tôtes)                         | 14654 (Saint-Pierre-en-Auge) | 14472 |
-|2016-01-01| 14262 (La Ferrière-au-Doyen)          | 14061 (Souleuvre en Bocage)  | 14629 |
+|2017-01-01| 14010 (Ammeville)                     | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14067 (Berville)                      | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14234 (Écots)                         | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14295 (Garnetot)                      | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14314 (Grandmesnil)                   | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14363 (Lieury)                        | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14447 (Montpinçon)                    | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14624 (Saint-Martin-de-Fresnay)       | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2017-01-01| 14697 (Tôtes)                         | 14654 (Saint-Pierre-en-Auge) | 14472 (L'Oudon) |
+|2016-01-01| 14262 (La Ferrière-au-Doyen)          | 14061 (Souleuvre en Bocage)  | 14629 (Saint-Martin-des-Besaces) |
 |2017-01-01| 14617 (Sainte-Marie-aux-Anglais)      | 14431 (Mézidon Vallée d'Auge)| 14422 (Le Mesnil-Mauger) |
 |2017-01-01| 14233 (Écajeul)                       | 14431 (Mézidon Vallée d'Auge)| 14422 (Le Mesnil-Mauger) |
 |2017-01-01| 14567 (Saint-Crespin)                 | 14431 (Mézidon Vallée d'Auge)| 14422 (Le Mesnil-Mauger) |
