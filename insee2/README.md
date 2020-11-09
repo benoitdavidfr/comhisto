@@ -207,9 +207,38 @@ Saint-Barthélemy (97123) et Saint-Martin (97127) sortent du référentiel le 15
 Ensuite,
 les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
 
-### Fusion de Saint-Rambert-l'Île-Barbe (69232) dans Lyon
+### Fusion de Saint-Rambert-l'Île-Barbe (69232) dans le 5ème arrondissement de Lyon
 Enfin, le fichier indique que Saint-Rambert-l'Île-Barbe (69232) a été fusionné dans Lyon le 7/8/1963.
 Il est plus précis d'indiquer que cette fusion a été effectuée dans le 5ème arrondissement.
+
+### A l'occasion de la cration d'une commune nouvelle, fusion vers une des déléguées
+Dans un certain nombre de cas de création d'une commune nouvelle, des fusions sont effectuées dans le chef-lieu de la commune nouvelle.
+Or, les données IGN (AE2020) montrent que la fusion est en fait effectuée dans une des communes rattachées.
+Ces cas sont les suivants :
+
+|   date   | c. fusionnée | chef-lieu | c. déléguée dans laquelle la fusion est effectuée |
+| -------- | ------------ | --------- | ------------------------------------------------- |
+|2017-01-01| 14010 (Ammeville)                     | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14067 (Berville)                      | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14234 (Écots)                         | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14295 (Garnetot)                      | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14314 (Grandmesnil)                   | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14363 (Lieury)                        | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14447 (Montpinçon)                    | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14624 (Saint-Martin-de-Fresnay)       | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2017-01-01| 14697 (Tôtes)                         | 14654 (Saint-Pierre-en-Auge) | 14472 |
+|2016-01-01| 14262 (La Ferrière-au-Doyen)          | 14061 | 14629 |
+|2017-01-01| 14617 (Sainte-Marie-aux-Anglais)      | 14431 (Mézidon Vallée d'Auge) | 14422 (Le Mesnil-Mauger) |
+|2017-01-01| 14233 | 14431 (Mézidon Vallée d'Auge) | 14422 (Le Mesnil-Mauger) |
+|2017-01-01| 14567 | 14431 (Mézidon Vallée d'Auge) | 14422 (Le Mesnil-Mauger) |
+|2017-01-01| 14490 (Parfouru-l'Éclin)              | 14143 | 14372 |
+|2016-01-01| 24049 (Born-de-Champs)                | 24028 | 24497 |
+|2019-01-01| 28244 (Mervilliers)                   | 28199 | 28002 |
+|2019-01-01| 38506 (Thuellin)                      | 38022 | 38541 |
+|2015-12-15| 49146 (Les Gardes)                    | 49092 | 49281 |
+|2016-01-01| 49357 (Trèves-Cunault)                | 49149 | 49094 |
+|2019-01-01| 73172 (Montpascal)                    | 73135 | 73203 |
+|2019-01-01| 79228 (Rigné)                         | 79329 | 79171 |
 
 
 ## Extrait

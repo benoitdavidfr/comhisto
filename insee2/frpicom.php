@@ -1834,7 +1834,6 @@ if (in_array($_GET['action'], ['rpicom','tavap','enregistreRpicom'])) { // corre
   $rpicoms[79228]['2019-01-01']['évts']['fusionneDans'] = 79171; // et non 79329 
   unset($rpicoms[79329]['2019-01-01']['évts']['absorbe']); // au lieu de {absorbe: [79228]}
   $rpicoms[79171]['2019-01-01']['évts']['absorbe'] = [79228]; // en plus de { devientDéléguéeDe: 79329 }
-  $rpicoms[79171]['2019-01-01']['élits'] = [79171,79228]; // et non [79171]
 }
 
 
