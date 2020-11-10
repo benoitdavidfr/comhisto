@@ -48,13 +48,13 @@ Il est [documenté plus précisément ici](export/README.md).
 ## Limites du référentiel
 **Attention**, aux limites suivantes :
 
-- Afin de ne pas complexifier le modèle de données, l'historique des communes a été simplifié dans 12 cas particuliers
+- afin de ne pas complexifier le modèle de données, l'historique des communes a été simplifié dans 12 cas particuliers
   en assimilant les 6 dissolutions de communes à des fusions
   et les 6 créations de commune à partir d'autres communes à des scissions ;
   ces 12 cas particuliers sont listés plus loin.
-- Afin de réduire la taille du fichier GeoJSON, la géométrie des limites est simplifiée
+- afin de réduire la taille du fichier GeoJSON, la géométrie des limites est simplifiée
   en utilisant l'[algorithme de Douglas et Peucker](https://fr.wikipedia.org/wiki/Algorithme_de_Douglas-Peucker)
-  avec une résolution de 10**-3 degrés soit environ 100 mètres ;
+  avec une résolution de 10**-3 degrés, soit environ 100 mètres ;
   cette simplification n'est pas effectuée dans quelques cas où elle génèrerait des erreurs de construction de polygones.
 - les limites non disponibles dans la version d'Admin-Express du 1/1/2020 sont approximées en utilisant
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020.
@@ -79,7 +79,7 @@ le champ contents donnant des exemples d'enregistrements.
 
 Le fichier Insee des mouvements est complété de certaines données manquantes
 (comme par exemple la prise en compte des communes de Mayotte devenu un DOM le 31/3/2011)
-et corrigé de quelques erreurs.
+et corrigé de quelques anomalies.
 
 Cette étape est [documentée plus en détail ici](insee2/README.md).
 
