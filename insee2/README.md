@@ -187,7 +187,7 @@ Ma compréhension est qu'il manque dans le fichier la ligne suivante :
 | --- | ---------- | ---------- | ------ | ---------- | ---------- | ------ | ---------- |
 | 32  | 2016-01-01 |   COMA     | 52224  | Gonaincourt|    COMD    | 52224  | Gonaincourt|
 
-Par ailleurs, sa commune de rattachement est modifiée le 1/1/2019 et Gonaincourt n'est pas citée.
+Par ailleurs, lors de la modification le 1/1/2019 de sa commune de rattachement, Gonaincourt n'est pas citée.
 Il convient donc d'ajouter un évènement au 1/1/2019 sur Gonaincourt pour indiquer qu'elle reste rattachée à 52064
 et un autre à la même date pour indiquer que 52064 gardeCommeRattachée 52224.
 
@@ -205,10 +205,17 @@ Au delà de la conformité aux spécifications, il existe quelques cas qui posen
 
 Tout d'abord,
 Saint-Barthélemy (97123) et Saint-Martin (97127) sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
+Il serait utile que le mouvement soit explicite ainsi que la page https://www.insee.fr/fr/statistiques/2011101?geo=COM-97123
 
 ### Entrée des communes de Mayotte dans le référentiel au 31 mars 2011
 Ensuite,
 les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
+
+A noter, sur la page https://www.insee.fr/fr/metadonnees/cog/commune/COM97615-pamandzi, l'expression suivante n'est pas adaptée
+
+    31/03/2011 : Pamandzi est créée à partir d'une partie étrangère.
+    
+En effet, Mayotte était française avant le 31/3/2011.
 
 ### Fusion de Saint-Rambert-l'Île-Barbe (69232) dans le 5ème arrondissement de Lyon
 Enfin, le fichier indique que Saint-Rambert-l'Île-Barbe (69232) a été fusionné dans Lyon le 7/8/1963.
