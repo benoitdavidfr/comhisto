@@ -64,7 +64,7 @@ De plus, **attention**, les résultats ne sont disponibles qu'à titre expérime
 # Démarche de construction du référentiel
 La suite de ce document détaille la démarche suivie pour construire ce nouveau référentiel.
 
-## 1ère étape - partir des données du COG de l'Insee
+## 1ère étape - restructurer les données du COG de l'Insee
 La première étape consiste à produire, à partir des données de mouvements et de l'état du COG Insee au 1/1/2020,
 l'historique de chaque code Insee sous la forme de versions datées pour chaque code Insee
 présentées dans un document Yaml facile à consulter (par un humain et une machine) et à exploiter (par une machine).
@@ -79,12 +79,17 @@ et corrigé de quelques erreurs.
 
 Cette étape est [documentée plus en détail ici](insee2/README.md).
 
-## 2ème étape - construire des éléments administratifs intemporels (élits)
-La seconde étape consiste à :
+## 2ème étape - définir une méthode pour comparer les différentes versions
+La seconde étape consiste à mettre en place une méthode pour comparer les territoires associés aux différentes versions de code Insee.
+Pour cela, on définit les **éléments administratifs intemporels** (élits)
+qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
+Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
+et ces territoires pourront ainsi facilement comparés entre eux.
 
-- appliquer des **simplifications** assimilant à des fusions les 6 dissolutions détaillées ci-dessous 
-  et à des scissions les 6 créations de commune à partir d'autres communes détaillées ci-dessous ;
-- faire correspondre à chaque version d'entité un ensemble d'**éléments administratifs intemporels** (élits).
+Pour cela on commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
+et qui sont détaillées ci-dessous.
+
+Puis, on fait correspondre à chaque version d'entité un ensemble d'élits.
 
 ### Simplifications
 
