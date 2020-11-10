@@ -23,24 +23,24 @@ Un code Insee à une date donnée peut correspondre à :
   - une commune associée (COMA),
   - une commune déléguée (COMD),
   - un arrondissement municipal (ARM),
-- simultanément une commune simple et une entité déléguée, on parle alors d'une *entité déléguée propre* à une commune nouvelle.
+- simultanément une commune simple et une entité déléguée, on parle alors d'*entité déléguée propre* à la commune nouvelle.
 
 Dans la suite le terme *entité* désignera une commune simple ou une entité rattachée.
 
-### Expression des évolutions sur les entités par des évènements sur les codes Insee
+### Formalisation des évolutions sur les entités par des évènements sur les codes Insee
 
-Les évolutions sur les entités sont exprimées sous la forme d'évènements :
+Les évolutions sur les entités sont formalisées sous la forme d'évènements :
 
 - s'appliquant à un code Insee,
 - ayant généralement en paramètres un code Insee ou une liste de codes Insee.
 
 Par exemple, la fusion de la commune d'Amareins (01003)
-dans la commune de Amareins-Francheleins-Cesseins (01165) s'exprime en Yaml par :
+dans la commune de Amareins-Francheleins-Cesseins (01165) est formalisée en Yaml par :
 
     {'01003': {évts: {fusionneDans: '01165'}}}
 
 Pour cet évènement de fusion, un évènement `absorbe`, appelé *mirroir*, est défini sur l'objet de l'évènement de fusion
-et s'exprime par:
+et formalisé par:
 
     {'01165': {évts: {absorbe: ['01003']}}}
 
