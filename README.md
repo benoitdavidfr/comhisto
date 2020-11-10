@@ -92,8 +92,7 @@ et ces territoires pourront facilement être comparés entre eux.
 
 On commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
 puis on fait correspondre à chaque version d'entité un ensemble d'élits.
-
-Enfin le croisement effectué à l'étape 6 nécessite plusieurs corrections.
+Enfin on effectue quelques corrections nécessaires au croisement effectué à l'étape 6.
 Le fichier Yaml corrigé des codes Insee avec les elits [est disponible ici](elits2/histelitp.yaml).
 
 Cette étape est [documentée plus en détail ici](elits2/README.md).
