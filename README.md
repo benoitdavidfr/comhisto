@@ -27,7 +27,7 @@ La conservation du code périmé dans la base évite ainsi des erreurs ou des ap
 
 Enfin, il n'existe pas de méthode simple et fiable pour actualiser un référentiel comme celui des communes.
 Par exemple, si une commune est soumise à une réglementation et qu'elle fusionne avec une autre qui ne l'est pas,
-il est impossible de conserver l'information en se affectant l'information sur une base communale. 
+il est impossible de conserver l'information en affectant l'information au niveau des communes. 
 
 La présente proposition consiste donc à créer un nouveau référentiel, appelé "Référentiel communal historique simplifié" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
