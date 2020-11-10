@@ -133,7 +133,7 @@ Plus précisément :
   sinon au territoire de la commune sans les territoires des entités déléguées ;
 - la commune nouvelle de Blaignan-Prignac (33055) est un cas particulier :
   elle comporte, d'une part, la commune déléguée propre 33055 qui correspond à l'élit 33055
-  et, d'autre part, un territoire qui n'appartient à aucune de ses communes déléguées qui correspond à l'élit 33338,
+  et, d'autre part, un territoire correspondant à l'élit 33338 qui n'appartient à aucune de ses communes déléguées,
   il s'agit du territoire de l'ancienne commune de Prignac-en-Médoc (33338) qui a fusionné dans la commune nouvelle sans que
   ce territoire soit repris dans une des communes déléguées.
 
