@@ -110,21 +110,22 @@ Les 6 créations de commune à partir d'autres communes simplifiées en scission
   - création de 46339 (Saint-Jean-Lagineste) le 17/6/1948.
 
 ### Eléments administratifs intemporels (élits)
+Les élits permettent de comparer entre eux les territoires associés aux différentes versions de code Insee.  
 Les éléments administratifs intemporels correspondent généralement au territoire associé au code Insee au 1/1/1943,
 sauf dans le cas où ce territoire a été réduit par scission avant une fusion (comme par exemple 97414) ;
 dans ce cas l'élit est le territoire le plus petit après ces scissions.  
 De manière générale:
 
 - chaque code Insee correspond à un et un seul élit,
-  sauf ceux correspondant à un changement de code qui ne correspondent à aucun élit
-  et sauf les 3 communes constituées d'arrondissements municipaux qui ne correspondent à aucun élit ;
+  sauf ceux correspondant à un changement de code ainsi que les 3 communes constituées d'arrondissements municipaux
+  qui ne correspondent à aucun élit ;
 - chaque élit correspond à un et un seul code Insee par lequel il est identifié ;
 - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
   moins l'union des territoires des autres codes Insee ;
 - les élits forment une partition du territoire ayant été concerné par le référentiel ;
 - tout territoire associé à une version de code Insee peut être défini par un ensemble d'élits.
 
-Les élits permettent de comparer les territoires associés aux différents versions de code Insee.
+
 
 Attention cependant les élits ne sont pas stables au travers des éditions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
