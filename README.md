@@ -131,7 +131,7 @@ Plus précisément :
 - l'élit d'un code correspondant à une association correspond au territoire de la commune sans les territoires des entités associées ;
 - l'élit d'un code correspondant à une commune nouvelle correspond, lorqu'il existe une entité déléguée propre à son territoire,
   sinon au territoire de la commune sans les territoires des entités déléguées ;
-- la commune nouvelle de Blaignan-Prignac (33055) est un cas particulier :
+- la commune nouvelle de Blaignan-Prignac (33055) est une exception à la régle précédente :
   elle comporte, d'une part, la commune déléguée propre 33055 qui correspond à l'élit 33055
   et, d'autre part, un territoire correspondant à l'élit 33338 qui n'appartient à aucune de ses communes déléguées,
   il s'agit du territoire de l'ancienne commune de Prignac-en-Médoc (33338) qui a fusionné dans la commune nouvelle sans que
