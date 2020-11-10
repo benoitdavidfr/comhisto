@@ -118,11 +118,11 @@ et saisie interactive à partir des cartes IGN et de Wikipédia.
 Ces [chef-lieux sont disponibles ici comme fichier GeoJSON](cheflieu/cheflieu.geojson).
 
 ## 6ème étape - croiser les données Insee avec celles de l'IGN
-Les entités valides, dont on connait la géométrie, permettent de définir la géométrie des élits correspondants.
+Les entités valides, dont on connait la géométrie dans ADMIN-EXPRESS, permettent de définir la géométrie des élits correspondants.
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
 Sinon, la géométrie de l'entité est découpée en élits par
 l'[algorithme de **Voronoï**](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF)
-en s'appuyant sur les chefs-lieux asssociés aux élits.
+en s'appuyant sur la localisation ponctuelle des chefs-lieux asssociés aux élits receuillie à l'étape précédente.
 Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
 Chaque version d'entité est identifiée par son code Insee suffixé par le caractère '@' et la date de création de la version.
