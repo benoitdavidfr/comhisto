@@ -126,7 +126,6 @@ en s'appuyant sur la localisation ponctuelle des chefs-lieux asssociés aux éli
 Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
 Chaque version d'entité est identifiée par son code Insee suffixé par le caractère '@' et la date de création de la version.
-
 Cependant, cela n'est pas suffisant car certains codes Insee correspondent à une date donnée à 2 entités distinctes.
 Par exemple, à la suite de la création le 1/1/2016 de la commune nouvelle d'Arboys en Bugey,
 le code '01015' correspond en même temps à cette commune nouvelle et à Arbignieu, une de ses communes déléguées.
