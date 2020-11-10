@@ -106,21 +106,23 @@ Les 6 créations de commune à partir d'autres communes simplifiées en scission
 
 ### Eléments administratifs intemporels (élits)
 Les éléments administratifs intemporels correspondent généralement au territoire associé au code Insee au 1/1/1943,
-sauf dans le cas où ce territoire est réduit pas scission avant une fusion ;
+sauf dans le cas où ce territoire a été réduit par scission avant une fusion (comme par exemple 97414) ;
 dans ce cas l'élit est le territoire le plus petit après ces scissions.  
 De manière générale:
 
 - chaque code Insee correspond à un et un seul élit,
-  sauf ceux correspondant pas à un changement de code
-  et sauf les 3 communes constituées d'arrondissements municipaux ;
--  chaque élit correspond à un et un seul code Insee ;
+  sauf ceux correspondant à un changement de code auxquels aucun élit ne correspond
+  et sauf les 3 communes constituées d'arrondissements municipaux auxquels aucun élit ne correspond ;
+- chaque élit correspond à un et un seul code Insee par lequel il est identifié ;
 - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
   moins l'union des territoires des autres codes Insee ;
-- le territoire de toute version de code Insee peut être défini comme un ensemble d'élits ;
-- les élits forment une partition du territoire ayant été concernés par le référentiel.
+- les élits forment une partition du territoire ayant été concerné par le référentiel ;
+- tout territoire associé à une version de code Insee peut être défini par un ensemble d'élits.
 
-Atention cependant les élits ne sont pas stables au travers des versions successives du référentiel.
-Cela signifie qu'**ils ne sont intemporels que pour une version donnée de référentiel**.
+Les élits permettent de comparer les territoires associés aux différents versions de code Insee.
+
+Attention cependant les élits ne sont pas stables au travers des éditions successives du référentiel.
+Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
   
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les élits est disponible ici](elits2/histelit.yaml).
