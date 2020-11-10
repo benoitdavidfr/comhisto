@@ -1,10 +1,10 @@
 title: comhisto/croise2 - croisement INSEE X IGN v2
 path: /yamldoc/pub/comhisto/croise2
 doc: |
-  Dans ce module, on part de eadming3 (défini en PostGis dont la géométrie est issue de AE2020), des élits définis dans histelit.yaml
+  Dans ce module, on part de eadming3 (défini en PostGis dont la géométrie est issue de AE2020), des élits définis dans histelitp.yaml
   issus de l'historique fourni par l'INSEE et des chefs-lieux des élits provenant de Wikipédia et du Géoportail.
   En balayant les versions valides de l'historique Insee, on associe chaque eadming3 les élits correspondants.
-  On en déduit la table des élits (elts)
+  On en déduit la table des élits (elit)
     - si un eadming3 correspond à un seul elit alors la géométrie de l'elit est celle de l'eadming3
     - si un eadming3 correspond à plusieurs elits, la géométrie de l'eadming3 est découpée par l'algorithme de Voronoi en elits
       en se fondant sur les chefs-lieux asssociés aux élits
@@ -12,6 +12,7 @@ doc: |
 journal: |
   7-10/11/2020:
     - création v2
+    - tranfert de verifelits.php vers ../elits2
   18-23/9/2020:
     - méthode de vérif que les chefs-lieux sont localisés dans les entités dans lesquelles ils fusionnent - verifcheflieu.php
     - correction, en consultant la carte et Wikipedia, des erreurs rencontrées qui sont

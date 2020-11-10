@@ -1,8 +1,14 @@
 <?php
 /*PhpDoc:
-name: verif.php
-title: verif.php - vérification sur les élits
+name: verifelits.php
+title: verifelits.php - vérification sur les élits
 doc: |
+  Vérification dans les versions valides que:
+    - les élits correspondent aux codes Insee des entités à l'exception, d'une part, des codes issus d'un changement de code
+      et, d'autre part, des codes des 3 communes de Paris, Lyon et Marseille, qui ne correspondent à aucun élit ;
+    - chaque élit est présent dans une et une seule version valide, à l'exception des élits correspondant aux communes ayant quitté
+      le référentiel qui ne sont pas présents.
+
 journal: |
   7-10/11/2020:
     - v2
@@ -114,7 +120,7 @@ function error(string $message): void { // affiche un message d'erreur
 }
 
 if (1) { // Vérification
-  // Dans les versions valides, chaque élt ne doit appartenir qu'à un et un seul eltsp propre
+  // Dans les versions valides, chaque élit ne doit appartenir qu'à un et un seul eltsp propre
   $verif = true;
   $allElts = []; // ensemble de tous les éléments sous la forme [$cinsee d'élit => {cinsee}@2020]
   foreach ($yaml['contents'] as $cinsee => $histo) {
