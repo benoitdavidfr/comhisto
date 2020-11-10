@@ -25,6 +25,10 @@ De plus, il peut être dans certains cas préférable dans une base de conserver
 car le géoréférencement peut être plus précis et peut redevenir valide en cas de rétablissement.
 La conservation du code périmé dans la base évite ainsi des erreurs ou des approximations de géoréférencement.
 
+Enfin, il n'existe pas de méthode simple et fiable pour actualiser un référentiel comme celui des communes.
+Par exemple, si une commune est soumise à une réglementation et qu'elle fusionne avec une autre qui ne l'est pas,
+il est impossible de conserver l'information en se affectant l'information sur une base communale. 
+
 La présente proposition consiste donc à créer un nouveau référentiel, appelé "Référentiel communal historique simplifié" (ComHisto),
 contenant tous les codes INSEE des communes ayant existé depuis le 1/1/1943
 et leur associant les versions successives géoréférencées permettant de retrouver l'état de l'entité à une date donnée.  
