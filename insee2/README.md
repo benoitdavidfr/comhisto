@@ -1,8 +1,8 @@
 # Référentiel historique des codes Insee
 
 L'Insee publie la situation des communes au 1er janvier ainsi que les évolutions depuis le 1/1/1943.  
-Ce sous-projet consiste, afin d'en faciliter la réutilisation, à restructurer ces informations
-sous la forme d'un document structuré dans le [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
+Afin d'en faciliter la réutilisation, ce sous-projet restructure ces informations
+sous la forme d'un document au [format Yaml](https://fr.wikipedia.org/wiki/YAML) facile à consulter
 (par un humain et une machine) et à exploiter (par une machine),
 document [disponible ici](histo.yaml) ;
 sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
