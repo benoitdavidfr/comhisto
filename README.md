@@ -80,16 +80,14 @@ et corrigé de quelques erreurs.
 Cette étape est [documentée plus en détail ici](insee2/README.md).
 
 ## 2ème étape - définir une méthode pour comparer les différentes versions
-La seconde étape consiste à mettre en place une méthode pour comparer les territoires associés aux différentes versions de code Insee.
+Dans cette seconde étape, on définit une méthode pour comparer les territoires associés aux différentes versions de code Insee.
 Pour cela, on définit les **éléments administratifs intemporels** (élits)
 qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
 Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
-et ces territoires pourront ainsi facilement être comparés entre eux.
+et ces territoires pourront facilement être comparés entre eux.
 
 On commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
-et qui sont détaillées ci-dessous.
-
-Puis, on fait correspondre à chaque version d'entité un ensemble d'élits.
+puis on fait correspondre à chaque version d'entité un ensemble d'élits.
 
 Cette étape est [documentée plus en détail ici](elits2/README.md).
 
