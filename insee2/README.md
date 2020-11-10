@@ -16,20 +16,20 @@ Enfin, un extrait illustre la structuration du référentiel.
 
 ### Liens entre codes Insee et entités administratives
 
-Un code Insee à une date donnée peut correspondre:
+Un code Insee à une date donnée peut correspondre à :
 
-- à une commune simple (COM),
-- à une entité rattachée (ER) à une commune simple qui peut être:
+- une commune simple (COM),
+- une entité rattachée (ER) à une commune simple qui peut être:
   - une commune associée (COMA),
   - une commune déléguée (COMD),
   - un arrondissement municipal (ARM),
-- simultanément à une commune simple et à une commune déléguée.
+- simultanément une commune simple et une entité déléguée, on parle alors d'une *entité déléguée propre* à une commune nouvelle.
 
 Dans la suite le terme *entité* désignera une commune simple ou une entité rattachée.
 
-### Définition des opérations sur les entités et des évènements sur les codes Insee
+### Expression des évolutions sur les entités par des évènements sur les codes Insee
 
-Les évolutions sur les communes sont exprimées sous la forme d'évènements :
+Les évolutions sur les entités sont exprimées sous la forme d'évènements :
 
 - s'appliquant à un code Insee,
 - ayant généralement en paramètres un code Insee ou une liste de codes Insee.
@@ -88,7 +88,7 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
 - détachement d'une entité A d'une commune B
   - évènements: `A.seDétacheDe.B / B.détacheCommeSimples.(A)`
   - exemple: `{'02166': {évts: {seDétacheDe: '02524'}}, '02524': {évts: {détacheCommeSimples: ['02166']}}}`
-- attachement conservée d'une entité A à une COM B
+- rattachement conservé d'une entité A à une COM B
   - évènements: `A.resteRattachéeA.B / B.gardeCommeRattachées.(A)`
   - exemple: `{'01070': {évts: {resteRattachéeA: '01165'}}, '01165': {évts: {gardeCommeRattachées: ['01070']}}}`
 
