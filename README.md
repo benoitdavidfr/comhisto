@@ -132,10 +132,10 @@ Plus précisément :
 - l'élit d'un code correspondant à une commune nouvelle correspond, lorqu'il existe une entité déléguée propre à son territoire,
   sinon au territoire de la commune sans les territoires des entités déléguées ;
 - la commune nouvelle de Blaignan-Prignac (33055) est un cas particulier :
-  elle comporte d'une part une commune délégue propre
-  qui correspond à une élit et comporte d'autre part un territoire qui n'appartient à aucune de ses communes déléguées,
+  elle comporte, d'une part, la commune déléguée propre 33055 qui correspond à l'élit 33055
+  et, d'autre part, un territoire qui n'appartient à aucune de ses communes déléguées qui correspond à l'élit 33338,
   il s'agit du territoire de l'ancienne commune de Prignac-en-Médoc (33338) qui a fusionné dans la commune nouvelle sans que
-  ce territoire soit repris dans aucune des communes déléguées.
+  ce territoire soit repris dans une des communes déléguées.
 
 Attention cependant les élits ne sont pas stables au travers des éditions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
