@@ -3,7 +3,7 @@ La méthode pour comparer les territoires associés aux différentes versions de
 sur la définition d'**éléments administratifs intemporels** (élits)
 qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
 Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
-et ces territoires pourront ainsi facilement être comparés entre eux.
+et ces territoires pourront facilement être comparés entre eux.
 
 On commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
 et qui sont détaillées ci-dessous.
