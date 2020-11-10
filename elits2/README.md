@@ -62,6 +62,6 @@ Plus précisément :
 Attention les élits ne sont pas stables au travers des éditions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
 
-Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
-Le [fichier Yaml non géoréférencé des codes Insee avec les élits est disponible ici](elits2/histelit.yaml).
+Le [fichier GeoJSON des elits est disponible ici](../../export/elit.7z).
+Le [fichier Yaml non géoréférencé des codes Insee avec les élits est disponible ici](histelit.yaml).
 
