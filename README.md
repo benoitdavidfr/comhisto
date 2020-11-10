@@ -84,14 +84,17 @@ et corrigé de quelques anomalies.
 Cette étape est [documentée plus en détail ici](insee2/README.md).
 
 ## 2ème étape - définir une méthode pour comparer les différentes versions
-Dans cette seconde étape, on définit une méthode pour comparer les territoires associés aux différentes versions de code Insee.
-Pour cela, on définit les **éléments administratifs intemporels** (élits)
+Dans la seconde étape, une méthode est définie pour comparer les territoires associés aux différentes versions de code Insee.
+Pour cela, on construit les **éléments administratifs intemporels** (élits)
 qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
 Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
 et ces territoires pourront facilement être comparés entre eux.
 
 On commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
 puis on fait correspondre à chaque version d'entité un ensemble d'élits.
+
+Enfin le croisement effectué à l'étape 6 nécessite plusieurs corrections.
+Le fichier Yaml corrigé des codes Insee avec les elits [est disponible ici](elits2/histelitp.yaml).
 
 Cette étape est [documentée plus en détail ici](elits2/README.md).
 
@@ -105,7 +108,9 @@ ou une entité rattachée valide au 1/1/2020.
 On utilise aussi Admin-Express pour renseigner la localisation du chef-lieu associé à chaque commune valide.
 
 ## 4ème étape - ajouter St Barth et St Martin
-Ajout des géométries des communes de St Barth et St Martin à partir de
+Les communes de St Barth et St Martin sont sorties du référentiel et leur géométrie n'est donc pas disponible
+dans ADMIN-EXPRESS COG 2020.
+Ces géométries sont reconstituées à partir de
 [la couche admin-0-countries de Natural Earth 1/10M](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/).
  
 ## 5ème étape - localiser les chefs-lieux des entités périmées 
@@ -118,7 +123,7 @@ Les entités valides, dont on connait la géométrie, permettent de définir la 
 Si une entité correspond à un seul élit alors la géométrie de l'élit est celle de l'entité.
 Sinon, la géométrie de l'entité est découpée en élits par
 l'[algorithme de **Voronoï**](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF)
-en se fondant sur les chefs-lieux asssociés aux élits.
+en s'appuyant sur les chefs-lieux asssociés aux élits.
 Puis, chaque version étant définie par un ensemble d'élits, sa géométrie est reconstruite par l'union de ces élits.
 
 Chaque version d'entité est identifiée par son code Insee suffixé par le caractère '@' et la date de création de la version.
@@ -130,9 +135,6 @@ Ainsi, pour identifier chaque entité versionnée, on préfixe l'id défini ci-d
 et 'r' pour une entité rattachée.
 Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2016-01-01`
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
-
-Ce croisement nécessite plusieurs corrections.
-Le fichier Yaml corrigé des codes Insee avec les elits [est disponible ici](croise2/histelitp.yaml).
 
 ## 7ème étape - exporter le référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
