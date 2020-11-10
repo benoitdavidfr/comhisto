@@ -8,7 +8,7 @@ doc: |
   Erreur:
   Une version correspondant à changement de code (ex 78613) ne devrait pas correspondre à des elits
 journal: |
-  7/11/2020:
+  7-10/11/2020:
     - création v2
   9-10/9/2020:
     - restructuration pour supprimer les zones et renommer les elts en elits
@@ -24,6 +24,7 @@ submodules:
 phpScripts:
   - /yamldoc/pub/comhisto/elits/defelit0.php
   - /yamldoc/pub/comhisto/elits/defelit.php
+  - /yamldoc/pub/comhisto/elits/verielits.php
 phpIncludes:
   - /yamldoc/pub/comhisto/elits/simplif.inc.php
 htmlFiles:

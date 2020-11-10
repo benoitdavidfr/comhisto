@@ -244,7 +244,11 @@ $histelits['contents'][69123]['1964-08-12']['élits'] = [];
 // Marseille et Paris n'ont aucun élit
 $histelits['contents'][13055]['1943-01-01']['élits'] = [];
 $histelits['contents'][75056]['1943-01-01']['élits'] = [];
-  
+
+// L'absorption de 33338 (Prignac) s'effectue dans la commune nouvelle 33055 (Blaignan-Prignac) et non dans la c. déléguée 33055
+$yaml['contents'][33055]['2019-01-01']['élits'] = [33055];
+$yaml['contents'][33055]['2019-01-01']['élitsNonDélégués'] = [33338];
+
 // Vérification qu'il n'existe plus d'élit négatif
 foreach ($histelits['contents'] as $cinsee => $histo) {
   foreach ($histo as $dv => $version) {

@@ -10,7 +10,7 @@ doc: |
       en se fondant sur les chefs-lieux asssociés aux élits
   Enfin, la table comhistog3 est produite pour chaque version avec comme géométrie celle de l'union des elits correspondants
 journal: |
-  7-8/11/2020:
+  7-10/11/2020:
     - création v2
   18-23/9/2020:
     - méthode de vérif que les chefs-lieux sont localisés dans les entités dans lesquelles ils fusionnent - verifcheflieu.php
@@ -32,7 +32,7 @@ journal: |
     - génération des com. déléguées propres
     - reste erreur sur Lyon, StBarth et StMartin
 phpScripts:
-  - /yamldoc/pub/comhisto/croise/corrige.php
+  - /yamldoc/pub/comhisto/croise/verifelits.php
   - /yamldoc/pub/comhisto/croise/verifcheflieu.php
   - /yamldoc/pub/comhisto/croise/fcomhisto.php
 phpIncludes:
