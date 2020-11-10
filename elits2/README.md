@@ -37,7 +37,8 @@ dans ce cas l'élit est le territoire le plus petit après ces scissions.
 De manière générale:
 
 - chaque code Insee correspond à un et un seul élit,
-  sauf ceux correspondant à un changement de code ainsi que les 3 communes constituées d'arrondissements municipaux
+  sauf ceux correspondant à un changement de code
+  ainsi que les 3 communes de Paris, Lyon et Marseille constituées d'arrondissements municipaux
   qui ne correspondent à aucun élit ;
 - chaque élit correspond à un et un seul code Insee par lequel il est identifié ;
 - dans les cas complexes, le territoire associé à un élit peut être défini comme l'intersection des territoires des versions
