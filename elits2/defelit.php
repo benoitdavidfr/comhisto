@@ -43,7 +43,7 @@ else {
   $_GET = ['action'=> 'prod']; // production en sortie du fichier
 }
 
-// Ensemble d'éléments
+// Ensemble d'élits
 class EltSet {
   protected $elts; // stockage sous la forme [$elt => 1/-1] en rajoutant un 'e' dans la clé pour éviter les clés numériques
 
@@ -237,6 +237,7 @@ $histelits['contents'][69385]['1964-08-12']['élits'] = [69385];
 $histelits['contents'][69389]['1964-08-12']['élits'] = [69232, 69389];
 
 $histelits['contents'][69123]['1943-01-01']['élits'] = [];
+$histelits['contents'][69123]['1959-02-08']['élits'] = [];
 $histelits['contents'][69123]['1963-08-07']['élits'] = [];
 $histelits['contents'][69123]['1964-08-12']['élits'] = [];
 
@@ -244,7 +245,7 @@ $histelits['contents'][69123]['1964-08-12']['élits'] = [];
 $histelits['contents'][13055]['1943-01-01']['élits'] = [];
 $histelits['contents'][75056]['1943-01-01']['élits'] = [];
   
-// Vérif
+// Vérification qu'il n'existe plus d'élit négatif
 foreach ($histelits['contents'] as $cinsee => $histo) {
   foreach ($histo as $dv => $version) {
     if (isset($version['élits'])) {
@@ -258,7 +259,7 @@ foreach ($histelits['contents'] as $cinsee => $histo) {
     }
   }
 }
-
+  
 echo Yaml::dump([
   'title'=> "Historique des codes Insee augmenté de la définition de chaque version comme ensemble d'élts intemporels positifs",
   '@id'=> "http://id.georef.eu/comhisto/elits2/histelit",
@@ -266,6 +267,7 @@ echo Yaml::dump([
   'created'=> date(DATE_ATOM),
   'valid'=> '2020-01-01',
   '$schema'=> 'http://id.georef.eu/comhisto/insee2/exhisto/$schema',
+  'ydADscrBhv'=> $histelits['ydADscrBhv'],
   'contents'=> $histelits['contents'],
   'eof'=> null,
 ], 4, 2);

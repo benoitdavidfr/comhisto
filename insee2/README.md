@@ -49,7 +49,7 @@ et formalisé par:
 - la première correspond aux opérations *topologiques*, pour lesquelles chaque entité est vue comme une zone géométrique,  
   par exemple l'opération de fusion d'une entité A dans une autre B ;
 - la seconde correspond aux opérations *ensemblistes* entre entités rattachées et communes simples,
-  chaque commune simple étant associée à un ensemble d'entités rattachées,
+  chaque commune simple correspondant à un ensemble d'entités rattachées,
   par ex. l'opération par laquelle une entité A devient commune déléguée d'une entité B ;
 - enfin, la troisième catégorie d'opérations correspondent à une entrée ou une sortie du référentiel
   ou à un changement de code ou de nom d'une entité.
@@ -108,6 +108,8 @@ Les types d'opérations, et les types d'évènements correspondants, sont les su
   - exemple: `{'01053': {évts: {changeDeNomPour: Bourg-en-Bresse}}}`
 - une commune simple peut être modifiée par la modification d'une de ses entités rattachées
   - évènement: `estModifiéeIndirectementPar`
+  - exemple: `{69123: {évts: {estModifiéeIndirectementPar: [69387]}}}`
+  
 
 ## Structuration de l'historique des codes Insee
 

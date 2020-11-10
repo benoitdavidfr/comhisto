@@ -61,24 +61,24 @@ else {
 }
 
 
-// Ensemble d'éléments
-class EltSet {
-  protected $elts; // ens. d'élts en + ou - structuré [{codeInsee} => +1/-1] / {codeInsee} référence l'élt correspondant à ce code
-  // et la valeur vaut +1 si le l'élt est à ajouter et -1 si il est à retirer 
+// Gestion d'un ensemble d'élits
+class ElitSet {
+  protected $elits; // ens. d'élits en + ou - structuré [{codeInsee} => +1/-1] / {codeInsee} référence l'élit correspondant à ce code
+  // et la valeur vaut +1 si le l'élit est à ajouter et -1 si il est à retirer 
   protected $vIds; // ens. de versions à ajouter/enlever structuré  [{cInsee}@{date} => +1/-1]
   
-  // construction à partir d'un élt
-  function __construct(string $elt='') {
-    $this->elts = [];
-    if ($elt)
-      $this->elts[$elt] = 1;
+  // construction à partir d'un élit
+  function __construct(string $elit='') {
+    $this->elits = [];
+    if ($elit)
+      $this->elits[$elit] = 1;
     $this->vIds = [];
   }
   
   function asArray(): array {
     $array = [];
-    foreach ($this->elts as $elt => $val)
-      $array[] = ($val==1 ? '+':'-').$elt;
+    foreach ($this->elits as $elit => $val)
+      $array[] = ($val==1 ? '+':'-').$elit;
     foreach ($this->vIds as $vId => $val)
       $array[] = ($val==1 ? '+':'-').$vId;
     return $array;
@@ -86,35 +86,35 @@ class EltSet {
   
   function __toString(): string {
     $string = '';
-    foreach ($this->elts as $elt => $val)
-      $string .= ($val==1 ? '+':'-').$elt;
+    foreach ($this->elits as $elit => $val)
+      $string .= ($val==1 ? '+':'-').$elit;
     foreach ($this->vIds as $vId => $val)
       $string .= ($val==1 ? '+':'-').$vId;
     return $string;
   }
   
-  function empty(): self { $this->elts = []; $this->vIds = []; return $this; }
+  function empty(): self { $this->elits = []; $this->vIds = []; return $this; }
   
-  function elt(string $elt): int { return $this->elts[$elt] ?? 0; }
+  function elit(string $elit): int { return $this->elits[$elit] ?? 0; }
   
-  // ajoute des élts
-  function addElts(array $elts): self {
-    foreach ($elts as $elt) {
-      if ($this->elt($elt) == -1)
-        unset($this->elts[$elt]);
+  // ajoute des élits
+  function addElits(array $elits): self {
+    foreach ($elits as $elit) {
+      if ($this->elit($elit) == -1)
+        unset($this->elits[$elit]);
       else
-        $this->elts[$elt] = 1;
+        $this->elits[$elit] = 1;
     }
     return $this;
   }
   
-  // retire des élts
-  function remElts(array $elts): self {
-    foreach ($elts as $elt) {
-      if ($this->elt($elt) == 1)
-        unset($this->elts[$elt]);
+  // retire des élits
+  function remElits(array $elits): self {
+    foreach ($elits as $elit) {
+      if ($this->elit($elit) == 1)
+        unset($this->elits[$elit]);
       else
-        $this->elts[$elt] = -1;
+        $this->elits[$elit] = -1;
     }
     return $this;
   }
@@ -137,7 +137,7 @@ class EltSet {
     return $this;
   }
   
-  // traduit l'objet en elts
+  // traduit l'objet en elits
   function resolve(): void {
     //echo "resolve()@",Yaml::dump($this->asArray(), 0),"\n";
     $count = 100;
@@ -145,13 +145,13 @@ class EltSet {
       //echo "avant trait vAdd: "; print_r($this);
       foreach ($this->vIds as $vid => $leftVal) {
         unset($this->vIds[$vid]);
-        $right = Histo::getVersion($vid)->elts();
+        $right = Histo::getVersion($vid)->elits();
         if ($leftVal == 1) { // $right est à ajouter
-          foreach ($right->elts as $elt => $rightVal) {
+          foreach ($right->elits as $elit => $rightVal) {
             if ($rightVal == 1)
-              $this->addElts([$elt]);
+              $this->addElits([$elit]);
             else
-              $this->remElts([$elt]);
+              $this->remElits([$elit]);
           }
           foreach ($right->vIds as $vid => $rightVal) {
             if ($rightVal == 1)
@@ -161,11 +161,11 @@ class EltSet {
           }
         }
         else { // ($leftVal == -1) - $right est à enlever
-          foreach ($right->elts as $elt => $rightVal) {
+          foreach ($right->elits as $elit => $rightVal) {
             if ($rightVal == -1)
-              $this->addElts([$elt]);
+              $this->addElits([$elit]);
             else
-              $this->remElts([$elt]);
+              $this->remElits([$elit]);
           }
           foreach ($right->vIds as $vid => $rightVal) {
             if ($rightVal == -1)
@@ -178,7 +178,7 @@ class EltSet {
       if ($count-- <= 0)
         throw new Exception("boucle détectée dans resolve()");
     }
-    ksort($this->elts);
+    ksort($this->elits);
     ksort($this->vIds);
   }
 };
@@ -251,36 +251,28 @@ class Histo {
     return $simplif;
   }
   
-  // définit les élts de chaque version par rapport l'élt de l'histo et des versions d'autres histos
-  function definitElts(): void {
+  // définit les élits de chaque version par rapport l'élit de l'histo et des versions d'autres histos
+  function definitElits(): void {
     //echo Yaml::dump(['debutDefEltsF1'=> [$this->cinsee => $this->asArray()]], 4, 2);
     $v0 = array_values($this->versions)[0];
     if (isset($v0->evts()['avaitPourCode'])) { // si c'est un changement de code
       //echo Yaml::dump($this->asArray());
       return; // la définition sera effectuée par l'ancien code
     }
-    $eltSet = null;
-    if ($v0->elts()) // si elts est déjà initialisé je l'utilise (cas d'un changement de code déjà fait à ne pas écraser)
-      $eltSet = $v0->elts();
-    /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres
-    elseif ($v0->erat()) { // S'il des y a des erats, en fait les ARDM alors je les initialise
-      $eltSet = new EltSet();
-      foreach (array_values($v0->erat()) as $erats) {
-        $eltSet->addElts($erats);
-      }
-    }*/
-    else {
-      $eltSet = new EltSet($this->cinsee);
-    }
+    $elitSet = null;
+    if ($v0->elits()) // si elits est déjà initialisé je l'utilise (cas d'un changement de code déjà fait à ne pas écraser)
+      $elitSet = $v0->elits();
+    else
+      $elitSet = new ElitSet($this->cinsee);
     foreach ($this->versions as $version) {
-      $eltSet = $version->deduitElts($eltSet);
+      $elitSet = $version->deduitElits($elitSet);
     }
   }
   
-  // traduit l'objet elts de chaque version en elts en supprimant les références vers des versions
-  function resolveElts(): void {
+  // traduit l'objet elits de chaque version en elts en supprimant les références vers des versions
+  function resolveElits(): void {
     foreach ($this->versions as $version) {
-      $version->elts()->resolve();
+      $version->elits()->resolve();
     }
   }
 };
@@ -289,11 +281,11 @@ class Histo {
 class Version {
   protected $cinsee; // code Insee
   protected $debut; // date de début de la version
-  protected $evtsSrc; // evts source de début sous la forme d'un array lorsque $evts est modifié
-  protected $evts; // evts de début sous la forme d'un array
-  protected $etat; // etat de la version résultant des évènements
-  protected $erat;
-  protected $elts; // ensemble d'élts correspondant à la version définis sous la forme d'un objet EltSet
+  protected $evtsSrc; // évts source de début sous la forme d'un array lorsque $evts est modifié
+  protected $evts; // évts de début sous la forme d'un array
+  protected $etat; // état de la version résultant des évènements
+  protected $erat;  // liste des entités rattachées
+  protected $elits; // ensemble d'élits correspondant à la version définis sous la forme d'un objet ElitSet
   
   function __construct(string $cinsee, string $debut, array $version) {
     $this->cinsee = $cinsee;
@@ -302,7 +294,7 @@ class Version {
     $this->evts = $version['évts'] ?? [];
     $this->etat = $version['état'] ?? [];
     $this->erat = $version['erat'] ?? [];
-    $this->elts = null;
+    $this->elits = null;
     //print_r($version);
   }
   
@@ -316,8 +308,8 @@ class Version {
       $array['état'] = $this->etat;
     if ($this->erat)
       $array['erat'] = $this->erat;
-    if ($this->elts)
-      $array['élits0'] = $this->elts->__toString();
+    if ($this->elits)
+      $array['élits0'] = $this->elits->__toString();
     return $array;
   }
   
@@ -326,9 +318,9 @@ class Version {
   function evts(): array { return $this->evts; }
   function erat(): array { return $this->erat; }
   
-  function elts(): ?EltSet { return $this->elts; }
+  function elits(): ?ElitSet { return $this->elits; }
   
-  function setElts(EltSet $elts): void { $this->elts = $elts; }
+  function setElits(ElitSet $elits): void { $this->elits = $elits; }
   
   function id(): string { return $this->cinsee.'@'.$this->debut; }
   
@@ -368,12 +360,12 @@ class Version {
     return false;
   }
   
-  // déduit les élts de cette version à partir de ceux de la version précédente et l'affecte
-  function deduitElts(EltSet $elts): EltSet {
+  // déduit les élits de cette version à partir de ceux de la version précédente et l'affecte
+  function deduitElits(ElitSet $elits): ElitSet {
     //echo "Appel de deduitElts()@$this->cinsee@$this->debut\n";
     foreach ($this->evts as $evtVerb => $evtObjects) {
       switch ($evtVerb) {
-        case 'sortDuPérimètreDuRéférentiel': { $elts->empty(); break; }
+        case 'sortDuPérimètreDuRéférentiel': { $elits->empty(); break; }
 
         case 'estModifiéeIndirectementPar': break;
         case 'changeDeNomPour': break;
@@ -383,18 +375,18 @@ class Version {
           $nv = Histo::get($evtObjects);
           foreach ($nv->versions() as $dv => $version) {
             if ($dv >= $this->debut)
-              $elts = $version->deduitElts($elts);
+              $elits = $version->deduitElits($elits);
           }
           break;
         }
         
         case 'avaitPourCode': break;
         
-        case 'fusionneDans': { $elts->empty(); break; }
+        case 'fusionneDans': { $elits->empty(); break; }
         
         case 'absorbe': {
           foreach ($evtObjects as $erat) {
-            $elts->addVId(Histo::get($erat)->versionParDateDeFin($this->debut)->id());
+            $elits->addVId(Histo::get($erat)->versionParDateDeFin($this->debut)->id());
           }
           break;
         }
@@ -402,14 +394,14 @@ class Version {
         case 'crééeCOMParScissionDe':
         case 'crééeCOMAParScissionDe':
         case 'crééARMParScissionDe': {
-          $elts = new EltSet($this->cinsee);
+          $elits = new ElitSet($this->cinsee);
           break;
         }
 
         case 'seScindePourCréer': {
-          /* Modif 6/9/2020 pour supprimer les erat des elts et passer aux elts propres, cas 89344/89325 */
+          /* Modif 6/9/2020 pour supprimer les erat des elits et passer aux elits propres, cas 89344/89325 */
           foreach ($evtObjects as $erat) {
-            $elts->remVId(Histo::get($erat)->version($this->debut)->id());
+            $elits->remVId(Histo::get($erat)->version($this->debut)->id());
           }
           break;
         }
@@ -432,12 +424,12 @@ class Version {
         }
       }
     }
-    $this->elts = clone $elts;
-    return $elts;
+    $this->elits = clone $elits;
+    return $elits;
   }
 };
 
-$histoFileName = '../insee2/histo.yaml';
+$histoFileName = __DIR__.'/../insee2/histo.yaml';
 foreach (Yaml::parseFile($histoFileName)['contents'] as $cinsee => $versions) {
   Histo::$all[$cinsee] = new Histo($cinsee, $versions);
 }
@@ -450,7 +442,7 @@ foreach (Histo::$all as $cinsee => $histo) {
 if ($_GET['action']=='showSimplif')
   die("Fin showSimplif\n");
 foreach (Histo::$all as $cinsee => $histo) {
-  $histo->definitElts();
+  $histo->definitElits();
   if ($_GET['action']=='showF1')
     echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
 }
@@ -460,7 +452,7 @@ if ($_GET['action']=='showF1')
 foreach (Histo::$all as $cinsee => $histo) {
   //$avant = $histo->asArray();
   //echo Yaml::dump([$cinsee => ['avant'=> $avant]], 4, 2);
-  $histo->resolveElts();
+  $histo->resolveElits();
   if ($_GET['action']=='showF2')
     echo Yaml::dump([$cinsee => $histo->asArray()], 3, 2);
 }
