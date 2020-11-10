@@ -210,6 +210,7 @@ Il serait utile que le mouvement soit explicite ainsi que la page https://www.in
 ### Entrée des communes de Mayotte dans le référentiel au 31 mars 2011
 Ensuite,
 les communes de Mayotte entrent dans le référentiel le 31 mars 2011, date à laquelle Mayotte est devenu un département francais.
+Il serait utile que ces mouvements soit explicites.
 
 A noter, sur la page https://www.insee.fr/fr/metadonnees/cog/commune/COM97615-pamandzi, l'expression suivante n'est pas adaptée
 
