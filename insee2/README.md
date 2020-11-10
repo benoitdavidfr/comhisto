@@ -8,8 +8,9 @@ Ce document est [disponible ici](histo.yaml) ;
 sa structure est formellement définie par un [schéma JSON](https://json-schema.org/) [disponible ici](exhisto.yaml).
 
 Après avoir défini, dans une première partie, la notion d'évènement,
-cette page présente, dans une seconde, la structuration du référentiel.
-Enfin, la liste des modifications apportées aux données Insee est listée et un extrait illustre la structuration du référentiel.
+cette page présente, dans une seconde, la structuration du référentiel,
+et dans une troisième, la liste des modifications apportées aux données Insee.
+Enfin, un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
 
