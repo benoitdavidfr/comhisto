@@ -9,7 +9,7 @@ sa structure est formellement définie par un [schéma JSON](https://json-schema
 
 Après avoir défini, dans une première partie, la notion d'évènement,
 cette page présente, dans une seconde, la structuration du référentiel,
-et dans une troisième, la liste des modifications apportées aux données Insee.
+et dans une troisième, la liste des difficultés rencontrées et les modifications apportées aux données Insee.
 Enfin, un extrait illustre la structuration du référentiel.
 
 ## Définition des évènements sur les codes Insee
