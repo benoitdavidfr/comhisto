@@ -1,6 +1,6 @@
 # Méthode pour comparer les territoires des différentes versions
-La seconde étape consiste à mettre en place une méthode pour comparer les territoires associés aux différentes versions de code Insee.
-Pour cela, on définit les **éléments administratifs intemporels** (élits)
+La méthode pour comparer les territoires associés aux différentes versions de code Insee est fondée
+sur la définition d'**éléments administratifs intemporels** (élits)
 qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
 Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
 et ces territoires pourront ainsi facilement être comparés entre eux.
