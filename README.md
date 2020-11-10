@@ -126,9 +126,20 @@ De manière générale:
 - les élits forment une partition du territoire ayant été concerné par le référentiel ;
 - tout territoire associé à une version de code Insee peut être défini par un ensemble d'élits.
 
+Plus précisément :
+
+- l'élit d'un code correspondant à une association correspond au territoire de la commune sans les territoires des entités associées ;
+- l'élit d'un code correspondant à une commune nouvelle correspond, lorqu'il existe une entité déléguée propre à son territoire,
+  sinon au territoire de la commune sans les territoires des entités déléguées ;
+- la commune nouvelle de Blaignan-Prignac (33055) est un cas particulier :
+  elle comporte d'une part une commune délégue propre
+  qui correspond à une élit et comporte d'autre part un territoire qui n'appartient à aucune de ses communes déléguées,
+  il s'agit du territoire de l'ancienne commune de Prignac-en-Médoc (33338) qui a fusionné dans la commune nouvelle sans que
+  ce territoire soit repris dans aucune des communes déléguées.
+
 Attention cependant les élits ne sont pas stables au travers des éditions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
-  
+
 Le [fichier GeoJSON des elits est disponible ici](export/elit.7z).
 Le [fichier Yaml non géoréférencé des codes Insee avec les élits est disponible ici](elits2/histelit.yaml).
 
