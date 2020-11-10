@@ -32,10 +32,9 @@ journal: |
     - génération des com. déléguées propres
     - reste erreur sur Lyon, StBarth et StMartin
 phpScripts:
-  - /yamldoc/pub/comhisto/croise/verifelits.php
-  - /yamldoc/pub/comhisto/croise/verifcheflieu.php
-  - /yamldoc/pub/comhisto/croise/fcomhisto.php
+  - /yamldoc/pub/comhisto/croise2/verifcheflieu.php
+  - /yamldoc/pub/comhisto/croise2/fcomhisto.php
 phpIncludes:
-  - /yamldoc/pub/comhisto/croise/histo.inc.php
-  - /yamldoc/pub/comhisto/croise/centelits.inc.php
-  - /yamldoc/pub/comhisto/croise/pgsqlsa.inc.php
+  - /yamldoc/pub/comhisto/croise2/histo.inc.php
+  - /yamldoc/pub/comhisto/croise2/centelits.inc.php
+  - /yamldoc/pub/comhisto/croise2/pgsqlsa.inc.php

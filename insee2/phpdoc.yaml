@@ -13,10 +13,10 @@ journal: |
   20/10/2020:
     - création
 phpScripts:
-  - fetat.php
-  - frpicom.php
-  - fhisto.php
-  - cmpmvts.php
+  - /yamldoc/pub/comhisto/insee2/fetat.php
+  - /yamldoc/pub/comhisto/insee2/frpicom.php
+  - /yamldoc/pub/comhisto/insee2/fhisto.php
+  - /yamldoc/pub/comhisto/insee2/cmpmvts.php
 phpIncludes:
-  - html.inc.php
+  - /yamldoc/pub/comhisto/insee2/html.inc.php
 htmlFiles:

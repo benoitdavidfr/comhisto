@@ -22,11 +22,12 @@ journal: |
     - création à la suite de rpicom pour réécrire le code
 submodules:
 phpScripts:
-  - /yamldoc/pub/comhisto/elits/defelit0.php
-  - /yamldoc/pub/comhisto/elits/defelit.php
-  - /yamldoc/pub/comhisto/elits/verielits.php
+  - /yamldoc/pub/comhisto/elits2/defelit0.php
+  - /yamldoc/pub/comhisto/elits2/defelit.php
+  - /yamldoc/pub/comhisto/elits2/verifelits.php
 phpIncludes:
-  - /yamldoc/pub/comhisto/elits/simplif.inc.php
+  - /yamldoc/pub/comhisto/elits2/simplif.inc.php
 htmlFiles:
-  - /yamldoc/pub/comhisto/elits/histelit0.yaml
-  - /yamldoc/pub/comhisto/elits/histelit.yaml
+  - /yamldoc/pub/comhisto/elits2/histelit0.yaml
+  - /yamldoc/pub/comhisto/elits2/histelit.yaml
+  - /yamldoc/pub/comhisto/elits2/histelitp.yaml
