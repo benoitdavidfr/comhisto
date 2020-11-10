@@ -84,9 +84,9 @@ La seconde étape consiste à mettre en place une méthode pour comparer les ter
 Pour cela, on définit les **éléments administratifs intemporels** (élits)
 qui correspondent généralement au territoire associé au code Insee au 1/1/1943 avant les fusions.
 Ainsi le territoire de chaque version pourra être défini par un ensemble d'élits
-et ces territoires pourront ainsi facilement comparés entre eux.
+et ces territoires pourront ainsi facilement être comparés entre eux.
 
-Pour cela on commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
+On commence par simplifier certaines opérations qui ne correspondent ni à une fusion, ni à une scission
 et qui sont détaillées ci-dessous.
 
 Puis, on fait correspondre à chaque version d'entité un ensemble d'élits.
@@ -116,8 +116,8 @@ dans ce cas l'élit est le territoire le plus petit après ces scissions.
 De manière générale:
 
 - chaque code Insee correspond à un et un seul élit,
-  sauf ceux correspondant à un changement de code auxquels aucun élit ne correspond
-  et sauf les 3 communes constituées d'arrondissements municipaux auxquels aucun élit ne correspond ;
+  sauf ceux correspondant à un changement de code qui ne correspondent à aucun élit
+  et sauf les 3 communes constituées d'arrondissements municipaux qui ne correspondent à aucun élit ;
 - chaque élit correspond à un et un seul code Insee par lequel il est identifié ;
 - le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
   moins l'union des territoires des autres codes Insee ;
