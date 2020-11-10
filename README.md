@@ -121,12 +121,10 @@ De manière générale:
   sauf ceux correspondant à un changement de code ainsi que les 3 communes constituées d'arrondissements municipaux
   qui ne correspondent à aucun élit ;
 - chaque élit correspond à un et un seul code Insee par lequel il est identifié ;
-- le territoire associé à un élit est l'intersection des territoires des versions de son code Insee
-  moins l'union des territoires des autres codes Insee ;
+- dans les cas complexes, le territoire associé à un élit peut être défini comme l'intersection des territoires des versions
+  du code Insee moins l'union des territoires des autres codes Insee ;
 - les élits forment une partition du territoire ayant été concerné par le référentiel ;
 - tout territoire associé à une version de code Insee peut être défini par un ensemble d'élits.
-
-
 
 Attention cependant les élits ne sont pas stables au travers des éditions successives du référentiel.
 Cela signifie qu'**ils ne sont intemporels que pour une édition donnée de référentiel**.
