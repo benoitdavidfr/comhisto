@@ -269,8 +269,7 @@ class Version {
     $edebut = json_encode($edebut, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
     $edebut = str_replace("'", "''", $edebut);
     $crat = isset($this->etat['crat']) ? "'".$this->etat['crat']."'" : 'null';
-    $erats = $this->erat ? array_values($this->erat)[0] : [];
-    $erats = json_encode($erats);
+    $erats = json_encode($this->erat);
     if ($this->eltSet) {
       $elits = json_encode($this->eltSet->elts());
       $elits = "'".str_replace("'", "''", $elits)."'";
