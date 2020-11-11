@@ -6,6 +6,7 @@ doc: |
 journal: |
   11/11/2020:
     - création
+classes:
 */
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 
