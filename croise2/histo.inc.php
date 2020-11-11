@@ -209,7 +209,9 @@ class Version {
   }
   
   function estAssociation(): bool { return ($erat0 = $this->erats()[0] ?? null) ? ($erat0->statut()=='COMA') : false; }
-  function estCNouvelle():  bool  { return ($erat0 = $this->erats()[0] ?? null) ? in_array($erat0->statut(), ['COMD','COM']) : false; }
+  function estCNouvelle():  bool  {
+    return ($erat0 = $this->erats()[0] ?? null) ? in_array($erat0->statut(), ['COMD','COM']) : false;
+  }
   function estCAvecARM():   bool  { return ($erat0 = $this->erats()[0] ?? null) ? ($erat0->statut()=='ARM') : false; }
   
   function existeDelegueePropre(): bool { // teste si la version correspond à une commune mixte cad nouvelle avec déléguée propre
@@ -280,6 +282,7 @@ class Version {
       ."select '$type$cinsee@$ddebut', '$type', '$cinsee', '$ddebut', '$edebut', $dfin, $efin,"
       ." '$statut', $crat, '$erats', $elits, '$dnom', $geomsql";
     //echo "sql=$sql\n";
+    //file_put_contents(__DIR__.'/fcomhisto.sql', "$sql\n", FILE_APPEND);
     try {
       if (($affrows = PgSql::query($sql)->affected_rows()) <> 1) {
         echo "Erreur sur affected_rows=$affrows, sql=$sql\n";

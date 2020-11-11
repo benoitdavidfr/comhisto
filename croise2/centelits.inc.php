@@ -40,6 +40,7 @@ class CEntElits {
     )");
     $date_atom = date(DATE_ATOM);
     PgSql::query("comment on table elit is 'couche des éléments intemporels générée le $date_atom'");
+    //file_put_contents(__DIR__.'/fcomhisto.sql', '');
   }
   
   function storeElits(): void { // enregistre les élits dans la table des élits
@@ -47,6 +48,7 @@ class CEntElits {
     if ($this->eltSet->count() == 1) { // l'eadmin correspond à un seul élit => la géométrie de l'élit est celle de l'eadmin
       $elt = $this->eltSet->elts()[0];
       $sql = "insert into elit(cinsee, geom) select '$elt', geom from eadming3 where eid='$eid'";
+      //file_put_contents(__DIR__.'/fcomhisto.sql', "$sql\n", FILE_APPEND);
       try {
         if (self::ONLY_SHOW_SQL)
           echo "sql=$sql\n";
@@ -82,6 +84,7 @@ class CEntElits {
           ."  ST_SetSRID(ST_GeomFromGeoJSON('".json_encode($voronoiPolygon)."'), 4326),\n"
           ."  (select geom from eadming3 where eid='$eid')\n"
           .")";
+        file_put_contents(__DIR__.'/fcomhisto.sql', "$sql\n", FILE_APPEND);
         try {
           if (self::ONLY_SHOW_SQL)
             echo "sql=$sql\n";

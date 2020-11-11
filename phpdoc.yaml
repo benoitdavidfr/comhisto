@@ -10,9 +10,6 @@ doc: |
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
   
-  A faire:
-    - remonter les erreurs notées dans croise2/corrige.php dans rpicom ou histo
-    
   Idées de valorisation:
     - proposer une IHM donnant pour chaque code Insee l'historique des versions et une carte illustrant le ou les périmètres
       correspondants, exposer cette IHM dans Google,

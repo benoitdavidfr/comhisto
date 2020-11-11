@@ -205,7 +205,8 @@ Au delà de la conformité aux spécifications, il existe quelques cas qui posen
 
 Tout d'abord,
 Saint-Barthélemy (97123) et Saint-Martin (97127) sortent du référentiel le 15 juillet 2007 car ils n'appartiennent plus à un DOM.
-Il serait utile que le mouvement soit explicite ainsi que la page https://www.insee.fr/fr/statistiques/2011101?geo=COM-97123
+Il serait utile que le mouvement soit explicite dans le fichier
+ainsi que sur la page https://www.insee.fr/fr/statistiques/2011101?geo=COM-97123
 
 ### Entrée des communes de Mayotte dans le référentiel au 31 mars 2011
 Ensuite,
@@ -228,7 +229,7 @@ dans le chef-lieu de la commune nouvelle.
 Cependant, dans les données ADMIN EXPRESS produites par l'IGN la fusion est en fait effectuée dans une des entités rattachées
 qui est souvent la précédente commune de rattachement de l'entité fusionnée, ce qui semble pertinent.
 Dans ComHisto, pour permettre le croisement entre les données Insee et IGN,
-le choix a été fait de retenir sur ce sujet le point de vue de l'IGN.
+le choix a été fait de retenir sur ce sujet le point de vue de l'IGN.  
 Ces cas sont les suivants :
 
 |   date   | entité fusionnée                 | chef-lieu absorbant selon Insee | entité déléguée absorbante selon IGN |

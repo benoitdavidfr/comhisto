@@ -101,7 +101,7 @@ class Version {
 };
 
 
-$yaml = Yaml::parseFile(__DIR__.'/../elits2/histelit.yaml');
+$yaml = Yaml::parseFile(__DIR__.'/histelit.yaml');
 
 // Je ne comprends pas pourquoi l'enregistrement 97617 est faux
 $yaml['contents'][97617] = [
