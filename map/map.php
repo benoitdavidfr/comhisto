@@ -92,7 +92,8 @@ foreach (PgSql::query($sql) as $tuple) {
     'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD']) ? 'blue' : 'green'),
   ];
 }
-$neigborPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF'])."/neighbor.php?id=$_GET[id]";
+$dirPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF']);
+$neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
 // Plan IGN V2 n'existe pas dans les DOM
 $defaultBaseLayer = (substr($_GET['id'], 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
 echo "</pre>\n";
@@ -132,7 +133,7 @@ echo "</pre>\n";
   var onEachFeatureNB = function (feature, layer) {
     layer.bindPopup(
       '<b>voisine</b><br>'
-      + "<a href='http://localhost/yamldoc/pub/comhisto/visu/?id="
+      + "<a href='<?php echo "$dirPath/?id="; ?>"
       + feature.properties.cinsee + "' target='_parent'>" 
       + feature.properties.dnom 
       + '</a>'

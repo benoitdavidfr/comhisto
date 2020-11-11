@@ -9,16 +9,15 @@ doc: |
   Résultats:
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
+    - visu carto
   
   Idées de valorisation:
-    - proposer une IHM donnant pour chaque code Insee l'historique des versions et une carte illustrant le ou les périmètres
-      correspondants, exposer cette IHM dans Google,
-    - opérationaliser sous la forme d'une API le cas d'usage de récupération de la géométrie de la commune/entité correspondant
-      à un code Insee donné et à une date donnée,
+    - opérationaliser sous la forme d'une API le cas d'usage de récupération de la géométrie de la commune/entité
+      correspondant à un code Insee donné et à une date donnée,
     - exposer comhisto en données liées.
 journal: |
   11/11/2020:
-    - visu carto
+    - ajout visu carto
   20/10-9/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
     - archivage v1 (targz -> archives)

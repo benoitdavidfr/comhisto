@@ -14,6 +14,20 @@ require_once __DIR__.'/../../../vendor/autoload.php';
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
+//echo "<pre>"; print_r(mb_get_info()); echo "</pre>\n";
+//echo "<pre>"; print_r(mb_strtolower($_GET['id'])); echo "</pre>\n";
+//echo "<pre>"; print_r(mb_strtoupper($_GET['id'])); echo "</pre>\n";
+
+function supprimeAccents(string $str): string {
+	$search  = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô',
+    'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î',
+    'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
+	$replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O',
+    'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i',
+    'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
+	return str_replace($search, $replace, $str);
+}
+
 class AutoDescribed { // Pour garder une compatibilité avec YamlDoc, le pser est enregistré comme objet AutoDescribed
   protected $_id;
   protected $_c;
@@ -36,16 +50,17 @@ class AutoDescribed { // Pour garder une compatibilité avec YamlDoc, le pser es
 };
 
 echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>visu ",$_GET['id'] ?? '',"</title></head><body>\n";
-echo "<table><tr>"; // formulaire
-echo "<td><table border=1><form><tr>";
-echo "<td><input type='text' size=120 name='id' value='",$_GET['id'] ?? '',"'/></td>\n";
-echo "<td><input type='submit' value='Chercher'></td>\n";
-echo "</tr></form></table></td>\n";
-echo "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n";
-echo "</tr></table>\n";
+
+$form = "<table><tr>" // le formulaire
+      . "<td><table border=1><form><tr>"
+      . "<td><input type='text' size=60 name='id' value='".($_GET['id'] ?? '')."'/></td>\n"
+      . "<td><input type='submit' value='Chercher'></td>\n"
+      . "</tr></form></table></td>\n"
+      . "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
+      . "</tr></table>\n";
 
 $histelit = null;
-if (isset($_GET['id'])) {
+if (isset($_GET['id']) && $_GET['id']) {
   $histelits = AutoDescribed::readfile(__DIR__.'/../elits2/histelitp');
   $histelit = $histelits[$_GET['id']] ?? null;
 }
@@ -53,18 +68,21 @@ if ($histelit) { // affichage de l'histelit correspondant au code Insee
   $yaml = Yaml::dump($histelit);
   $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='?id=\\1'>\\1</a>", $yaml);
   echo "<table><tr>";
-  echo "<td><iframe id='map' title='map' width='600' height='600' src='map.php?id=$_GET[id]'></iframe></td>\n";
-  echo "<td><pre>$yaml</td>\n";
+  echo "<td><iframe id='map' title='map' width='700' height='650' src='map.php?id=$_GET[id]'></iframe></td>\n";
+  echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
   echo "</tr></table>\n";
 }
-else { // recherche des entités à partir du nom
+elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir du nom
+  // Test en minuscules après suppression des accents
+  $search = mb_strtolower(supprimeAccents($_GET['id']));
   $cinsees = [];
   foreach ($histelits as $cinsee => $histelit) {
     foreach ($histelit as $ddebut => $version) {
       //echo "<pre>",Yaml::dump($version),"</pre>\n";
-      $name = $version['état']['name'] ?? null;
-      if (preg_match("!$_GET[id]!i", $name))
-        $cinsees[$cinsee] = 1;
+      if ($name = $version['état']['name'] ?? null) {
+        if (strpos(mb_strtolower(supprimeAccents($name)), $search) !== false)
+          $cinsees[$cinsee] = 1;
+      }
     }
   }
   //print_r($cinsees);
@@ -79,6 +97,9 @@ else { // recherche des entités à partir du nom
     }
     echo "<a href='?id=$cinsee'>",implode(' / ',array_keys($names))," ($cinsee)</a><br>\n";
   }
+}
+else {
+  echo $form;
 }
 echo "</body></html>\n";
 die();
