@@ -1,6 +1,12 @@
 <?php
-// script appelé avec en paramètre id le code Insee d'une entité
-
+/*PhpDoc:
+name: map.php
+title: map/map.php - carte Leaflet appelée avec un code Insee en paramètre
+doc: |
+journal: |
+  11/11/2020:
+    - création
+*/
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 
 class GBox { // BBox en coordonnées géographiques
@@ -87,6 +93,8 @@ foreach (PgSql::query($sql) as $tuple) {
   ];
 }
 $neigborPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF'])."/neighbor.php?id=$_GET[id]";
+// Plan IGN V2 n'existe pas dans les DOM
+$defaultBaseLayer = (substr($_GET['id'], 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
 echo "</pre>\n";
 ?>
 <!DOCTYPE HTML><html><head>
@@ -112,7 +120,7 @@ echo "</pre>\n";
 <body>
   <div id="map" style="height: 100%; width: 100%"></div>
   <script>
-  // affichage des caractéristiques de chaque commune
+  // affichage détaillé des caractéristiques de chaque entité
   var onEachFeatureCH = function (feature, layer) {
     layer.bindPopup(
       '<b>comhistog3</b><br>'
@@ -120,7 +128,7 @@ echo "</pre>\n";
     );
     layer.bindTooltip(feature.properties.dnom + ' (' + feature.properties.id + ')');
   }
-  // affichage des caractéristiques des voisines
+  // affichage de liens pour les voisines
   var onEachFeatureNB = function (feature, layer) {
     layer.bindPopup(
       '<b>voisine</b><br>'
@@ -141,9 +149,29 @@ echo "</pre>\n";
   map.on('click', function(e) { c.setCoordinates(e); });
 
   var baseLayers = {
+    "Plan IGN v2" : new L.TileLayer(
+      'https://igngp.geoapi.fr/tile.php/plan-ignv2/{z}/{x}/{y}.png',
+      { format:"image/png", minZoom:0, maxZoom:18, detectRetina:false,
+        attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
+      }
+    ),
     "Plan IGN" : new L.TileLayer(
       'https://igngp.geoapi.fr/tile.php/plan-ign/{z}/{x}/{y}.jpg',
-      {format:"image/jpeg", minZoom:0, maxZoom:18, detectRetina:false, attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"}
+      { format:"image/jpeg", minZoom:0, maxZoom:18, detectRetina:false,
+        attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
+      }
+    ),
+    "Scan Express" : new L.TileLayer(
+      'https://igngp.geoapi.fr/tile.php/scan-express/{z}/{x}/{y}.jpg',
+      { format:"image/jpeg", minZoom:6, maxZoom:18, detectRetina:true,
+        attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
+      }
+    ),
+    "Scan Express N&amp;B" : new L.TileLayer(
+      'https://igngp.geoapi.fr/tile.php/scan-express-ng/{z}/{x}/{y}.png',
+      { format:"image/png", minZoom:6, maxZoom:18, detectRetina:true,
+        attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
+      }
     ),
     "OSM" : new L.TileLayer(
       'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
@@ -154,7 +182,7 @@ echo "</pre>\n";
       {format:'image/jpeg', minZoom:0, maxZoom:21, detectRetina:false}
     )
   };
-  map.addLayer(baseLayers["Plan IGN"]);
+  map.addLayer(baseLayers['<?php echo $defaultBaseLayer;?>']);
 
   var overlays = {
 <?php
@@ -166,15 +194,10 @@ foreach ($overlays as $overlayId => $overlay) {
 }
 ?>
 
-  // affichage d'une couche debug
+  // affichage d'une couche des voisines
     "voisines" : new L.GeoJSON.AJAX('<?php echo $neigborPath; ?>', {
-      style: { color: 'lightGreen'}, minZoom: 0, maxZoom: 18, onEachFeature: onEachFeatureNB
-    }),
-  // affichage d'une couche debug
-    "debug" : new L.TileLayer(
-      'http://visu.gexplor.fr/utilityserver.php/debug/{z}/{x}/{y}.png',
-      {format:"image/png","minZoom":0,"maxZoom":21,"detectRetina":false}
-    )
+      style: {color: 'lightGreen', weight: 5, opacity: 0.65}, minZoom: 0, maxZoom: 18, onEachFeature: onEachFeatureNB
+    })
   };
   map.addLayer(overlays['<?php echo $overlayId;?>']);
 

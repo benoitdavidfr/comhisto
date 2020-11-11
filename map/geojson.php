@@ -1,6 +1,12 @@
 <?php
-// génère une FeatureCollection GeoJSON d'un n-uplet de comhistog3
-
+/*PhpDoc:
+name: geojson.php
+title: map/geojson.php - appelé avec un id de version génère une FeatureCollection GeoJSON d'un n-uplet de comhistog3
+doc: |
+journal: |
+  11/11/2020:
+    - création
+*/
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 
 PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');

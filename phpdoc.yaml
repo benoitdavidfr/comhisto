@@ -17,6 +17,8 @@ doc: |
       à un code Insee donné et à une date donnée,
     - exposer comhisto en données liées.
 journal: |
+  11/11/2020:
+    - visu carto
   20/10-9/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
     - archivage v1 (targz -> archives)
@@ -57,6 +59,7 @@ submodules:
   # archivé - /yamldoc/pub/comhisto/croise
   - /yamldoc/pub/comhisto/croise2
   - /yamldoc/pub/comhisto/export
+  - /yamldoc/pub/comhisto/map
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:

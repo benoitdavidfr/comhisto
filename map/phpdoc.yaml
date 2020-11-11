@@ -1,0 +1,13 @@
+title: comhisto/map - visualisation carto de ComHisto
+path: /yamldoc/pub/comhisto/map
+doc: |
+journal: |
+  11/11/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/map/index.php
+  - /yamldoc/pub/comhisto/map/map.php
+  - /yamldoc/pub/comhisto/map/geojson.php
+  - /yamldoc/pub/comhisto/map/neighbor.php
+phpIncludes:
+htmlFiles:

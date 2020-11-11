@@ -1,7 +1,13 @@
 <?php
-/* Ergonomie mauvaise notamment impossibilité d'accéder aux voisines d'une entité périmée
-Réfléchir à une ergonomie
-avec affichage de 1er niveau par COM valide, affichage des ER et des périmées
+/*PhpDoc:
+name: index.php
+title: map/index.php - visualisation carto de ComHisto
+doc: |
+  Ergonomie mauvaise
+  Réfléchir à une ergonomie avec affichage de 1er niveau par COM valide, affichage des ER et des périmées
+journal: |
+  11/11/2020:
+    - création
 */
 require_once __DIR__.'/../../../vendor/autoload.php';
 
@@ -44,9 +50,11 @@ if (isset($_GET['id'])) {
   $histelit = $histelits[$_GET['id']] ?? null;
 }
 if ($histelit) { // affichage de l'histelit correspondant au code Insee
+  $yaml = Yaml::dump($histelit);
+  $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='?id=\\1'>\\1</a>", $yaml);
   echo "<table><tr>";
-  echo "<td><pre>",Yaml::dump($histelit),"</td>\n";
   echo "<td><iframe id='map' title='map' width='600' height='600' src='map.php?id=$_GET[id]'></iframe></td>\n";
+  echo "<td><pre>$yaml</td>\n";
   echo "</tr></table>\n";
 }
 else { // recherche des entités à partir du nom
