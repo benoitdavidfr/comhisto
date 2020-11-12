@@ -6,10 +6,11 @@ doc: |
   Ergonomie mauvaise
   Réfléchir à une ergonomie avec affichage de 1er niveau par COM valide, affichage des ER et des périmées
 journal: |
-  11/11/2020:
+  11-12/11/2020:
     - création
 */
 require_once __DIR__.'/../../../vendor/autoload.php';
+require_once __DIR__.'/histelits.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -28,27 +29,6 @@ function supprimeAccents(string $str): string {
 	return str_replace($search, $replace, $str);
 }
 
-class AutoDescribed { // Pour garder une compatibilité avec YamlDoc, le pser est enregistré comme objet AutoDescribed
-  protected $_id;
-  protected $_c;
-
-  function __construct(array $c, string $docid) { $this->_c = $c; $this->_id = $docid; }
-  function __get(string $name) { return isset($this->_c[$name]) ? $this->_c[$name] : null; } // lit les champs
-  function asArray() { return $this->_c; }
-
-  static function readfile(string $path): array { // lit un fichier si possible en pser sinon en Yaml, renvoit son contenu ss ses MD
-    if (is_file("$path.pser") && (filemtime("$path.pser") > filemtime("$path.yaml"))) {
-      $file = unserialize(file_get_contents("$path.pser"));
-      return $file->contents;
-    }
-    else {
-      $yaml = Yaml::parseFile("$path.yaml");
-      file_put_contents("$path.pser", serialize(new AutoDescribed($yaml, '')));
-      return $yaml['contents'];
-    }
-  }
-};
-
 echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>visu ",$_GET['id'] ?? '',"</title></head><body>\n";
 
 $form = "<table><tr>" // le formulaire
@@ -61,14 +41,17 @@ $form = "<table><tr>" // le formulaire
 
 $histelit = null;
 if (isset($_GET['id']) && $_GET['id']) {
-  $histelits = AutoDescribed::readfile(__DIR__.'/../elits2/histelitp');
-  $histelit = $histelits[$_GET['id']] ?? null;
+  Histelits::readfile(__DIR__.'/../elits2/histelitp');
+  $histelit = Histelits::$all[$_GET['id']] ?? null;
 }
 if ($histelit) { // affichage de l'histelit correspondant au code Insee
-  $yaml = Yaml::dump($histelit);
+  $cluster = Histelits::cluster($_GET['id']);
+  $yaml = Yaml::dump($cluster, 3, 2);
   $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='?id=\\1'>\\1</a>", $yaml);
   echo "<table><tr>";
-  echo "<td><iframe id='map' title='map' width='700' height='650' src='map.php?id=$_GET[id]'></iframe></td>\n";
+  echo "<td valign='top'>",
+    "<iframe id='map' title='map' width='700' height='650' src='map.php?id=$_GET[id]'></iframe>",
+    "</td>\n";
   echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
   echo "</tr></table>\n";
 }
@@ -76,7 +59,7 @@ elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir
   // Test en minuscules après suppression des accents
   $search = mb_strtolower(supprimeAccents($_GET['id']));
   $cinsees = [];
-  foreach ($histelits as $cinsee => $histelit) {
+  foreach (Histelits::$all as $cinsee => $histelit) {
     foreach ($histelit as $ddebut => $version) {
       //echo "<pre>",Yaml::dump($version),"</pre>\n";
       if ($name = $version['état']['name'] ?? null) {
@@ -87,7 +70,7 @@ elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir
   }
   //print_r($cinsees);
   foreach (array_keys($cinsees) as $cinsee) {
-    $histelit = $histelits[$cinsee];
+    $histelit = Histelits::$all[$cinsee];
     $names = [];
     foreach ($histelit as $ddebut => $version) {
       //echo "<pre>",Yaml::dump($version),"</pre>\n";

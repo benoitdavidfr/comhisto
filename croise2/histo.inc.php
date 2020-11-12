@@ -263,6 +263,8 @@ class Version {
         $statut = 'ASSO';
       elseif ($this->estCNouvelle())
         $statut = 'NOUV';
+      elseif ($this->estCAvecARM())
+        $statut = 'CARM';
       else
         $statut = 'BASE';
     }

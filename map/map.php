@@ -3,12 +3,16 @@
 name: map.php
 title: map/map.php - carte Leaflet appelée avec un code Insee en paramètre
 doc: |
+  Bug - la géométrie d'un objet n'est pas définie pas ses elits mais ses élits + ses erats !!!
+  Problème de disparition des zones valides
 journal: |
   11/11/2020:
     - création
 classes:
 */
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
+require_once __DIR__.'/histelits.inc.php';
+require_once __DIR__.'/openpg.inc.php';
 
 class GBox { // BBox en coordonnées géographiques
   protected $min=[]; // [number, number] ou []
@@ -68,10 +72,12 @@ class Zoom {
   }
 };
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+Histelits::readfile(__DIR__.'/../elits2/histelitp');
 
+$cluster = Histelits::cluster($_GET['id']);
 $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
-        from comhistog3 where cinsee='$_GET[id]'";
+        from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";
+//echo "$sql<br>\n";
 $bbox = new GBox(PgSql::getTuples($sql)[0]);
 if ($bbox->size() === null) {
   die("Erreur bbox non défini pour $_GET[id]");
@@ -81,17 +87,27 @@ echo "<pre>";
 //echo "size=",$bbox->size(),"\n";
 //echo "zoom=",$bbox->zoom(),"\n";
 
+// affichage des entités en se limitant à une seule entité pour chaque géographie (élitEtendus)
+// et en privilégiant la version la plus récente
 // rouge - versions périmées
 // vert - COM valides
 // bleu - COMA et COMD valides
-$layers = [];
-$sql = "select id, dfin, statut from comhistog3 where cinsee='$_GET[id]' order by ddebut";
+$layers = []; // [layerId => ['path'=> path, 'color'=> color]]
+$elitss = []; // [elitsEtendu => $layerId]
+$sql = "select id, ddebut, dfin, statut from comhistog3
+        where cinsee in ('".implode("','",array_keys($cluster))."')
+        order by ddebut asc, type asc";
 foreach (PgSql::query($sql) as $tuple) {
-  //print_r($tuple);
+  $elitEtendus = Histelits::elitEtendus($tuple['id'], $tuple['statut']);
+  //$tuple['$elitEtendus'] = $elitEtendus;
+  //echo '$tuple='; print_r($tuple);
+  if (isset($elitss[$elitEtendus]))
+    unset($overlays[$elitss[$elitEtendus]]);
   $overlays[$tuple['id']] = [
     'path'=> "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF'])."/geojson.php?id=$tuple[id]",
     'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD']) ? 'blue' : 'green'),
   ];
+  $elitss[$elitEtendus] = $tuple['id'];
 }
 $dirPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF']);
 $neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";

@@ -14,8 +14,7 @@ journal: |
     - création
 */
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
-
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+require_once __DIR__.'/openpg.inc.php';
 
 $features = [];
 $sqls = [

@@ -22,6 +22,8 @@ doc: |
   Le résultat est stocké dans la table comhistog3
 
 journal: |
+  12/11/2020:
+    - correcion d'un bug sur CARM
   9/11/2020:
     - passage en v2
     - erreurs sur 14114/14712 du à l'absence de 14114 par IGN et sur 52224 due à son absence par IGN
@@ -154,6 +156,7 @@ PgSql::query("create type StatutEntite AS enum (
   'BASE', -- commune de base
   'ASSO', -- commune de rattachement d'une association
   'NOUV', -- commune de rattachement d'une commune nouvelle
+  'CARM', -- commune de rattachement d'arrondissements municipaux
   'COMA', -- commune associée
   'COMD', -- commune déléguée
   'ARM'  -- arrondissement municipal
@@ -168,7 +171,7 @@ PgSql::query("create table comhistog3(
   efin jsonb, -- évts de fin de la version, ou null ssi version valide à la date de référence
   statut StatutEntite not null,
   crat char(5), -- pour une entité rattachée (COMA, COMD, ARM) code Insee de la commune de rattachement, sinon null
-  erats jsonb not null, -- pour une commune de rattachement (ASSO, NOUV) liste JSON des codes Insee des entités rattachées
+  erats jsonb not null, -- pour une commune de rattachement (ASSO, NOUV, CARM) liste JSON des codes Insee des entités rattachées
   elits jsonb, -- liste JSON des éléments intemporels propres ou null ssi il n'y en a pas
   dnom varchar(256), -- dernier nom
   geom geometry -- géométrie

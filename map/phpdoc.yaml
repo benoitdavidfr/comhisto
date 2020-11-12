@@ -4,6 +4,9 @@ doc: |
   Permet une visualisation carto simple de ComHisto par code Insee
   L'ergonomie est très basique.
   Il est possible de se déplacer au travers des codes Insee dans le Yaml ou en utilisant la couche des voisines.
+
+  Evol:
+    afficher les codes liés entre eux (entités absorbées, crat, erat) que j'appelle cluster
 journal: |
   11/11/2020:
     - création
