@@ -81,7 +81,7 @@ elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir
     echo "<a href='?id=$cinsee'>",implode(' / ',array_keys($names))," ($cinsee)</a><br>\n";
   }
 }
-else {
+else { // par défaut affichage du formulaire de recherche
   echo $form;
 }
 echo "</body></html>\n";

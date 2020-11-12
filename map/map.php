@@ -3,10 +3,8 @@
 name: map.php
 title: map/map.php - carte Leaflet appelée avec un code Insee en paramètre
 doc: |
-  Bug - la géométrie d'un objet n'est pas définie pas ses elits mais ses élits + ses erats !!!
-  Problème de disparition des zones valides
 journal: |
-  11/11/2020:
+  11-12/11/2020:
     - création
 classes:
 */
@@ -90,8 +88,8 @@ echo "<pre>";
 // affichage des entités en se limitant à une seule entité pour chaque géographie (élitEtendus)
 // et en privilégiant la version la plus récente
 // rouge - versions périmées
-// vert - COM valides
-// bleu - COMA et COMD valides
+// vert - communes valides
+// bleu - entités rattachées valides
 $layers = []; // [layerId => ['path'=> path, 'color'=> color]]
 $elitss = []; // [elitsEtendu => $layerId]
 $sql = "select id, ddebut, dfin, statut from comhistog3

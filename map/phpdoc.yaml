@@ -8,7 +8,7 @@ doc: |
   Evol:
     afficher les codes liés entre eux (entités absorbées, crat, erat) que j'appelle cluster
 journal: |
-  11/11/2020:
+  11-12/11/2020:
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/map/index.php
@@ -16,4 +16,6 @@ phpScripts:
   - /yamldoc/pub/comhisto/map/geojson.php
   - /yamldoc/pub/comhisto/map/neighbor.php
 phpIncludes:
+  - /yamldoc/pub/comhisto/map/openpg.inc.php
+  - /yamldoc/pub/comhisto/map/histelits.inc.php
 htmlFiles:
