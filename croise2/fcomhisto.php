@@ -3,9 +3,9 @@
 name: fcomhisto.php
 title: fcomhisto.php - fabriquer les elits puis les comhistog3 à partir de ces elits
 doc: |
-  La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les élits correspondants
-  et à en déduire la géométrie associée à chaque élit.
-    a) on part d'histelitp.yaml produit par corrige.php que l'on charge dans la structure Histo/Version
+  La première phase consiste à construire à partir de l'historique Insee les entités valides et pour chacune les élits
+  correspondants et à en déduire la géométrie associée à chaque élit.
+    a) on part d'histelitp.yaml produit dans ../elits2 que l'on charge dans la structure Histo/Version
     b) on sélectionne pour chaque code Insee sa version valide, s'il y en a une
     c) différents cas de figure
       - la version valide correspond à une COM sans ERAT alors c'est une entité

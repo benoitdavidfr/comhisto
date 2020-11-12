@@ -105,7 +105,7 @@ foreach (PgSql::query($sql) as $tuple) {
     unset($overlays[$elitss[$elitEtendus]]);
   $overlays[$tuple['id']] = [
     'path'=> "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF'])."/geojson.php?id=$tuple[id]",
-    'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD']) ? 'blue' : 'green'),
+    'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD','ARM']) ? 'blue' : 'green'),
   ];
   $elitss[$elitEtendus] = $tuple['id'];
 }
