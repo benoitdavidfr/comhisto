@@ -1,0 +1,8 @@
+title: comhisto/export - export du référentiel de l'historique des communes
+path: /yamldoc/pub/comhisto/export
+doc: |
+journal: |
+submodules:
+phpScripts:
+phpIncludes:
+htmlFiles:

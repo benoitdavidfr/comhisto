@@ -6,6 +6,8 @@ doc: |
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
   
+  Url: https://georef.eu/yamldoc/pub/comhisto/
+  
   Résultats:
     - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
     - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
@@ -15,8 +17,11 @@ doc: |
     - opérationaliser sous la forme d'une API le cas d'usage de récupération de la géométrie de la commune/entité
       correspondant à un code Insee donné et à une date donnée,
     - exposer comhisto en données liées.
+    
+  A faire:
+    - mieux documenter la base PostGis produite et utilisée
 journal: |
-  11/11/2020:
+  11-12/11/2020:
     - ajout visu carto
   20/10-9/11/2020:
     - écriture d'une nlle version de insee améliorant notamment la doc des erreurs Insee
@@ -59,6 +64,11 @@ submodules:
   - /yamldoc/pub/comhisto/croise2
   - /yamldoc/pub/comhisto/export
   - /yamldoc/pub/comhisto/map
+sqlDBs:
+  - name: comhisto
+    title: comhisto - base PostGis comhisto
+    doc: |
+      Utilisée en production et en consultation
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:

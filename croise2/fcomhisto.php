@@ -62,6 +62,7 @@ journal: |
     - 18:00 - semble fonctionner - bloqué sur chefs-lieux identiques
   29/8/2020:
     - création
+tables:
 */
 ini_set('memory_limit', '1G');
 
@@ -101,7 +102,7 @@ ChefLieu::load(__DIR__.'/../cheflieu');
 Histo::load(__DIR__.'/../elits2/histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+PgSql::open('host=172.17.0.4 dbname=gis user=docker');
 
 if ($_GET['action']=='testEntites') {
   $sql = "select eid from eadming3";
@@ -150,6 +151,17 @@ if ($_GET['action']=='testEntites') {
 
 
 // Phase 2 - 
+/*PhpDoc: tables
+name: comhistog3
+title: table comhistog3 - couche des versions de communes
+database: [ comhisto ]
+columns:
+  - name: id
+    definition: char(17) not null primary key
+    comment: "concaténation de type, cinsee, '@' et ddebut"
+doc: |
+  Stockage des versions des communes et entités rattachées
+*/
 PgSql::query("drop table if exists comhistog3");
 PgSql::query("drop type if exists StatutEntite");
 PgSql::query("create type StatutEntite AS enum (
