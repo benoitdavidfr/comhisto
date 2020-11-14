@@ -21,6 +21,8 @@ doc: |
   A faire:
     - mieux documenter la base PostGis produite et utilisée
 journal: |
+  13/11/2020:
+    - ajout d'une API
   11-12/11/2020:
     - ajout visu carto
   20/10-9/11/2020:
@@ -64,6 +66,7 @@ submodules:
   - /yamldoc/pub/comhisto/croise2
   - /yamldoc/pub/comhisto/export
   - /yamldoc/pub/comhisto/map
+  - /yamldoc/pub/comhisto/api
 sqlDBs:
   - name: comhisto
     title: comhisto - base PostGis comhisto

@@ -301,6 +301,7 @@ class Version {
   function delegueePropre(): self {
     $delPropre = clone $this;
     unset($delPropre->evts['prendPourDéléguées']);
+    $delPropre->evts['devientDéléguéeDe'] = $this->cinsee;
     $delPropre->etat = [
       'name'=> $delPropre->etat['nomCommeDéléguée'] ?? $delPropre->etat['name'],
       'statut'=> 'COMD',

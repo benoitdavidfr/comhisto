@@ -12,7 +12,7 @@ journal: |
 */
 //echo "<pre>_SERVER="; print_r($_SERVER); //die();
 
-if ($_SERVER['HTTP_HOST']=='localhost')
+if (($_SERVER['HTTP_HOST'] ?? 'localhost')=='localhost')
   PgSql::open('host=172.17.0.4 dbname=gis user=docker');
 else
   PgSql::open('host=postgresql-bdavid.alwaysdata.net dbname=bdavid_comhisto user=bdavid_comhisto password=motdepasse123$');

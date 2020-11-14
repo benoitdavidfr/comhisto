@@ -1,0 +1,10 @@
+title: comhisto/api - déf. des URI + API
+path: /yamldoc/pub/comhisto/api
+doc: |
+journal: |
+  13/11/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/api/api.php
+phpIncludes:
+htmlFiles:
