@@ -38,8 +38,9 @@ journal: |
       - le format de sortie peut être défini dans le paramètre HTTP Accept et dans une extension de l'URL
       - cette seconde possibilité prend le pas sur la première
     - mise en oeuvre des cartes sur comhisto.georef.eu
-      - revoir quelle version est affichée
-      - l'IHM pour afficher une version
+      - -->> revoir la version affichée
+      - --> améliorer l'IHM pour afficher une version particulière
+    - -->> intégrer le JSOn-LD dans le Html
   14-15/11/2020:
     - remplacement des codes Insee par des URI
     - ajout du contexte et définition d'URI pour les statuts
