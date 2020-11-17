@@ -651,13 +651,13 @@ function api(string $path_info, array $accept): array {
 }
 
 if (!$_SERVER['SCRIPT_NAME']) { // execution http://comhisto.georef.eu/
-  if (in_array($_SERVER['PATH_INFO'], ['/map.php','/geojson.php','/neighbor.php'])) {
-    require __DIR__."/../map$_SERVER[PATH_INFO]";
+  if (in_array($_SERVER['PATH_INFO'], ['/map/map.php','/map/geojson.php','/map/neighbor.php'])) {
+    require __DIR__."/..$_SERVER[PATH_INFO]";
     die();
   }
-  elseif (substr($_SERVER['PATH_INFO'],0,9) == '/leaflet/') {
-    $pos = strrpos($_SERVER['PATH_INFO'], '.');
-    if ($pos) {
+  elseif ((substr($_SERVER['PATH_INFO'],0,13) == '/map/leaflet/') || ($_SERVER['PATH_INFO'] == '/favicon.ico')) {
+    $ext = null;
+    if ($pos = strrpos($_SERVER['PATH_INFO'], '.')) {
       $ext = substr($_SERVER['PATH_INFO'], $pos+1);
     }
     //echo "pos=$pos, ext=$ext\n";
@@ -665,12 +665,14 @@ if (!$_SERVER['SCRIPT_NAME']) { // execution http://comhisto.georef.eu/
       header('Content-Type: text/css');
     if ($ext == 'js')
       header('Content-Type: text/javascript');
-    die(file_get_contents(__DIR__.'/../map'.$_SERVER['PATH_INFO']));
+    if ($ext == 'ico')
+      header('Content-Type: image/x-icon');
+    die(file_get_contents(__DIR__.'/..'.$_SERVER['PATH_INFO']));
   }
-  elseif ($_SERVER['PATH_INFO']<>'/') {
+  /*elseif (!in_array($_SERVER['PATH_INFO'], ['/',''])) {
     echo "<pre>"; print_r($_SERVER);
     die("Erreur ligne ".__LINE__);
-  }
+  }*/
 }
 if ((basename(__FILE__) == basename($_SERVER['SCRIPT_NAME'])) || !$_SERVER['SCRIPT_NAME']) { // Exécution lorsque le script est appelé directement
   //echo "<pre>"; print_r($_SERVER); die();
