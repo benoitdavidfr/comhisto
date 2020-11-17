@@ -9,7 +9,11 @@ Par défaut dans un navigateur, on obtient un document Html avec une description
 L'API expose les points d'accès suivants :
 
 - `/` : racine fournissant une documentation
-- `/COM/{cinsee}/{ddebut}` : version de commune ayant pour code Insee {cinsee} et débutant à {ddebut}
+- `/COM/{cinsee}/{ddebut}` : version de la commune ayant pour code Insee {cinsee} et débutant à {ddebut}
   - exemple: http://comhisto.georef.eu/COM/01015/2016-01-01
-- `/ERAT/{cinsee}/{ddebut}` : version d'entité rattachée ayant pour code Insee {cinsee} et débutant à {ddebut}
+- `/ERAT/{cinsee}/{ddebut}` : version de l'entité rattachée ayant pour code Insee {cinsee} et débutant à {ddebut}
+  - exemple: http://comhisto.georef.eu/ERAT/01015/2016-01-01
+- `/COM/{cinsee}` : version valide de la commune ayant pour code Insee {cinsee}
+  - exemple: http://comhisto.georef.eu/COM/01015
+- `/ERAT/{cinsee}` : version valide de l'entité rattachée ayant pour code Insee {cinsee}
   - exemple: http://comhisto.georef.eu/ERAT/01015/2016-01-01
