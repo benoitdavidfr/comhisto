@@ -1,5 +1,7 @@
 # API de mise à disposition du référentiel ComHisto
 
+L'URL de base de l'API est http://comhisto.georef.eu
+
 L'API expose les points d'accès suivants :
 
 - `/` : racine fournissant une documentation
