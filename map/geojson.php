@@ -17,6 +17,8 @@ foreach (['edebut','efin','erats','elits','geom'] as $prop)
   $tuple[$prop] = json_decode($tuple[$prop], true);
 $geom = $tuple['geom'];
 unset($tuple['geom']);
+
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 echo json_encode([

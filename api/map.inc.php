@@ -1,8 +1,9 @@
 <?php
 /*PhpDoc:
 name: map.inc.php
-title: api/map.inc.php - visualisation carto de ComHisto
+title: api/map.inc.php - visualisation carto de ComHisto à partir de l'API
 doc: |
+  
 journal: |
   17/11/2020:
     - création
@@ -25,7 +26,7 @@ function supprimeAccents(string $str): string {
 function map(string $id=''): string {
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
   $cinsee = !$id ? '' : ((strlen($id) == 5) ? $id : substr($id, 1, 5));
-  echo "map($id), cinsee=$cinsee<br>\n";
+  //echo "map($id), cinsee=$cinsee<br>\n";
   echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>map $id</title></head><body>\n";
   
   $form = "<table><tr>" // le formulaire
@@ -85,6 +86,3 @@ function map(string $id=''): string {
   echo "</body></html>\n";
   die();
 }
-
-
-

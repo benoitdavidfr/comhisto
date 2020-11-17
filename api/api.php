@@ -651,7 +651,11 @@ function api(string $path_info, array $accept): array {
 }
 
 if (!$_SERVER['SCRIPT_NAME']) { // execution http://comhisto.georef.eu/
-  if (in_array($_SERVER['PATH_INFO'], ['/map/map.php','/map/geojson.php','/map/neighbor.php'])) {
+  if (in_array($_SERVER['PATH_INFO'], ['/map.php','/geojson.php','/neighbor.php'])) {
+    require __DIR__."/../map$_SERVER[PATH_INFO]";
+    die();
+  }
+  elseif (in_array($_SERVER['PATH_INFO'], ['/map/map.php','/map/geojson.php','/map/neighbor.php'])) {
     require __DIR__."/..$_SERVER[PATH_INFO]";
     die();
   }

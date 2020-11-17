@@ -1,10 +1,12 @@
 <?php
 /*PhpDoc:
 name: histelits.inc.php
-title: map/histelits.inc.php - lecture du fichier histelits et stockage des histelits
+title: map/histelits.inc.php - lecture du fichier histelits, stockage des histelits et calcul du cluster
 doc: |
   Le fichier pser est stocké comme un objet AutoDescribed pour garder une compatibilité avec YamlDoc.
   La classe Histelits stocke les histelits et implémente qqs méthodes
+
+  Le cluster associé à un code Insee est un extrait des histelits qui correspond aux codes Insee associés par des relations.
 journal: |
   12/11/2020:
     - création
@@ -62,6 +64,7 @@ class Histelits extends AutoDescribed {
   }
   
   // calcule les elits étendus, cad elits propres + elits des erats, triés ; $vid est l'identifiant de version
+  // le statut est indispensable pour distinguer une déléguée propre de sa crat
   static function elitEtendus(string $vid, string $statut): string {
     $type = substr($vid, 0, 1); // 'r' ou 's'
     $cinsee = substr($vid, 1, 5); // code Insee

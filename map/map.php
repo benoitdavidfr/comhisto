@@ -1,15 +1,43 @@
 <?php
 /*PhpDoc:
 name: map.php
-title: map/map.php - carte Leaflet appelée avec un code Insee en paramètre
+title: map/map.php - génère la carte Leaflet appelée avec un code Insee en paramètre
 doc: |
+  Script appelé dans un iframe pour générer une carte Leaflet
+  Il est toujours appelé avec un paramètre GET id qui est le code Insee d'une entité.
+  
+  Script utilisé soit depuis ./index.php:
+    en localhost:
+      http://localhost/yamldoc/pub/comhisto/map/?id=01015
+    sur georef:
+      https://georef.eu/yamldoc/pub/comhisto/map/?id=33055
+  Soit depuis ../api/api.php:
+    en localhost:
+      http://localhost/yamldoc/pub/comhisto/api/api.php?id=01015
+    sur georef:
+      https://comhisto.georef.eu/COM/01015
+      https://comhisto.georef.eu/COM/01015/2016-01-01
+      https://comhisto.georef.eu/?id=01034
+  
+  $_SERVER[REQUEST_SCHEME] vaut 'hhtp' sur localhost et 'https' sur Alwaysdata, que la connexion soit en http ou en https
+  Son utilisation conduit donc à utiliser des liens en http sur localhost et en https sur Alwaysdata
+
+  Le code JS fait des appels à plusieurs URL:
+    - des fichiers CSS ou JS dans le sous-répertoire leaflet
+    - les couches de base en PNG ou JPEG
+    - les périmètres des entités visualisées par le script geojson.php appelé en AJAX GeoJSON
+    - les entités voisines par le script neighbor.php appelé en AJAX GeoJSON
+    - l'affichage d'une entité voisine par renvoi vers index.php
+  Ces 3 derniers scripts sont appelés dans le même répertoire que map.php
+  ou dans le cas d'une utilisation en API sur georef à la racine, dans ce cas l'appel doit être géré par api.php
+
 journal: |
+  17/11/2020:
+    - adaptation pour utilisation avec l'API
   11-12/11/2020:
     - création
 classes:
 */
-//die("map.php ligne ".__LINE__."\n");
-
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/histelits.inc.php';
 require_once __DIR__.'/openpg.inc.php';
@@ -72,22 +100,36 @@ class Zoom {
   }
 };
 
-Histelits::readfile(__DIR__.'/../elits2/histelitp');
+if (!isset($_GET['id'])) { // erreur si le paramètre id n'est pas défini 
+  header('HTTP/1.1 400 Bad Request');
+  die("Erreur dans map.php, paramètre id non défini");
+}
 
-$cluster = Histelits::cluster($_GET['id']);
+Histelits::readfile(__DIR__.'/../elits2/histelitp'); // lecture de la définition Yaml des codes insee
+
+$cluster = Histelits::cluster($_GET['id']); // génération du cluster
+// Calcul du rectangle englobant
 $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
         from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";
 //echo "$sql<br>\n";
 $bbox = new GBox(PgSql::getTuples($sql)[0]);
-if ($bbox->size() === null) {
-  die("Erreur bbox non défini pour $_GET[id]");
+if ($bbox->size() === null) { // Erreur si bbox non défini 
+  header('HTTP/1.1 400 Bad Request');
+  die("Erreur dans map.php, bbox non défini pour $_GET[id]");
 }
 
 echo "<pre>";
 //echo "size=",$bbox->size(),"\n";
 //echo "zoom=",$bbox->zoom(),"\n";
 
-// affichage des entités en se limitant à une seule entité pour chaque géographie (élitEtendus)
+// $dirPath est le chemin correspondant au répertoire dans lequel est map.php
+// Lors d'un appel sur https://comhisto.georef.eu/, $dirPath vaut https://comhisto.georef.eu
+$dirPath = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]".dirname($_SERVER['SCRIPT_NAME']);
+//print_r($_SERVER);
+//echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME],\ndirPath=$dirPath\n";
+//echo "REQUEST_SCHEME=$_SERVER[REQUEST_SCHEME],\ndirPath=$dirPath\n";
+
+// construction des entités à afficher en se limitant à une seule par géographie (définie par ses élitEtendus)
 // et en privilégiant la version la plus récente
 // rouge - versions périmées
 // vert - communes valides
@@ -104,15 +146,14 @@ foreach (PgSql::query($sql) as $tuple) {
   if (isset($elitss[$elitEtendus]))
     unset($overlays[$elitss[$elitEtendus]]);
   $overlays[$tuple['id']] = [
-    'path'=> "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF'])."/geojson.php?id=$tuple[id]",
+    'path'=> "$dirPath/geojson.php?id=$tuple[id]",
     'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD','ARM']) ? 'blue' : 'green'),
   ];
   $elitss[$elitEtendus] = $tuple['id'];
+  $defaultOverlayIds = [ $tuple['id'] ];
 }
-$dirPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF']);
-echo "PHP_SELF=$_SERVER[PHP_SELF],\ndirPath=$dirPath\n";
 $neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
-// Plan IGN V2 n'existe pas dans les DOM
+// Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
 $defaultBaseLayer = (substr($_GET['id'], 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
 echo "</pre>\n";
 ?>
@@ -147,7 +188,7 @@ echo "</pre>\n";
     );
     layer.bindTooltip(feature.properties.dnom + ' (' + feature.properties.id + ')');
   }
-  // affichage de liens pour les voisines
+  // affichage pour chaque voisines du lien vers index.php
   var onEachFeatureNB = function (feature, layer) {
     layer.bindPopup(
       '<b>voisine</b><br>'
@@ -218,8 +259,11 @@ foreach ($overlays as $overlayId => $overlay) {
       style: {color: 'lightGreen', weight: 5, opacity: 0.65}, minZoom: 0, maxZoom: 18, onEachFeature: onEachFeatureNB
     })
   };
-  map.addLayer(overlays['<?php echo $overlayId;?>']);
-
+<?php
+foreach ($defaultOverlayIds as $defaultOverlayId)
+  echo "map.addLayer(overlays['$defaultOverlayId']);\n";
+?>
+  
   L.control.layers(baseLayers, overlays).addTo(map);
   </script>
 </body>

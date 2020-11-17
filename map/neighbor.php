@@ -43,9 +43,11 @@ foreach ($sqls as $sql) {
     ];
   }
   if ($features) {
+    header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     die(json_encode(['type'=> 'FeatureCollection', 'features'=> $features], JSON_PRETTY_PRINT));
   }
 }
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 die(json_encode(['type'=> 'FeatureCollection', 'features'=> []]));
