@@ -58,9 +58,12 @@ doc: |
         - http://comhisto.geoapi.fr/jsonld  
       - ou aux mêmes URL que les URI en correspondant au format html
 journal: |
+  16-17/11/2020:
+    - extension
   13-15/11/2020:
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
 phpIncludes:
+  - /yamldoc/pub/comhisto/api/map.inc.php
 htmlFiles:

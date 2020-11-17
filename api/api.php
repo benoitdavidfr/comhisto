@@ -287,7 +287,10 @@ function api(string $path_info, array $accept): array {
     if (!isset(CONTEXTS[$contextId]))
       throw new HttpError("Erreur contexte $contextId inexistant", 404);
     else
-      return ['Content-Type'=> 'application/json'] + CONTEXTS[$contextId];
+      return [
+        'header'=> ['Content-Type'=> 'application/json'],
+        'body'=> CONTEXTS[$contextId],
+      ];
   }
 
   if ($path_info == '/status') { // Déclaration du thésaurus des statuts des entités de ComHisto
@@ -578,9 +581,12 @@ function api(string $path_info, array $accept): array {
     $geom = $tuple['geom'];
     unset($tuple['geom']);
     return [
-      'type'=> 'Feature',
-      'id'=> "http://comhisto.georef.eu/elits2020/$cinsee",
-      'geometry'=> json_decode($geom, true),
+      'header'=> ['Content-Type'=> 'application/geo+json'],
+      'body'=> [
+        'type'=> 'Feature',
+        'id'=> "http://comhisto.georef.eu/elits2020/$cinsee",
+        'geometry'=> json_decode($geom, true),
+      ],
     ];
   }
 
@@ -605,8 +611,11 @@ function api(string $path_info, array $accept): array {
       $tuple['id'] = "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
     }
     return [
-      '@id'=> "http://comhisto.georef.eu/codeInsee/$cinsee",
-      'versions'=> $tuples,
+      'header'=> ['Content-Type'=> 'application/geo+json'],
+      'body'=> [
+        '@id'=> "http://comhisto.georef.eu/codeInsee/$cinsee",
+        'versions'=> $tuples,
+      ],
     ];
   }
 
@@ -619,20 +628,22 @@ function api(string $path_info, array $accept): array {
             .($ddebut ? "ddebut='$ddebut'" : "ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null)");
   
     try {
-      if (!($tuples = PgSql::getTuples($sql)))
-        throw new HttpError(($ddebut ? "id $cinsee@$ddebut" :  "$cinsee/date=$_GET[date]")." not found in comhistog3", 404);
+      $tuples = PgSql::getTuples($sql);
     }
     catch (Exception $e) {
       echo "<pre>sql=$sql\n";
       echo $e->getMessage();
       throw new Exception($e->getMessage());
     }
+    if (!($tuples = PgSql::getTuples($sql)))
+      throw new HttpError(($ddebut ? "id $cinsee@$ddebut" :  "$cinsee/date=$_GET[date]")." not found in comhistog3", 404);
     $features = [];
     foreach ($tuples as $tuple) {
       foreach (['edebut','efin','erats','elits','geom'] as $prop)
         $tuple[$prop] = json_decode($tuple[$prop], true);
       $geom = $tuple['geom'];
       unset($tuple['geom']);
+      unset($tuple['id']);
       $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
       $features[] = [
         'type'=> 'Feature',
@@ -642,8 +653,11 @@ function api(string $path_info, array $accept): array {
       ];
     }
     return [
-      'type'=> 'FeatureCollection',
-      'features'=> $features,
+      'header'=> ['Content-Type'=> 'application/geo+json'],
+      'body'=> [
+        'type'=> 'FeatureCollection',
+        'features'=> $features,
+      ],
     ];
   }
 

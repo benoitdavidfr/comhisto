@@ -33,7 +33,11 @@ if ($url = ($_GET['url'] ?? '')) {
 
   $context = stream_context_create($opts);
   echo "url=$url\n";
-  $contents = file_get_contents($url, false, $context);
+  if (($contents = @file_get_contents($url, false, $context)) ===  FALSE) {
+    echo "<pre>Erreur de lecture de $url\nhttp_response_header = ";
+    print_r($http_response_header);
+    die();
+  }
   $array = json_decode($contents, true);
   echo "<pre>";
   echo //json_encode($array, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
