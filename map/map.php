@@ -8,6 +8,8 @@ journal: |
     - création
 classes:
 */
+//die("map.php ligne ".__LINE__."\n");
+
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/histelits.inc.php';
 require_once __DIR__.'/openpg.inc.php';
@@ -108,6 +110,7 @@ foreach (PgSql::query($sql) as $tuple) {
   $elitss[$elitEtendus] = $tuple['id'];
 }
 $dirPath = "http://$_SERVER[HTTP_HOST]".dirname($_SERVER['PHP_SELF']);
+echo "PHP_SELF=$_SERVER[PHP_SELF],\ndirPath=$dirPath\n";
 $neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
 // Plan IGN V2 n'existe pas dans les DOM
 $defaultBaseLayer = (substr($_GET['id'], 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";

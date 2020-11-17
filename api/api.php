@@ -4,106 +4,57 @@ name: api.php
 title: api/api.php - API d'accès à ComHisto
 doc: |
   L'objet de ce script est double:
-    1) définir et opérationaliser la définition d'URI pour les objets ComHisto
+    1) opérationaliser la définition d'URI pour les objets ComHisto
     2) mettre en oeuvre le cas d'usage de récupération de la géométrie de la commune/ERAT correspondant à un code Insee
        donné et à une date donnée.
+  La liste des motifs d'URI et d'URL est définie dans phpdoc.yaml
 
-  Identification des objets de ComHisto au travers d'URI et accès aux objets:
-    http://comhisto.georef.eu/ -> Doc de l'API
-    http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide de la commune/ERAT comme Feature GeoJSON
-      si elle existe, sinon Erreur 404
-    http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune/ERAT comme Feature GeoJSON
-      si elle existe, sinon Erreur 404
-    http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
-      si l'élit est encore valide alors retourne un Feature GeoJSON,
-      si l'élit a été remplacé alors retourne la liste des élits le remplacant (A VOIR),
-      si l'élit n'a jamais existé alors retourne une erreur 404
-    http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee, retourne la liste des versions de COM/ERAT
-      utilisant ce code
-    http://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut} -> URI de la version du code Insee,
-      retourne comme FeatureCollection GeoJSON les objets COM/ERAT
+  Ce script peut être exécuté directement en mode non CLI ou utilisé par inclusion dans un autre.
+  Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
-  Requêtes - Points d'entrée:
-    http://comhisto.geoapi.fr/ -> doc
-    http://comhisto.geoapi.fr/codeInsee/{cinsee} -> liste des versions sans accès à la géométrie
-    http://comhisto.geoapi.fr/codeInsee/{cinsee}?date={date} -> accès à la ou les 2 versions correspondant à cette date
-      comme FeatureCollection GeoJSON
-    http://comhisto.geoapi.fr/(communes|ERAT)/{cinsee}?date={date}
-      -> accès à la version correspondant à cette date comme Feature GeoJSON
+  Je décide dans les évènements de début d'utiliser l'URI valable à cette date et non l'URI de l'objet précédent
+  Par exemple:
+    type: Feature
+    id: 'http://comhisto.georef.eu/ERAT/01015/2016-01-01'
+    properties:
+        ddebut: '2016-01-01'
+        edebut:
+            devientDéléguéeDe: 'http://comhisto.georef.eu/COM/01015/2016-01-01'
+        dfin: null
+        efin: null
+        statut: COMD
+        dnom: Arbignieu
+    
+    devientDéléguéeDe: http://comhisto.georef.eu/COM/01015/2016-01-01
 
-  Les 2 ensembles d'URL sont compatibles.
-  Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/
-  sont mappés vers /prod/georef/yamldoc/pub/comhisto/api/api.php/
- 
+    J'aurais pu utiliser l'URI de l'objet précédent, ici http://comhisto.georef.eu/COM/01015/1943-01-01
+    mais dans certain cas cet objet n'existe pas et j'aurais été obligé de changer le code Insee
+
   Cas particuliers:
     - 44180/44225 - 
 journal: |
-  14/11/2020:
+  16-17/11/2020:
+    - ajout du traitement du format de sortie (en cours)
+      - le format de sortie peut être défini dans le paramètre HTTP Accept et dans une extension de l'URL
+      - cette seconde possibilité prend le pas sur la première
+    - mise en oeuvre des cartes sur comhisto.georef.eu
+      - revoir quelle version est affichée
+      - l'IHM pour afficher une version
+  14-15/11/2020:
     - remplacement des codes Insee par des URI
+    - ajout du contexte et définition d'URI pour les statuts
     - rendre les résultats conformes à JSON-LD ???
   13/11/2020:
     - création
 */
-{ // doc complémentaire
-/*
-  http://www.jenitennison.com/2010/02/27/versioning-uk-government-linked-data.html
-    http://{sector}.data.gov.uk/doc/{concept}/{identifier}/{version} 
-
-  Rappel motifs d'URI référentiel administratif http://admin.georef.eu :
-    - /regionmetro : découpage de la métropole en régions
-      - /{cinsee} : désignation d'une région
-      - /{cinsee}-{annee} : désignation d'une région au 1er janvier d'une année donnée
-    - /deptmetro : découpage de la métropole en départements
-      - /{cinsee} : désignation d'un département
-    - /dom : départements d'outre-mer
-      - /{cinsee} : désignation d'un DOM
-    - /com : autres espaces d'outre-mer
-      - /{cinsee} : désignation d'un espace OM
-    - /commune : découpage en communes
-      - /{cinsee} : désignation d'une commune
-      - /{cinsee}-{annee} : désignation d'une commune au 1er janvier d'une année donnée
-    - /dreal : liste des DREAL + 3 DRI IdF
-      - /{nom} : désignation d'une DREAL
-    - /deal : liste des DEAL
-      - /{nom} : désignation d'une DEAL
-    - /dirm : liste des DIRM
-      - /{nom} : désignation d'une DIRM
-    - /drom : liste des DROM
-      - /{nom} : désignation d'une DROM
-    - /dir : liste des DIR
-      - /{nom} : désignation d'une DIR
-    - /draaf : liste des DRAAF
-      - /{nom} : désignation d'une DRAAF
-    - /daaf : liste des DAAF
-      - /{nom} : désignation d'une DAAF
-    - /ddt : liste des DDT(M)
-      - /{cinsee} : désignation d'une DDT(M)
-    - /dtam : liste de la DTAM 975
-      - /975 : désignation de la DTAM 975
-    - /cr : liste des conseils régionaux + collectivités ayant ces attributions
-      - /{cinsee} : désignation d'un CR
-    - /cd : liste des conseils départementaux + collectivités ayant ces attributions
-      - /{cinsee} : désignation d'un CR
-    - /ct : liste des collectivités à statut spécial
-      - /{cinsee}
-    - /epci : liste des EPCI
-      - /{csirene}
-    - /ministere
-      - /environnement
-      - /logement
-      - /transport
-      - /agriculture
-journal: |
-  13/11/2020:
-    - création
-*/}
-
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/../map/openpg.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+
+class HttpError extends Exception {}; // sous-classe d'exceptions pour gérer les erreurs Http
 
 define('JSON_ENCODE_OPTIONS', JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
@@ -112,37 +63,27 @@ function showTrace(array $traces) {
   echo Yaml::dump($traces);
 }
 
-function httpError(int $code, string $message) { // Génère une erreur Http et affiche comme texte le message 
-  $httpErrorLabels = [
-    400 => 'Bad Request',
-    404 => 'Not Found',
-  ];
-  header("HTTP/1.1 $code ".$httpErrorLabels[$code] ?? 'Undefined http error');
-  header('Content-type: text/plain');
-  die ($message);
-}
-
 // si $field='dfin' alors retourne l'URI de la précédente version correspondant à cinsee avant ddebut
 // si $field='ddebut' alors retourne l'URI de l'objet correspondant à cinsee débutant à $ddebut
 // de préférence de type défini par type
 function makeUri(string $cinsee, string $field, string $ddebut, string $type=''): string {
-  $sql = "select type, ddebut from comhistog3
-          where cinsee='$cinsee' and $field='$ddebut'";
+  $sql = "select type, ddebut from comhistog3 where cinsee='$cinsee' and $field='$ddebut'";
   if (!($tuples = PgSql::getTuples($sql))) {
-    echo "<pre>";
     throw new Exception("comhistog3 non trouvé pour cinsee=$cinsee et $field=$ddebut");
   }
   //echo '$tuples = '; print_r($tuples);
+  //$baseUri = 'http://comhisto.georef.eu';'http://localhost/yamldoc/pub/comhisto/api/api.php'
+  $baseUri = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
   if ((count($tuples) == 1) || !$type) {
     $tuple = $tuples[0];
     $type = ($tuple['type']=='s') ? 'COM' : 'ERAT';
-    return "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
+    return "$baseUri/$type/$cinsee/$tuple[ddebut]";
   }
   else {
     foreach ($tuples as $tuple) {
       if ($tuple['type'] == $type) {
         $type = ($tuple['type']=='s') ? 'COM' : 'ERAT';
-        return "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
+        return "$baseUri/$type/$cinsee/$tuple[ddebut]";
       }
     }
   }
@@ -158,8 +99,13 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
       case 'changeDeNomPour': break;
       case 'aucun': break;
       
-      case 'changeDeCodePour':
-      case 'avaitPourCode': {
+      case 'avaitPourCode': { // Il faut prendre l'URI de la version précédente
+        $params = makeUri($params, 'dfin', $ddebut, 's');
+        break;
+      }
+      
+      case 'changeDeCodePour': {
+        $params = makeUri($params, 'ddebut', $ddebut, 's');
         break;
       }
       
@@ -211,57 +157,9 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
   }
 }
 
-/*// complète un ens. d'evts en remplacant les codes Insee par des Uri - SAUVE
-function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
-  foreach ($evts as $verb => &$params) {
-    echo "completeUriEvt($cinsee@$ddebut, $verb)<br>\n";
-    switch ($verb) {
-      case 'entreDansLeRéférentiel': break;
-      case 'changeDeNomPour': break;
-      case 'aucun': break;
-      
-      case 'changeDeCodePour':
-      case 'avaitPourCode': {
-        break;
-      }
-      
-      case 'absorbe':
-      case 'associe':
-      case 'prendPourDéléguées':
-      case 'gardeCommeRattachées':
-      case 'détacheCommeSimples':
-      case 'estModifiéeIndirectementPar': {
-        foreach ($params as $i => $param) {
-          $params[$i] = makeUri($param, 'dfin', $ddebut);
-        }
-        break;
-      }
-      
-      case 'seScindePourCréer': {
-        foreach ($params as $i => $param) {
-          $params[$i] = makeUri($param, 'ddebut', $ddebut);
-        }
-        break;
-      }
-
-      case 'sAssocieA':
-      case 'fusionneDans':
-      case 'devientDéléguéeDe':
-      case 'crééeCOMParScissionDe':
-      case 'seDétacheDe': {
-        $params = makeUri($params, 'dfin', $ddebut, 's');
-        break;
-      }
-      
-      default: {
-        throw new Exception("verbe $verb non traité dans completeUriEvt()");
-      }
-    }
-  }
-}*/
-
 // complète les URI pour un n-uplet, retourne geom
 function completeUriTuple(array &$tuple, string $cinsee): array {
+  $baseUri = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
   foreach (['edebut','efin','erats','elits','geom'] as $prop)
     if (isset($tuple[$prop]))
       $tuple[$prop] = json_decode($tuple[$prop], true);
@@ -270,17 +168,19 @@ function completeUriTuple(array &$tuple, string $cinsee): array {
   if (isset($tuple['efin'])) 
     completeUriEvt($tuple['efin'], $tuple['dfin'], $cinsee);
   if (isset($tuple['crat']))
-    $tuple['crat'] = "http://comhisto.georef.eu/COM/$tuple[crat]/$tuple[ddebut]";
-  foreach ($tuple['erats'] as $i => $erat)
-    $tuple['erats'][$i] = "http://comhisto.georef.eu/ERAT/$erat/$tuple[ddebut]";
-  if (isset($tuple['elits']))
-    foreach ($tuple['elits'] as $i => $elit)
-      $tuple['elits'][$i] = "http://comhisto.georef.eu/elits2020/$elit";
+    $tuple['crat'] = "$baseUri/COM/$tuple[crat]/$tuple[ddebut]";
+  foreach ($tuple['erats'] ?? [] as $i => $erat)
+    $tuple['erats'][$i] = "$baseUri/ERAT/$erat/$tuple[ddebut]";
+  foreach ($tuple['elits'] ?? [] as $i => $elit)
+    $tuple['elits'][$i] = "$baseUri/elits2020/$elit";
   $geom = $tuple['geom'] ?? [];
   unset($tuple['geom']);
+  if ($geom && ($geom['type'] == 'MultiPolygon') && (count($geom['coordinates']) == 1))
+    $geom = ['type'=> 'Polygon', 'coordinates'=> $geom['coordinates'][0]];
   return $geom;
 }
 
+//die("api.php ligne ".__LINE__."\n");
 if (php_sapi_name() == 'cli') { // Vérifie systématiquement completeUriTuple()
   $sql = "select cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom
           from comhistog3
@@ -298,211 +198,499 @@ if (php_sapi_name() == 'cli') { // Vérifie systématiquement completeUriTuple()
   die();
 }
 
-if (!($path_info = $_SERVER['PATH_INFO'] ?? null) || ($path_info == '/')) { // racine
-  $url = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
-  header('Content-Type: application/json');
-  die(json_encode([
-    'examples'=> "$url/examples",
-  ]));
-}
+// prend en paramètre le path_info et la liste des formats demandés (HTTP_ACCEPT)
+// si ok retourne un array avec d'une part un champ 'header' avec notamment un champ 'Content-Type'
+// et d'autre part un champ 'body' avec soit l'objet JSON à retourner, soit un texte.
+// Dans le second cas, peut aussi effectuer l'affichage et s'arrêter sans retour.
+// En cas d'erreur lance une exception HttpError avec le code d'erreur Http et le message à afficher
+function api(string $path_info, array $accept): array {
+  if (!$path_info || ($path_info == '/')) { // racine
+    $baseUrl = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
+    if (in_array('text/html', $accept)) {
+      require_once __DIR__.'/map.inc.php';
+      if (!isset($_GET['id']))
+        return ['header'=> ['Content-Type'=> 'text/html'], 'body'=> map()];
+      else
+        return ['header'=> ['Content-Type'=> 'text/html'], 'body'=> map($_GET['id'])];
+    }
+    else
+      return [
+        'header'=> ['Content-Type'=> 'application/json'],
+        'body'=> [
+          'examples'=> "$baseUrl/examples",
+          '_SERVER'=> $_SERVER,
+        ],
+      ];
+  }
 
-if ($path_info == '/examples') { // exemples pour effectuer les tests 
-  $url = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
-  header('Content-Type: application/json');
-  die(json_encode([
-    'examples'=> [
-      ''=> "$url",
-      '/COM'=> "$url/COM",
-      '/ERAT/01015'=> "$url/ERAT/01015",
-      '/COM/01015/2016-01-01'=> "$url/COM/01015/2016-01-01",
-      '/ERAT/01015/2016-01-01'=> "$url/ERAT/01015/2016-01-01",
-      '/ERAT/01015/2019-01-01 Erreur'=> "$url/ERAT/01015/2019-01-01",
-      '/ERAT/01015?date=2019-01-01'=> "$url/ERAT/01015?date=2019-01-01",
-      '/elits2020/01015'=> "$url/elits2020/01015",
-      '/codeInsee/01015'=> "$url/codeInsee/01015",
-      '/codeInsee/01015/2016-01-01 ok'=> "$url/codeInsee/01015/2016-01-01",
-      '/codeInsee/01015/2019-01-01 KO'=> "$url/codeInsee/01015/2019-01-01",
-      '/codeInsee/01015/2019-01-01?date=2019-01-01'=> "$url/codeInsee/01015?date=2019-01-01",
-    ],
-    '_SERVER'=> $_SERVER,
-  ]));
-}
-
-// ! /(COM|ERAT|elits2020|codeInsee)/{cinsee}(/{ddebut})?
-elseif (!preg_match('!^/(COM|ERAT|elits2020|codeInsee)(/(\d(\d|AB)\d\d\d))?(/(\d\d\d\d-\d\d-\d\d))?$!',
-     $path_info, $matches))
-  httpError(400, "Erreur $path_info non reconnu");
-
-$type = $matches[1];
-$cinsee = $matches[3] ?? null;
-$ddebut = $matches[6] ?? null;
-
-// http://comhisto.georef.eu/(COM|ERAT) -> liste des COM/ERAT 
-if (!$cinsee && in_array($type, ['COM','ERAT'])) {
-  $t = ($type=='COM') ? 's': 'r';
-  $sql = "select cinsee id, ddebut, statut, crat, erats, dnom
-          from comhistog3
-          where type='$t' and dfin is null";
-  try {
-    foreach (PgSql::getTuples($sql) as &$tuple) {
-      completeUriTuple($tuple, $tuple['id']);
-      $tuple['id'] = "http://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]";
-      $tuples[] = $tuple;
+  if ($path_info == '/examples') { // exemples pour effectuer les tests 
+    $baseUrl = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? $_SERVER['SCRIPT_NAME'] : '');
+    $examples = [
+      'doc'=> "$baseUrl",
+      '/ERAT/01015'=> "$baseUrl/ERAT/01015",
+      '/COM/01015/2016-01-01'=> "$baseUrl/COM/01015/2016-01-01",
+      '/ERAT/01015/2016-01-01'=> "$baseUrl/ERAT/01015/2016-01-01",
+      '/ERAT/01015/2019-01-01 Erreur'=> "$baseUrl/ERAT/01015/2019-01-01",
+      '/ERAT/01015?date=2019-01-01'=> "$baseUrl/ERAT/01015?date=2019-01-01",
+      '/elits2020/01015'=> "$baseUrl/elits2020/01015",
+      '/codeInsee/01015'=> "$baseUrl/codeInsee/01015",
+      '/codeInsee/01015/2016-01-01 ok'=> "$baseUrl/codeInsee/01015/2016-01-01",
+      '/codeInsee/01015/2019-01-01 KO'=> "$baseUrl/codeInsee/01015/2019-01-01",
+      '/codeInsee/01015/2019-01-01?date=2019-01-01'=> "$baseUrl/codeInsee/01015?date=2019-01-01",
+      '/codeInsee/44180'=> "$baseUrl/codeInsee/44180",
+      '/COM = liste des COM valides'=> "$baseUrl/COM",
+      '/contexts/skos = contexte skos'=> "$baseUrl/contexts/skos",
+      '/status = liste des statuts'=> "$baseUrl/status",
+      '/status/COM'=> "$baseUrl/status/COM",
+    ];
+    if (in_array('application/json', $accept))
+      return [
+        'header'=> [
+          'Content-Type'=> 'application/json',
+        ],
+        'body'=> [
+          'examples'=> $examples,
+        ]
+      ];
+    else {
+      $html = "<ul>\n";
+      foreach ($examples as $key => $value) {
+        $html .= "<li><a href='$value'>$key</a></li>\n";
+      }
+      $html .= "</ul>\n";
+      return [
+        'header'=> [
+          'Content-Type'=> 'text/html',
+        ],
+        'body'=> $html,
+      ];
     }
   }
-  catch (Exception $e) {
-    echo $e->getMessage();
-    showTrace($e->getTrace());
-    throw new Exception($e->getMessage());
-  }
-  header('Content-Type: application/json');
-  die(json_encode([
-    'id'=> "http://comhisto.georef.eu/$type",
-    'list'=> $tuples,
-  ], JSON_ENCODE_OPTIONS));
-}
 
-// http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de COM/ERAT comhisto
-//   retourne le Feature GeoJSON si elle existe, sinon Erreur 404
-// http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide COM/ERAT comhisto
-//   comme Feature GeoJSON si elle existe, sinon Erreur 404
-// http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
-//   -> accès à la version correspondant à cette date comme Feature GeoJSON
-if ($cinsee && in_array($type, ['COM','ERAT'])) {
-  $t = ($type=='COM') ? 's': 'r';
-  $sql = "select ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
-          from comhistog3
-          where ";
-  if ($ddebut) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la COM/ERAT
-    $sql .= "id='$t$cinsee@$ddebut'";
-  }
-  elseif (!isset($_GET['date'])) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
-    $sql .= "type='$t' and cinsee='$cinsee' and dfin is null";
-  }
-  else { // http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
-    $sql .= "type='$t' and cinsee='$cinsee'
-             and (ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null))";
-  }
-  
-  try {
-    if (!($tuples = PgSql::getTuples($sql))) {
-      echo "<pre>sql=$sql\n";
-      httpError(404,
-        ($ddebut ? "id $type$cinsee@$ddebut" :
-          (isset($_GET['date']) ? "$type$cinsee/date=$_GET[date]" :
-           "$type$cinsee"))
-        ." not found in comhistog3");
-    }
-  }
-  catch (Exception $e) {
-    echo "<pre>sql=$sql\n";
-    echo $e->getMessage();
-    throw new Exception($e->getMessage());
-  }
-  $tuple = $tuples[0];
-  $geom = completeUriTuple($tuple, $cinsee);
-  header('Content-Type: application/json');
-  die(json_encode([
-    'type'=> 'Feature',
-    'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
-    'properties'=> $tuple,
-    'geometry'=> $geom,
-  ], JSON_ENCODE_OPTIONS));
-}
-
-// http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
-//   si l'élit est encore valide alors retourne un Feature GeoJSON,
-//   si l'élit a été remplacé alors retourne la liste des élits le remplacant,
-//   si l'élit n'a jamais existé alors retourne une erreur 404
-if (($type == 'elits2020') && !$ddebut) {
-  //echo "http://comhisto.georef.eu/elits2020/{cinsee}<br>\n";
-  
-  $sql = "select cinsee, ST_AsGeoJSON(geom) geom from elit where cinsee='$cinsee'";
-  
-  try {
-    if (!($tuples = PgSql::getTuples($sql)))
-      httpError(404, "cinsee $cinsee not found in elit");
-  }
-  catch (Exception $e) {
-    echo "<pre>sql=$sql\n";
-    echo $e->getMessage();
-    throw new Exception($e->getMessage());
+  if (preg_match('!^/contexts/([^/]*)!', $path_info, $matches)) {
+    define('CONTEXTS', // Liste des contextes
+    [
+      'skos' => [
+        'dcterms' => 'http://purl.org/dc/terms/',
+        'dc' => 'http://purl.org/dc/elements/1.1/',
+        'skos' => 'http://www.w3.org/2004/02/skos/core#',
+        'skos:broader' => ['@type'=> '@id'],
+        'skos:inScheme' => ['@type'=> '@id'],
+        'skos:related' => ['@type'=> '@id'],
+        'skos:narrower' => ['@type'=> '@id'],
+        'skos:hasTopConcept' => ['@type'=> '@id'],
+        'skos:topConceptOf' => ['@type'=> '@id'],
+      ],
+    ]
+    );
+    $contextId = $matches[1];
+    if (!isset(CONTEXTS[$contextId]))
+      throw new HttpError("Erreur contexte $contextId inexistant", 404);
+    else
+      return ['Content-Type'=> 'application/json'] + CONTEXTS[$contextId];
   }
 
-  $tuple = $tuples[0];
-  $geom = $tuple['geom'];
-  unset($tuple['geom']);
-  header('Content-Type: application/json');
-  die(json_encode([
-    'type'=> 'Feature',
-    'id'=> "http://comhisto.georef.eu/elits2020/$cinsee",
-    'geometry'=> json_decode($geom, true),
-  ]));
-}
-
-// http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee, retourne la liste des objets utilisant ce code
-// http://comhisto.geoapi.fr/codeInsee/{cinsee} -> liste des versions
-if (($type == 'codeInsee') && !$ddebut && !isset($_GET['date'])) { // /codeInsee/{cinsee} -> retourne liste objets avec code
-  //echo "/codeInsee/{cinsee}<br>\n";
-  $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom from comhistog3 where cinsee='$cinsee'";
-  try {
-    if (!($tuples = PgSql::getTuples($sql)))
-      httpError(404, "cinsee $cinsee not found in comhistog3");
-  }
-  catch (Exception $e) {
-    echo "<pre>sql=$sql\n";
-    echo $e->getMessage();
-    throw new Exception($e->getMessage());
-  }
-
-  foreach ($tuples as &$tuple) {
-    $geom = completeUriTuple($tuple, $cinsee);
-    $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
-    $tuple['id'] = "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
-  }
-  header('Content-Type: application/json');
-  die(json_encode([
-    '@id'=> "http://comhisto.georef.eu/codeInsee/$cinsee",
-    'versions'=> $tuples,
-  ]));
-}
-
-// /codeInsee/{cinsee}/{ddebut} || /codeInsee/{cinsee}?date={date}
-if (($type == 'codeInsee') && ($ddebut || isset($_GET['date']))) {
-  // -> accès à la ou les 2 versions correspondant à cette date comme FeatureCollection GeoJSON
-  $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
-          from comhistog3
-          where cinsee='$cinsee' and "
-          .($ddebut ? "ddebut='$ddebut'" : "ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null)");
-  
-  try {
-    if (!($tuples = PgSql::getTuples($sql)))
-      httpError(404, ($ddebut ? "id $cinsee@$ddebut" :  "$cinsee/date=$_GET[date]")." not found in comhistog3\n");
-  }
-  catch (Exception $e) {
-    echo "<pre>sql=$sql\n";
-    echo $e->getMessage();
-    throw new Exception($e->getMessage());
-  }
-  $features = [];
-  foreach ($tuples as $tuple) {
-    foreach (['edebut','efin','erats','elits','geom'] as $prop)
-      $tuple[$prop] = json_decode($tuple[$prop], true);
-    $geom = $tuple['geom'];
-    unset($tuple['geom']);
-    $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
-    $features[] = [
-      'type'=> 'Feature',
-      'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
-      'properties'=> $tuple,
-      'geometry'=> $geom,
+  if ($path_info == '/status') { // Déclaration du thésaurus des statuts des entités de ComHisto
+    return [
+      'header'=> [
+        'Content-Type'=> 'application/ld+json',
+      ],
+      'body'=> [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status',
+        'skos:prefLabel' => [
+          'fr' => "Thésaurus des statuts des entités de ComHisto",
+        ],
+        'skos:hasTopConcept'=> [
+          'http://comhisto.georef.eu/status/COM',
+          'http://comhisto.georef.eu/status/ERAT',
+        ],
+      ],
     ];
   }
-  header('Content-Type: application/json');
-  die(json_encode([
-    'type'=> 'FeatureCollection',
-    'features'=> $features,
-  ]));
+
+  if (preg_match('!^/status/([^/]*)!', $path_info, $matches)) {
+    define('STATUS_CONCEPTS', // Définition des statuts des entités de ComHisto
+    [
+      'COM' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/COM',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune"
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:topConceptOf' => 'http://comhisto.georef.eu/status',
+        'skos:narrower' => [
+          'http://comhisto.georef.eu/status/BASE',
+          'http://comhisto.georef.eu/status/ASSO',
+          'http://comhisto.georef.eu/status/NOUV',
+          'http://comhisto.georef.eu/status/CARM',
+        ],
+      ],
+      'BASE' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/BASE',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "commune de base, cad ni associée, ni déléguée et n'ayant aucune entité rattachée",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/COM',
+        ],
+      ],
+      'ASSO' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/ASSO',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune ayant des communes associées (association)",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/COM',
+        ],
+      ],
+      'NOUV' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/NOUV',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune ayant des communes déléguées (commune nouvelle)",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/COM',
+        ],
+      ],
+      'CARM' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/CARM',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune ayant des arrondissements municipaux",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/COM',
+        ],
+      ],
+      'ERAT' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/ERAT',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Entité rattachée"
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:topConceptOf' => 'http://comhisto.georef.eu/status',
+        'skos:narrower' => [
+          'http://comhisto.georef.eu/status/COMA',
+          'http://comhisto.georef.eu/status/COMD',
+          'http://comhisto.georef.eu/status/ARM',
+        ],
+      ],
+      'COMA' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/COMA',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune associée",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/ERAT',
+        ],
+      ],
+      'COMD' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/COMD',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Commune déléguée",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/ERAT',
+        ],
+      ],
+      'ARM' => [
+        '@context' => 'http://comhisto.georef.eu/contexts/skos',
+        '@id' => 'http://comhisto.georef.eu/status/ARM',
+        '@type' => 'skos:Concept',
+        'skos:prefLabel'=> [
+          '@language' => 'fr',
+          '@value' => "Arrondissement municipal",
+        ],
+        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:broader' => [
+          'http://comhisto.georef.eu/status/ERAT',
+        ],
+      ],
+    ]
+    );
+    $statusId = $matches[1];
+    if ($statusDef = (STATUS_CONCEPTS[$statusId] ?? null))
+      return [
+        'header'=> ['Content-Type'=> 'application/ld+json'],
+        'body'=> $statusDef,
+      ];
+    else
+      throw new HttpError("Erreur statut $statusId inexistant", 404);
+  }
+
+  // ! /(COM|ERAT|elits2020|codeInsee)/{cinsee}(/{ddebut})?
+  elseif (!preg_match('!^/(COM|ERAT|elits2020|codeInsee)(/(\d(\d|AB)\d\d\d))?(/(\d{4,4}-\d\d-\d\d))?$!',
+       $path_info, $matches))
+    throw new HttpError("Erreur $path_info non reconnu", 400);
+
+  $type = $matches[1];
+  $cinsee = $matches[3] ?? null;
+  $ddebut = $matches[6] ?? null;
+
+  // http://comhisto.georef.eu/(COM|ERAT) -> liste des COM|ERAT 
+  if (!$cinsee && in_array($type, ['COM','ERAT'])) {
+    $t = ($type=='COM') ? 's': 'r';
+    $sql = "select cinsee id, ddebut, statut, ".(($type=='COM') ? 'erats' : 'crat').", dnom
+            from comhistog3
+            where type='$t' and dfin is null";
+    try {
+      foreach (PgSql::getTuples($sql) as &$tuple) {
+        completeUriTuple($tuple, $tuple['id']);
+        $tuple['id'] = "http://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]";
+        $tuples[] = $tuple;
+      }
+    }
+    catch (Exception $e) {
+      echo "<pre>sql=$sql</pre>\n";
+      echo $e->getMessage();
+      showTrace($e->getTrace());
+      throw new Exception($e->getMessage());
+    }
+    return [
+      'header'=> ['Content-Type'=> 'application/json'],
+      //'Content-Type'=> 'application/ld+json',
+      'body'=> [
+        '@context' => 'http://comhisto.georef.eu/contexts/rdf',
+        '@id'=> "http://comhisto.georef.eu/$type",
+        'list'=> $tuples,
+      ],
+    ];
+  }
+
+  // http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de COM/ERAT comhisto
+  //   retourne le Feature GeoJSON si elle existe, sinon Erreur 404
+  // http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide COM/ERAT comhisto
+  //   comme Feature GeoJSON si elle existe, sinon Erreur 404
+  // http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
+  //   -> accès à la version correspondant à cette date comme Feature GeoJSON
+  if ($cinsee && in_array($type, ['COM','ERAT'])) {
+    $t = ($type=='COM') ? 's': 'r';
+    if (in_array('text/html', $accept) && !isset($_GET['date'])) {
+      require_once __DIR__.'/map.inc.php';
+      return [
+        'header'=> ['Content-Type'=> 'text/html'],
+        'body'=> map(!$ddebut ? $cinsee : "$t$cinsee@$ddebut"),
+      ];
+    }
+    $sql = "select ddebut, edebut, dfin, efin, statut, ".(($type=='COM') ? 'erats' : 'crat').", elits, dnom,
+              ST_AsGeoJSON(geom) geom
+            from comhistog3
+            where ";
+    if ($ddebut) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la COM/ERAT
+      $sql .= "id='$t$cinsee@$ddebut'";
+    }
+    elseif (!isset($_GET['date'])) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
+      $sql .= "type='$t' and cinsee='$cinsee' and dfin is null";
+    }
+    else { // http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
+      $sql .= "type='$t' and cinsee='$cinsee' and (ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null))";
+    }
+  
+    if (!($tuples = PgSql::getTuples($sql))) {
+      //echo "<pre>sql=$sql\n";
+      $message = ($ddebut ? "id $type$cinsee@$ddebut" :
+            (isset($_GET['date']) ? "$type$cinsee/date=$_GET[date]" : "$type$cinsee"))
+                  ." not found in comhistog3";
+      throw new HttpError($message, 404);
+    }
+    $tuple = $tuples[0];
+    $geom = completeUriTuple($tuple, $cinsee);
+    try {
+      $replaces = makeUri($cinsee, 'dfin', $tuple['ddebut'], '');
+    }
+    catch (Exception $e) {
+      $replaces = null;
+    }
+    $isReplacedBy = $tuple['dfin'] ? makeUri($cinsee, 'ddebut', $tuple['dfin'], '') : null;
+    return [
+      'header'=> ['Content-Type'=> 'application/geo+json'],
+      'body'=> [
+        'type'=> 'Feature',
+        'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+        'properties'=> [
+          'created'=> $tuple['ddebut'],
+          'startEvent'=> $tuple['edebut'],
+          'deleted'=> $tuple['dfin'],
+          'endEvent'=> $tuple['efin'],
+          'replaces' => $replaces,
+          'isReplacedBy'=> $isReplacedBy,
+        ]
+        + ['status'=> "http://comhisto.georef.eu/status/$tuple[statut]"]
+        + (isset($tuple['crat']) ? ['crat'=> $tuple['crat']] : [])
+        + (isset($tuple['erats']) ? ['erats'=> $tuple['erats']] : [])
+        + [
+          'elits'=> $tuple['elits'],
+          'name'=> $tuple['dnom'],
+        ],
+        'geometry'=> $geom,
+      ]
+    ];
+  }
+
+  // http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
+  //   si l'élit est encore valide alors retourne un Feature GeoJSON,
+  //   si l'élit a été remplacé alors retourne la liste des élits le remplacant,
+  //   si l'élit n'a jamais existé alors retourne une erreur 404
+  if (($type == 'elits2020') && !$ddebut) {
+    //echo "http://comhisto.georef.eu/elits2020/{cinsee}<br>\n";
+    $sql = "select cinsee, ST_AsGeoJSON(geom) geom from elit where cinsee='$cinsee'";
+    try {
+      if (!($tuples = PgSql::getTuples($sql)))
+        throw new HttpError("cinsee $cinsee not found in elit", 404);
+    }
+    catch (Exception $e) {
+      echo "<pre>sql=$sql\n";
+      echo $e->getMessage();
+      throw new Exception($e->getMessage());
+    }
+
+    $tuple = $tuples[0];
+    $geom = $tuple['geom'];
+    unset($tuple['geom']);
+    return [
+      'type'=> 'Feature',
+      'id'=> "http://comhisto.georef.eu/elits2020/$cinsee",
+      'geometry'=> json_decode($geom, true),
+    ];
+  }
+
+  // http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee, retourne la liste des objets utilisant ce code
+  // http://comhisto.geoapi.fr/codeInsee/{cinsee} -> liste des versions
+  if (($type == 'codeInsee') && !$ddebut && !isset($_GET['date'])) { // /codeInsee/{cinsee} -> retourne liste objets avec code
+    //echo "/codeInsee/{cinsee}<br>\n";
+    $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom from comhistog3 where cinsee='$cinsee'";
+    try {
+      if (!($tuples = PgSql::getTuples($sql)))
+        throw new HttpError("cinsee $cinsee not found in comhistog3", 404);
+    }
+    catch (Exception $e) {
+      echo "<pre>sql=$sql\n";
+      echo $e->getMessage();
+      throw new Exception($e->getMessage());
+    }
+
+    foreach ($tuples as &$tuple) {
+      $geom = completeUriTuple($tuple, $cinsee);
+      $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
+      $tuple['id'] = "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
+    }
+    return [
+      '@id'=> "http://comhisto.georef.eu/codeInsee/$cinsee",
+      'versions'=> $tuples,
+    ];
+  }
+
+  // /codeInsee/{cinsee}/{ddebut} || /codeInsee/{cinsee}?date={date}
+  if (($type == 'codeInsee') && ($ddebut || isset($_GET['date']))) {
+    // -> accès à la ou les 2 versions correspondant à cette date comme FeatureCollection GeoJSON
+    $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
+            from comhistog3
+            where cinsee='$cinsee' and "
+            .($ddebut ? "ddebut='$ddebut'" : "ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null)");
+  
+    try {
+      if (!($tuples = PgSql::getTuples($sql)))
+        throw new HttpError(($ddebut ? "id $cinsee@$ddebut" :  "$cinsee/date=$_GET[date]")." not found in comhistog3", 404);
+    }
+    catch (Exception $e) {
+      echo "<pre>sql=$sql\n";
+      echo $e->getMessage();
+      throw new Exception($e->getMessage());
+    }
+    $features = [];
+    foreach ($tuples as $tuple) {
+      foreach (['edebut','efin','erats','elits','geom'] as $prop)
+        $tuple[$prop] = json_decode($tuple[$prop], true);
+      $geom = $tuple['geom'];
+      unset($tuple['geom']);
+      $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
+      $features[] = [
+        'type'=> 'Feature',
+        'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+        'properties'=> $tuple,
+        'geometry'=> $geom,
+      ];
+    }
+    return [
+      'type'=> 'FeatureCollection',
+      'features'=> $features,
+    ];
+  }
+
+  throw new HttpError("Erreur requête non interprétée", 400);
 }
 
-httpError(400, "Erreur requête non interprétée\n");
+if (!$_SERVER['SCRIPT_NAME']) { // execution http://comhisto.georef.eu/
+  if (in_array($_SERVER['PATH_INFO'], ['/map.php','/geojson.php','/neighbor.php'])) {
+    require __DIR__."/../map$_SERVER[PATH_INFO]";
+    die();
+  }
+  elseif (substr($_SERVER['PATH_INFO'],0,9) == '/leaflet/') {
+    $pos = strrpos($_SERVER['PATH_INFO'], '.');
+    if ($pos) {
+      $ext = substr($_SERVER['PATH_INFO'], $pos+1);
+    }
+    //echo "pos=$pos, ext=$ext\n";
+    if ($ext == 'css')
+      header('Content-Type: text/css');
+    if ($ext == 'js')
+      header('Content-Type: text/javascript');
+    die(file_get_contents(__DIR__.'/../map'.$_SERVER['PATH_INFO']));
+  }
+  elseif ($_SERVER['PATH_INFO']<>'/') {
+    echo "<pre>"; print_r($_SERVER);
+    die("Erreur ligne ".__LINE__);
+  }
+}
+if ((basename(__FILE__) == basename($_SERVER['SCRIPT_NAME'])) || !$_SERVER['SCRIPT_NAME']) { // Exécution lorsque le script est appelé directement
+  //echo "<pre>"; print_r($_SERVER); die();
+  try {
+    $accept = explode(',', $_SERVER['HTTP_ACCEPT'] ?? '');
+    $result = api($_SERVER['PATH_INFO'] ?? '', $accept);
+    header('Content-Type: '.$result['header']['Content-Type']);
+    if (in_array($result['header']['Content-Type'], ['application/json','application/ld+json','application/geo+json'])) {
+      die(json_encode($result['body'], JSON_ENCODE_OPTIONS));
+    }
+    elseif ($result['header']['Content-Type']=='text/html') {
+      die($result['body']);
+    }
+  } catch (HttpError $e) {
+    define('HTTP_ERROR_LABELS', [
+      400 => 'Bad Request',
+      404 => 'Not Found',
+    ]);
+    header('HTTP/1.1 '.$e->getCode().' '.(HTTP_ERROR_LABELS[$e->getCode()] ?? 'Undefined http error'));
+    header('Content-type: text/plain');
+    die($e->getMessage());
+  }
+}

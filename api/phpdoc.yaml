@@ -1,8 +1,64 @@
 title: comhisto/api - déf. des URI + API
 path: /yamldoc/pub/comhisto/api
 doc: |
+  Identification des objets de ComHisto au travers d'URI et accès aux objets:
+    De manière générale les URI ont la forme: http://{domain}.georef.eu/{concept}/{identifier}/{version}.{format}
+    Pour comhisto, le domaine est comhisto
+    Les motifs d'URI sont:
+      http://comhisto.georef.eu/ -> URI de référence et doc de la base et de l'API
+      http://comhisto.georef.eu/(COM|ERAT) -> liste des objets COM|ERAT valides avec formats JSON-LD ou Html
+      http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide de la commune|ERAT
+        avec formats JSON ou Html, si elle existe retourne en JSON un Feature GeoJSON, en Html une carte, sinon Erreur 404
+      http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune/ERAT
+        avec formats JSON ou Html, si elle existe retourne en JSON un Feature GeoJSON, en Html une carte, sinon Erreur 404
+      http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
+        si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
+        si l'élit a été remplacé alors retourne la liste des élits le remplacant (A VOIR),
+        si l'élit n'a jamais existé alors retourne une erreur 404
+      http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee,
+        retourne en JSON la liste des versions de COM|ERAT correspondant à {cinsee},
+        en Html la carte des versions de COM|ERAT correspondant à ce code,
+        si {cinsee} invalide retourne une erreur 404
+      http://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut} -> URI de la version du code Insee,
+        retourne comme FeatureCollection GeoJSON les objets COM|ERAT ? codeInsee ?
+      http://comhisto.georef.eu/status -> URI du thésaurus des statuts, retourne en JSON un skos:ConceptScheme
+      http://comhisto.georef.eu/status/{status} -> URI d'un statut, retourne un skos:Concept en JSON ou erreur 404
+      http://comhisto.georef.eu/contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
+
+  Traitements - Points d'entrée:
+    http://comhisto.geoapi.fr/ -> doc
+    http://comhisto.geoapi.fr/codeInsee/{cinsee}?date={date} -> accès à la ou les 2 versions correspondant à cette date
+      en JSON comme FeatureCollection GeoJSON, en Html comme carte sinon erreur 404
+    http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
+      -> accès à la version correspondant à cette date en JSON comme Feature GeoJSON, en Html comme carte, sinon erreur 404
+    http://comhisto.geoapi.fr/jsonld -> affiche en HTML l'affichage de la carte incluant des données liées
+
+  Les 2 ensembles d'URL sont compatibles.
+  Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/
+  sont mappés vers /prod/georef/yamldoc/pub/comhisto/api/api.php/
+  
+  - http://comhisto.georef.eu/ correspond à des URI qui identifient des objets pérennes
+  - http://comhisto.geoapi.fr/ correspond à des traitements qui ne correspondent pas à un objet pérenne
+  
+  Publication comme données liées:
+    - une version d'entité
+      - est un objet de type http://schema.org/City
+      - et porte en outre la propriété https://schema.org/temporalCoverage (prévue pour https://schema.org/CreativeWork)
+        - qui utilise https://en.wikipedia.org/wiki/ISO_8601#Time_intervals
+      - une autre possibilité serait d'utiliser la propriété hasTime de https://www.w3.org/TR/owl-time/
+        - mais elle a moins de chance d'être comprise par Google
+    - le principe de publication est d'exposer un objet JSON-LD sur la page HTML représentant une entité
+      - faire évoluer l'outil map avec
+        - la page racine de map correspondant à http://comhisto.georef.eu/
+        - la page actuelle par code Insee correspondant à http://comhisto.georef.eu/codeInsee/{cinsee}
+          qui quand on clique sur une date ou sur nomCommeDéléguée donne accès à
+        - une page par version d'entité correspondant à http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} 
+          - la carte affiche par défaut cette version d'entité ou une géographie identique
+      - cette appli pourrait être publiée à l'adresse:
+        - http://comhisto.geoapi.fr/jsonld  
+      - ou aux mêmes URL que les URI en correspondant au format html
 journal: |
-  13/11/2020:
+  13-15/11/2020:
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
