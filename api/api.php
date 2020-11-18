@@ -40,7 +40,7 @@ journal: |
     - mise en oeuvre des cartes sur comhisto.georef.eu
       - -->> revoir la version affichée
       - --> améliorer l'IHM pour afficher une version particulière
-    - -->> intégrer le JSOn-LD dans le Html
+    - -->> intégrer le JSON-LD dans le Html
   14-15/11/2020:
     - remplacement des codes Insee par des URI
     - ajout du contexte et définition d'URI pour les statuts

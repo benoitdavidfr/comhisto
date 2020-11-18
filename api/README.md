@@ -2,11 +2,12 @@
 
 L'URL de base de l'API est https://comhisto.georef.eu
 
-Les appels peuvent être effectués soit pour obtenir un affichage Html, soit pour obtenir des données en JSON,
-en fonction du paramètre HTTP Accept.
-Les documents Html contiennent une description JSON-LD de l'objet référencé.ion JSON-LD des données.
+Les appels retournent soit un affichage Html, soit des données en JSON, en fonction du paramètre Accept de la requête HTTP.
+Les documents Html contiennent d'une part une description JSON-LD de l'entité demandée conformément
+au principe de publication des donnée liées et,
+d'autre part, une carte Leaflet de l'entité.
 
-L'API expose les points d'accès suivants :
+L'API expose principalement les points d'accès suivants :
 
 - `/` : racine fournissant une documentation
 - `/COM/{cinsee}/{ddebut}` : version de la commune ayant pour code Insee {cinsee} et débutant à {ddebut}
