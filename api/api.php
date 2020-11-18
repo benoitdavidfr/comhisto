@@ -33,13 +33,14 @@ doc: |
   Cas particuliers:
     - 44180/44225 - 
 journal: |
+  18/11/2020:
+    - fusion map.inc.php avec ../map/index.php
+    - ajustement
   16-17/11/2020:
     - ajout du traitement du format de sortie (en cours)
       - le format de sortie peut être défini dans le paramètre HTTP Accept et dans une extension de l'URL
       - cette seconde possibilité prend le pas sur la première
     - mise en oeuvre des cartes sur comhisto.georef.eu
-      - -->> revoir la version affichée
-      - --> améliorer l'IHM pour afficher une version particulière
     - -->> intégrer le JSON-LD dans le Html
   14-15/11/2020:
     - remplacement des codes Insee par des URI
@@ -515,7 +516,7 @@ function api(string $path_info, array $accept): array {
       require_once __DIR__.'/../map/index.php';
       return [
         'header'=> ['Content-Type'=> 'text/html'],
-        'body'=> map(!$ddebut ? $cinsee : "$t$cinsee@$ddebut"),
+        'body'=> map($_GET['id'] ?? (!$ddebut ? "$t$cinsee" : "$t$cinsee@$ddebut")),
       ];
     }
     $sql = "select ddebut, edebut, dfin, efin, statut, ".(($type=='COM') ? 'erats' : 'crat').", elits, dnom,

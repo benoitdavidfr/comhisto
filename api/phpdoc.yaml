@@ -58,6 +58,8 @@ doc: |
         - http://comhisto.geoapi.fr/jsonld  
       - ou aux mêmes URL que les URI en correspondant au format html
 journal: |
+  18/11/2020:
+    - suppression de map.inc.php remplacé par l'inclusion de ../map/index.php pour éviter une duplication de code
   16-17/11/2020:
     - extension
   13-15/11/2020:
@@ -65,5 +67,4 @@ journal: |
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
 phpIncludes:
-  - /yamldoc/pub/comhisto/api/map.inc.php
 htmlFiles:

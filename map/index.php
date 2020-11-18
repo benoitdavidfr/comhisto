@@ -20,13 +20,18 @@ doc: |
   Comme script prend normalement un paramètre GET id correspondant soit à un code Insee soit à une partie du nom
   de l'entité recherchée.
   Si ce paramètre est absent alors affiche le formulaire de recherche.
+  Si le paramètre ne correspond pas à un code Insee ou à l'id d'une version alors recherche des entités dont le nom
+  contient cette chaine.
   N'utilise pas de paramètre en PATH_INFO
 
-  Le formulaire fait appel au même script en utilisant le paramètre GET id
-  Le script crée un iframe pour la carte qui utilise map.php dans le même répertoire que index.php
+  Le formulaire fait appel au même script (par $_SERVER[SCRIPT_NAME]) en utilisant le paramètre GET id
+  Le script crée un iframe pour la carte qui utilise map.php dans le répertoire ../map/ de $_SERVER[SCRIPT_NAME]
 journal: |
   18/11/2020:
     - fusion de ../api/map.inc.php avec map/index.php
+    - ajout de la possibilité de clicker sur chaque date pour désigner une version particulière
+      (sauf entités rattachées propres)
+    - définition de la couche affichée initialement
   11-12/11/2020:
     - création
 */
@@ -46,8 +51,9 @@ function supprimeAccents(string $str): string {
 	return str_replace($search, $replace, $str);
 }
 
-function map(string $id=''): string {
-  echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
+function map(string $id=''): string { // contient la plupart du code pour pouvoir être utilisée par ../api
+  //echo "map($id)<br>\n";
+  //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
   $cinsee = !$id ? '' : ((strlen($id) == 5) ? $id : substr($id, 1, 5));
   //echo "map($id), cinsee=$cinsee<br>\n";
@@ -66,12 +72,23 @@ function map(string $id=''): string {
   }
   elseif ($cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee)) { // si id est un code Insee
     // alors affichage des histelits correspondants
+    // modif des clés date pour qu'elles soient dans un second temps clickables
+    foreach ($cluster as $cinsee2 => &$histelit) {
+      foreach ($histelit as $ddebut => $version) {
+        $type = in_array($version['état']['statut'] ?? '', ['COMA','COMD','ARM']) ? 'r' : 's';
+        $histelit["$type$cinsee2@$ddebut"] = $histelit[$ddebut];
+        unset($histelit[$ddebut]);
+      }
+    }
     $yaml = Yaml::dump($cluster, 3, 2);
-    $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\1</a>", $yaml);
+    // remplacement des codes Insee par un href vers ce code Insee 
+    $yaml = preg_replace("!(\d[\dAB]\d\d\d)('?:)!", "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\1</a>\\2", $yaml);
+    // remplacement des dates par un href vers l'id de la version correspondante
+    $yaml = preg_replace('!([sr]\d[\dAB]\d\d\d@([^:]+)):!', "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\2</a>:", $yaml);
     $dirname = dirname($_SERVER['SCRIPT_NAME']); // répertoire du script dans le serveur Http
     echo "<table><tr>";
     echo "<td valign='top'>",
-      "<iframe id='map' title='map' width='700' height='650' src='$dirname/../map/map.php?id=$cinsee'></iframe>",
+      "<iframe id='map' title='map' width='700' height='650' src='$dirname/../map/map.php?id=$id'></iframe>",
       "</td>\n";
     echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
     echo "</tr></table>\n";
@@ -107,6 +124,7 @@ function map(string $id=''): string {
   die();
 }
 
-if (basename(__FILE__) == basename($_SERVER['SCRIPT_NAME'])) { // Exécution lorsque le script est appelé directement
+// Exécution lorsque le script est appelé directement et pas inclus dans ../api/api.php
+if (basename(__FILE__) == basename($_SERVER['SCRIPT_NAME'])) {
   map($_GET['id'] ?? '');
 }

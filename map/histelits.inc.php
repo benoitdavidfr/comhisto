@@ -76,7 +76,7 @@ class Histelits extends AutoDescribed {
     $elitEtendus = [];
     foreach (self::$all[$cinsee][$ddebut]['élits'] as $elit)
       $elitEtendus[$elit] = 1;
-    if (in_array($statut, ['ASSO','NOUV','CARM'])) {
+    if (in_array($statut, ['COM','ASSO','NOUV','CARM'])) {
       foreach (self::$all[$cinsee][$ddebut]['erat'] ?? [] as $erat) {
         foreach (self::$all[$erat][$ddebut]['élits'] ?? [] as $elit) // petit bug, je n'ai pas forcément l'erat à cette date, ex 69123
           $elitEtendus[$elit] = 1;

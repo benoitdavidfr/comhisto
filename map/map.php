@@ -4,7 +4,15 @@ name: map.php
 title: map/map.php - génère la carte Leaflet appelée avec un code Insee en paramètre
 doc: |
   Script appelé dans un iframe pour générer une carte Leaflet
-  Il est toujours appelé avec un paramètre GET id qui est le code Insee d'une entité.
+  Il est toujours appelé avec un paramètre GET id qui est :
+    - soit le code Insee d'une entité,
+    - soit l'id d'une version,
+    - soit un code Insee précédé de 's' ou 'r'
+  Les entités appartenant au cluster sont créées comme couche (overlay) Leaflet.
+  Si le paramètre est un code Insee alors est affichée une des entités les plus récentes de ce code Insee.
+  Si le paramètre est l'id d'une version alors cette version ou une autre ayant même géographie est affichée.
+  Si l'id est un code Insee précédé de 's' ou 'r' alors est affichée l'entité la plus récente de ce code Insee
+  correspondant à ce type.
   
   Script utilisé soit depuis ./index.php:
     en localhost:
@@ -33,7 +41,7 @@ doc: |
 
 journal: |
   18/11/2020:
-    - utilisation
+    - utilisation des 3 différents type de paramètres
   17/11/2020:
     - adaptation pour utilisation avec l'API
   11-12/11/2020:
@@ -107,7 +115,9 @@ if (!isset($_GET['id']) || !$_GET['id']) { // erreur si le paramètre id n'est p
   die("Erreur dans map.php, paramètre id non défini ou vide");
 }
 
-$cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $_GET['id']); // génération du cluster
+$id = $_GET['id'];
+$cinsee = (strlen($id) == 5) ? $id : substr($id, 1, 5);
+$cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee); // génération du cluster
 // Calcul du rectangle englobant
 $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
         from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";
@@ -129,14 +139,22 @@ $dirPath = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]".dirname($_SERVER['SC
 //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME],\ndirPath=$dirPath\n";
 //echo "REQUEST_SCHEME=$_SERVER[REQUEST_SCHEME],\ndirPath=$dirPath\n";
 
-// construction des entités à afficher en se limitant à une seule par géographie (définie par ses élitEtendus)
-// et en privilégiant la version la plus récente
-// rouge - versions périmées
-// vert - communes valides
-// bleu - entités rattachées valides
-$layers = []; // [layerId => ['path'=> path, 'color'=> color]]
-$elitss = []; // [elitsEtendu => $layerId]
-$sql = "select id, ddebut, dfin, statut from comhistog3
+// construction des couches visualisables (overlays) en se limitant à une seule entité par géographie
+// (définie par ses élitEtendus) et en privilégiant la version la plus récente.
+// Utilisation de la légende:
+//   vert - communes valides
+//   bleu - entités rattachées valides
+//   rouge - versions périmées
+// La couche affichée par défaut est
+// si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
+// sinon la couche d'une entité dont la géographie est la même que celle demandée
+$type = ($id <> $cinsee) ? substr($id, 0, 1) : ''; // type de l'entité demandée
+$statut = ($type == 's') ? 'COM' : 'ERAT'; // statut COM ou ERAT
+$elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : [];
+$defaultOverlayIds = [];
+$layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
+$elitss = []; // [elitEtendus => $layerId] - élitsEtendu des couches à afficher
+$sql = "select id, cinsee, type, ddebut, dfin, statut from comhistog3
         where cinsee in ('".implode("','",array_keys($cluster))."')
         order by ddebut asc, type asc";
 foreach (PgSql::query($sql) as $tuple) {
@@ -150,11 +168,24 @@ foreach (PgSql::query($sql) as $tuple) {
     'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD','ARM']) ? 'blue' : 'green'),
   ];
   $elitss[$elitEtendus] = $tuple['id'];
-  $defaultOverlayIds = [ $tuple['id'] ];
+  if ($id == $cinsee) { // le param. est code Insee alors une des versions les plus récentes correspondant à ce code Insee
+    if ($tuple['cinsee'] == $cinsee)
+      $defaultOverlayIds = [ $tuple['id'] ];
+  }
+  elseif ($id == "$type$cinsee") {
+    if (($tuple['cinsee'] == $cinsee) && ($tuple['type'] == $type))
+      $defaultOverlayIds = [ $tuple['id'] ];
+  }
+  else { // sinon si version alors une entité dont la géographie est la même que celle demandée
+    if ($elitEtendus == $elitEtendusDeLEntiteeDemandée)
+      $defaultOverlayIds = [ $tuple['id'] ];
+  }
 }
 $neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
 // Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
-$defaultBaseLayer = (substr($_GET['id'], 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
+//$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
+// Finalement si, Plan IGN V2 existe dans les DOM
+$defaultBaseLayer = "Plan IGN v2";
 echo "</pre>\n";
 ?>
 <!DOCTYPE HTML><html><head>
@@ -215,22 +246,29 @@ echo "</pre>\n";
         attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
       }
     ),
-    "Plan IGN" : new L.TileLayer(
+    /*"Plan IGN" : new L.TileLayer(
       'https://igngp.geoapi.fr/tile.php/plan-ign/{z}/{x}/{y}.jpg',
       { format:"image/jpeg", minZoom:0, maxZoom:18, detectRetina:false,
         attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
       }
-    ),
-    "Scan Express" : new L.TileLayer(
+    ),*/
+    "Scan Express IGN" : new L.TileLayer(
       'https://igngp.geoapi.fr/tile.php/scan-express/{z}/{x}/{y}.jpg',
       { format:"image/jpeg", minZoom:6, maxZoom:18, detectRetina:true,
         attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
       }
     ),
-    "Scan Express N&amp;B" : new L.TileLayer(
+    "Scan Express N&amp;B IGN" : new L.TileLayer(
       'https://igngp.geoapi.fr/tile.php/scan-express-ng/{z}/{x}/{y}.png',
       { format:"image/png", minZoom:6, maxZoom:18, detectRetina:true,
         attribution:"&copy; <a href='http://www.ign.fr' target='_blank'>IGN</a>"
+      }
+    ),
+  // PYR Shom
+    "Cartes Shom" : new L.TileLayer(
+      'https://geoapi.fr/shomgt/tile.php/gtpyr/{z}/{x}/{y}.png',
+      { format:"image/png", minZoom:0, maxZoom:18, detectRetina:false,
+        attribution:"&copy; <a href='http://data.shom.fr' target='_blank'>Shom</a>"
       }
     ),
     "OSM" : new L.TileLayer(
