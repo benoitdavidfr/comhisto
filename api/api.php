@@ -213,7 +213,7 @@ function api(string $path_info, array $accept): array {
   if (!$path_info || ($path_info == '/')) { // racine
     $baseUrl = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
     if (in_array('text/html', $accept)) {
-      require_once __DIR__.'/map.inc.php';
+      require_once __DIR__.'/../map/index.php';
       if (!isset($_GET['id']))
         return ['header'=> ['Content-Type'=> 'text/html'], 'body'=> map()];
       else
@@ -512,7 +512,7 @@ function api(string $path_info, array $accept): array {
   if ($cinsee && in_array($type, ['COM','ERAT'])) {
     $t = ($type=='COM') ? 's': 'r';
     if (($format == '.html') && !isset($_GET['date'])) {
-      require_once __DIR__.'/map.inc.php';
+      require_once __DIR__.'/../map/index.php';
       return [
         'header'=> ['Content-Type'=> 'text/html'],
         'body'=> map(!$ddebut ? $cinsee : "$t$cinsee@$ddebut"),

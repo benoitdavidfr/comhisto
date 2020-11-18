@@ -33,7 +33,7 @@ doc: |
 
 journal: |
   18/11/2020:
-    - amélioration
+    - utilisation
   17/11/2020:
     - adaptation pour utilisation avec l'API
   11-12/11/2020:
