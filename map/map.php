@@ -32,6 +32,8 @@ doc: |
   ou dans le cas d'une utilisation en API sur georef à la racine, dans ce cas l'appel doit être géré par api.php
 
 journal: |
+  18/11/2020:
+    - amélioration
   17/11/2020:
     - adaptation pour utilisation avec l'API
   11-12/11/2020:
@@ -100,14 +102,12 @@ class Zoom {
   }
 };
 
-if (!isset($_GET['id'])) { // erreur si le paramètre id n'est pas défini 
+if (!isset($_GET['id']) || !$_GET['id']) { // erreur si le paramètre id n'est pas défini ou vide 
   header('HTTP/1.1 400 Bad Request');
-  die("Erreur dans map.php, paramètre id non défini");
+  die("Erreur dans map.php, paramètre id non défini ou vide");
 }
 
-Histelits::readfile(__DIR__.'/../elits2/histelitp'); // lecture de la définition Yaml des codes insee
-
-$cluster = Histelits::cluster($_GET['id']); // génération du cluster
+$cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $_GET['id']); // génération du cluster
 // Calcul du rectangle englobant
 $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
         from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";

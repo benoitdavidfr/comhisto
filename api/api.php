@@ -15,19 +15,19 @@ doc: |
   Je décide dans les évènements de début d'utiliser l'URI valable à cette date et non l'URI de l'objet précédent
   Par exemple:
     type: Feature
-    id: 'http://comhisto.georef.eu/ERAT/01015/2016-01-01'
+    id: 'https://comhisto.georef.eu/ERAT/01015/2016-01-01'
     properties:
         ddebut: '2016-01-01'
         edebut:
-            devientDéléguéeDe: 'http://comhisto.georef.eu/COM/01015/2016-01-01'
+            devientDéléguéeDe: 'https://comhisto.georef.eu/COM/01015/2016-01-01'
         dfin: null
         efin: null
         statut: COMD
         dnom: Arbignieu
     
-    devientDéléguéeDe: http://comhisto.georef.eu/COM/01015/2016-01-01
+    devientDéléguéeDe: https://comhisto.georef.eu/COM/01015/2016-01-01
 
-    J'aurais pu utiliser l'URI de l'objet précédent, ici http://comhisto.georef.eu/COM/01015/1943-01-01
+    J'aurais pu utiliser l'URI de l'objet précédent, ici https://comhisto.georef.eu/COM/01015/1943-01-01
     mais dans certain cas cet objet n'existe pas et j'aurais été obligé de changer le code Insee
 
   Cas particuliers:
@@ -73,8 +73,10 @@ function makeUri(string $cinsee, string $field, string $ddebut, string $type='')
     throw new Exception("comhistog3 non trouvé pour cinsee=$cinsee et $field=$ddebut");
   }
   //echo '$tuples = '; print_r($tuples);
-  //$baseUri = 'http://comhisto.georef.eu';'http://localhost/yamldoc/pub/comhisto/api/api.php'
-  $baseUri = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
+  //$baseUri = 'https://comhisto.georef.eu' | 'http://localhost/yamldoc/pub/comhisto/api/api.php'
+  $baseUri = ($_SERVER['SERVER_NAME']=='localhost') ?
+    "http://$_SERVER[SERVER_NAME]$_SERVER[SCRIPT_NAME]"
+      : "https://$_SERVER[SERVER_NAME]";
   if ((count($tuples) == 1) || !$type) {
     $tuple = $tuples[0];
     $type = ($tuple['type']=='s') ? 'COM' : 'ERAT';
@@ -160,7 +162,10 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
 
 // complète les URI pour un n-uplet, retourne geom
 function completeUriTuple(array &$tuple, string $cinsee): array {
-  $baseUri = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
+  //$baseUri = 'https://comhisto.georef.eu' | 'http://localhost/yamldoc/pub/comhisto/api/api.php'
+  $baseUri = ($_SERVER['SERVER_NAME']=='localhost') ?
+    "http://$_SERVER[SERVER_NAME]$_SERVER[SCRIPT_NAME]"
+      : "https://$_SERVER[SERVER_NAME]";
   foreach (['edebut','efin','erats','elits','geom'] as $prop)
     if (isset($tuple[$prop]))
       $tuple[$prop] = json_decode($tuple[$prop], true);
@@ -275,12 +280,16 @@ function api(string $path_info, array $accept): array {
         'dcterms' => 'http://purl.org/dc/terms/',
         'dc' => 'http://purl.org/dc/elements/1.1/',
         'skos' => 'http://www.w3.org/2004/02/skos/core#',
+        'comhisto' => 'https://comhisto.georef.eu/',
         'skos:broader' => ['@type'=> '@id'],
         'skos:inScheme' => ['@type'=> '@id'],
         'skos:related' => ['@type'=> '@id'],
         'skos:narrower' => ['@type'=> '@id'],
         'skos:hasTopConcept' => ['@type'=> '@id'],
         'skos:topConceptOf' => ['@type'=> '@id'],
+      ],
+      'rdf' => [
+        
       ],
     ]
     );
@@ -300,14 +309,14 @@ function api(string $path_info, array $accept): array {
         'Content-Type'=> 'application/ld+json',
       ],
       'body'=> [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status',
         'skos:prefLabel' => [
           'fr' => "Thésaurus des statuts des entités de ComHisto",
         ],
         'skos:hasTopConcept'=> [
-          'http://comhisto.georef.eu/status/COM',
-          'http://comhisto.georef.eu/status/ERAT',
+          'comhisto:status/COM',
+          'comhisto:status/ERAT',
         ],
       ],
     ];
@@ -317,127 +326,127 @@ function api(string $path_info, array $accept): array {
     define('STATUS_CONCEPTS', // Définition des statuts des entités de ComHisto
     [
       'COM' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/COM',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/COM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune"
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
-        'skos:topConceptOf' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
+        'skos:topConceptOf' => 'comhisto:status',
         'skos:narrower' => [
-          'http://comhisto.georef.eu/status/BASE',
-          'http://comhisto.georef.eu/status/ASSO',
-          'http://comhisto.georef.eu/status/NOUV',
-          'http://comhisto.georef.eu/status/CARM',
+          'comhisto:status/BASE',
+          'comhisto:status/ASSO',
+          'comhisto:status/NOUV',
+          'comhisto:status/CARM',
         ],
       ],
       'BASE' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/BASE',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/BASE',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "commune de base, cad ni associée, ni déléguée et n'ayant aucune entité rattachée",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/COM',
+          'comhisto:status/COM',
         ],
       ],
       'ASSO' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/ASSO',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/ASSO',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des communes associées (association)",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/COM',
+          'comhisto:status/COM',
         ],
       ],
       'NOUV' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/NOUV',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/NOUV',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des communes déléguées (commune nouvelle)",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/COM',
+          'comhisto:status/COM',
         ],
       ],
       'CARM' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/CARM',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/CARM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des arrondissements municipaux",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/COM',
+          'comhisto:status/COM',
         ],
       ],
       'ERAT' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/ERAT',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/ERAT',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Entité rattachée"
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
-        'skos:topConceptOf' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
+        'skos:topConceptOf' => 'comhisto:status',
         'skos:narrower' => [
-          'http://comhisto.georef.eu/status/COMA',
-          'http://comhisto.georef.eu/status/COMD',
-          'http://comhisto.georef.eu/status/ARM',
+          'comhisto:status/COMA',
+          'comhisto:status/COMD',
+          'comhisto:status/ARM',
         ],
       ],
       'COMA' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/COMA',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/COMA',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune associée",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/ERAT',
+          'comhisto:status/ERAT',
         ],
       ],
       'COMD' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/COMD',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/COMD',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune déléguée",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/ERAT',
+          'comhisto:status/ERAT',
         ],
       ],
       'ARM' => [
-        '@context' => 'http://comhisto.georef.eu/contexts/skos',
-        '@id' => 'http://comhisto.georef.eu/status/ARM',
+        '@context' => 'https://comhisto.georef.eu/contexts/skos',
+        '@id' => 'comhisto:status/ARM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Arrondissement municipal",
         ],
-        'skos:inScheme' => 'http://comhisto.georef.eu/status',
+        'skos:inScheme' => 'comhisto:status',
         'skos:broader' => [
-          'http://comhisto.georef.eu/status/ERAT',
+          'comhisto:status/ERAT',
         ],
       ],
     ]
@@ -452,16 +461,19 @@ function api(string $path_info, array $accept): array {
       throw new HttpError("Erreur statut $statusId inexistant", 404);
   }
 
-  // ! /(COM|ERAT|elits2020|codeInsee)/{cinsee}(/{ddebut})?
-  elseif (!preg_match('!^/(COM|ERAT|elits2020|codeInsee)(/(\d(\d|AB)\d\d\d))?(/(\d{4,4}-\d\d-\d\d))?$!',
+  // ! /(COM|ERAT|elits2020|codeInsee)(/{cinsee}(/{ddebut})?)?
+  elseif (!preg_match('!^/(COM|ERAT|elits2020|codeInsee)(/(\d(\d|AB)\d\d\d)(/(\d{4,4}-\d\d-\d\d))?(\.json)?)?$!',
        $path_info, $matches))
     throw new HttpError("Erreur $path_info non reconnu", 400);
 
   $type = $matches[1];
   $cinsee = $matches[3] ?? null;
   $ddebut = $matches[6] ?? null;
-
-  // http://comhisto.georef.eu/(COM|ERAT) -> liste des COM|ERAT 
+  $format = $matches[7] ?? null; // si le format est défini dans l'URL alors il s'impose
+  if (!$format) // sinon il dépend du paramètre Accept de la requête
+    $format = in_array('text/html', $accept) ? '.html' : '.json';
+  
+  // https://comhisto.georef.eu/(COM|ERAT) -> liste des COM|ERAT 
   if (!$cinsee && in_array($type, ['COM','ERAT'])) {
     $t = ($type=='COM') ? 's': 'r';
     $sql = "select cinsee id, ddebut, statut, ".(($type=='COM') ? 'erats' : 'crat').", dnom
@@ -470,7 +482,7 @@ function api(string $path_info, array $accept): array {
     try {
       foreach (PgSql::getTuples($sql) as &$tuple) {
         completeUriTuple($tuple, $tuple['id']);
-        $tuple['id'] = "http://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]";
+        $tuple['id'] = "https://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]";
         $tuples[] = $tuple;
       }
     }
@@ -484,22 +496,22 @@ function api(string $path_info, array $accept): array {
       'header'=> ['Content-Type'=> 'application/json'],
       //'Content-Type'=> 'application/ld+json',
       'body'=> [
-        '@context' => 'http://comhisto.georef.eu/contexts/rdf',
-        '@id'=> "http://comhisto.georef.eu/$type",
+        '@context' => 'https://comhisto.georef.eu/contexts/rdf',
+        '@id'=> "https://comhisto.georef.eu/$type",
         'list'=> $tuples,
       ],
     ];
   }
 
-  // http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de COM/ERAT comhisto
+  // https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de COM/ERAT comhisto
   //   retourne le Feature GeoJSON si elle existe, sinon Erreur 404
-  // http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide COM/ERAT comhisto
+  // https://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide COM/ERAT comhisto
   //   comme Feature GeoJSON si elle existe, sinon Erreur 404
-  // http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
+  // https://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
   //   -> accès à la version correspondant à cette date comme Feature GeoJSON
   if ($cinsee && in_array($type, ['COM','ERAT'])) {
     $t = ($type=='COM') ? 's': 'r';
-    if (in_array('text/html', $accept) && !isset($_GET['date'])) {
+    if (($format == '.html') && !isset($_GET['date'])) {
       require_once __DIR__.'/map.inc.php';
       return [
         'header'=> ['Content-Type'=> 'text/html'],
@@ -510,13 +522,13 @@ function api(string $path_info, array $accept): array {
               ST_AsGeoJSON(geom) geom
             from comhistog3
             where ";
-    if ($ddebut) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la COM/ERAT
+    if ($ddebut) { // https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la COM/ERAT
       $sql .= "id='$t$cinsee@$ddebut'";
     }
-    elseif (!isset($_GET['date'])) { // http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
+    elseif (!isset($_GET['date'])) { // https://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
       $sql .= "type='$t' and cinsee='$cinsee' and dfin is null";
     }
-    else { // http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
+    else { // https://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
       $sql .= "type='$t' and cinsee='$cinsee' and (ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null))";
     }
   
@@ -540,7 +552,7 @@ function api(string $path_info, array $accept): array {
       'header'=> ['Content-Type'=> 'application/geo+json'],
       'body'=> [
         'type'=> 'Feature',
-        'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+        'id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
         'properties'=> [
           'created'=> $tuple['ddebut'],
           'startEvent'=> $tuple['edebut'],
@@ -549,7 +561,7 @@ function api(string $path_info, array $accept): array {
           'replaces' => $replaces,
           'isReplacedBy'=> $isReplacedBy,
         ]
-        + ['status'=> "http://comhisto.georef.eu/status/$tuple[statut]"]
+        + ['status'=> "https://comhisto.georef.eu/status/$tuple[statut]"]
         + (isset($tuple['crat']) ? ['crat'=> $tuple['crat']] : [])
         + (isset($tuple['erats']) ? ['erats'=> $tuple['erats']] : [])
         + [
@@ -561,12 +573,12 @@ function api(string $path_info, array $accept): array {
     ];
   }
 
-  // http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
+  // https://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
   //   si l'élit est encore valide alors retourne un Feature GeoJSON,
   //   si l'élit a été remplacé alors retourne la liste des élits le remplacant,
   //   si l'élit n'a jamais existé alors retourne une erreur 404
   if (($type == 'elits2020') && !$ddebut) {
-    //echo "http://comhisto.georef.eu/elits2020/{cinsee}<br>\n";
+    //echo "https://comhisto.georef.eu/elits2020/{cinsee}<br>\n";
     $sql = "select cinsee, ST_AsGeoJSON(geom) geom from elit where cinsee='$cinsee'";
     try {
       if (!($tuples = PgSql::getTuples($sql)))
@@ -585,14 +597,14 @@ function api(string $path_info, array $accept): array {
       'header'=> ['Content-Type'=> 'application/geo+json'],
       'body'=> [
         'type'=> 'Feature',
-        'id'=> "http://comhisto.georef.eu/elits2020/$cinsee",
+        'id'=> "https://comhisto.georef.eu/elits2020/$cinsee",
         'geometry'=> json_decode($geom, true),
       ],
     ];
   }
 
-  // http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee, retourne la liste des objets utilisant ce code
-  // http://comhisto.geoapi.fr/codeInsee/{cinsee} -> liste des versions
+  // https://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee, retourne la liste des objets utilisant ce code
+  // https://comhisto.geoapi.fr/codeInsee/{cinsee} -> liste des versions
   if (($type == 'codeInsee') && !$ddebut && !isset($_GET['date'])) { // /codeInsee/{cinsee} -> retourne liste objets avec code
     //echo "/codeInsee/{cinsee}<br>\n";
     $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom from comhistog3 where cinsee='$cinsee'";
@@ -609,12 +621,12 @@ function api(string $path_info, array $accept): array {
     foreach ($tuples as &$tuple) {
       $geom = completeUriTuple($tuple, $cinsee);
       $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
-      $tuple['id'] = "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
+      $tuple['id'] = "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
     }
     return [
       'header'=> ['Content-Type'=> 'application/geo+json'],
       'body'=> [
-        '@id'=> "http://comhisto.georef.eu/codeInsee/$cinsee",
+        '@id'=> "https://comhisto.georef.eu/codeInsee/$cinsee",
         'versions'=> $tuples,
       ],
     ];
@@ -648,7 +660,7 @@ function api(string $path_info, array $accept): array {
       $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
       $features[] = [
         'type'=> 'Feature',
-        'id'=> "http://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+        'id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
         'properties'=> $tuple,
         'geometry'=> $geom,
       ];
@@ -665,7 +677,7 @@ function api(string $path_info, array $accept): array {
   throw new HttpError("Erreur requête non interprétée", 400);
 }
 
-if (!$_SERVER['SCRIPT_NAME']) { // execution http://comhisto.georef.eu/
+if (!$_SERVER['SCRIPT_NAME']) { // execution https://comhisto.georef.eu/
   if (in_array($_SERVER['PATH_INFO'], ['/map.php','/geojson.php','/neighbor.php'])) {
     require __DIR__."/../map$_SERVER[PATH_INFO]";
     die();

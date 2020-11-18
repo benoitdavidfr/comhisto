@@ -14,10 +14,14 @@ L'API expose principalement les points d'accès suivants :
   - exemple: https://comhisto.georef.eu/COM/01015/2016-01-01
 - `/ERAT/{cinsee}/{ddebut}` : version de l'entité rattachée ayant pour code Insee {cinsee} et débutant à {ddebut}
   - exemple: https://comhisto.georef.eu/ERAT/01015/2016-01-01
+- `/COM/{cinsee}/{ddebut}.json` : version de la commune ayant pour code Insee {cinsee} et débutant à {ddebut}, en imposant le format JSON au détriment du format Html
+  - exemple: https://comhisto.georef.eu/COM/01015/2016-01-01.json
 - `/COM/{cinsee}` : version valide de la commune ayant pour code Insee {cinsee}
   - exemple: https://comhisto.georef.eu/COM/01015
 - `/ERAT/{cinsee}` : version valide de l'entité rattachée ayant pour code Insee {cinsee}
   - exemple: https://comhisto.georef.eu/ERAT/01015
+- `/COM/{cinsee}.json` : version valide de la commune ayant pour code Insee {cinsee}, en imposant le format JSON au détriment du format Html
+  - exemple: https://comhisto.georef.eu/COM/01015.json
 - `/codeInsee/{cinsee}` : liste des versions d'entités ayant pour code Insee {cinsee}
   - exemple: https://comhisto.georef.eu/codeInsee/01015
 - `/codeInsee/{cinsee}/{ddebut}` : liste des versions d'entités ayant pour code Insee {cinsee} et débutant à {ddebut}

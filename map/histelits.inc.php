@@ -38,7 +38,10 @@ class Histelits extends AutoDescribed {
     }
   }
   
-  static function cluster(string $code0): array { // retourne un extrait de $all avec les enregistrements en cluster
+  static function cluster(string $path, string $code0): array { // retourne un extrait de $all avec les enregistrements en cluster
+    self::readfile($path);
+    if (!isset(self::$all[$code0]))
+      return [];
     $cluster = [$code0 => 1];
     foreach (self::$all[$code0] as $version) {
       if ($c = $version['évts']['avaitPourCode'] ?? null)

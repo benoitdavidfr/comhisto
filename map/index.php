@@ -54,13 +54,10 @@ $form = "<table><tr>" // le formulaire
       . "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
       . "</tr></table>\n";
 
-$histelit = null;
-if (isset($_GET['id']) && $_GET['id']) {
-  Histelits::readfile(__DIR__.'/../elits2/histelitp');
-  $histelit = Histelits::$all[$_GET['id']] ?? null;
+if (!($_GET['id'] ?? null)) { // si paramètre vide alors affichage du formulaire de recherche
+  echo $form;
 }
-if ($histelit) { // affichage de l'histelit correspondant au code Insee
-  $cluster = Histelits::cluster($_GET['id']);
+elseif ($cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee)) { // si id est un code Insee
   $yaml = Yaml::dump($cluster, 3, 2);
   $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='?id=\\1'>\\1</a>", $yaml);
   echo "<table><tr>";
@@ -70,7 +67,7 @@ if ($histelit) { // affichage de l'histelit correspondant au code Insee
   echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
   echo "</tr></table>\n";
 }
-elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir du nom
+else { // recherche des entités à partir du nom
   // Test en minuscules après suppression des accents
   $search = mb_strtolower(supprimeAccents($_GET['id']));
   $cinsees = [];
@@ -95,9 +92,6 @@ elseif (isset($_GET['id']) && $_GET['id']) { // recherche des entités à partir
     }
     echo "<a href='?id=$cinsee'>",implode(' / ',array_keys($names))," ($cinsee)</a><br>\n";
   }
-}
-else { // par défaut affichage du formulaire de recherche
-  echo $form;
 }
 echo "</body></html>\n";
 die();

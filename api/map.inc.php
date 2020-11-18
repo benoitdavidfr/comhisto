@@ -37,13 +37,11 @@ function map(string $id=''): string {
         . "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
         . "</tr></table>\n";
 
-  $histelit = null;
-  if ($id) {
-    Histelits::readfile(__DIR__.'/../elits2/histelitp');
-    $histelit = Histelits::$all[$cinsee] ?? null;
+  if (!$id) { // si paramètre vide alors affichage du formulaire de recherche
+    echo $form;
   }
-  if ($histelit) { // affichage de l'histelit correspondant au code Insee
-    $cluster = Histelits::cluster($cinsee);
+  elseif ($cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee)) { // si id est un code Insee
+    // alors affichage des histelits correspondants
     $yaml = Yaml::dump($cluster, 3, 2);
     $yaml = preg_replace('!(\d[\dAB]\d\d\d)!', "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\1</a>", $yaml);
     $dirname = dirname($_SERVER['SCRIPT_NAME']); // répertoire du script dans le serveur Http
@@ -54,7 +52,8 @@ function map(string $id=''): string {
     echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
     echo "</tr></table>\n";
   }
-  elseif ($id) { // recherche des entités à partir du nom
+  else { // sinon recherche des entités à partir du nom
+    echo $form;
     // Test en minuscules après suppression des accents
     $search = mb_strtolower(supprimeAccents($id));
     $cinsees = [];
@@ -79,9 +78,6 @@ function map(string $id=''): string {
       }
       echo "<a href='?id=$cinsee'>",implode(' / ',array_keys($names))," ($cinsee)</a><br>\n";
     }
-  }
-  else { // par défaut affichage du formulaire de recherche
-    echo $form;
   }
   echo "</body></html>\n";
   die();
