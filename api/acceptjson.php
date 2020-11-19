@@ -38,8 +38,11 @@ if ($url = ($_GET['url'] ?? '')) {
     print_r($http_response_header);
     die();
   }
-  $array = json_decode($contents, true);
+  if (($array = json_decode($contents, true)) === null) {
+    echo "<pre><b>Erreur de décodage JSON</b>\n$contents";
+    die();
+  }
   echo "<pre>";
   echo //json_encode($array, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),
-    replaceUrl(json_encode($array, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE));
+    replaceUrl(Yaml::dump($array, 3, 2));
 }

@@ -51,7 +51,7 @@ function supprimeAccents(string $str): string {
 	return str_replace($search, $replace, $str);
 }
 
-function map(string $id='', array $json): string { // contient la plupart du code pour pouvoir être utilisée par ../api
+function map(string $id='', array $json=null): string { // contient la plupart du code pour pouvoir être utilisée par ../api
   //echo "map($id)<br>\n";
   //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
@@ -98,10 +98,12 @@ function map(string $id='', array $json): string { // contient la plupart du cod
     echo "<td valign='top'>",
       "<iframe id='map' title='map' width='650' height='650' src='$dirname/../map/map.php?id=$id'></iframe>",
       "</td>\n";
-    echo "<td valign='top'>$form<pre>$yaml",
-        "<h3>JSON</h3>\n",
-        Yaml::dump($json, 3, 2),
-      "</pre></td>\n";
+    echo "<td valign='top'>$form<pre>$yaml";
+    if ($json) {
+      echo "<h3>JSON</h3>\n",
+        Yaml::dump($json, 3, 2);
+    }
+    echo "</pre></td>\n";
     echo "</tr></table>\n";
   }
   else { // sinon recherche des entités à partir du nom

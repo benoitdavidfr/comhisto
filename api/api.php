@@ -166,7 +166,7 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
 
 // complète les URI pour un n-uplet, retourne geom
 function completeUriTuple(array &$tuple, string $cinsee): array {
-  print_r($tuple);
+  //print_r($tuple);
   //$baseUri = 'https://comhisto.georef.eu' | 'http://localhost/yamldoc/pub/comhisto/api/api.php'
   $baseUri = ($_SERVER['SERVER_NAME']=='localhost') ?
     "http://$_SERVER[SERVER_NAME]$_SERVER[SCRIPT_NAME]"
@@ -533,7 +533,7 @@ function json(string $path_info): array {
       throw new HttpError($message, 404);
     }
     $tuple = $tuples[0];
-    print_r($tuple);
+    //print_r($tuple);
     $geom = completeUriTuple($tuple, $cinsee);
     $replaces = makeUri($cinsee, 'dfin', $tuple['ddebut'], '');
     $isReplacedBy = $tuple['dfin'] ? makeUri($cinsee, 'ddebut', $tuple['dfin'], '') : null;
