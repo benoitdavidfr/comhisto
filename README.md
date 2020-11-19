@@ -49,7 +49,9 @@ Il est [documenté plus précisément ici](export/README.md).
 Outre sa mise à disposition au format GeoJSON, le référentiel est aussi proposé:
 
 - sous la forme de cartes représentant les différentes versions associées aux codes Insee,
-- sous la forme d'une API [décrite ici](api/README.md).
+- sous la forme d'une API.
+
+Ces 2 types d'accès sont [décrits ici](api/README.md).
 
 ## Limites du référentiel
 **Attention**, aux limites suivantes :

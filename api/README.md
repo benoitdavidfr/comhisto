@@ -1,6 +1,15 @@
-# API de mise à disposition du référentiel ComHisto (EN COURS)
+# Mise à disposition de ComHisto sous la forme de cartes et d'une API (EN COURS)
 
-L'URL de base de l'API est https://comhisto.georef.eu
+L'URL d'accès est https://comhisto.georef.eu
+
+Cet accès offre les 2 fonctionnalités suivantes:
+
+- affichage d'une page Html par code Insee et par entité incluant une carte Leaflet
+  incluant la définition du code Insee ou de l'entité en JSOn-LD
+  et permettant de naviguer entre différentes entités ;
+
+
+L'URL de base de l'API est 
 
 Les appels retournent soit un affichage Html, soit des données en JSON, en fonction du paramètre Accept de la requête HTTP.
 Les documents Html contiennent d'une part une description JSON-LD de l'entité demandée conformément

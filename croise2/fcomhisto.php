@@ -187,7 +187,6 @@ PgSql::query("create table comhistog3(
   crat char(5), -- pour une entité rattachée (COMA, COMD, ARM) code Insee de la commune de rattachement, sinon null
   erats jsonb not null, -- pour une commune de rattachement (ASSO, NOUV, CARM) liste JSON des codes Insee des entités rattachées
   elits jsonb, -- liste JSON des éléments intemporels propres ou null ssi il n'y en a pas
-  elitsND jsonb, -- liste JSON des éléments intemporels propres non délégués ou null ssi il n'y en a pas
   dnom varchar(256), -- dernier nom
   geom geometry -- géométrie
 )");

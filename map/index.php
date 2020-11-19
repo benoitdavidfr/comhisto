@@ -57,7 +57,13 @@ function map(string $id='', array $json=null): string { // contient la plupart d
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
   $cinsee = !$id ? '' : ((strlen($id) == 5) ? $id : substr($id, 1, 5));
   //echo "map($id), cinsee=$cinsee<br>\n";
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>map $id</title></head><body>\n";
+  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>map $id</title>",
+    ($json ?
+        "<script type=\"application/ld+json\">\n"
+        .json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+        ."</script>\n"
+      : ''),
+    "</head><body>\n";
   
   $form = "<table><tr>" // le formulaire
         . "<td><table border=1><form action='$_SERVER[SCRIPT_NAME]'><tr>"
@@ -100,7 +106,7 @@ function map(string $id='', array $json=null): string { // contient la plupart d
       "</td>\n";
     echo "<td valign='top'>$form<pre>$yaml";
     if ($json) {
-      echo "<h3>JSON</h3>\n",
+      echo "<h3>Objet publié comme données liées en JSON-LD</h3>\n",
         Yaml::dump($json, 3, 2);
     }
     echo "</pre></td>\n";
