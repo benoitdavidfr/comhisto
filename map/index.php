@@ -51,7 +51,7 @@ function supprimeAccents(string $str): string {
 	return str_replace($search, $replace, $str);
 }
 
-function map(string $id=''): string { // contient la plupart du code pour pouvoir être utilisée par ../api
+function map(string $id='', array $json): string { // contient la plupart du code pour pouvoir être utilisée par ../api
   //echo "map($id)<br>\n";
   //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
@@ -75,22 +75,33 @@ function map(string $id=''): string { // contient la plupart du code pour pouvoi
     // modif des clés date pour qu'elles soient dans un second temps clickables
     foreach ($cluster as $cinsee2 => &$histelit) {
       foreach ($histelit as $ddebut => $version) {
-        $type = in_array($version['état']['statut'] ?? '', ['COMA','COMD','ARM']) ? 'r' : 's';
-        $histelit["$type$cinsee2@$ddebut"] = $histelit[$ddebut];
+        $etat = $version['état'] ?? [];
+        $type = in_array($etat['statut'] ?? '', ['COMA','COMD','ARM']) ? 'r' : 's';
+        if (isset($etat['nomCommeDéléguée'])) {
+          $version['état']["nomCommeDéléguée$cinsee2@$ddebut"] = $etat['nomCommeDéléguée'];
+          unset($version['état']['nomCommeDéléguée']);
+        }
+        $histelit["$type$cinsee2@$ddebut"] = $version;
         unset($histelit[$ddebut]);
       }
     }
     $yaml = Yaml::dump($cluster, 3, 2);
+    $script_name = $_SERVER['SCRIPT_NAME'];
     // remplacement des codes Insee par un href vers ce code Insee 
-    $yaml = preg_replace("!(\d[\dAB]\d\d\d)('?:)!", "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\1</a>\\2", $yaml);
+    $yaml = preg_replace("!(\d[\dAB]\d\d\d)('?:)!", "<a href='$script_name?id=\\1'>\\1</a>\\2", $yaml);
     // remplacement des dates par un href vers l'id de la version correspondante
-    $yaml = preg_replace('!([sr]\d[\dAB]\d\d\d@([^:]+)):!', "<a href='$_SERVER[SCRIPT_NAME]?id=\\1'>\\2</a>:", $yaml);
+    $yaml = preg_replace('!([sr]\d[\dAB]\d\d\d@([^:]+)):!', "<a href='$script_name?id=\\1'>\\2</a>:", $yaml);
+    // remplacement des nomCommeDéléguée par un href vers l'id de la version correspondante
+    $yaml = preg_replace('!(nomCommeDéléguée)([^:]+)!', "<a href='$script_name?id=r\\2'>\\1</a>", $yaml);
     $dirname = dirname($_SERVER['SCRIPT_NAME']); // répertoire du script dans le serveur Http
     echo "<table><tr>";
     echo "<td valign='top'>",
-      "<iframe id='map' title='map' width='700' height='650' src='$dirname/../map/map.php?id=$id'></iframe>",
+      "<iframe id='map' title='map' width='650' height='650' src='$dirname/../map/map.php?id=$id'></iframe>",
       "</td>\n";
-    echo "<td valign='top'>$form<pre>$yaml</pre></td>\n";
+    echo "<td valign='top'>$form<pre>$yaml",
+        "<h3>JSON</h3>\n",
+        Yaml::dump($json, 3, 2),
+      "</pre></td>\n";
     echo "</tr></table>\n";
   }
   else { // sinon recherche des entités à partir du nom

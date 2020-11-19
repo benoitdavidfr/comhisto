@@ -4,6 +4,8 @@ name: histo.inc.php
 title: histo.inc.php - classes Histo, Version et EltSet utilisées par fcomhisto.php
 doc: |
 journal: |
+  19/11/2020:
+    - ajout du champ elitsND dans comhistog3 / ANNULATION
   8/11/2020:
     - passage en v2
     - ajout du traitement des écarts entre Insee et IGN dans Version::cEntElits()
@@ -278,10 +280,17 @@ class Version {
     }
     else
       $elits = 'null';
+    /*if ($this->eltSetND) {
+      $elitsND = json_encode($this->eltSetND->elts());
+      $elitsND = "'".str_replace("'", "''", $elitsND)."'";
+    }
+    else
+      $elitsND = 'null';*/
     $dnom = str_replace("'", "''", $this->etat['name']);
-    $sql = "insert into comhistog3(id, type, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, geom)\n"
-      ."select '$type$cinsee@$ddebut', '$type', '$cinsee', '$ddebut', '$edebut', $dfin, $efin,"
-      ." '$statut', $crat, '$erats', $elits, '$dnom', $geomsql";
+    $sql = "insert into comhistog3(id, type, cinsee, ddebut, edebut, dfin, efin, statut,"
+      ."   crat, erats, elits, dnom, geom)\n"
+      ."select '$type$cinsee@$ddebut', '$type', '$cinsee', '$ddebut', '$edebut', $dfin, $efin, '$statut',"
+      ." $crat, '$erats', $elits, '$dnom', $geomsql";
     //echo "sql=$sql\n";
     //file_put_contents(__DIR__.'/fcomhisto.sql', "$sql\n", FILE_APPEND);
     try {
