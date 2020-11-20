@@ -2,14 +2,15 @@
 
 L'URL d'accès est https://comhisto.georef.eu
 
-Cet accès offre les 2 fonctionnalités suivantes:
+Cet accès propose les 2 fonctionnalités suivantes:
 
-- affichage d'une page Html par code Insee et par entité incluant une carte Leaflet
-  incluant la définition du code Insee ou de l'entité en JSOn-LD
+- affichage d'une page Html par code Insee et par entité comprenant une carte Leaflet,
+  incluant la définition du code Insee ou de l'entité en JSON-LD
   et permettant de naviguer entre différentes entités ;
+- exposition sous la forme de données JSON/JSON-LD ou GeoJSON des entités.
 
-
-L'URL de base de l'API est 
+Les pages Html sont proposées pour les URI suivantes:
+- `https://comhisto.georef.eu/COM/{cinsee}/{ddebut}`
 
 Les appels retournent soit un affichage Html, soit des données en JSON, en fonction du paramètre Accept de la requête HTTP.
 Les documents Html contiennent d'une part une description JSON-LD de l'entité demandée conformément

@@ -58,6 +58,8 @@ doc: |
         - http://comhisto.geoapi.fr/jsonld  
       - ou aux mêmes URL que les URI en correspondant au format html
 journal: |
+  20/11/2020:
+    - j'ai déclaré https://comhisto.georef.eu/ à Google Search Console par la méthode d'ajout d'une info dans le header Html
   18/11/2020:
     - suppression de map.inc.php remplacé par l'inclusion de ../map/index.php pour éviter une duplication de code
   16-17/11/2020:

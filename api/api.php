@@ -33,6 +33,8 @@ doc: |
   Cas particuliers:
     - 44180/44225 - 
 journal: |
+  20/11/2020:
+    - déclaration DCAT du Dataset en JSON-LD à la racine 
   18/11/2020:
     - fusion map.inc.php avec ../map/index.php
     - ajustements
@@ -218,7 +220,153 @@ if (php_sapi_name() == 'cli') { // Vérifie systématiquement completeUriTuple()
 // Si le path_info explicite un format de sortie alors celui-ci est retourné dans le champ 'outputFormat' de l'array
 function json(string $path_info): array {
   //echo "json(path_info=$path_info)<br>\n";
-  if (!$path_info || ($path_info == '/')) { // racine
+  // inspiré de https://github.com/SEMICeu/dcat-ap_validator/blob/master/pages/samples/sample-json-ld.jsonld
+  if (!$path_info || ($path_info == '/')) { // Je met à la racine la déclaration DCAT du Dataset
+    return [
+      'header'=> ['Content-Type'=> 'application/json-ld'],
+      'body'=> [
+        "@context" => [
+          "adms" => "http://www.w3.org/ns/adms#",
+          "dcat" => "http://www.w3.org/ns/dcat#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "foaf" => "http://xmlns.com/foaf/0.1/",
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+          "schema" => "http://schema.org/",
+          "vcard" => "http://www.w3.org/2006/vcard/ns#",
+          "xsd" => "http://www.w3.org/2001/XMLSchema#",
+        ],
+        "@id" => "https://comhisto.georef.eu/",
+        "@type" => "dcat:Dataset",
+        "dcterms:title" => ["@language" => "fr","@value" => "Référentiel communal historique simplifié (ComHisto)"],
+        "dcterms:description" => [
+          "@value"=> "Ce jeu de données contient l'historique du découpage des communes en France depuis 1943.",
+          "@language" => "fr",
+        ],
+        "adms:contactPoint" => ["@id" => "https://comhisto.georef.eu/contactPoint"],
+        "dcat:distribution" => ["@id" => "https://comhisto.georef.eu/dist-geojson"],
+        "dcat:keyword" => ["Historique","Découpage des communes","Découpage administratif","France","ComHisto"],
+        "dcat:landingPage" => ["@id" => "https://github.com/benoitdavidfr/comhisto"],
+        "dcat:theme" => ["@id" => "http://eurovoc.europa.eu/362"], // découpage administratif
+        "dcterms:accrualPeriodicity" => ["@id" => "http://purl.org/cld/freq/monthly"],
+        "dcterms:conformsTo" => ["@id" => "https://github.com/benoitdavidfr/comhisto"],
+        "dcterms:issued" => "2020-11-20",
+        "dcterms:language" => ["@id" => "http://publications.europa.eu/resource/authority/language/FRA"],
+        "dcterms:modified" => "2020-11-20",
+        "dcterms:publisher" => ["@id" => "https://comhisto.georef.eu/publisher"],
+        "dcterms:spatial" => ["@id" => "http://sws.geonames.org/3017382"], // France
+        "dcterms:temporal" => ["@id" => "https://comhisto.georef.eu/period"],
+        "dcat:spatialResolutionInMeters" => ["@type"=> "xsd:decimal","@value"=> "100.0"],
+      ],
+    ];
+  }
+  
+  if ($path_info == '/contactPoint') {
+    return [
+      'header'=> ['Content-Type'=> 'application/json-ld'],
+      'body'=> [
+        "@context" => [
+          "adms" => "http://www.w3.org/ns/adms#",
+          "dcat" => "http://www.w3.org/ns/dcat#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "foaf" => "http://xmlns.com/foaf/0.1/",
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+          "schema" => "http://schema.org/",
+          "vcard" => "http://www.w3.org/2006/vcard/ns#",
+          "xsd" => "http://www.w3.org/2001/XMLSchema#",
+        ],
+        "@id" => "https://comhisto.georef.eu/contactPoint",
+        "@type" => "vcard:VCard",
+        "vcard:fn" => "Benoit David",
+        "vcard:hasEmail" => [
+          "@id" => "mailto:benoit.david@free.fr",
+        ],
+      ],
+    ];
+  }
+
+  if ($path_info == '/publisher') {
+    return [
+      'header'=> ['Content-Type'=> 'application/json-ld'],
+      'body'=> [
+        "@context" => [
+          "adms" => "http://www.w3.org/ns/adms#",
+          "dcat" => "http://www.w3.org/ns/dcat#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "foaf" => "http://xmlns.com/foaf/0.1/",
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+          "schema" => "http://schema.org/",
+          "vcard" => "http://www.w3.org/2006/vcard/ns#",
+          "xsd" => "http://www.w3.org/2001/XMLSchema#",
+        ],
+        "@id" => "https://comhisto.georef.eu/publisher",
+        "@type" => "vcard:VCard",
+        "vcard:fn" => "Benoit David",
+        "vcard:hasEmail" => [
+          "@id" => "mailto:benoit.david@free.fr",
+        ],
+      ],
+    ];
+  }
+
+  if ($path_info == '/period') {
+    return [
+      'header'=> ['Content-Type'=> 'application/json-ld'],
+      'body'=> [
+        "@context" => [
+          "adms" => "http://www.w3.org/ns/adms#",
+          "dcat" => "http://www.w3.org/ns/dcat#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "foaf" => "http://xmlns.com/foaf/0.1/",
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+          "schema" => "http://schema.org/",
+          "vcard" => "http://www.w3.org/2006/vcard/ns#",
+          "xsd" => "http://www.w3.org/2001/XMLSchema#",
+        ],
+        "@id" => "https://comhisto.georef.eu/period",
+        "@type" => "dcterms:PeriodOfTime",
+        "schema:endDate" => ["@type" => "xsd:date","@value" => "2020-01-01"],
+        "schema:startDate" => ["@type" => "xsd:date","@value" => "1943-01-01"],
+      ],
+    ];
+  }
+
+  if ($path_info == '/dist-geojson') {
+    return [
+      'header'=> ['Content-Type'=> 'application/json-ld'],
+      'body'=> [
+        "@context" => [
+          "adms" => "http://www.w3.org/ns/adms#",
+          "dcat" => "http://www.w3.org/ns/dcat#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "foaf" => "http://xmlns.com/foaf/0.1/",
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+          "schema" => "http://schema.org/",
+          "vcard" => "http://www.w3.org/2006/vcard/ns#",
+          "xsd" => "http://www.w3.org/2001/XMLSchema#",
+        ],
+        "@id" => "https://comhisto.georef.eu/dist-geojson",
+        "@type" => "dcat:Distribution",
+        "dcterms:title" => ["@language" => "fr","@value" => "Téléchargement GeoJSON"],
+        "dcat:accessURL" => [
+          "@id" => "https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson",
+        ],
+        "dcterms:description" => [
+          "@language" => "fr",
+          "@value" => "Fichier des versions d'entités téléchargeable en GeoJSON. voir https://github.com/benoitdavidfr/comhisto/blob/master/export/README.md",
+        ],
+        "dcterms:format" => ["@id" => "https://tools.ietf.org/rfc/rfc7946"], // GeoJSON ???
+        "dcat:mediaType" => "application/geo+json",
+        "dcterms:license" => ["@id" => "https://www.etalab.gouv.fr/licence-ouverte-open-licence"],
+      ],
+    ];
+  }
+
+  if ($path_info == '/test') { // pour effectuer les tests 
     $baseUrl = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? "$_SERVER[SCRIPT_NAME]" : '');
     return [
       'header'=> ['Content-Type'=> 'application/json'],
@@ -228,7 +376,7 @@ function json(string $path_info): array {
       ],
     ];
   }
-
+  
   if ($path_info == '/examples') { // exemples pour effectuer les tests 
     $baseUrl = "http://$_SERVER[SERVER_NAME]".(($_SERVER['SERVER_NAME']=='localhost') ? $_SERVER['SCRIPT_NAME'] : '');
     $examples = [
@@ -540,6 +688,37 @@ function json(string $path_info): array {
     return [
       'header'=> ['Content-Type'=> 'application/geo+json'],
       'body'=> [
+        //'@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld',
+        /*"@context" => [
+          "geojson" => "https://purl.org/geojson/vocab#",
+          "Feature" => "geojson:Feature",
+          "FeatureCollection" => "geojson:FeatureCollection",
+          "GeometryCollection" => "geojson:GeometryCollection",
+          "LineString" => "geojson:LineString",
+          "MultiLineString" => "geojson:MultiLineString",
+          "MultiPoint" => "geojson:MultiPoint",
+          "MultiPolygon" => "geojson:MultiPolygon",
+          "Point" => "geojson:Point",
+          "Polygon" => "geojson:Polygon",
+          "bbox" => [
+            "@container" => "@list",
+            "@id" => "geojson:bbox",
+          ],
+          "coordinates" => [
+            "@container" => "@list",
+            "@id" => "geojson:coordinates",
+          ],
+          "features" => [
+            "@container" => "@set",
+            "@id" => "geojson:features",
+          ],
+          "geometry" => "geojson:geometry",
+          "id" => "@id",
+          "properties" => "geojson:properties",
+          "type" => "@type",
+          "description" => "http://purl.org/dc/terms/description",
+          "title" => "http://purl.org/dc/terms/title",
+        ],*/
         'type'=> 'Feature',
         'id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
         'properties'=> [
@@ -691,6 +870,8 @@ function pathInfoFromId(string $id): ?string {
 }
 
 function idFromPathInfo(string $path_info): ?string {
+  if (in_array($path_info,['','/']))
+    return '';
   if (!preg_match('!^/(COM|ERAT|codeInsee)(/(\d(\d|AB)\d\d\d)(/(\d{4,4}-\d\d-\d\d))?(\.json)?)?$!', $path_info, $matches))
     return null;
   $type = $matches[1];
@@ -708,7 +889,7 @@ function idFromPathInfo(string $path_info): ?string {
 
 if (!$_SERVER['SCRIPT_NAME']) { // lors execution https://comhisto.georef.eu/ lecture .php et fichiers divers
   $path_info = $_SERVER['PATH_INFO'];
-  if (in_array($path_info, ['/map.php','/geojson.php','/neighbor.php'])) {
+  if (in_array($path_info, ['/map.php','/geojson.php','/neighbor.php','/doc.php'])) {
     require __DIR__."/../map$_SERVER[PATH_INFO]";
     die();
   }
@@ -749,7 +930,7 @@ try {
   $result = json($path_info);
   //print_r($result);
   if (array_intersect($accept, ['application/json','application/ld+json','application/geo+json'])
-  || (($result['outputFormat'] ?? '') == '.json') || !idFromPathInfo($path_info)) {
+  || (($result['outputFormat'] ?? '') == '.json') || (idFromPathInfo($path_info) === null)) {
     header('Content-Type: '.$result['header']['Content-Type']);
     die(json_encode($result['body'], JSON_ENCODE_OPTIONS));
   }

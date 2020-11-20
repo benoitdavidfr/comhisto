@@ -57,7 +57,10 @@ function map(string $id='', array $json=null): string { // contient la plupart d
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
   $cinsee = !$id ? '' : ((strlen($id) == 5) ? $id : substr($id, 1, 5));
   //echo "map($id), cinsee=$cinsee<br>\n";
-  echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>map $id</title>",
+  echo "<!DOCTYPE HTML><html><head>",
+    "<meta charset='UTF-8'>",
+    '<meta name="google-site-verification" content="w7OzHQjbjmirp3lhcURtYl-4_vOErXR0pNIMJfiKn08" />',
+    "<title>map $id</title>",
     ($json ?
         "<script type=\"application/ld+json\">\n"
         .json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
@@ -75,6 +78,11 @@ function map(string $id='', array $json=null): string { // contient la plupart d
 
   if (!$id) { // si paramètre vide alors affichage du formulaire de recherche
     echo $form;
+    if ($json) {
+      echo "<pre><h3>Publication comme données liées en JSON-LD</h3>\n",
+        Yaml::dump($json, 3, 2),
+        "</pre>\n";
+    }
   }
   elseif ($cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee)) { // si id est un code Insee
     // alors affichage des histelits correspondants
@@ -106,7 +114,7 @@ function map(string $id='', array $json=null): string { // contient la plupart d
       "</td>\n";
     echo "<td valign='top'>$form<pre>$yaml";
     if ($json) {
-      echo "<h3>Objet publié comme données liées en JSON-LD</h3>\n",
+      echo "<h3>Publication comme données liées en JSON-LD</h3>\n",
         Yaml::dump($json, 3, 2);
     }
     echo "</pre></td>\n";

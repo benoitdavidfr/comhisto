@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 function replaceUrl(string $text): string {
-  $pattern = '!(http:)(//[^ \n\'"]*)!';
+  $pattern = '!(https?:)(//[^ \n\'"]*)!';
   while (preg_match($pattern, $text, $matches)) {
     $text = preg_replace($pattern, "<a href='?url=".urlencode($matches[1].$matches[2])."'>Http:$matches[2]</a>", $text, 1);
     //break;
@@ -25,7 +25,7 @@ if ($url = ($_GET['url'] ?? '')) {
   $opts = [
     'http'=> [
       'method'=> 'GET',
-      'header'=> "Accept: application/json\r\n"
+      'header'=> "Accept: application/json,application/ld-json\r\n"
                 ."Accept-language: en\r\n"
                 ."Cookie: foo=bar\r\n",
     ],
