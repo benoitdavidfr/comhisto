@@ -10,15 +10,18 @@ journal: |
   21/11/2020:
     - améliorations
 */
+//ini_set('max_execution_time', 30*60);
+
 require_once __DIR__.'/../../../vendor/autoload.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 function replaceUrl(string $text): string {
-  $pattern = '!(https?:)(//[^ \n\'"]*)!';
-  while (preg_match($pattern, $text, $matches)) {
-    $text = preg_replace($pattern, "<a href='?url=".urlencode($matches[1].$matches[2])."'>Http:$matches[2]</a>", $text, 1);
+  if (strlen($text) > 1e6) return $text; // Si le text est trop long (1 Mo) on ne fait rien car trop long
+  $pattern = '!(http(s)?:)(//[^ \n\'"]*)!';
+  while (preg_match($pattern, $text, $m)) {
+    $text = preg_replace($pattern, "<a href='?url=".urlencode($m[1].$m[3])."'>Http$m[2]:$m[3]</a>", $text, 1);
     //break;
   }
   return $text;

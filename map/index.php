@@ -60,6 +60,7 @@ function supprimeAccents(string $str): string {
 //   soit le champ 'error'
 function drawMap(string $id='', array $record=null): string {
   //echo "drawMap($id)<br>\n";
+  //echo "<pre>record"; print_r($record); echo "</pre>\n";
   //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";
   
@@ -86,7 +87,7 @@ function drawMap(string $id='', array $record=null): string {
         . "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
         . "</tr></table>\n";
 
-  if (!$id) { // si paramètre vide alors affichage du formulaire de recherche
+  if (!$id || in_array($id,['s','r'])) { // si paramètre vide ou r|s alors affichage du formulaire de recherche
     echo $form;
     if ($record['body'] ?? null) {
       echo "<pre><h3>Publication comme données liées en Yaml-LD</h3>\n",
@@ -142,7 +143,7 @@ function drawMap(string $id='', array $record=null): string {
     $cinsees = [];
     foreach (Histelits::$all as $cinsee => $histelit) {
       foreach ($histelit as $ddebut => $version) {
-        //echo "<pre>",Yaml::dump($version),"</pre>\n";
+        echo "<pre>",Yaml::dump($version),"</pre>\n";
         if ($name = $version['état']['name'] ?? null) {
           if (strpos(mb_strtolower(supprimeAccents($name)), $search) !== false)
             $cinsees[$cinsee] = 1;

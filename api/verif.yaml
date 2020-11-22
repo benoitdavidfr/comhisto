@@ -1,0 +1,84 @@
+title: liste des vérifications à effectuer
+contents:
+  baseUrls:
+    - http://localhost/yamldoc/pub/comhisto/api/api.php
+    - http://georef.eu/yamldoc/pub/comhisto/api/api.php
+    - http://comhisto.georef.eu
+  path_infos:
+    - url: /
+      title: racine
+    - url: /COM
+      title: liste des communes valides
+  # /COM/{cinsee}
+    - url: /COM/01015
+      title: commune Ok
+    - url: /COM/78121
+      title: code Insee disparu -> KO
+  # /ERAT/{cinsee}
+    - url: /ERAT/01340
+      title: ERAT ok
+    - url: /ERAT/78121
+      title: ERAT KO
+  # /COM/{cinsee}/{ddebut}
+    - url: /COM/01015/2016-01-01
+      title: version ok
+    - url: /COM/01015/2010-01-01
+      title: version KO
+    - url: /COM/01340/2016-01-01
+      title: version KO
+    - url: /COM/78121/1943-01-01
+      title: ancienne version ok d'un code Insee disparu
+  # /ERAT/{cinsee}/{ddebut}
+    - url: /ERAT/01340/2016-01-01
+      title: version ok
+    - url: /ERAT/01340/2010-01-01
+      title: version KO
+  # /codeInsee/{cinsee}
+    - url: /codeInsee/01015
+      title: commune Ok
+    - url: /codeInsee/01340
+      title: ERAT ok
+    - url: /codeInsee/78121
+      title: code Insee disparu -> ok
+  # /codeInsee/{cinsee}/{ddebut}
+    - url: /codeInsee/01015/2016-01-01
+      title: commune Ok
+    - url: /codeInsee/01340/2016-01-01
+      title: ERAT ok
+    - url: /codeInsee/78121/1943-01-01
+      title: code Insee disparu -> ok
+  # /elits2020/{cinsee}
+    - url: /elits2020/01015
+      title: Ok
+    - url: /elits2020/01340
+      title: Ok
+    - url: /elits2020/78121
+      title: Ok
+  # /status
+    - url: /status
+      title: Ok
+    - url: /status/COM
+      title: Ok
+    - url: /status/KO
+      title: KO
+  # /status
+    - url: /contexts/skos
+      title: Ok
+    - url: /contexts/KO
+      title: KO
+  # /(COM|ERAT)/{cinsee}?date={date}
+    - url: /COM/01015?date=2019-01-01
+      title: commune Ok
+    - url: /COM/78121?date=2019-01-01
+      title: code Insee ayant disparu -> KO
+    - url: /ERAT/01340?date=2019-01-01
+      title: ERAT ok
+    - url: /ERAT/78121?date=2019-01-01
+      title: ERAT KO
+  # /codeInsee/{cinsee}?date={date}
+    - url: /codeInsee/01015?date=2019-01-01
+      title: commune Ok
+    - url: /codeInsee/01340?date=2019-01-01
+      title: ERAT ok
+    - url: /codeInsee/78121?date=2019-01-01
+      title: code Insee ayant disparu -> KO

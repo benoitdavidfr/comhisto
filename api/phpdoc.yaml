@@ -19,9 +19,9 @@ doc: |
   Les motifs d'URI sont:
     / -> URI de référence
       LD: doc de la base comme enregistrement dcat:Dataset, Html: IHM de consultation de la base
-    /api
+    /api (A FAIRE)
       JSON: doc open API de l'API d'accès
-    /(COM|ERAT) -> liste des objets COM|ERAT valides dans format JSON-LD ou Html
+    /(COM|ERAT) -> liste des objets COM|ERAT valides dans format JSON-LD
     /(COM|ERAT)/{cinsee} -> URI de la version valide de la commune|ERAT
       JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
     /(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune|ERAT débutant à {ddebut}
@@ -31,15 +31,13 @@ doc: |
       en Html la carte des versions de COM|ERAT correspondant à ce code,
       si {cinsee} invalide retourne une erreur 404
       correspond à l'id ne contenant que le code Insee
-    /codeInsee/{cinsee}/{ddebut} -> URI de la version débutant à {ddebut} soit commune s'il y en a une, sinon ERAT
-      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
-    https://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
+    /elits2020/{cinsee} -> URI de l'élit 2020,
       si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
       si l'élit a été remplacé alors retourne la liste des élits le remplacant (dcterms:replacedBy) (A VOIR),
       si l'élit n'a jamais existé alors retourne une erreur 404
-    https://comhisto.georef.eu/status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
-    https://comhisto.georef.eu/status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
-    https://comhisto.georef.eu/contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
+    /status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
+    /status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
+    /contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
 
   Traitements - Points d'entrée:
     / -> doc ?
@@ -48,6 +46,8 @@ doc: |
     /codeInsee/{cinsee}?date={date}
       -> version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT,
       en JSON comme Feature GeoJSON, en Html comme carte sinon erreur 404
+    /codeInsee/{cinsee}/{ddebut} -> URI de la version débutant à {ddebut} soit commune s'il y en a une, sinon ERAT
+      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
 
   Les 2 ensembles d'URL sont compatibles.
   Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/

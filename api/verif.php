@@ -1,0 +1,46 @@
+<?php
+require_once __DIR__.'/../../../vendor/autoload.php';
+
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+
+$accept = isset($_GET['ld']) ? 'application/ld+json' : 'application/json,application/geo+json';
+//echo (!isset($_GET['ld']) ? "ld non défini" : "ld=$_GET[ld]"),"<br>\n";
+$opts = [
+  'http'=> [
+    'method'=> 'GET',
+    'header'=> "Accept: $accept\r\n"
+              ."Accept-language: en\r\n"
+              ."Cookie: foo=bar\r\n",
+  ],
+];
+$context = stream_context_create($opts);
+
+$jeutest = Yaml::parseFile('verif.yaml');
+
+
+echo "<pre>"; //print_r($jeutest);
+echo "<table border=1><th>",implode('</th><th>', $jeutest['contents']['baseUrls']),"</th>";
+foreach ($jeutest['contents']['path_infos'] as $path_info) {
+  echo "<tr>";
+  foreach ($jeutest['contents']['baseUrls'] as $baseUrl) {
+    echo "<td><pre>";
+    $url = $baseUrl.$path_info['url'];
+    echo "<a href='$url'>$path_info[url] $path_info[title]</a>\n";
+
+    if (($contents = @file_get_contents($url, false, $context)) ===  FALSE) {
+      echo "  Erreur de lecture Http, erreur=$http_response_header[0]\n";
+    }
+    else {
+      echo "  Lecture Http OK,";
+      if (($array = json_decode($contents, true)) === null) {
+        echo " Erreur de décodage JSON\n";
+      }
+      else {
+        echo " JSON ok\n";
+      }
+    }
+    echo "</pre></td>\n";
+  }
+  echo "</tr>";
+}

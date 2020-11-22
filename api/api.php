@@ -210,7 +210,9 @@ if (php_sapi_name() == 'cli') { // Vérifie systématiquement completeUriTuple()
   }
   die();
 }
-  
+
+ini_set('max_execution_time', 3*60);
+
 // prend une structure GeoJSON:geometry et rend un https://schema.org/GeoShape ou un https://schema.org/GeoCoordinates
 function geoShape(array $geom): array {
   $geoShape = '';
@@ -550,9 +552,7 @@ function getRecord(string $path_info, bool $ld): array {
         'skos:hasTopConcept' => ['@type'=> '@id'],
         'skos:topConceptOf' => ['@type'=> '@id'],
       ],
-      'rdf' => [
-        
-      ],
+      /*'rdf' => [],*/
     ]
     );
     $contextId = $matches[1];
@@ -732,17 +732,19 @@ function getRecord(string $path_info, bool $ld): array {
   $outputFormat = $matches[6] ?? null; // si le format de sortie est défini dans l'URL alors il s'impose
   //echo "type=$type, cinsee=$cinsee, ddebut=$ddebut<br>\n";
   
-  // https://comhisto.georef.eu/(COM|ERAT) -> liste des COM|ERAT 
-  if (!$cinsee && in_array($type, ['COM','ERAT'])) {
+  if (!$cinsee && in_array($type, ['COM','ERAT'])) { // /(COM|ERAT) -> liste des COM|ERAT valides 
     $t = ($type=='COM') ? 's': 'r';
-    $sql = "select cinsee id, ddebut, statut, ".(($type=='COM') ? 'erats' : 'crat').", dnom
+    $sql = "select cinsee id, ddebut, dnom
             from comhistog3
             where type='$t' and dfin is null";
     try {
       foreach (PgSql::getTuples($sql) as &$tuple) {
         completeUriTuple($tuple, $tuple['id']);
-        $tuple['id'] = "https://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]";
-        $tuples[] = $tuple;
+        $tuples[] = [
+          '@type'=> 'schema:City',
+          '@id'=> "https://comhisto.georef.eu/$type/$tuple[id]/$tuple[ddebut]",
+          'schema:name'=> $tuple['dnom'],
+        ];
       }
     }
     catch (Exception $e) {
@@ -752,12 +754,17 @@ function getRecord(string $path_info, bool $ld): array {
       throw new Exception($e->getMessage());
     }
     return [
-      'header'=> ['Content-Type'=> 'application/json'],
-      //'Content-Type'=> 'application/ld+json',
+      'header'=> ['Content-Type'=> 'application/ld+json'],
       'body'=> [
-        '@context' => 'https://comhisto.georef.eu/contexts/rdf',
+        '@context' => [
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "schema" => "https://schema.org/",
+        ],
         '@id'=> "https://comhisto.georef.eu/$type",
-        'list'=> $tuples,
+        'dcterms:hasPart'=> [
+          'rdf:Bag'=> $tuples,
+        ],
       ],
     ];
   }
@@ -799,7 +806,7 @@ function getRecord(string $path_info, bool $ld): array {
 
   // /codeInsee/{cinsee} -> URI du code Insee, retourne la liste des versions utilisant ce code
   if (($type == 'codeInsee') && !$ddebut && !isset($_GET['date'])) {
-    echo "/codeInsee/{cinsee}<br>\n";
+    //echo "/codeInsee/{cinsee}<br>\n";
     $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom from comhistog3
       where cinsee='$cinsee'";
     try {
@@ -815,13 +822,24 @@ function getRecord(string $path_info, bool $ld): array {
     foreach ($tuples as &$tuple) {
       $geom = completeUriTuple($tuple, $cinsee);
       $type = in_array($tuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM'; 
-      $tuple['id'] = "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]";
+      $tuple = [
+        '@type'=> 'schema:City',
+        '@id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+        'schema:name'=> $tuple['dnom'],
+      ];
     }
     return [
-      'header'=> ['Content-Type'=> 'application/geo+json'],
+      'header'=> ['Content-Type'=> 'application/ld+json'],
       'body'=> [
+        '@context'=> [
+          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "dcterms" => "http://purl.org/dc/terms/",
+          "schema" => "https://schema.org/",
+        ],
         '@id'=> "https://comhisto.georef.eu/codeInsee/$cinsee",
-        'hasVersion'=> $tuples,
+        'dcterms:hasVersion'=> [
+          'rdf:Bag'=> $tuples,
+        ],
       ],
     ];
   }
@@ -862,6 +880,7 @@ function getRecord(string $path_info, bool $ld): array {
   //   si l'élit est encore valide alors retourne un Feature GeoJSON,
   //   si l'élit a été remplacé alors retourne la liste des élits le remplacant,
   //   si l'élit n'a jamais existé alors retourne une erreur 404
+  // Pas de représentation LD
   if (($type == 'elits2020') && !$ddebut) {
     //echo "https://comhisto.georef.eu/elits2020/{cinsee}<br>\n";
     $sql = "select cinsee, ST_AsGeoJSON(geom) geom from elit where cinsee='$cinsee'";

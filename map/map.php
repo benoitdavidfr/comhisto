@@ -161,7 +161,7 @@ $dirPath = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]".dirname($_SERVER['SC
 // si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
 // sinon la couche d'une entité dont la géographie est la même que celle demandée
 $statut = ($type == 'r') ? 'ERAT' : 'COM'; // statut COM ou ERAT
-$elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : [];
+$elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : null;
 $defaultOverlayIds = [];
 $layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
 $elitss = []; // [elitEtendus => $layerId] - élitsEtendu des couches à afficher
@@ -169,10 +169,10 @@ $sql = "select id, cinsee, type, ddebut, dfin, statut from comhistog3
         where cinsee in ('".implode("','",array_keys($cluster))."')
         order by ddebut asc, type asc";
 foreach (PgSql::query($sql) as $tuple) {
-  $elitEtendus = Histelits::elitEtendus($tuple['id'], $tuple['statut']);
-  //$tuple['$elitEtendus'] = $elitEtendus;
-  //echo '$tuple='; print_r($tuple);
-  if (isset($elitss[$elitEtendus]))
+  $elitEtendus = (strlen($id)==17) ? Histelits::elitEtendus($tuple['id'], $tuple['statut']) : null;
+  $tuple['$elitEtendus'] = $elitEtendus;
+  echo '$tuple='; print_r($tuple);
+  if ($elitEtendus && isset($elitss[$elitEtendus]))
     unset($overlays[$elitss[$elitEtendus]]);
   $overlays[$tuple['id']] = [
     'path'=> "$dirPath/geojson.php?id=$tuple[id]",
@@ -196,6 +196,7 @@ foreach (PgSql::query($sql) as $tuple) {
       $defaultOverlayIds = [ $tuple['id'] ];
   }
 }
+echo 'overlays = '; print_r($overlays);
 $neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
 // Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
 //$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
