@@ -8,7 +8,14 @@ doc: |
       - un objet JSON/GéoJSON qui fournit le détail des données mais nécessite que le client connaisse leur structure
       - un objet JSON-LD dans des ontologies standards, qui donc standardise cette structure mais en la simplifiant
       - un texte Html qui fournit une IHM basique tout en exposant le JSON-LD dans l'en-tête Html
-    
+
+  Correspondance id <-> URI:
+    Il existe une correspondance entre la définition d'un id et celle d'un URI, dont il existe 4 catégories
+      cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
+      cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
+      [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
+      [sr]cinsee@ddebut (eg r01015@2016-01-01) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut}
+
   Les motifs d'URI sont:
     / -> URI de référence
       LD: doc de la base comme enregistrement dcat:Dataset, Html: IHM de consultation de la base
@@ -33,12 +40,6 @@ doc: |
     https://comhisto.georef.eu/status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
     https://comhisto.georef.eu/status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
     https://comhisto.georef.eu/contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
-
-  Correspondance id <-> URI:
-    cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
-    cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
-    [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
-    [sr]cinsee@ddebut (eg r01015@2016-01-01) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut}
 
   Traitements - Points d'entrée:
     / -> doc ?

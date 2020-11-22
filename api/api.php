@@ -769,7 +769,7 @@ function getRecord(string $path_info, bool $ld): array {
   // https://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
   //   -> accès à la version correspondant à cette date comme Feature GeoJSON
   if ($cinsee && in_array($type, ['COM','ERAT'])) {
-    echo "https://comhisto.georef.eu/$type/$cinsee/$ddebut<br>\n";
+    //echo "https://comhisto.georef.eu/$type/$cinsee/$ddebut<br>\n";
     $t = ($type=='COM') ? 's': 'r';
     $sql = "select ddebut, edebut, dfin, efin, statut, ".(($type=='COM') ? 'erats' : 'crat').",
               elits, dnom, ST_AsGeoJSON(geom) geom
@@ -854,6 +854,7 @@ function getRecord(string $path_info, bool $ld): array {
       if (!$theTuple || !in_array($tuple['statut'], ['COMA','COMD','ARM']))
         $theTuple = $tuple;
     }
+    $type = in_array($theTuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM';
     return buildFeatureOrCity($theTuple, $type, $cinsee, $outputFormat, $ld);
   }
 
