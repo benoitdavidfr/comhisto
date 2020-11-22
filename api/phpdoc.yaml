@@ -1,37 +1,52 @@
 title: comhisto/api - déf. des URI + API
 path: /yamldoc/pub/comhisto/api
 doc: |
-  Identification des objets de ComHisto au travers d'URI et accès aux objets:
-    De manière générale les URI ont la forme: http://{domain}.georef.eu/{concept}/{identifier}/{version}.{format}
-    Pour comhisto, le domaine est comhisto
-    Les motifs d'URI sont:
-      http://comhisto.georef.eu/ -> URI de référence et doc de la base et de l'API
-      http://comhisto.georef.eu/(COM|ERAT) -> liste des objets COM|ERAT valides avec formats JSON-LD ou Html
-      http://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide de la commune|ERAT
-        avec formats JSON ou Html, si elle existe retourne en JSON un Feature GeoJSON, en Html une carte, sinon Erreur 404
-      http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune/ERAT
-        avec formats JSON ou Html, si elle existe retourne en JSON un Feature GeoJSON, en Html une carte, sinon Erreur 404
-      http://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
-        si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
-        si l'élit a été remplacé alors retourne la liste des élits le remplacant (A VOIR),
-        si l'élit n'a jamais existé alors retourne une erreur 404
-      http://comhisto.georef.eu/codeInsee/{cinsee} -> URI du code Insee,
-        retourne en JSON la liste des versions de COM|ERAT correspondant à {cinsee},
-        en Html la carte des versions de COM|ERAT correspondant à ce code,
-        si {cinsee} invalide retourne une erreur 404
-      http://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut} -> URI de la version du code Insee,
-        retourne comme FeatureCollection GeoJSON les objets COM|ERAT ? codeInsee ?
-      http://comhisto.georef.eu/status -> URI du thésaurus des statuts, retourne en JSON un skos:ConceptScheme
-      http://comhisto.georef.eu/status/{status} -> URI d'un statut, retourne un skos:Concept en JSON ou erreur 404
-      http://comhisto.georef.eu/contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
+  Logique de mise à disposition:
+    - chaque entité est identifiée par un URI dont le déréférencement donne accès à ses caractéristiques
+      - les URI sont généralement de la forme http://comhisto.georef.eu/{concept}/{identifier}/{version}.{format}
+    - le déréférencement d'un URI propose, en fonction du paramètre Accept, jusqu'à 3 résultats:
+      - un objet JSON/GéoJSON qui fournit le détail des données mais nécessite que le client connaisse leur structure
+      - un objet JSON-LD dans des ontologies standards, qui donc standardise cette structure mais en la simplifiant
+      - un texte Html qui fournit une IHM basique tout en exposant le JSON-LD dans l'en-tête Html
+    
+  Les motifs d'URI sont:
+    / -> URI de référence
+      LD: doc de la base comme enregistrement dcat:Dataset, Html: IHM de consultation de la base
+    /api
+      JSON: doc open API de l'API d'accès
+    /(COM|ERAT) -> liste des objets COM|ERAT valides dans format JSON-LD ou Html
+    /(COM|ERAT)/{cinsee} -> URI de la version valide de la commune|ERAT
+      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
+    /(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune|ERAT débutant à {ddebut}
+      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
+    /codeInsee/{cinsee} -> URI du code Insee,
+      retourne en JSON-LD la liste des versions (dcterms:hasVersion) de COM|ERAT correspondant à {cinsee},
+      en Html la carte des versions de COM|ERAT correspondant à ce code,
+      si {cinsee} invalide retourne une erreur 404
+      correspond à l'id ne contenant que le code Insee
+    /codeInsee/{cinsee}/{ddebut} -> URI de la version débutant à {ddebut} soit commune s'il y en a une, sinon ERAT
+      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
+    https://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
+      si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
+      si l'élit a été remplacé alors retourne la liste des élits le remplacant (dcterms:replacedBy) (A VOIR),
+      si l'élit n'a jamais existé alors retourne une erreur 404
+    https://comhisto.georef.eu/status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
+    https://comhisto.georef.eu/status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
+    https://comhisto.georef.eu/contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
+
+  Correspondance id <-> URI:
+    cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
+    cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
+    [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
+    [sr]cinsee@ddebut (eg r01015@2016-01-01) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut}
 
   Traitements - Points d'entrée:
-    http://comhisto.geoapi.fr/ -> doc
-    http://comhisto.geoapi.fr/codeInsee/{cinsee}?date={date} -> accès à la ou les 2 versions correspondant à cette date
-      en JSON comme FeatureCollection GeoJSON, en Html comme carte sinon erreur 404
-    http://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
-      -> accès à la version correspondant à cette date en JSON comme Feature GeoJSON, en Html comme carte, sinon erreur 404
-    http://comhisto.geoapi.fr/jsonld -> affiche en HTML l'affichage de la carte incluant des données liées
+    / -> doc ?
+    /(COM|ERAT)/{cinsee}?date={date}
+      -> version existant à cette date en JSON comme Feature GeoJSON, en Html comme carte, sinon erreur 404
+    /codeInsee/{cinsee}?date={date}
+      -> version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT,
+      en JSON comme Feature GeoJSON, en Html comme carte sinon erreur 404
 
   Les 2 ensembles d'URL sont compatibles.
   Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/
@@ -40,7 +55,7 @@ doc: |
   - http://comhisto.georef.eu/ correspond à des URI qui identifient des objets pérennes
   - http://comhisto.geoapi.fr/ correspond à des traitements qui ne correspondent pas à un objet pérenne
   
-  Publication comme données liées:
+  Publication comme données liées (LD):
     - une version d'entité
       - est un objet de type http://schema.org/City
       - et porte en outre la propriété https://schema.org/temporalCoverage (prévue pour https://schema.org/CreativeWork)
@@ -57,6 +72,15 @@ doc: |
       - cette appli pourrait être publiée à l'adresse:
         - http://comhisto.geoapi.fr/jsonld  
       - ou aux mêmes URL que les URI en correspondant au format html
+  
+  Logique d'enchainement replaces/replacedBy (défini dans dcterms(http://purl.org/dc/terms/)):
+    - les formats JSON et JSON-LD exposent les champs replaces et replacedBy
+    - lien entre une version de code Insee et la suivante/précédente
+    - + lors d'un changement de code lien entre les codes
+    - + lors de la création de CNOUV avec déléguée propre -> lien replacedBy vers les 2 entités et inverse
+    - + lors d'une fusion lien replacedBy de l'entité fusionnée vers la fusionnante et inverse
+  
+    
 journal: |
   20/11/2020:
     - j'ai déclaré https://comhisto.georef.eu/ à Google Search Console par la méthode d'ajout d'une info dans le header Html
@@ -68,5 +92,6 @@ journal: |
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
+  - /yamldoc/pub/comhisto/api/accept.php
 phpIncludes:
 htmlFiles:

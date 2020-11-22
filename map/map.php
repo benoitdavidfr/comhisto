@@ -3,11 +3,12 @@
 name: map.php
 title: map/map.php - génère la carte Leaflet appelée avec un code Insee en paramètre
 doc: |
-  Script appelé dans un iframe pour générer une carte Leaflet
-  Il est toujours appelé avec un paramètre GET id qui est :
-    - soit le code Insee d'une entité,
-    - soit l'id d'une version,
-    - soit un code Insee précédé de 's' ou 'r'
+  Script normalement appelé dans un iframe depuis ./index.php ou ../api/api.php pour générer une carte Leaflet
+  Il est toujours appelé avec un paramètre GET id qui est:
+    - soit un code Insee, eg: 01015
+    - soit l'id d'une version, eg: r01015@2016-01-01,
+    - soit un code Insee précédé de 's' ou 'r', eg: r01015
+    - soit un code Insee suivi d'une date de version, ex: 01015@2016-01-01,
   Les entités appartenant au cluster sont créées comme couche (overlay) Leaflet.
   Si le paramètre est un code Insee alors est affichée une des entités les plus récentes de ce code Insee.
   Si le paramètre est l'id d'une version alors cette version ou une autre ayant même géographie est affichée.
@@ -40,6 +41,8 @@ doc: |
   ou dans le cas d'une utilisation en API sur georef à la racine, dans ce cas l'appel doit être géré par api.php
 
 journal: |
+  22/11/2020:
+    - ajout du 4ème type de paramètres
   18/11/2020:
     - utilisation des 3 différents type de paramètres
   17/11/2020:
@@ -116,7 +119,16 @@ if (!isset($_GET['id']) || !$_GET['id']) { // erreur si le paramètre id n'est p
 }
 
 $id = $_GET['id'];
-$cinsee = (strlen($id) == 5) ? $id : substr($id, 1, 5);
+
+if (!preg_match('!^([sr])?(\d[\dAB]\d\d\d)(@(\d\d\d\d-\d\d-\d\d))?$!', $id, $matches)) {
+  header('HTTP/1.1 400 Bad Request');
+  die("Erreur dans map.php, paramètre id=$id incorrect");
+}
+//print_r($matches);
+$type = $matches[1];
+$cinsee = $matches[2];
+$ddebut = $matches[4] ?? null;
+
 $cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee); // génération du cluster
 // Calcul du rectangle englobant
 $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
@@ -148,8 +160,7 @@ $dirPath = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]".dirname($_SERVER['SC
 // La couche affichée par défaut est
 // si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
 // sinon la couche d'une entité dont la géographie est la même que celle demandée
-$type = ($id <> $cinsee) ? substr($id, 0, 1) : ''; // type de l'entité demandée
-$statut = ($type == 's') ? 'COM' : 'ERAT'; // statut COM ou ERAT
+$statut = ($type == 'r') ? 'ERAT' : 'COM'; // statut COM ou ERAT
 $elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : [];
 $defaultOverlayIds = [];
 $layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
@@ -174,6 +185,10 @@ foreach (PgSql::query($sql) as $tuple) {
   }
   elseif ($id == "$type$cinsee") {
     if (($tuple['cinsee'] == $cinsee) && ($tuple['type'] == $type))
+      $defaultOverlayIds = [ $tuple['id'] ];
+  }
+  elseif (strlen($id)==16) { // {cinsee}@{ddebut}
+    if (($tuple['cinsee'] == $cinsee) && (!$defaultOverlayIds || ($tuple['type'] == 's')))
       $defaultOverlayIds = [ $tuple['id'] ];
   }
   else { // sinon si version alors une entité dont la géographie est la même que celle demandée

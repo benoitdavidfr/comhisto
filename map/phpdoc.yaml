@@ -5,8 +5,8 @@ doc: |
   L'ergonomie est très basique.
   Il est possible de se déplacer au travers des codes Insee dans le Yaml ou en utilisant la couche des voisines.
 
-  Evol:
-    afficher les codes liés entre eux (entités absorbées, crat, erat) que j'appelle cluster
+  A faire:
+    - navigation carto initiale à partir d'une carte globale avec zoom progressif
 journal: |
   11-12/11/2020:
     - création

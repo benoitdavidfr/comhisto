@@ -1,28 +1,40 @@
 title: comhisto - référentiel de l'historique des communes (V2)
 path: /yamldoc/pub/comhisto
 doc: |
-  Construction d'un référentiel de l'historique des communes depuis le 1er janvier 1943.
+  Construction et diffusion d'un référentiel historique des communes depuis le 1er janvier 1943.
   Réutilisation du code produit dans rpicom, renommage du projet.
+  Plusieurs formes de mise à disposition:
+    - documentation sur https://github.com/benoitdavidfr/comhisto
+    - fichier Yaml de l'historique (4,9 Mo) -> https://georef.eu/yamldoc/pub/comhisto/elits2/histelitp.yaml
+      - avec son schéma et sa doc
+    - fichier GéoJSON (55 Mo) utilisable dans un SIG
+      -> https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson
+    - GéoJSON zippé (6 Mo) -> https://github.com/benoitdavidfr/comhisto/blob/master/export/(comhistog3|elit).7z
+    - visualisation interactive Html de chaque version de code Insee avec carte Leaflet associée
+      -> https://georef.eu/yamldoc/pub/comhisto/map/
+    - URI/API d'accès à chaque entité -> https://comhisto.georef.eu/api/
+      avec restitution en fonction du paramètre Http Accept:
+        - soit en Html avec inclusion du JSON-LD dans l'en-tête (par défaut dans un navigateur),
+        - soit en JSON ou GéoJSON,
+        - soit en JSON-LD.
+    - API d'interpolation d'un code Insee à une date donnée -> https://comhisto.geoapi.fr/api/
+    - MD DCAT https://comhisto.georef.eu/ référencant plusieurs distributions
+      - fichier GéoJSON -> https://static.data.gouv.fr/...
+      - fichier GéoJSON zippé -> https://github.com/benoitdavidfr/comhisto/...
+      - fichier Yaml/JSON -> https://comhisto.georef.eu/histelitp.yaml
+      - URI/API d'accès en JSON-GéoJSON/html/JSON-LD -> https://comhisto.georef.eu/api/
+        - la version html intègre la description JSON-LD dans l'en-tête de la page
+      - API JSON/GéoJSON d'interpolation -> https://comhisto.geoapi.fr/api/
+  
+  Urls:
+    - http://localhost/yamldoc/pub/comhisto/ - en local
+    - https://georef.eu/yamldoc/pub/comhisto/ - sur Alwaysdata
+    - https://comhisto.georef.eu/ - URI simplifiée
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
-  
-  Url: https://georef.eu/yamldoc/pub/comhisto/
-  
-  Résultats:
-    - historique des codes Insee -> croise/histelitp.yaml, son schéma et sa doc
-    - fichier SIG comhistog3 permettant de géocoder n'importe quel code Insee, voir doc dans export/README.md
-    - visu carto
-  
-  Idées de valorisation:
-    - opérationaliser sous la forme d'une API le cas d'usage de récupération de la géométrie de la commune/entité
-      correspondant à un code Insee donné et à une date donnée,
-    - exposer comhisto en données liées.
-    
-  A faire:
-    - mieux documenter la base PostGis produite et utilisée
 journal: |
-  13/11/2020:
-    - ajout d'une API
+  13-21/11/2020:
+    - ajout de l'API
   11-12/11/2020:
     - ajout visu carto
   20/10-9/11/2020:
