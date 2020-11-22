@@ -1,14 +1,17 @@
 title: liste des vérifications à effectuer
+abstract: |
+  Liste de path_info à tester sur les différents serveurs
+  Fichier exploité par verif.php
 contents:
   baseUrls:
-    - http://localhost/yamldoc/pub/comhisto/api/api.php
-    - http://georef.eu/yamldoc/pub/comhisto/api/api.php
-    - http://comhisto.georef.eu
+    localhost: http://localhost/yamldoc/pub/comhisto/api/api.php
+    georef.eu: https://georef.eu/yamldoc/pub/comhisto/api/api.php
+    comhisto.georef.eu: https://comhisto.georef.eu
   path_infos:
     - url: /
       title: racine
-    - url: /COM
-      title: liste des communes valides
+    - url: /ERAT
+      title: liste des ERAT valides
   # /COM/{cinsee}
     - url: /COM/01015
       title: commune Ok
@@ -27,7 +30,7 @@ contents:
     - url: /COM/01340/2016-01-01
       title: version KO
     - url: /COM/78121/1943-01-01
-      title: ancienne version ok d'un code Insee disparu
+      title: anc. v. ok code disparu
   # /ERAT/{cinsee}/{ddebut}
     - url: /ERAT/01340/2016-01-01
       title: version ok
@@ -39,14 +42,14 @@ contents:
     - url: /codeInsee/01340
       title: ERAT ok
     - url: /codeInsee/78121
-      title: code Insee disparu -> ok
+      title: code disparu -> ok
   # /codeInsee/{cinsee}/{ddebut}
     - url: /codeInsee/01015/2016-01-01
       title: commune Ok
     - url: /codeInsee/01340/2016-01-01
       title: ERAT ok
     - url: /codeInsee/78121/1943-01-01
-      title: code Insee disparu -> ok
+      title: code disparu -> ok
   # /elits2020/{cinsee}
     - url: /elits2020/01015
       title: Ok
@@ -70,7 +73,7 @@ contents:
     - url: /COM/01015?date=2019-01-01
       title: commune Ok
     - url: /COM/78121?date=2019-01-01
-      title: code Insee ayant disparu -> KO
+      title: code disparu -> KO
     - url: /ERAT/01340?date=2019-01-01
       title: ERAT ok
     - url: /ERAT/78121?date=2019-01-01
@@ -81,4 +84,4 @@ contents:
     - url: /codeInsee/01340?date=2019-01-01
       title: ERAT ok
     - url: /codeInsee/78121?date=2019-01-01
-      title: code Insee ayant disparu -> KO
+      title: code disparu -> KO

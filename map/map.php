@@ -171,7 +171,7 @@ $sql = "select id, cinsee, type, ddebut, dfin, statut from comhistog3
 foreach (PgSql::query($sql) as $tuple) {
   $elitEtendus = (strlen($id)==17) ? Histelits::elitEtendus($tuple['id'], $tuple['statut']) : null;
   $tuple['$elitEtendus'] = $elitEtendus;
-  echo '$tuple='; print_r($tuple);
+  //echo '$tuple='; print_r($tuple);
   if ($elitEtendus && isset($elitss[$elitEtendus]))
     unset($overlays[$elitss[$elitEtendus]]);
   $overlays[$tuple['id']] = [
@@ -196,8 +196,8 @@ foreach (PgSql::query($sql) as $tuple) {
       $defaultOverlayIds = [ $tuple['id'] ];
   }
 }
-echo 'overlays = '; print_r($overlays);
-$neigborPath = "$dirPath/neighbor.php?id=$_GET[id]";
+//echo 'overlays = '; print_r($overlays);
+$neigborPath = "$dirPath/neighbor.php?id=$cinsee";
 // Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
 //$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
 // Finalement si, Plan IGN V2 existe dans les DOM

@@ -20,7 +20,7 @@ $jeutest = Yaml::parseFile('verif.yaml');
 
 
 echo "<pre>"; //print_r($jeutest);
-echo "<table border=1><th>",implode('</th><th>', $jeutest['contents']['baseUrls']),"</th>";
+echo "<table border=1><th>",implode('</th><th>', array_keys($jeutest['contents']['baseUrls'])),"</th>";
 foreach ($jeutest['contents']['path_infos'] as $path_info) {
   echo "<tr>";
   foreach ($jeutest['contents']['baseUrls'] as $baseUrl) {
@@ -29,10 +29,10 @@ foreach ($jeutest['contents']['path_infos'] as $path_info) {
     echo "<a href='$url'>$path_info[url] $path_info[title]</a>\n";
 
     if (($contents = @file_get_contents($url, false, $context)) ===  FALSE) {
-      echo "  Erreur de lecture Http, erreur=$http_response_header[0]\n";
+      echo "Erreur Http: $http_response_header[0]\n";
     }
     else {
-      echo "  Lecture Http OK,";
+      echo "Lecture Http ok,";
       if (($array = json_decode($contents, true)) === null) {
         echo " Erreur de décodage JSON\n";
       }
