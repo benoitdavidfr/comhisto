@@ -100,10 +100,6 @@ doc: |
       - -> https://comhisto.georef.eu/ERAT/44225/2018-01-01
       
   A faire:
-    - utiliser schema:Event ?
-      https://schema.org/Event
-        startDate
-        endDate
     - comment vérifier la validité des objets LD ?
       - https://search.google.com/structured-data/testing-tool ?
     - améliorer la publication en LD

@@ -46,12 +46,13 @@ et [zippé ici (6.0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
 ## Mise à disposition du référentiel
-Outre sa mise à disposition au format GeoJSON, le référentiel est aussi proposé:
+Outre sa mise à disposition au format GeoJSON, le référentiel est aussi proposé sous la forme:
 
-- sous la forme de cartes représentant les différentes versions associées aux codes Insee,
-- sous la forme d'une API.
+- de cartes HTML représentant les différentes versions associées aux codes Insee,
+- d'une API JSON/GéoJSON,
+- de données liées en JSON-LD intégrées dans les pages Html.
 
-Ces 2 types d'accès sont [décrits ici](api/README.md).
+Ces 3 formes sont [décrites ici](api/README.md).
 
 ## Limites du référentiel
 **Attention**, aux limites suivantes :
