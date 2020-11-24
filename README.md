@@ -1,6 +1,5 @@
 # Référentiel communal historique simplifié (ComHisto)
 ### Utilisation du code Insee des communes comme référentiel pivot
-Mise à jour importante le 8/11/2020.
 
 ## Objectif du projet
 L'objectif de ce projet est d'améliorer l'utilisation comme référentiel pivot du code Insee des communes.
@@ -35,24 +34,25 @@ et leur associant les versions successives géoréférencées permettant de retr
 Ainsi les codes Insee intégrés dans une base après le 1/1/1943 restent valables et peuvent être utilisés, par exemple pour géocoder
 l'information ou pour la croiser avec un référentiel à jour des communes,
 à *condition cependant de conserver dans la base métier la date de validité du code Insee utilisé*.
+
 Ce référentiel a été généré par croisement des informations du COG publiées par l'Insee
 et des informations d'Admin-Express publiées par l'IGN.
 Sa date de validité est le 1/1/2020.
 
+## Mise à disposition du référentiel
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition
 sous la forme d'un fichier [au format GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
 [publié sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson)
 et [zippé ici (6.0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
-## Mise à disposition du référentiel
-Outre sa mise à disposition au format GeoJSON, le référentiel est aussi proposé sous la forme:
+Il est de plus proposé sous la forme:
 
 - de cartes HTML représentant les différentes versions associées aux codes Insee,
 - d'une API JSON/GéoJSON,
 - de données liées en JSON-LD intégrées dans les pages Html.
 
-Ces 3 formes sont [décrites ici](api/README.md).
+Ces 3 dernières formes sont [décrites ici](api/README.md).
 
 ## Limites du référentiel
 **Attention**, aux limites suivantes :
@@ -146,3 +146,12 @@ et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 ## 7ème étape - exporter le référentiel
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
 et décrit [ici](export/README.md).
+
+## 8ème étape - mise à disposition par API
+Il est de plus proposé sous la forme:
+
+- de cartes HTML représentant les différentes versions associées aux codes Insee,
+- d'une API JSON/GéoJSON,
+- de données liées en JSON-LD intégrées dans les pages Html.
+
+Ces 3 dernières formes sont [décrites ici](api/README.md).
