@@ -4,14 +4,15 @@ name: map.php
 title: map/map.php - génère la carte Leaflet appelée avec en paramètre un identifiant
 doc: |
   Script normalement appelé:
-    - soit dans un iframe depuis ./index.php ou ../api/api.php pour générer une carte Leaflet
+    - soit dans un iframe depuis ./index.php ou ../api/api.php
     - soit par un require dans ../api/api.php puis appel de main()
-  Comme script, il est toujours appelé avec un paramètre GET id qui est:
+  Le paramètre id est:
     - soit un code Insee, eg: 01015
     - soit l'id d'une version, eg: r01015@2016-01-01,
     - soit un code Insee précédé de 's' ou 'r', eg: r01015
     - soit un code Insee suivi d'une date de version, ex: 01015@2016-01-01,
-  De même dans un require le paramètre GET id doit être présent.
+  Appelé comme script, le paramètre est dans $_GET
+  Lors d'un require, $_GET est passé à main() en paramètre.
 
   Les entités appartenant au cluster sont créées comme couche (overlay) Leaflet.
   Si le paramètre est un code Insee alors est affichée une des entités les plus récentes de ce code Insee.
@@ -19,18 +20,28 @@ doc: |
   Si l'id est un code Insee précédé de 's' ou 'r' alors est affichée l'entité la plus récente de ce code Insee
   correspondant à ce type.
   
-  Script utilisé soit depuis ./index.php:
-    en localhost:
-      http://localhost/yamldoc/pub/comhisto/map/?id=01015
-    sur georef:
-      https://georef.eu/yamldoc/pub/comhisto/map/?id=33055
-  Soit depuis ../api/api.php:
-    en localhost:
-      http://localhost/yamldoc/pub/comhisto/api/api.php?id=01015
-    sur georef:
-      https://comhisto.georef.eu/COM/01015
-      https://comhisto.georef.eu/COM/01015/2016-01-01
-      https://comhisto.georef.eu/?id=01034
+  Script utilisé dans un iframe
+    soit depuis ./index.php:
+      sur localhost:
+        http://localhost/yamldoc/pub/comhisto/map/?id=01015
+      sur georef:
+        https://georef.eu/yamldoc/pub/comhisto/map/?id=33055
+    soit depuis ../api/api.php:
+      sur localhost:
+        http://localhost/yamldoc/pub/comhisto/api/api.php?id=01015
+      sur georef.eu:
+      sur comhisto.georef.eu:
+        https://comhisto.georef.eu/COM/01015/2016-01-01
+        https://comhisto.georef.eu/?id=01034
+  Utilisation comme URI /map par un require
+    sur localhost:
+      http://localhost/yamldoc/pub/comhisto/api/api.php/map/01015 - non satisfaisant mais exceptionnel
+    sur comhisto.georef.eu:
+      https://comhisto.georef.eu/map/01034
+  Exceptionnellement appel direct de map.php
+    sur localhost/georef.eu:
+      http://localhost/yamldoc/pub/comhisto/map/map.php?id=01015
+
   
   NON UTILISE:
   $_SERVER[REQUEST_SCHEME] vaut 'hhtp' sur localhost et 'https' sur Alwaysdata, que la connexion soit en http ou en https
@@ -46,6 +57,8 @@ doc: |
   ou dans le cas d'une utilisation en API sur georef à la racine, dans ce cas l'appel doit être géré par api.php
 
 journal: |
+  24/11/2020:
+    - mise en oeuvre URI /map
   22/11/2020:
     - ajout du 4ème type de paramètres
   18/11/2020:
@@ -173,8 +186,8 @@ function main(array $GET) {
   
   //print_r($_SERVER);
   //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
-  //echo "PATH_INFO=$_SERVER[PATH_INFO]<br>\n";
-  //echo "HTTP_REFERER=$_SERVER[HTTP_REFERER]<br>\n";
+  //echo "PATH_INFO=",$_SERVER['PATH_INFO'] ?? 'non défini',"<br>\n";
+  //echo "HTTP_REFERER=",$_SERVER['HTTP_REFERER'] ?? 'non défini',"<br>\n";
 
   // chemin du script utilisé pour le rappel du script parent en JS dans voisine
   if (!$_SERVER['SCRIPT_NAME']) { // cas sur https://comhisto.georef.eu/
@@ -183,7 +196,10 @@ function main(array $GET) {
     else
       $parentScript = '/'; // le script parent est la racine
   }
-  else { // cas sur http://localhost/yamldoc/pub/comhisto/map/map.php
+  elseif (!isset($_SERVER['HTTP_REFERER'])) { // cas d'appel direct de map.php ou de l'URI /map
+    $parentScript = '';
+  }
+  else { // utilisation du referer, ssi appel dans 
     $pos = strrpos($_SERVER['HTTP_REFERER'], '.php');
     //echo "pos=",($pos === false) ? 'false' : $pos,"<br>\n";
     // ex http://localhost/yamldoc/pub/comhisto/api/api.php/COM/01015
@@ -195,8 +211,8 @@ function main(array $GET) {
       $pos = strrpos($_SERVER['HTTP_REFERER'], '?');
       $parentScript = substr($_SERVER['HTTP_REFERER'], 0, $pos);
     }
-    //echo "parentScript=$parentScript<br>\n";
   }
+  //echo "parentScript=$parentScript<br>\n";
 
   // construction des couches visualisables (overlays) en se limitant à une seule entité par géographie
   // (définie par ses élitEtendus) et en privilégiant la version la plus récente.

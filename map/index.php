@@ -3,7 +3,10 @@
 name: index.php
 title: map/index.php - visualisation carto de ComHisto
 doc: |
-  Génère un fichier Html permettant de visualiser des éléments de comhisto avec en particulier dans un cadre la carte
+  Génère un fichier Html permettant de visualiser des entités de comhisto sous la forme:
+    1) d'une carte dans un cadre
+    2) d'un extrait de histelit
+    3) d'un représentation JSON-LD de l'entité ciblée
 
   Fichier soit éxécuté comme script directement
     en localhost:
@@ -15,7 +18,7 @@ doc: |
       http://localhost/yamldoc/pub/comhisto/api/api.php
       http://localhost/yamldoc/pub/comhisto/api/api.php/COM/01015
       http://localhost/yamldoc/pub/comhisto/api/api.php?id=01015
-    sur georef:
+    sur comhisto.georef.eu:
       https://comhisto.georef.eu/
       https://comhisto.georef.eu/COM/01015
       https://comhisto.georef.eu/COM/01015/2016-01-01
@@ -32,8 +35,8 @@ doc: |
   N'utilise pas de paramètre en PATH_INFO
 
   Le formulaire fait appel au même script (avec action='') en utilisant le paramètre GET id
-  Le script crée un iframe pour la carte qui utilise map.php dans le répertoire ../map/ de $_SERVER[SCRIPT_NAME]
-  Le script propose des href utilisant $_SERVER[SCRIPT_NAME]
+  Le script crée un iframe pour la carte qui utilise map.php du même répertoire
+  Le script propose des href
 
   Cas d'utilisation et valeur de $_SERVER[SCRIPT_NAME]:
     - localhost
@@ -42,7 +45,7 @@ doc: |
     - georef.eu
       - https://georef.eu/yamldoc/pub/comhisto/map/?id=97101 -> /yamldoc/pub/comhisto/map/index.php
       - https://georef.eu/yamldoc/pub/comhisto/api/api.php/COM/01015/2016-01-01 -> /yamldoc/pub/comhisto/api/api.php
-    - https://comhisto.georef.eu/
+    - comhisto.georef.eu
       - https://comhisto.georef.eu/ ->
       - https://comhisto.georef.eu/ERAT/01340/2016-01-01 -> 
       - https://comhisto.georef.eu/ERAT/01340/2016-01-01?id=s01015@1943-01-01 -> 
@@ -86,7 +89,7 @@ function showComHisto(string $id='', array $record=null): string {
   
   // détermination de $mapScriptName qui est le chemin à utiliser pour appeler le script map/map.php
   if (!$_SERVER['SCRIPT_NAME']) // cas sur https://comhisto.georef.eu/
-    // Par convention, les fichiers de map et d'api sont virtuellement accessibles https://comhisto.georef.eu/
+    // Par convention, les fichiers de map et d'api sont virtuellement accessibles par https://comhisto.georef.eu/
     $mapScriptName = '/map.php';
   elseif (basename($_SERVER['SCRIPT_NAME'])=='index.php') // cas sur http://localhost/yamldoc/pub/comhisto/map/
     // je suis dans le bon répertoire, il suffit donc d'utiliser le chemin relatif

@@ -9,7 +9,7 @@ doc: |
        donné et à une date donnée.
   La liste des motifs d'URI et d'URL est définie dans phpdoc.yaml
 
-  Ce script peut être exécuté directement en mode non CLI ou utilisé par inclusion dans un autre.
+  Ce script est normalement exécuté directement en mode non CLI.
   Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
 journal: |
@@ -255,7 +255,7 @@ function buildFeatureOrCity(array $tuple, string $type, string $cinsee, ?string 
   $isReplacedBy = isset($tuple['efin']['changeDeCodePour']) ?
     $tuple['efin']['changeDeCodePour']
       : ($tuple['dfin'] ? makeUri($cinsee, 'ddebut', $tuple['dfin'], '') : null);
-  if (!$ld) { // structuration GéoJSON
+  if (($outputFormat=='json') || !$ld) { // structuration GéoJSON
     return [
       'header'=> ['Content-Type'=> 'application/geo+json'],
       'body'=> [
@@ -1008,7 +1008,7 @@ $path_info = pathInfoFromId($_GET['id'] ?? '') ?? $_SERVER['PATH_INFO'] ?? '';
 $record = getRecord($path_info, !array_intersect($accept, ['application/json','application/geo+json']));
 //print_r($record);
 if (array_intersect($accept, ['application/json','application/ld+json','application/geo+json'])
-|| (($record['outputFormat'] ?? '') == '.json') || (idFromPathInfo($path_info) === null)) {
+|| (($record['outputFormat'] ?? '') == 'json') || (idFromPathInfo($path_info) === null)) {
   if ($error = $record['error'] ?? null) {
     define('HTTP_ERROR_LABELS', [
       400 => 'Bad Request',
