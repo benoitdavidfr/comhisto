@@ -2,15 +2,17 @@ title: comhisto/api - déf. des URI + API
 path: /yamldoc/pub/comhisto/api
 doc: |
   Logique de mise à disposition:
-    - chaque entité est identifiée par un URI dont le déréférencement donne accès à ses caractéristiques
+    - chaque entité est identifiée par un URI dont le déréférencement donne accès à ses propriétés
       - les URI sont généralement de la forme http://comhisto.georef.eu/{concept}/{identifier}/{version}.{format}
     - le déréférencement d'un URI propose, en fonction du paramètre Accept, jusqu'à 3 résultats:
       - un objet JSON/GéoJSON qui fournit le détail des données mais nécessite que le client connaisse leur structure
       - un objet JSON-LD dans des ontologies standards, qui donc standardise cette structure mais en la simplifiant
-      - un texte Html qui fournit une IHM basique tout en exposant le JSON-LD dans l'en-tête Html
+      - un texte Html qui fournit une IHM basique tout en fournissant le JSON-LD dans l'en-tête Html
 
   Correspondance id <-> URI:
-    Il existe une correspondance entre la définition d'un id et celle d'un URI, dont il existe 4 catégories
+    En fonction des contextes, une entité est identifiée soit par id soit par un URI.
+    L'URI a l'avantage d'être générique mais est long, l'id au contraire est court.
+    Il existe une bijection entre les id et les URI, dont il existe 4 catégories
       cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
       cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
       [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
@@ -22,8 +24,6 @@ doc: |
     /api (A FAIRE)
       JSON: doc open API de l'API d'accès
     /(COM|ERAT) -> liste des objets COM|ERAT valides dans format JSON-LD
-    /(COM|ERAT)/{cinsee} -> URI de la version valide de la commune|ERAT
-      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
     /(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune|ERAT débutant à {ddebut}
       JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
     /codeInsee/{cinsee} -> URI du code Insee,
@@ -35,19 +35,22 @@ doc: |
       si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
       si l'élit a été remplacé alors retourne la liste des élits le remplacant (dcterms:replacedBy) (A VOIR),
       si l'élit n'a jamais existé alors retourne une erreur 404
+    /map/(s|r|){cinsee}/{ddebut} -> URI de la carte,  en Html/JSON-LD, sinon erreur 404
     /status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
     /status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
     /contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
 
   Traitements - Points d'entrée:
     / -> doc ?
+    /(COM|ERAT)/{cinsee} -> retourne la version valide de la commune|ERAT en GeoJSON/Html/JSON-LD, sinon erreur 404
     /(COM|ERAT)/{cinsee}?date={date}
-      -> version existant à cette date en JSON comme Feature GeoJSON, en Html comme carte, sinon erreur 404
+      -> retourne la version existant à cette date en GeoJSON/Html/JSON-LD, sinon erreur 404
     /codeInsee/{cinsee}?date={date}
-      -> version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT,
-      en JSON comme Feature GeoJSON, en Html comme carte sinon erreur 404
-    /codeInsee/{cinsee}/{ddebut} -> URI de la version débutant à {ddebut} soit commune s'il y en a une, sinon ERAT
-      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
+      -> retourne la version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT,
+       en GeoJSON/Html/JSON-LD, sinon erreur 404
+    /codeInsee/{cinsee}/{ddebut} -> retourne la version débutant à {ddebut} soit de commune s'il y en a une, sinon d'ERAT,
+       en GeoJSON/Html/JSON-LD, sinon erreur 404
+    /map/(s|r|){cinsee} -> carte de la version valide de commune|ERAT|codeInsee en Html/JSON-LD, sinon erreur 404
 
   Les 2 ensembles d'URL sont compatibles.
   Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/
@@ -64,15 +67,7 @@ doc: |
       - une autre possibilité serait d'utiliser la propriété hasTime de https://www.w3.org/TR/owl-time/
         - mais elle a moins de chance d'être comprise par Google
     - le principe de publication est d'exposer un objet JSON-LD sur la page HTML représentant une entité
-      - faire évoluer l'outil map avec
-        - la page racine de map correspondant à http://comhisto.georef.eu/
-        - la page actuelle par code Insee correspondant à http://comhisto.georef.eu/codeInsee/{cinsee}
-          qui quand on clique sur une date ou sur nomCommeDéléguée donne accès à
-        - une page par version d'entité correspondant à http://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} 
-          - la carte affiche par défaut cette version d'entité ou une géographie identique
-      - cette appli pourrait être publiée à l'adresse:
-        - http://comhisto.geoapi.fr/jsonld  
-      - ou aux mêmes URL que les URI en correspondant au format html
+    - puis de fournir un sitemap pour l'indexation par Google
   
   Logique d'enchainement replaces/replacedBy (défini dans dcterms(http://purl.org/dc/terms/)):
     - les formats JSON et JSON-LD exposent les champs replaces et replacedBy
@@ -81,8 +76,59 @@ doc: |
     - + lors de la création de CNOUV avec déléguée propre -> lien replacedBy vers les 2 entités et inverse
     - + lors d'une fusion lien replacedBy de l'entité fusionnée vers la fusionnante et inverse
   
+  URI dans les évènements:
+    Je décide dans les évènements de début d'utiliser l'URI valable à cette date et non l'URI de l'objet précédent
+    Par exemple:
+      type: Feature
+      id: 'https://comhisto.georef.eu/ERAT/01015/2016-01-01'
+      properties:
+        ddebut: '2016-01-01'
+        edebut:
+          devientDéléguéeDe: 'https://comhisto.georef.eu/COM/01015/2016-01-01'
+        dfin: null
+        efin: null
+        statut: COMD
+        dnom: Arbignieu
+    
+      devientDéléguéeDe: https://comhisto.georef.eu/COM/01015/2016-01-01
+
+    J'aurais pu utiliser l'URI de l'objet précédent, ici https://comhisto.georef.eu/COM/01015/1943-01-01
+    mais dans certain cas cet objet n'existe pas et j'aurais été obligé de changer le code Insee
+
+  Cas particuliers:
+    - 49144 (Freigné) change de département pour 44225 pour devenir déléguée de 44180
+      - -> https://comhisto.georef.eu/ERAT/44225/2018-01-01
+      
+  A faire:
+    - utiliser schema:Event ?
+      https://schema.org/Event
+        startDate
+        endDate
+    - comment vérifier la validité des objets LD ?
+      - https://search.google.com/structured-data/testing-tool ?
+    - améliorer la publication en LD
+      - propriété https://schema.org/temporalCoverage (fait en partie)
+      - améliorer replaces/replacedBy
+      - gérer le déréférencement des classes et propriétés définies dans comhisto (comhisto:Event, comhisto:startEvent, ...)
+    - revoir le README sur l'API
+    - ajouter les enregistrements DCAT de distribution et de service
+    - écrire la description open API
     
 journal: |
+  24/11/2020:
+    - ajout de la propriété https://schema.org/hasMap
+    - ajout des URI/URL /map/(s|r|){cinsee}/{ddebut} et /map/(s|r|){cinsee}
+    - amélioration de l'articulation entre api.php, ../map/index.php et ../map/map.php
+    - Google indique qu'il a moisonné le site mais qu'il y a rencontré des erreurs - je ne comprends pas lesquelles
+  23/11/2020:
+    - écriture de sitemap.php et déclaration à Google
+    - amélioration de la structure LD de /(COM|ERAT)/{cinsee}/{ddebut}
+  21-22/11/2020:
+    - distinction entre les appels d'API JSON et JSON-LD car ce n'est pas qu'une question de format,
+      la structure retournée est différente, surtout pour /COM|ERAT/{insee}
+    - extension de la visualisation à 4 formats d'id {cinsee} / {type}{cinsee} / {type}{cinsee}@{ddebut} / {cinsee}@{ddebut}
+    - clarification de la sémantique de chacun des 4 formats
+    - amélioration des représentations LD
   20/11/2020:
     - j'ai déclaré https://comhisto.georef.eu/ à Google Search Console par la méthode d'ajout d'une info dans le header Html
   18/11/2020:
@@ -94,5 +140,7 @@ journal: |
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
   - /yamldoc/pub/comhisto/api/accept.php
+  - /yamldoc/pub/comhisto/api/verif.php
+  - /yamldoc/pub/comhisto/api/sitemap.php
 phpIncludes:
 htmlFiles:

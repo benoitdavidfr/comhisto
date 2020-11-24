@@ -1,14 +1,18 @@
 <?php
 /*PhpDoc:
 name: map.php
-title: map/map.php - génère la carte Leaflet appelée avec un code Insee en paramètre
+title: map/map.php - génère la carte Leaflet appelée avec en paramètre un identifiant
 doc: |
-  Script normalement appelé dans un iframe depuis ./index.php ou ../api/api.php pour générer une carte Leaflet
-  Il est toujours appelé avec un paramètre GET id qui est:
+  Script normalement appelé:
+    - soit dans un iframe depuis ./index.php ou ../api/api.php pour générer une carte Leaflet
+    - soit par un require dans ../api/api.php puis appel de main()
+  Comme script, il est toujours appelé avec un paramètre GET id qui est:
     - soit un code Insee, eg: 01015
     - soit l'id d'une version, eg: r01015@2016-01-01,
     - soit un code Insee précédé de 's' ou 'r', eg: r01015
     - soit un code Insee suivi d'une date de version, ex: 01015@2016-01-01,
+  De même dans un require le paramètre GET id doit être présent.
+
   Les entités appartenant au cluster sont créées comme couche (overlay) Leaflet.
   Si le paramètre est un code Insee alors est affichée une des entités les plus récentes de ce code Insee.
   Si le paramètre est l'id d'une version alors cette version ou une autre ayant même géographie est affichée.
@@ -28,6 +32,7 @@ doc: |
       https://comhisto.georef.eu/COM/01015/2016-01-01
       https://comhisto.georef.eu/?id=01034
   
+  NON UTILISE:
   $_SERVER[REQUEST_SCHEME] vaut 'hhtp' sur localhost et 'https' sur Alwaysdata, que la connexion soit en http ou en https
   Son utilisation conduit donc à utiliser des liens en http sur localhost et en https sur Alwaysdata
 
@@ -113,116 +118,158 @@ class Zoom {
   }
 };
 
-if (!isset($_GET['id']) || !$_GET['id']) { // erreur si le paramètre id n'est pas défini ou vide 
-  header('HTTP/1.1 400 Bad Request');
-  die("Erreur dans map.php, paramètre id non défini ou vide");
+//echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
+//echo "FILE=",__FILE__,"<br>\n";
+
+if (basename(__FILE__) == basename($_SERVER['SCRIPT_NAME'])) { // exécution si le script est appelé directemrnt
+  main($_GET);
 }
 
-$id = $_GET['id'];
-
-if (!preg_match('!^([sr])?(\d[\dAB]\d\d\d)(@(\d\d\d\d-\d\d-\d\d))?$!', $id, $matches)) {
-  header('HTTP/1.1 400 Bad Request');
-  die("Erreur dans map.php, paramètre id=$id incorrect");
-}
-//print_r($matches);
-$type = $matches[1];
-$cinsee = $matches[2];
-$ddebut = $matches[4] ?? null;
-
-$cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee); // génération du cluster
-// Calcul du rectangle englobant
-$sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
-        from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";
-//echo "$sql<br>\n";
-$bbox = new GBox(PgSql::getTuples($sql)[0]);
-if ($bbox->size() === null) { // Erreur si bbox non défini 
-  header('HTTP/1.1 400 Bad Request');
-  die("Erreur dans map.php, bbox non défini pour $_GET[id]");
-}
-
-echo "<pre>";
-//echo "size=",$bbox->size(),"\n";
-//echo "zoom=",$bbox->zoom(),"\n";
-
-// $dirPath est le chemin correspondant au répertoire dans lequel est map.php
-// Lors d'un appel sur https://comhisto.georef.eu/, $dirPath vaut https://comhisto.georef.eu
-$dirPath = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]".dirname($_SERVER['SCRIPT_NAME']);
-//print_r($_SERVER);
-//echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME],\ndirPath=$dirPath\n";
-//echo "REQUEST_SCHEME=$_SERVER[REQUEST_SCHEME],\ndirPath=$dirPath\n";
-
-// construction des couches visualisables (overlays) en se limitant à une seule entité par géographie
-// (définie par ses élitEtendus) et en privilégiant la version la plus récente.
-// Utilisation de la légende:
-//   vert - communes valides
-//   bleu - entités rattachées valides
-//   rouge - versions périmées
-// La couche affichée par défaut est
-// si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
-// sinon la couche d'une entité dont la géographie est la même que celle demandée
-$statut = ($type == 'r') ? 'ERAT' : 'COM'; // statut COM ou ERAT
-$elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : null;
-$defaultOverlayIds = [];
-$layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
-$elitss = []; // [elitEtendus => $layerId] - élitsEtendu des couches à afficher
-$sql = "select id, cinsee, type, ddebut, dfin, statut from comhistog3
-        where cinsee in ('".implode("','",array_keys($cluster))."')
-        order by ddebut asc, type asc";
-foreach (PgSql::query($sql) as $tuple) {
-  $elitEtendus = (strlen($id)==17) ? Histelits::elitEtendus($tuple['id'], $tuple['statut']) : null;
-  $tuple['$elitEtendus'] = $elitEtendus;
-  //echo '$tuple='; print_r($tuple);
-  if ($elitEtendus && isset($elitss[$elitEtendus]))
-    unset($overlays[$elitss[$elitEtendus]]);
-  $overlays[$tuple['id']] = [
-    'path'=> "$dirPath/geojson.php?id=$tuple[id]",
-    'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD','ARM']) ? 'blue' : 'green'),
-  ];
-  $elitss[$elitEtendus] = $tuple['id'];
-  if ($id == $cinsee) { // le param. est code Insee alors une des versions les plus récentes correspondant à ce code Insee
-    if ($tuple['cinsee'] == $cinsee)
-      $defaultOverlayIds = [ $tuple['id'] ];
+// contient la quasi-totalité du code pour pouvoir être utilisée par ../api/api.php
+function main(array $GET) {
+  if (!isset($GET['id']) || !$GET['id']) { // erreur si le paramètre id n'est pas défini ou vide 
+    header('HTTP/1.1 400 Bad Request');
+    die("Erreur dans map.php, paramètre id non défini ou vide");
   }
-  elseif ($id == "$type$cinsee") {
-    if (($tuple['cinsee'] == $cinsee) && ($tuple['type'] == $type))
-      $defaultOverlayIds = [ $tuple['id'] ];
+  $id = $GET['id'];
+  if (!preg_match('!^([sr])?(\d[\dAB]\d\d\d)(@(\d\d\d\d-\d\d-\d\d))?$!', $id, $matches)) {
+    header('HTTP/1.1 400 Bad Request');
+    die("Erreur dans map.php, paramètre id=$id incorrect");
   }
-  elseif (strlen($id)==16) { // {cinsee}@{ddebut}
-    if (($tuple['cinsee'] == $cinsee) && (!$defaultOverlayIds || ($tuple['type'] == 's')))
-      $defaultOverlayIds = [ $tuple['id'] ];
+  //print_r($matches);
+  $type = $matches[1];
+  $cinsee = $matches[2];
+  $ddebut = $matches[4] ?? null;
+
+  $cluster = Histelits::cluster(__DIR__.'/../elits2/histelitp', $cinsee); // génération du cluster
+  // Calcul du rectangle englobant
+  $sql = "select min(ST_XMin(geom)) xmin, min(ST_YMin(geom)) ymin, max(ST_XMax(geom)) xmax, max(ST_YMax(geom)) ymax
+          from comhistog3 where cinsee in ('".implode("','",array_keys($cluster))."')";
+  //echo "$sql<br>\n";
+  $bbox = new GBox(PgSql::getTuples($sql)[0]);
+  if ($bbox->size() === null) { // Erreur si bbox non défini 
+    header('HTTP/1.1 400 Bad Request');
+    die("Erreur dans map.php, bbox non défini pour $_GET[id]");
   }
-  else { // sinon si version alors une entité dont la géographie est la même que celle demandée
-    if ($elitEtendus == $elitEtendusDeLEntiteeDemandée)
-      $defaultOverlayIds = [ $tuple['id'] ];
+
+  echo "<pre>";
+  //echo "size=",$bbox->size(),"\n";
+  //echo "zoom=",$bbox->zoom(),"\n";
+
+  // détermination de $mapDirPath, chemin du répertoire dans lequel est appelé map.php, utilisé pour les CSS/JS + geojson
+  if (!$_SERVER['SCRIPT_NAME']) // cas sur https://comhisto.georef.eu/
+    // Par convention, les fichiers de map et d'api sont virtuellement accessibles https://comhisto.georef.eu/
+    $mapDirPath = '/';
+  elseif (basename($_SERVER['SCRIPT_NAME'])=='map.php') // cas sur http://localhost/yamldoc/pub/comhisto/map/map.php
+    // je suis dans le bon répertoire, il suffit donc d'utiliser le chemin relatif
+    $mapDirPath = '';
+  elseif (basename($_SERVER['SCRIPT_NAME'])=='api.php') { // cas sur http://localhost/yamldoc/pub/comhisto/api/api.php
+    // je suis dans le répertoire api, j'utilise le répertoire de comhisto défini indirectement par $_SERVER['SCRIPT_NAME']
+    $mapDirPath = dirname(dirname($_SERVER['SCRIPT_NAME']))."/map/";
   }
-}
-//echo 'overlays = '; print_r($overlays);
-$neigborPath = "$dirPath/neighbor.php?id=$cinsee";
-// Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
-//$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
-// Finalement si, Plan IGN V2 existe dans les DOM
-$defaultBaseLayer = "Plan IGN v2";
-echo "</pre>\n";
-?>
+  else
+    throw new Exception("Cas non prévu pour SCRIPT_NAME=$_SERVER[SCRIPT_NAME]");
+  //echo "mapDirPath=$mapDirPath<br>\n";
+  
+  //print_r($_SERVER);
+  //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
+  //echo "PATH_INFO=$_SERVER[PATH_INFO]<br>\n";
+  //echo "HTTP_REFERER=$_SERVER[HTTP_REFERER]<br>\n";
+
+  // chemin du script utilisé pour le rappel du script parent en JS dans voisine
+  if (!$_SERVER['SCRIPT_NAME']) { // cas sur https://comhisto.georef.eu/
+    if (preg_match('!/map/!', $_SERVER['PATH_INFO']))
+      $parentScript = '/map.php'; // URI map => rester sur une map
+    else
+      $parentScript = '/'; // le script parent est la racine
+  }
+  else { // cas sur http://localhost/yamldoc/pub/comhisto/map/map.php
+    $pos = strrpos($_SERVER['HTTP_REFERER'], '.php');
+    //echo "pos=",($pos === false) ? 'false' : $pos,"<br>\n";
+    // ex http://localhost/yamldoc/pub/comhisto/api/api.php/COM/01015
+    if ($pos !== false) {
+      $parentScript = substr($_SERVER['HTTP_REFERER'], 0, $pos).'.php';
+    }
+    else {
+      // ex http://localhost/yamldoc/pub/comhisto/map/?id=01034
+      $pos = strrpos($_SERVER['HTTP_REFERER'], '?');
+      $parentScript = substr($_SERVER['HTTP_REFERER'], 0, $pos);
+    }
+    //echo "parentScript=$parentScript<br>\n";
+  }
+
+  // construction des couches visualisables (overlays) en se limitant à une seule entité par géographie
+  // (définie par ses élitEtendus) et en privilégiant la version la plus récente.
+  // Utilisation de la légende:
+  //   vert - communes valides
+  //   bleu - entités rattachées valides
+  //   rouge - versions périmées
+  // La couche affichée par défaut est
+  // si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
+  // sinon la couche d'une entité dont la géographie est la même que celle demandée
+  $statut = ($type == 'r') ? 'ERAT' : 'COM'; // statut COM ou ERAT
+  $elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : null;
+  $defaultOverlayIds = [];
+  $layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
+  $elitss = []; // [elitEtendus => $layerId] - élitsEtendu des couches à afficher
+  $sql = "select id, cinsee, type, ddebut, dfin, statut from comhistog3
+          where cinsee in ('".implode("','",array_keys($cluster))."')
+          order by ddebut asc, type asc";
+  foreach (PgSql::query($sql) as $tuple) {
+    $elitEtendus = (strlen($id)==17) ? Histelits::elitEtendus($tuple['id'], $tuple['statut']) : null;
+    $tuple['$elitEtendus'] = $elitEtendus;
+    //echo '$tuple='; print_r($tuple);
+    if ($elitEtendus && isset($elitss[$elitEtendus]))
+      unset($overlays[$elitss[$elitEtendus]]);
+    $overlays[$tuple['id']] = [
+      'path'=> $mapDirPath."geojson.php?id=$tuple[id]",
+      'color'=> $tuple['dfin'] ? 'red' : (in_array($tuple['statut'],['COMA','COMD','ARM']) ? 'blue' : 'green'),
+    ];
+    $elitss[$elitEtendus] = $tuple['id'];
+    if ($id == $cinsee) { // le param. est code Insee alors une des versions les plus récentes correspondant à ce code Insee
+      if ($tuple['cinsee'] == $cinsee)
+        $defaultOverlayIds = [ $tuple['id'] ];
+    }
+    elseif ($id == "$type$cinsee") {
+      if (($tuple['cinsee'] == $cinsee) && ($tuple['type'] == $type))
+        $defaultOverlayIds = [ $tuple['id'] ];
+    }
+    elseif (strlen($id)==16) { // {cinsee}@{ddebut}
+      if (($tuple['cinsee'] == $cinsee) && (!$defaultOverlayIds || ($tuple['type'] == 's')))
+        $defaultOverlayIds = [ $tuple['id'] ];
+    }
+    else { // sinon si version alors une entité dont la géographie est la même que celle demandée
+      if ($elitEtendus == $elitEtendusDeLEntiteeDemandée)
+        $defaultOverlayIds = [ $tuple['id'] ];
+    }
+  }
+  //echo 'overlays = '; print_r($overlays);
+  $neigborPath = $mapDirPath."neighbor.php?id=$cinsee";
+  // Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
+  //$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
+  // Finalement si, Plan IGN V2 existe dans les DOM
+  $defaultBaseLayer = "Plan IGN v2";
+  echo "</pre>\n";
+  ?>
 <!DOCTYPE HTML><html><head>
   <title>carte</title>
   <meta charset="UTF-8">
   <!-- meta nécessaire pour le mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <!-- styles nécessaires pour le mobile -->
-  <link rel='stylesheet' href='leaflet/llmap.css'>
+  <link rel='stylesheet' href='<?php echo $mapDirPath;?>leaflet/llmap.css'>
   <!-- styles et src de Leaflet -->
-  <link rel="stylesheet" href='leaflet/leaflet.css'/>
-  <script src='leaflet/leaflet.js'></script>
+  <link rel="stylesheet" href='<?php echo $mapDirPath;?>leaflet/leaflet.css'/>
+  <script src='<?php echo $mapDirPath;?>leaflet/leaflet.js'></script>
   <!-- Include the edgebuffer plugin -->
-  <script src="leaflet/leaflet.edgebuffer.js"></script>
+  <script src="<?php echo $mapDirPath;?>leaflet/leaflet.edgebuffer.js"></script>
   <!-- Include the Control.Coordinates plugin -->
-  <link rel='stylesheet' href='leaflet/Control.Coordinates.css'>
-  <script src='leaflet/Control.Coordinates.js'></script>
+  <link rel='stylesheet' href='<?php echo $mapDirPath;?>leaflet/Control.Coordinates.css'>
+  <script src='<?php echo $mapDirPath;?>leaflet/Control.Coordinates.js'></script>
   <!-- Include the uGeoJSON plugin -->
-  <script src="leaflet/leaflet.uGeoJSON.js"></script>
+  <script src="<?php echo $mapDirPath;?>leaflet/leaflet.uGeoJSON.js"></script>
   <!-- plug-in d'appel des GeoJSON en AJAX -->
-  <script src='leaflet/leaflet-ajax.js'></script>
+  <script src='<?php echo $mapDirPath;?>leaflet/leaflet-ajax.js'></script>
 </head>
 <body>
   <div id="map" style="height: 100%; width: 100%"></div>
@@ -239,14 +286,15 @@ echo "</pre>\n";
   var onEachFeatureNB = function (feature, layer) {
     layer.bindPopup(
       '<b>voisine</b><br>'
-      + "<a href='<?php echo "$dirPath/?id="; ?>"
+      //+ "href=" + href + "<br>\n"
+      + "<a href='<?php echo $parentScript?>?id="
       + feature.properties.cinsee + "' target='_parent'>" 
       + feature.properties.dnom 
       + '</a>'
     );
     layer.bindTooltip(feature.properties.dnom + ' (' + feature.properties.type + feature.properties.cinsee + ')');
   }
-  
+
   var map = L.map('map').setView(<?php echo json_encode($bbox->center('LatLng')),',',$bbox->zoom(); ?>);  // view pour la zone
   L.control.scale({position:'bottomleft', metric:true, imperial:false}).addTo(map);
 
@@ -299,13 +347,14 @@ echo "</pre>\n";
   map.addLayer(baseLayers['<?php echo $defaultBaseLayer;?>']);
 
   var overlays = {
+
 <?php
-// affichage des couches préparées
-foreach ($overlays as $overlayId => $overlay) {
-  echo "    '$overlayId' : new L.GeoJSON.AJAX('$overlay[path]', {\n";
-  echo "      style: { color: '$overlay[color]'}, minZoom: 0, maxZoom: 18, onEachFeature: onEachFeatureCH\n";
-  echo "    }),\n";
-}
+  // affichage des couches préparées
+  foreach ($overlays as $overlayId => $overlay) {
+    echo "    '$overlayId' : new L.GeoJSON.AJAX('$overlay[path]', {\n";
+    echo "      style: { color: '$overlay[color]'}, minZoom: 0, maxZoom: 18, onEachFeature: onEachFeatureCH\n";
+    echo "    }),\n";
+  }
 ?>
 
   // affichage d'une couche des voisines
@@ -317,8 +366,11 @@ foreach ($overlays as $overlayId => $overlay) {
 foreach ($defaultOverlayIds as $defaultOverlayId)
   echo "map.addLayer(overlays['$defaultOverlayId']);\n";
 ?>
-  
+
   L.control.layers(baseLayers, overlays).addTo(map);
   </script>
 </body>
 </html>
+  
+<?php
+}

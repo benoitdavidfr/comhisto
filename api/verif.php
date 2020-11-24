@@ -1,4 +1,12 @@
 <?php
+/*PhpDoc:
+name: verif.php
+title: api/verif.php - Tests sur verif.yaml
+doc: |
+journal: |
+  23/11/2020:
+    - création
+*/
 require_once __DIR__.'/../../../vendor/autoload.php';
 
 use Symfony\Component\Yaml\Yaml;
