@@ -9,7 +9,7 @@ info:
   license:
     name: Licence ouverte Etalab
     url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
-  termsOfService: 'https://creativecommons.org/licenses/by/4.0/'
+  termsOfService: https://benoitdavidfr.github.io/comhisto/termsOfService.html
   version: '0.6'
   x-keywords:
     - comhisto
