@@ -106,7 +106,6 @@ doc: |
       - propriété https://schema.org/temporalCoverage (fait en partie)
       - améliorer replaces/replacedBy
       - gérer le déréférencement des classes et propriétés définies dans comhisto (comhisto:Event, comhisto:startEvent, ...)
-    - revoir le README sur l'API
     - ajouter les enregistrements DCAT de distribution et de service
     - écrire la description open API
     
@@ -115,7 +114,7 @@ journal: |
     - ajout de la propriété https://schema.org/hasMap
     - ajout des URI/URL /map/(s|r|){cinsee}/{ddebut} et /map/(s|r|){cinsee}
     - amélioration de l'articulation entre api.php, ../map/index.php et ../map/map.php
-    - Google indique qu'il a moisonné le site mais qu'il y a rencontré des erreurs - je ne comprends pas lesquelles
+    - Google indique qu'il a moissonné le site mais qu'il y a rencontré des erreurs - je ne comprends pas lesquelles
   23/11/2020:
     - écriture de sitemap.php et déclaration à Google
     - amélioration de la structure LD de /(COM|ERAT)/{cinsee}/{ddebut}

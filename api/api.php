@@ -86,6 +86,7 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
     //echo "completeUriEvt($cinsee@$ddebut, $verb)<br>\n";
     switch ($verb) {
       case 'entreDansLeRéférentiel': break;
+      case 'sortDuPérimètreDuRéférentiel': break;
       case 'changeDeNomPour': break;
       case 'aucun': break;
       

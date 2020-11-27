@@ -1,0 +1,28 @@
+title: comhisto/ogcapi - serveur OGC API Feature
+path: /yamldoc/pub/comhisto/ogcapi
+doc: |
+  Idée:
+    - https://comhisto.georef.eu/ = URI du jeu de données
+      - -> objet Dcat:Dataset (JSON-LD)
+        - dont une Dcat:Distribution est https://comhisto.geoapi.fr/
+      - implémenté dans comhisto/api/api.php
+    - https://comhisto.geoapi.fr/ = URI de l'API de mad des données de type OGC API Features
+      - -> LandingPage OGC API Features (JSON)
+      - implémenté dans comhisto/ogcapi/ogcapi.php
+      - collections
+        - vCom = version de commune - https://comhisto.georef.eu/COM/{cinsee}/{ddebut}
+        - vErat = version d'entité rattachée - https://comhisto.georef.eu/ERAT/{cinsee}/{ddebut}
+        - commune = version valide de commune - https://comhisto.georef.eu/COM/{cinsee}
+        - erat = version valide d'Erat - https://comhisto.georef.eu/ERAT/{cinsee}
+        - codeInsee = ens. des versions d'entité portant le même code Insee - https://comhisto.georef.eu/codeInsee/{cinsee}
+        - vCodeInsee = version soit de commune s'il y en a une, sinon d'ERAT - /codeInsee/{cinsee}/{ddebut}
+    - https://geocat.fr/ = URI du catalogue (Dcat:Catalog)
+      - référence le Dataset https://comhisto.georef.eu/ et l'API https://comhisto.geoapi.fr
+    - publication comme données liées ? schema:DataCatalog, schema:Dataset, schema:DataDownload ?
+journal: |
+  25/11/2020:
+    - création
+phpScripts:
+  - /yamldoc/pub/comhisto/ogcapi/ogcapi.php
+phpIncludes:
+htmlFiles:
