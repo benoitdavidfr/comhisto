@@ -1,6 +1,9 @@
 title: comhisto/ogcapi - serveur OGC API Feature
 path: /yamldoc/pub/comhisto/ogcapi
 doc: |
+  Le point d'entrée ogcapi.php est publié sur Internet comme https://comhisto.geoapi.fr
+  Le fichier openapi.yaml contient la description OpenAPI 3.0 de l'API.
+  
   Idée:
     - https://comhisto.georef.eu/ = URI du jeu de données
       - -> objet Dcat:Dataset (JSON-LD)
@@ -26,3 +29,4 @@ phpScripts:
   - /yamldoc/pub/comhisto/ogcapi/ogcapi.php
 phpIncludes:
 htmlFiles:
+  - /yamldoc/pub/comhisto/ogcapi/openapi.yaml

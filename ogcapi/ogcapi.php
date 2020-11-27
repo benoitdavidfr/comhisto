@@ -41,6 +41,7 @@ doc: |
 journal: |
   27/11/2020:
     - améliorations
+    - chgt de l'id de vCom|vErat en retirant le type déjà présent dans le nom de la collection
   26/11/2020:
     - reconception de la gestion du format
   25/11/2020:
@@ -108,7 +109,7 @@ function getRecord(string $path_info, bool $ld): array {
             'title'=> "La définition de l'API",
           ],
           [ //'href'=> "$baseUrl/api.html",
-            'href'=> "https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhistoogcapi/0.5",
+            'href'=> "https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhistoogcapi", // la version par défaut
             'rel'=> 'service-doc',
             'type'=> 'text/html',
             'title'=> "La documentation de l'API",
@@ -310,7 +311,7 @@ function getRecord(string $path_info, bool $ld): array {
           $tuple[$prop] = json_decode($tuple[$prop], true);;
         $geom = $tuple['geom'];
         unset($tuple['geom']);
-        $id = $tuple['id'];
+        $id = substr($tuple['id'], 1);
         unset($tuple['id']);
         $features[] = [
           'type'=> 'Feature',
@@ -369,11 +370,12 @@ function getRecord(string $path_info, bool $ld): array {
   
   if (preg_match('!^/collections/([^/]*)/items/([^/]*)$!', $path_info, $matches)) {
     $collectionId = $matches[1];
+    $type = ($collectionId == 'vErat') ? 'r' : 's';
     $fId = $matches[2];
     if (!isset($collections[$collectionId]))
       return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
     $sql = "select id, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
-      from comhistog3 where id='$fId'";
+      from comhistog3 where id='$type$fId'";
 
     try {
       $tuples = PgSql::getTuples($sql);
@@ -390,7 +392,7 @@ function getRecord(string $path_info, bool $ld): array {
       $tuple[$prop] = json_decode($tuple[$prop], true);;
     $geom = $tuple['geom'];
     unset($tuple['geom']);
-    $id = $tuple['id'];
+    $id = substr($tuple['id'], 1);
     unset($tuple['id']);
     $feature = [
       'type'=> 'Feature',

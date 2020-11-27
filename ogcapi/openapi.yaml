@@ -1,20 +1,23 @@
-openapi: 3.0.2
 info:
-  title: API d'accès à comhisto conformément à OGC API Features
-  description: API d'accès à ComHisto
+  title: API d'accès à comhisto selon OGC API Features
+  description: |
+    Cette API propose l'accès aux données de [ComHisto](https://github.com/benoitdavidfr/comhisto)
+    selon le protocole [OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html).
+    Cette version expose uniquement les collections vCom et vErat.
   contact:
     email: contact@geoapi.fr
     name: Benoit DAVID
     url: https://github.com/benoitdavidfr/comhisto
-  license:
-    name: Licence ouverte Etalab
-    url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
-  termsOfService: https://benoitdavidfr.github.io/comhisto/termsOfService.html
   version: '0.6'
   x-keywords:
     - comhisto
     - commune
     - découpage communal
+  license:
+    name: Licence ouverte Etalab
+    url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
+  termsOfService: https://benoitdavidfr.github.io/comhisto/termsOfService.html
+openapi: 3.0.2
 components:
   parameters:
     f:
@@ -138,8 +141,7 @@ paths:
       description: Collections
       operationId: getCollections
       parameters:
-        -
-          $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/f'
       responses:
         200:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collections'
@@ -152,11 +154,11 @@ paths:
         - server
   /collections/vCom:
     get:
+      summary: Obtenir les métadonnées de la collection
       description: Version de Commune
       operationId: describeVComCollection
       parameters:
-        -
-          $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/f'
       responses:
         200:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection'
@@ -166,48 +168,53 @@ paths:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
         500:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
-      summary: Obtenir les métadonnées de la collection
       tags:
         - vCom
   /collections/vCom/items:
     get:
+      summary: Obtenir les enregistrements de cette collection
       description: Version de Commune
       operationId: getVComFeatures
       parameters:
-        - description: 'The optional f parameter indicates the output format which the server shall provide as part of the response document.  The default format is GeoJSON.'
-          explode: false
-          in: query
-          name: f
-          required: false
-          schema:
-            default: json
-            enum:
-              - json
-              - html
-              - jsonld
-              - csv
-            type: string
-          style: form
+        - $ref: '#/components/parameters/f'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit'
-        - description: 'The properties that should be included for each feature. The parameter value is a comma-separated list of property names.'
+        - name: properties
+          description: |
+            The properties that should be included for each feature. The parameter value is a comma-separated list
+            of property names.
           explode: false
           in: query
-          name: properties
           required: false
           schema:
             items:
               enum:
-                - gml_id
+                - cinsee
+                - statut
+                - dnom
               type: string
             type: array
           style: form
         - $ref: '#/components/parameters/skipGeometry'
         - $ref: '#/components/parameters/sortby'
         - $ref: '#/components/parameters/startindex'
-        - explode: false
+        - name: cinsee
+          explode: false
           in: query
-          name: gml_id
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: statut
+          explode: false
+          in: query
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: dnom
+          explode: false
+          in: query
           required: false
           schema:
             type: string
@@ -221,11 +228,11 @@ paths:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
         500:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
-      summary: Obtenir les enregistrements de cette collection
       tags:
         - vCom
   '/collections/vCom/items/{featureId}':
     get:
+      summary: Obtenir un enregistrement en fonction de son id
       description: Version de Commune
       operationId: getVComFeature
       parameters:
@@ -240,16 +247,15 @@ paths:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
         500:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
-      summary: Obtenir un enregistrement en fonction de son id
       tags:
         - vCom
   /collections/vErat:
     get:
+      summary: Obtenir les métadonnées de la collection
       description: Version d'entité rattachée
       operationId: describeVEratCollection
       parameters:
-        -
-          $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/f'
       responses:
         200:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Collection'
@@ -259,48 +265,51 @@ paths:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
         500:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
-      summary: Obtenir les métadonnées de la collection
       tags:
         - vErat
   /collections/vErat/items:
     get:
+      summary: Obtenir les enregistrements de cette collection
       description: Version d'entité rattachée
       operationId: getVEratFeatures
       parameters:
-        - description: 'The optional f parameter indicates the output format which the server shall provide as part of the response document.  The default format is GeoJSON.'
-          explode: false
-          in: query
-          name: f
-          required: false
-          schema:
-            default: json
-            enum:
-              - json
-              - html
-              - jsonld
-              - csv
-            type: string
-          style: form
+        - $ref: '#/components/parameters/f'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit'
-        - description: 'The properties that should be included for each feature. The parameter value is a comma-separated list of property names.'
+        - name: properties
+          description: 'The properties that should be included for each feature. The parameter value is a comma-separated list of property names.'
           explode: false
           in: query
-          name: properties
           required: false
           schema:
             items:
               enum:
-                - gml_id
+                - cinsee
+                - statut
+                - dnom
               type: string
             type: array
           style: form
         - $ref: '#/components/parameters/skipGeometry'
         - $ref: '#/components/parameters/sortby'
         - $ref: '#/components/parameters/startindex'
-        - explode: false
+        - name: cinsee
+          explode: false
           in: query
-          name: gml_id
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: statut
+          explode: false
+          in: query
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: dnom
+          explode: false
+          in: query
           required: false
           schema:
             type: string
@@ -314,7 +323,6 @@ paths:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
         500:
           $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
-      summary: Obtenir les enregistrements de cette collection
       tags:
         - vErat
   '/collections/vErat/items/{featureId}':
@@ -340,12 +348,12 @@ servers:
   - description: Service de mise à disposition de ComHisto
     url: 'https://comhisto.geoapi.fr/'
 tags:
-  - description: opérations de base
-    name: server
+  - name: server
+    description: opérations de base
     externalDocs:
       description: information
       url: 'https://github.com/benoitdavidfr/comhisto'
-  - description: opérations sur cette collection
-    name: vCom
-  - description: opérations sur cette collection
-    name: vErat
+  - name: vCom
+    description: opérations sur cette collection
+  - name: vErat
+    description: opérations sur cette collection
