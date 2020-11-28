@@ -185,8 +185,10 @@ paths:
       operationId: getVComFeatures
       parameters:
         - $ref: '#/components/parameters/f'
-        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit'
+        - $ref: '#/components/parameters/startindex'
+        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
+        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/datetime'
         - name: properties
           description: |
             The properties that should be included for each feature. The parameter value is a comma-separated list
@@ -203,7 +205,6 @@ paths:
               type: string
             type: array
           style: form
-        - $ref: '#/components/parameters/startindex'
         - name: cinsee
           explode: false
           in: query
@@ -280,8 +281,10 @@ paths:
       operationId: getVEratFeatures
       parameters:
         - $ref: '#/components/parameters/f'
-        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
         - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/limit'
+        - $ref: '#/components/parameters/startindex'
+        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/bbox'
+        - $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/parameters/datetime'
         - name: properties
           description: 'The properties that should be included for each feature. The parameter value is a comma-separated list of property names.'
           explode: false
@@ -296,7 +299,6 @@ paths:
               type: string
             type: array
           style: form
-        - $ref: '#/components/parameters/startindex'
         - name: cinsee
           explode: false
           in: query

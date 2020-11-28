@@ -45,7 +45,7 @@ $ydepth = $_GET['ydepth'] ?? 9;
 
 echo "<table><tr>" // le formulaire
       . "<td><table border=1><form><tr>"
-      . "<td><input type='text' size=100 name='url' value='$url'/></td>\n"
+      . "<td><input type='text' size=130 name='url' value='$url'/></td>\n"
       . "<td><label for='ld'>ld</label><input type='checkbox' id='ld' name='ld' value='on'"
         .(isset($_GET['ld']) ? ' checked' : '')."></td>"
       . "<td><input type='text' size=3 name='ydepth' value='$ydepth'/></td>\n"

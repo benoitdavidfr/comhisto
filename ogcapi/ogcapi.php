@@ -36,11 +36,11 @@ doc: |
   
   A faire:
     - exprimer le lien entre le geojson:Feature et un City, comment faire ?
-    - mise en oeuvre de property
 journal: |
   28/11/2020:
     - ajout du lien de la collection vers son schema JSON
     - traitement des paramètres bbox et datetime
+    - traitement des paramètres properties et de chaque property
   27/11/2020:
     - améliorations
     - chgt de l'id de vCom|vErat en retirant le type déjà présent dans le nom de la collection
@@ -79,6 +79,51 @@ function checkBbox(array $bbox): bool { // Vérifie que la Bbox est bien formée
   return true;
 }
 
+// transforme une chaine RFC 3339 en un array [start, end] où end est null ssi il s'agit d'une date ponctuelle
+// start et end sont tronqués à la date
+// Si chaine vide retourne []
+// Si erreur retourne un array ['error'=> message]
+function interval(string $datetime): array {
+  if (!$datetime)
+    return [];
+  $date_pattern = '((\d\d\d\d-\d\d-\d\d)(T[^/]*)?)|(\.\.)';
+  if (!preg_match("!^($date_pattern)(/($date_pattern))?$!", $datetime, $matches)) {
+    return ['error'=> "Paramètre datetime=$datetime incorrect"];
+  }
+  //echo "<pre>matches="; print_r($matches); echo "</pre>\n";
+  $start = $matches[3] ? $matches[3] : '..';
+  $end = !isset($matches[6]) ? null : ($matches[9] ? $matches[9] : '..');
+  if (($start == '..') && !$end)
+    return ['error'=> "Paramètre datetime=$datetime incorrect"];
+  return [ $start, $end];
+}
+
+if (0) { // Tests de la fonction interval() 
+  echo "<!DOCTYPE HTML><html>\n<head><meta charset='UTF-8'><title>ogcapi test interval</title></head><body><pre>\n";
+  foreach ([
+    '',
+    'xx',
+    '..',
+    '2020-01-01',
+    '2020-01-01/2020-01-02',
+    '2020-01-01/..',
+    '../2020-01-02',
+    '2020-01-01T14/2020-01-02T18',
+  ] as $datetime) {
+    echo Yaml::dump(["interval($datetime)"=> interval($datetime)]);
+  }
+  die();
+}
+
+function showParams(array $params): string {
+  if (!$params)
+    return '';
+  $url = '';
+  foreach ($params as $key => $value)
+    $url .= ($url ? '&' : '')."$key=".urlencode($value);
+  return "?$url";
+}
+
 /* retourne l'enregistrement correspondant au path_info passé en paramètre
   le paramètre $ld définit, dans certains cas, si l'enregistrement doit être structuré en JSON/GéoJSON ou en JSON-LD
   si ok alors le résultat est un array avec
@@ -89,6 +134,7 @@ function checkBbox(array $bbox): bool { // Vérifie que la Bbox est bien formée
   - 2) un champ 'message' qui est un message d'erreur sous la forme d'un texte
 */
 function getRecord(string $path_info, bool $ld): array {
+  //echo "<pre>getRecord($path_info)\n"; print_r($_GET); echo "</pre>\n";
   $baseUrl = ($_SERVER['HTTP_HOST']=='localhost') ?
       'http://localhost/yamldoc/pub/comhisto/ogcapi/ogcapi.php'
       : 'https://comhisto.geoapi.fr';
@@ -331,26 +377,20 @@ function getRecord(string $path_info, bool $ld): array {
       return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre startindex=$startindex incorrect"]];
     $whereSupplement = '';
     //echo "_GET = "; print_r($_GET);
-    $bbox = isset($_GET['bbox']) ? explode(',', $_GET['bbox']) : [];
-    if ($bbox && !checkBbox($bbox))
-      return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre bbox=$_GET[bbox] incorrect"]];
-    if ($bbox) {
+    if ($bbox = isset($_GET['bbox']) ? explode(',', $_GET['bbox']) : []) { // si bbox est défini
+      if (!checkBbox($bbox))
+        return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre bbox=$_GET[bbox] incorrect"]];
       if (count($bbox) == 4)
         $whereSupplement .= " and ST_Intersects(geom, ST_MakeEnvelope(".implode(',',$bbox).", 4326))";
       else
         $whereSupplement .= " and ST_Intersects(geom, ST_MakeEnvelope($bbox[0], $bbox[1], $bbox[3], $bbox[4], 4326))";
     }
-    if ($datetime = ($_GET['datetime'] ?? null)) {
-      $date_pattern = '\d\d\d\d-\d\d-\d\d|\.\.';
-      if (!preg_match("!^($date_pattern)(/($date_pattern))?$!", $datetime, $matches)) {
-        return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre datetime=$datetime incorrect"]];
-      }
-      //echo "matches="; print_r($matches);
-      $start = $matches[1];
-      $end = $matches[3] ?? null;
+    if ($interval = interval($_GET['datetime'] ?? '')) {
+      if ($errorMessage = ($interval['error'] ?? null))
+        return ['error'=> ['httpCode'=> 400, 'message'=> $errorMessage]];
+      list($start, $end) = $interval;
+      //echo "start=$start, end=",($end ? $end : 'undef'),"\n";
       if (!$end) { // date ponctuelle
-        if ($start == '..')
-          return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre datetime=$datetime incorrect"]];
         $whereSupplement .= " and ddebut <= '$start' and (dfin > '$start' or dfin is null)";
       }
       elseif (($start == '..') && ($end == '..'))
@@ -358,19 +398,26 @@ function getRecord(string $path_info, bool $ld): array {
       elseif ($start == '..')
         $whereSupplement .= " and ddebut < '$end'";
       elseif ($end == '..')
-        $whereSupplement .= " and dfin > '$start'";
+        $whereSupplement .= " and (dfin > '$start' or dfin is null)";
       else
-        $whereSupplement .= " and ddebut < '$end' and dfin > '$start'";
+        $whereSupplement .= " and ddebut < '$end' and (dfin > '$start' or dfin is null)";
     }
     
-    $properties = [];
+    // Gestion des propriétés
+    $properties = ['id', 'cinsee', 'ddebut', 'edebut', 'dfin', 'efin', 'statut', 'crat', 'erats', 'elits', 'dnom'];
+    $selectOnProp = [];
     foreach ($_GET as $key => $value) {
-      if (!in_array($key, ['limit','bbox','datetime']))
-        $properties[$key] = $value;
+      if (in_array($key, $properties))
+        $whereSupplement .= " and $key='$value'";
     }
-          
+    if (isset($_GET['properties']))
+      $properties = explode(',', $_GET['properties']);
+    if (!in_array('id', $properties))
+      $properties = array_merge(['id'], $properties);
+    //print_r($properties);
+    
     $t = ($collectionId == 'vCom') ? 's': (($collectionId == 'vErat') ? 'r': 'ERROR');
-    $sql = "select count(*) numbermatched from comhistog3 where type='$t'";
+    $sql = "select count(*) numbermatched from comhistog3 where type='$t' $whereSupplement";
     try {
       $tuple = PgSql::getTuples($sql)[0];
       //print_r($tuple);
@@ -380,7 +427,7 @@ function getRecord(string $path_info, bool $ld): array {
       echo $e->getMessage();
       throw new Exception($e->getMessage());
     }
-    $sql = "select id, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
+    $sql = "select ".implode(',',$properties).", ST_AsGeoJSON(geom) geom
       from comhistog3 where type='$t' $whereSupplement
       limit $limit offset $startindex";
 
@@ -388,7 +435,8 @@ function getRecord(string $path_info, bool $ld): array {
       $features = [];
       foreach (PgSql::getTuples($sql) as $tuple) {
         foreach (['geom','edebut','efin','erats','elits'] as $prop)
-          $tuple[$prop] = json_decode($tuple[$prop], true);;
+          if (isset($tuple[$prop]))
+            $tuple[$prop] = json_decode($tuple[$prop], true);;
         $geom = $tuple['geom'];
         unset($tuple['geom']);
         $id = substr($tuple['id'], 1);
@@ -422,25 +470,27 @@ function getRecord(string $path_info, bool $ld): array {
             "type" => "application/geo+json",
             "rel" => "self",
             "title" => "This document as GeoJSON",
-            "href" => "$baseUrl/collections/$collectionId/items.json",
+            "href" => "$baseUrl/collections/$collectionId/items".showParams(array_merge($_GET, ['f'=>'json'])),
           ],
           [
             "rel" => "alternate",
             "type" => "application/ld+json",
             "title" => "This document as RDF (JSON-LD)",
-            "href" => "$baseUrl/collections/$collectionId/items.jsonld",
+            "href" => "$baseUrl/collections/$collectionId/items".showParams(array_merge($_GET, ['f'=>'jsonld'])),
           ],
           [
             "type" => "text/html",
             "rel" => "alternate",
             "title" => "This document as HTML",
-            "href" => "$baseUrl/collections/$collectionId/items.html",
+            "href" => "$baseUrl/collections/$collectionId/items".showParams(array_merge($_GET, ['f'=>'html'])),
           ],
           [
             "type" => "application/geo+json",
             "rel" => "next",
             "title" => "items (next)",
-            "href" => "$baseUrl/collections/$collectionId/items?startindex=".($startindex+$limit),
+            "href" =>
+              "$baseUrl/collections/$collectionId/items"
+                .showParams(array_merge($_GET, ['startindex'=> ($startindex+$limit)])),
           ],
           [
             "type" => "application/json",
