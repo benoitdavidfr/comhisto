@@ -1,4 +1,4 @@
-title: Schéma de comhistog3
+title: Schéma de vCom
 modified: '2020-11-28'
 description: |
   Schema de l'export GeoJSON de comhistog3
@@ -6,7 +6,7 @@ description: |
     28/11/2020:
       Définition d'un nouveau schéma dans le cadre de insee v2
 $schema: http://json-schema.org/draft-07/schema#
-$id: https://github.com/benoitdavidfr/comhisto/blob/master/export/comhistog3.schema.yaml
+$id: https://github.com/benoitdavidfr/comhisto/blob/master/ogcapi/schemas/vCom.yaml
 definitions:
   bbox: { type: array, minItems: 4, items: { type: number } }
   Feature:
@@ -305,7 +305,36 @@ definitions:
             - { $ref: '#/definitions/Polygon' }
             - { $ref: '#/definitions/MultiPolygon' }
       bbox: { $ref: '#/definitions/bbox' }
-    
+  links:
+    type: array
+    item: { $ref: '#/definitions/link' }
+  link:
+    type: object
+    required:
+      - href
+    properties:
+      href:
+        type: string
+        example: http://data.example.com/buildings/123
+      rel:
+        type: string
+        example: alternate
+      type:
+        type: string
+        example: application/geo+json
+      hreflang:
+        type: string
+        example: en
+      title:
+        type: string
+        example: Trierer Strasse 70, 53115 Bonn
+      length:
+        type: integer
+  timeStamp:
+    description: date encodée comme chaine au timestamp
+    type: string
+    pattern: ^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$
+  
 type: object
 required: [ type, features ]
 additionalProperties: false
@@ -317,3 +346,8 @@ properties:
     type: array
     items: { $ref: '#/definitions/Feature' }
   bbox: { $ref: '#/definitions/bbox' }
+  links: { $ref: '#/definitions/links' }
+  timeStamp: { $ref: '#/definitions/timeStamp' }
+  numberReturned: { type: integer }
+  numberMatched: { type: integer }
+  

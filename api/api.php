@@ -344,8 +344,42 @@ function getRecord(string $path_info, bool $ld): array {
           "@value"=> "Ce jeu de données contient l'historique du découpage des communes en France depuis 1943 avec la localisation géographique de chaque version. Voir documentation sur https://github.com/benoitdavidfr/comhisto",
           "@language" => "fr",
         ],
-        "adms:contactPoint" => ["@id" => "https://comhisto.georef.eu/contactPoint"],
-        "dcat:distribution" => ["@id" => "https://comhisto.georef.eu/dist-geojson"],
+        "adms:contactPoint" => [
+          "@type" => "vcard:VCard",
+          "vcard:fn" => "Benoit David",
+          "vcard:hasEmail" => [
+            "@id" => "mailto:benoit.david@free.fr",
+          ],
+        ],
+        "dcat:distribution" => [
+          [
+            "@type" => "dcat:Distribution", // description en JSON-LD du téléchargement GéoJSON
+            "dcterms:title" => ["@language" => "fr","@value" => "Téléchargement GeoJSON"],
+            "dcat:accessURL" => [
+              "@id" => "https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson",
+            ],
+            "dcterms:description" => [
+              "@language" => "fr",
+              "@value" => "Fichier des versions d'entités téléchargeable en GeoJSON. Voir https://github.com/benoitdavidfr/comhisto/blob/master/export/README.md",
+            ],
+            "dcterms:format" => 'application/geo+json', // GeoJSON
+            "dcat:mediaType" => "https://www.iana.org/assignments/media-types/application/geo+json",
+            "dcterms:license" => ["@id" => "https://www.etalab.gouv.fr/licence-ouverte-open-licence"],
+          ],
+          [
+            "@type" => "dcat:Distribution", // description du servide OGC API Features
+            "dcterms:title" => ["@language" => "fr","@value" => "web-service OGC API Features"],
+            "dcterms:description" => [
+              "@language" => "fr",
+              "@value" => "Les versions d'entités sont accesibles en GeoJSON par ce web-service OGC API Features",
+            ],
+            "dcterms:license" => ["@id" => "https://www.etalab.gouv.fr/licence-ouverte-open-licence"],
+            'dcat:accessService'=> [
+              '@type'=> 'Dcat:DataService',
+              '@id'=> 'https://comhisto.geoapi.fr/',
+            ],
+          ],
+        ],
         "dcat:keyword" => ["Historique","Découpage des communes","Découpage administratif","France","ComHisto"],
         "dcat:landingPage" => ["@id" => "https://github.com/benoitdavidfr/comhisto"],
         "dcat:theme" => ["@id" => "http://eurovoc.europa.eu/362"], // découpage administratif
@@ -353,116 +387,21 @@ function getRecord(string $path_info, bool $ld): array {
         "dcterms:conformsTo" => ["@id" => "https://github.com/benoitdavidfr/comhisto"],
         "dcterms:issued" => "2020-11-20",
         "dcterms:language" => ["@id" => "http://publications.europa.eu/resource/authority/language/FRA"],
-        "dcterms:modified" => "2020-11-20",
-        "dcterms:publisher" => ["@id" => "https://comhisto.georef.eu/publisher"],
+        "dcterms:modified" => "2020-11-28",
+        "dcterms:publisher" => [
+          "@type" => "vcard:VCard",
+          "vcard:fn" => "Benoit David",
+          "vcard:hasEmail" => [
+            "@id" => "mailto:contact@georef.eu",
+          ],
+        ],
         "dcterms:spatial" => ["@id" => "http://sws.geonames.org/3017382"], // France
-        "dcterms:temporal" => ["@id" => "https://comhisto.georef.eu/period"],
+        "dcterms:temporal" => [
+          "@type" => "dcterms:PeriodOfTime",
+          "schema:endDate" => ["@type" => "xsd:date","@value" => "2020-01-01"],
+          "schema:startDate" => ["@type" => "xsd:date","@value" => "1943-01-01"],
+        ],
         "dcat:spatialResolutionInMeters" => ["@value"=> "100.0","@type"=> "xsd:decimal"],
-      ],
-    ];
-  }
-  
-  if ($path_info == '/contactPoint') { // référencé dans la déclaration DCAT 
-    return [
-      'header'=> ['Content-Type'=> 'application/ld+json'],
-      'body'=> [
-        "@context" => [
-          "adms" => "http://www.w3.org/ns/adms#",
-          "dcat" => "http://www.w3.org/ns/dcat#",
-          "dcterms" => "http://purl.org/dc/terms/",
-          "foaf" => "http://xmlns.com/foaf/0.1/",
-          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-          "schema" => "http://schema.org/",
-          "vcard" => "http://www.w3.org/2006/vcard/ns#",
-          "xsd" => "http://www.w3.org/2001/XMLSchema#",
-        ],
-        "@id" => "https://comhisto.georef.eu/contactPoint",
-        "@type" => "vcard:VCard",
-        "vcard:fn" => "Benoit David",
-        "vcard:hasEmail" => [
-          "@id" => "mailto:benoit.david@free.fr",
-        ],
-      ],
-    ];
-  }
-
-  if ($path_info == '/publisher') { // référencé dans la déclaration DCAT 
-    return [
-      'header'=> ['Content-Type'=> 'application/ld+json'],
-      'body'=> [
-        "@context" => [
-          "adms" => "http://www.w3.org/ns/adms#",
-          "dcat" => "http://www.w3.org/ns/dcat#",
-          "dcterms" => "http://purl.org/dc/terms/",
-          "foaf" => "http://xmlns.com/foaf/0.1/",
-          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-          "schema" => "http://schema.org/",
-          "vcard" => "http://www.w3.org/2006/vcard/ns#",
-          "xsd" => "http://www.w3.org/2001/XMLSchema#",
-        ],
-        "@id" => "https://comhisto.georef.eu/publisher",
-        "@type" => "vcard:VCard",
-        "vcard:fn" => "Benoit David",
-        "vcard:hasEmail" => [
-          "@id" => "mailto:benoit.david@free.fr",
-        ],
-      ],
-    ];
-  }
-
-  if ($path_info == '/period') { // intervalle de validité - référencé dans la déclaration DCAT 
-    return [
-      'header'=> ['Content-Type'=> 'application/ld+json'],
-      'body'=> [
-        "@context" => [
-          "adms" => "http://www.w3.org/ns/adms#",
-          "dcat" => "http://www.w3.org/ns/dcat#",
-          "dcterms" => "http://purl.org/dc/terms/",
-          "foaf" => "http://xmlns.com/foaf/0.1/",
-          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-          "schema" => "http://schema.org/",
-          "vcard" => "http://www.w3.org/2006/vcard/ns#",
-          "xsd" => "http://www.w3.org/2001/XMLSchema#",
-        ],
-        "@id" => "https://comhisto.georef.eu/period",
-        "@type" => "dcterms:PeriodOfTime",
-        "schema:endDate" => ["@type" => "xsd:date","@value" => "2020-01-01"],
-        "schema:startDate" => ["@type" => "xsd:date","@value" => "1943-01-01"],
-      ],
-    ];
-  }
-
-  if ($path_info == '/dist-geojson') { // description en JSON-LD de la distribution GéoJSON 
-    return [
-      'header'=> ['Content-Type'=> 'application/ld+json'],
-      'body'=> [
-        "@context" => [
-          "adms" => "http://www.w3.org/ns/adms#",
-          "dcat" => "http://www.w3.org/ns/dcat#",
-          "dcterms" => "http://purl.org/dc/terms/",
-          "foaf" => "http://xmlns.com/foaf/0.1/",
-          "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-          "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-          "schema" => "http://schema.org/",
-          "vcard" => "http://www.w3.org/2006/vcard/ns#",
-          "xsd" => "http://www.w3.org/2001/XMLSchema#",
-        ],
-        "@id" => "https://comhisto.georef.eu/dist-geojson",
-        "@type" => "dcat:Distribution",
-        "dcterms:title" => ["@language" => "fr","@value" => "Téléchargement GeoJSON"],
-        "dcat:accessURL" => [
-          "@id" => "https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson",
-        ],
-        "dcterms:description" => [
-          "@language" => "fr",
-          "@value" => "Fichier des versions d'entités téléchargeable en GeoJSON. Voir https://github.com/benoitdavidfr/comhisto/blob/master/export/README.md",
-        ],
-        "dcterms:format" => 'application/geo+json', // GeoJSON
-        "dcat:mediaType" => "https://www.iana.org/assignments/media-types/application/geo+json",
-        "dcterms:license" => ["@id" => "https://www.etalab.gouv.fr/licence-ouverte-open-licence"],
       ],
     ];
   }

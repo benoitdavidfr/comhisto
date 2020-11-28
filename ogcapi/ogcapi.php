@@ -35,10 +35,13 @@ doc: |
         - utilisation du Content-Type défini par getRecord et affichage du $record['body'] en JSON
   
   A faire:
+    - exprimer le lien entre le geojson:Feature et un City, comment faire ?
     - dans /collections/collId/items prise en compte des paramètres bbox, date, ...
     - mise en oeuvre de property
     - JSON-LD ?
 journal: |
+  28/11/2020:
+    - ajout du lien le la collection vers son schema JSON
   27/11/2020:
     - améliorations
     - chgt de l'id de vCom|vErat en retirant le type déjà présent dans le nom de la collection
@@ -82,7 +85,6 @@ function checkBbox(array $bbox): bool { // Vérifie que la Bbox est bien formée
   si ok alors le résultat est un array avec
   - 1) un champ 'header' avec notamment un sous-champ 'Content-Type' avec le type MIME du résultat
   - 2) un champ 'body' avec l'enregistrement lui-même.
-  - 3) Si le path_info impose un format de sortie alors il est retourné dans le champ 'outputFormat'
   En cas d'erreur retourne un array avec un champ 'error' contenant
   - 1) un champ 'httpCode' qui est un code d'erreur Http
   - 2) un champ 'message' qui est un message d'erreur sous la forme d'un texte
@@ -91,45 +93,71 @@ function getRecord(string $path_info, bool $ld): array {
   $baseUrl = ($_SERVER['HTTP_HOST']=='localhost') ?
       'http://localhost/yamldoc/pub/comhisto/ogcapi/ogcapi.php'
       : 'https://comhisto.geoapi.fr';
-  if (!$path_info || ($path_info == '/')) {
-    return [
-      'header'=> ['Content-Type'=> 'application/json'],
-      'body'=> [
-        'title'=> "Référentiel communal historique simplifié (ComHisto)",
-        'description' => "Accès aux entités de ComHisto via une API Web conforme au standard OGC API Features",
-        'links'=> [
-          [ 'href'=> "$baseUrl/",
-            'rel'=> 'self',
-            'type'=> 'application/json',
-            'title'=> "Ce document",
+  if (!$path_info || ($path_info == '/')) { // landingPage
+    if ($ld) {
+      return [
+        'header'=> ['Content-Type'=> 'application/ld+json'],
+        'body'=> [
+          "@context" => [
+            "adms" => "http://www.w3.org/ns/adms#",
+            "dcat" => "http://www.w3.org/ns/dcat#",
+            "dcterms" => "http://purl.org/dc/terms/",
+            "foaf" => "http://xmlns.com/foaf/0.1/",
+            "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+            "schema" => "http://schema.org/",
+            "vcard" => "http://www.w3.org/2006/vcard/ns#",
+            "xsd" => "http://www.w3.org/2001/XMLSchema#",
           ],
-          [ 'href'=> "$baseUrl/openapi",
-            'rel'=> 'service-desc',
-            'type'=> 'application/vnd.oai.openapi+json;version=3.0',
-            'title'=> "La définition de l'API",
+          '@type'=> 'dcat:DataService', // description du servide OGC API Features
+          "dcterms:title" => ["@language" => "fr","@value" => "web-service OGC API Features sur comhisto"],
+          "dcterms:description" => [
+            "@language" => "fr",
+            "@value" => "Web-service OGC API Features fournissant l'accès en GeoJSON aux versions d'entités",
           ],
-          [ //'href'=> "$baseUrl/api.html",
-            'href'=> "https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhistoogcapi", // la version par défaut
-            'rel'=> 'service-doc',
-            'type'=> 'text/html',
-            'title'=> "La documentation de l'API",
+          "dcterms:license" => ["@id" => "https://www.etalab.gouv.fr/licence-ouverte-open-licence"],
+          'dcat:servesDataset'=> ['@id'=> 'https://comhisto.georef.eu/'],
+          'dcat:endpointURL'=> "$baseUrl/",
+          'dct:conformsTo'=> [
+            ['@id'=> 'http://spec.openapis.org/'], // quel URI pour définir OpenAPI ?
+            ['@id'=> 'http://www.opengis.net/spec/ogcapi-features-1/1.0'],
           ],
-          [ 'href'=> "$baseUrl/conformance",
-            'rel'=> 'conformance',
-            'type'=> 'application/json',
-            'title'=> "Classes de conformité de l'API OGC implémentées par ce serveur",
-          ],
-          [ 'href'=> "$baseUrl/collections",
-            'rel'=> 'data',
-            'type'=> 'application/json',
-            'title'=> "Informations sur les collections d'objets",
+          'dcat:endpointDescription'=> "$baseUrl/api",
+        ],
+      ];
+    }
+    else {
+      return [
+        'header'=> ['Content-Type'=> 'application/json'],
+        'body'=> [
+          'title'=> "Référentiel communal historique simplifié (ComHisto)",
+          'description' => "Accès aux entités de ComHisto via une API Web conforme au standard OGC API Features",
+          'links'=> [
+            [ 'href'=> "$baseUrl/", 'rel'=> 'self', 'type'=> 'application/json', 'title'=> "Ce document"],
+            [
+              'href'=> "$baseUrl/api", 'rel'=> 'service-desc', 'type'=> 'application/vnd.oai.openapi+json;version=3.0',
+              'title'=> "La définition de l'API",
+            ],
+            [
+              'href'=> "https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhistoogcapi", // la version par défaut
+              'rel'=> 'service-doc', 'type'=> 'text/html',
+              'title'=> "La documentation de l'API",
+            ],
+            [
+              'href'=> "$baseUrl/conformance", 'rel'=> 'conformance', 'type'=> 'application/json',
+              'title'=> "Classes de conformité de l'API OGC implémentées par ce serveur",
+            ],
+            [
+              'href'=> "$baseUrl/collections", 'rel'=> 'data', 'type'=> 'application/json',
+              'title'=> "Informations sur les collections d'objets",
+            ],
           ],
         ],
-      ],
-    ];
+      ];
+    }
   }
   
-  if ($path_info == '/openapi') {
+  if ($path_info == '/api') {
     return [
       'header'=> ['Content-Type'=> 'application/vnd.oai.openapi+json;version=3.0'],
       'body'=> Yaml::parseFile(__DIR__.'/openapi.yaml'),
@@ -189,6 +217,12 @@ function getRecord(string $path_info, bool $ld): array {
           "type" => "text/html",
           "title" => "Licence ouverte Etalab",
         ],
+        [
+          "href" => "$baseUrl/collections/vCom/schema",
+          "rel" => "describedBy",
+          "type" => "application/json",
+          "title" => "Schema JSON d'une FeatureCollection correspondant à cette collection",
+        ],
       ],
     ],
     'vErat' => [
@@ -229,10 +263,16 @@ function getRecord(string $path_info, bool $ld): array {
           "type" => "text/html",
           "title" => "Licence ouverte Etalab",
         ],
+        [
+          "href" => "$baseUrl/collections/vErat/schema",
+          "rel" => "describedBy",
+          "type" => "application/json",
+          "title" => "Schema JSON d'une FeatureCollection correspondant à cette collection",
+        ],
       ],
     ],
   ];
-  if ($path_info == '/collections') {
+  if ($path_info == '/collections') { // /collections
     return [ // le seul résultat généré est celui en JSON
       'header'=> ['Content-Type'=> 'application/json'],
       'body'=> [
@@ -268,7 +308,7 @@ function getRecord(string $path_info, bool $ld): array {
     ];
   }
   
-  if (preg_match('!^/collections/([^/]*)?$!', $path_info, $matches)) {
+  if (preg_match('!^/collections/([^/]*)?$!', $path_info, $matches)) { // /collections/{collId}
     $collectionId = $matches[1];
     if (!isset($collections[$collectionId]))
       return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
@@ -279,7 +319,18 @@ function getRecord(string $path_info, bool $ld): array {
       ];
   }
   
-  if (preg_match('!^/collections/([^/]*)/items$!', $path_info, $matches)) {
+  if (preg_match('!^/collections/([^/]*)/schema$!', $path_info, $matches)) { // /collections/{collId}/schema
+    $collectionId = $matches[1];
+    if (!isset($collections[$collectionId]))
+      return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
+    else
+      return [ // le seul résultat généré est celui en JSON
+        'header'=> ['Content-Type'=> 'application/json'],
+        'body'=> Yaml::parseFile(__DIR__."/schemas/$collectionId.yaml"),
+      ];
+  }
+
+  if (preg_match('!^/collections/([^/]*)/items$!', $path_info, $matches)) { // /collections/{collId}/items
     $collectionId = $matches[1];
     if (!isset($collections[$collectionId]))
       return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
@@ -300,6 +351,16 @@ function getRecord(string $path_info, bool $ld): array {
     }
           
     $t = ($collectionId == 'vCom') ? 's': (($collectionId == 'vErat') ? 'r': 'ERROR');
+    $sql = "select count(*) numbermatched from comhistog3 where type='$t'";
+    try {
+      $tuple = PgSql::getTuples($sql)[0];
+      //print_r($tuple);
+      $numberMatched = intval($tuple['numbermatched']);
+    } catch (Exception $e) {
+      echo "<pre>sql=$sql</pre>\n";
+      echo $e->getMessage();
+      throw new Exception($e->getMessage());
+    }
     $sql = "select id, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
       from comhistog3 where type='$t'
       limit $limit offset $startindex";
@@ -321,8 +382,7 @@ function getRecord(string $path_info, bool $ld): array {
         ];
       }
       
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
       echo "<pre>sql=$sql</pre>\n";
       echo $e->getMessage();
       throw new Exception($e->getMessage());
@@ -363,12 +423,15 @@ function getRecord(string $path_info, bool $ld): array {
             "rel" => "collection",
             "href" => "$baseUrl/collections/$collectionId",
           ],
-        ]
+        ],
+        'timeStamp'=> str_replace('+00:00','Z', date(DATE_ATOM)),
+        'numberReturned'=> count($features),
+        'numberMatched'=> $numberMatched,
       ],
     ];
   }
   
-  if (preg_match('!^/collections/([^/]*)/items/([^/]*)$!', $path_info, $matches)) {
+  if (preg_match('!^/collections/([^/]*)/items/([^/]*)$!', $path_info, $matches)) { // /collections/{collId}/items/{fId}
     $collectionId = $matches[1];
     $type = ($collectionId == 'vErat') ? 'r' : 's';
     $fId = $matches[2];
@@ -376,16 +439,14 @@ function getRecord(string $path_info, bool $ld): array {
       return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
     $sql = "select id, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
       from comhistog3 where id='$type$fId'";
-
     try {
       $tuples = PgSql::getTuples($sql);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
       echo "<pre>sql=$sql</pre>\n";
       echo $e->getMessage();
       throw new Exception($e->getMessage());
     }
-    if (count($tuples) == 0)
+    if (!$tuples)
       return ['error'=> ['httpCode'=> 404, 'message'=> "Item $fId inexistant"]];
     $tuple = $tuples[0];
     foreach (['geom','edebut','efin','erats','elits'] as $prop)
@@ -394,17 +455,14 @@ function getRecord(string $path_info, bool $ld): array {
     unset($tuple['geom']);
     $id = substr($tuple['id'], 1);
     unset($tuple['id']);
-    $feature = [
-      'type'=> 'Feature',
-      'id'=> $id,
-      'properties'=> $tuple,
-      'geometry'=> $geom,
-    ];
-
-      
     return [ // résultat généré en GéoJSON ou JSON-LD
       'header'=> ['Content-Type'=> $ld ? 'application/ld+json' : 'application/geo+json'],
-      'body'=> $feature,
+      'body'=> [
+        'type'=> 'Feature',
+        'id'=> $id,
+        'properties'=> $tuple,
+        'geometry'=> $geom,
+      ],
     ];
   }
   
