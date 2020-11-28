@@ -130,8 +130,10 @@ function getRecord(string $path_info, bool $ld): array {
       return [
         'header'=> ['Content-Type'=> 'application/json'],
         'body'=> [
-          'title'=> "Référentiel communal historique simplifié (ComHisto)",
-          'description' => "Accès aux entités de ComHisto via une API Web conforme au standard OGC API Features",
+          'title'=> "API d'accès au référentiel communal historique simplifié (ComHisto)",
+          'description' => "Accès aux entités de ComHisto via une API Web conforme au standard OGC API Features.\n"
+            ."Cette version 0 est limitée à l'accès aux versions d'entités (vCom et vErat).\n"
+            ."De plus, certaines fonctionnalités ne sont pas implémentées, notamment les paramètres bbox, date et property de items.",
           'links'=> [
             [ 'href'=> "$baseUrl/", 'rel'=> 'self', 'type'=> 'application/json', 'title'=> "Ce document"],
             [
@@ -218,7 +220,7 @@ function getRecord(string $path_info, bool $ld): array {
           "title" => "Licence ouverte Etalab",
         ],
         [
-          "href" => "$baseUrl/collections/vCom/schema",
+          "href" => "$baseUrl/schema/vEntite",
           "rel" => "describedBy",
           "type" => "application/json",
           "title" => "Schema JSON d'une FeatureCollection correspondant à cette collection",
@@ -264,7 +266,7 @@ function getRecord(string $path_info, bool $ld): array {
           "title" => "Licence ouverte Etalab",
         ],
         [
-          "href" => "$baseUrl/collections/vErat/schema",
+          "href" => "$baseUrl/schema/vEntite",
           "rel" => "describedBy",
           "type" => "application/json",
           "title" => "Schema JSON d'une FeatureCollection correspondant à cette collection",
@@ -289,19 +291,6 @@ function getRecord(string $path_info, bool $ld): array {
               "type" => "text/html",
               "title" => "this document as HTML",
             ],
-            /*[
-              "href" => "http://schemas.example.org/1.0/buildings.xsd",
-              "rel" => "describedBy",
-              "type" => "application/xml",
-              "title" => "GML application schema for Acme Corporation building data",
-            ],
-            [
-              "href" => "http://download.example.org/buildings.gpkg",
-              "rel" => "enclosure",
-              "type" => "application/geopackage+sqlite3",
-              "title" => "Bulk download (GeoPackage)",
-              "length" => 472546,
-            ],*/
           ],
           "collections" => array_values($collections),
       ],
@@ -319,15 +308,16 @@ function getRecord(string $path_info, bool $ld): array {
       ];
   }
   
-  if (preg_match('!^/collections/([^/]*)/schema$!', $path_info, $matches)) { // /collections/{collId}/schema
-    $collectionId = $matches[1];
-    if (!isset($collections[$collectionId]))
-      return ['error'=> ['httpCode'=> 404, 'message'=> "Collection $collectionId inexistante"]];
-    else
+  if (preg_match('!^/schema/([^/]*)$!', $path_info, $matches)) { // /schema/{schemaId}
+    $schemaId = $matches[1];
+    try {
       return [ // le seul résultat généré est celui en JSON
         'header'=> ['Content-Type'=> 'application/json'],
-        'body'=> Yaml::parseFile(__DIR__."/schemas/$collectionId.yaml"),
+        'body'=> Yaml::parseFile(__DIR__."/schemas/$schemaId.yaml"),
       ];
+    } catch (ParseException $e) {
+      return ['error'=> ['httpCode'=> 404, 'message'=> "Schema $schemaId non défini"]];
+    }
   }
 
   if (preg_match('!^/collections/([^/]*)/items$!', $path_info, $matches)) { // /collections/{collId}/items

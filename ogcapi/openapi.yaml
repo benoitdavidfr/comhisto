@@ -3,12 +3,12 @@ info:
   description: |
     Cette API propose l'accès aux données de [ComHisto](https://github.com/benoitdavidfr/comhisto)
     selon le protocole [OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html).
-    Cette version expose uniquement les collections vCom et vErat.
+    Cette version 0.x expose uniquement les collections vCom et vErat.
   contact:
     email: contact@geoapi.fr
     name: Benoit DAVID
     url: https://github.com/benoitdavidfr/comhisto
-  version: '0.6'
+  version: '0.9'
   x-keywords:
     - comhisto
     - commune
@@ -105,7 +105,7 @@ paths:
       summary: 'API conformance definition'
       tags:
         - server
-  /openapi:
+  /api:
     get:
       description: 'This document'
       operationId: getOpenapi
@@ -120,6 +120,28 @@ paths:
         default:
           $ref: '#/components/responses/default'
       summary: 'This document'
+      tags:
+        - server
+  '/schema/{schemaId}':
+    get:
+      summary: Obtenir le schema JSON en fonction de son id
+      operationId: getSchema
+      parameters:
+        - name: schemaId
+          in: path
+          description: local identifier of a schema
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/Feature'
+        400:
+          $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/InvalidParameter'
+        404:
+          $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/NotFound'
+        500:
+          $ref: 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml#/components/responses/ServerError'
       tags:
         - server
   /collections:

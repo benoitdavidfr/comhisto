@@ -2,11 +2,20 @@ title: comhisto/ogcapi - serveur OGC API Feature
 path: /yamldoc/pub/comhisto/ogcapi
 doc: |
   Le point d'entrée ogcapi.php est publié sur Internet comme https://comhisto.geoapi.fr
-  Le fichier openapi.yaml contient la description OpenAPI 3.0 de l'API.
+  openapi.yaml contient la description OpenAPI 3.0 de l'API et est utilisé par ogcapi.php
+    il doit être recopié dans https://app.swaggerhub.com/apis/benoitdavidfr/comhistoogcapi
+      1) pour en vérifier la conformité à OAS 3.0
+      2) pour mettre à jour la doc référencée dans ogcapi.php
+  le répertoire schemas contient les schémas des collections référencés dans ogcapi.php
+  checkschema.php effectue une vérification que items est conforme au schéma
+  oaf-schemas.yaml contient les schemas définis dans le std OGC
+  ogcapi-features-1.yaml est une copie de http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/ogcapi-features-1.yaml
+    il contient les définitions (paramètres, schémas et réponses) définis dans le standard OGC
+  pygeoapi.yaml est un exemple de déclaration OpenAPI 3.0, c'est celle de https://demo.pygeoapi.io/master
   
   Idée-11-28:
     - Seule la racine de https://comhisto.geoapi.fr/ est décrite en LD !
-    - je n' i pas de lien entre les Feture de geoapi et les City de georef !
+    - je n'ai pas défini de lien entre les Feature de geoapi et les City de georef !
     - https://comhisto.georef.eu/ a Dcat:Dataset (LD)
     - https://comhisto.georef.eu/
       dcat:distribution
@@ -45,10 +54,11 @@ doc: |
     - https://demo.pygeoapi.io/master/collections/dutch_castles/items a FeatureCollection
     - https://demo.pygeoapi.io/master/collections/dutch_castles/items/kastelen.1 a Feature
 journal: |
-  25/11/2020:
+  25-28/11/2020:
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/ogcapi/ogcapi.php
+  - /yamldoc/pub/comhisto/ogcapi/checkschema.php
 phpIncludes:
 htmlFiles:
   - /yamldoc/pub/comhisto/ogcapi/openapi.yaml
