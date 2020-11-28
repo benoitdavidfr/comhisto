@@ -5,8 +5,10 @@ title: json.php - affiche le résultat d'une requête Http en positionnant le pa
 doc: |
   effectue une requête Http en positionnant le paramètre Accept
   soit à 'application/ld+json' soit à 'application/json,application/geo+json'
-  Affiche le résultat en Yaml en reamplacant les URL par des liens
+  Affiche le résultat en Yaml en remplacant les URL par des liens
 journal: |
+  28/11/2020:
+    - améliorations
   26/11/2020:
     - changement de nom
   21/11/2020:
@@ -21,9 +23,12 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 function replaceUrl(string $text): string {
   if (strlen($text) > 1e6) return $text; // Si le text est trop long (1 Mo) on ne fait rien car trop long
+  $ydepth = $_GET['ydepth'] ?? 9;
+  $ld = $_GET['ld'] ?? null;
+  $args = "&ydepth=$ydepth".($ld ? "&ld=$ld" : '');
   $pattern = '!(http(s)?:)(//[^ \n\'"]*)!';
   while (preg_match($pattern, $text, $m)) {
-    $text = preg_replace($pattern, "<a href='?url=".urlencode($m[1].$m[3])."'>Http$m[2]:$m[3]</a>", $text, 1);
+    $text = preg_replace($pattern, "<a href='?url=".urlencode($m[1].$m[3])."$args'>Http$m[2]:$m[3]</a>", $text, 1);
     //break;
   }
   return $text;
