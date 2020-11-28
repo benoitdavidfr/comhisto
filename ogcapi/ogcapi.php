@@ -36,12 +36,11 @@ doc: |
   
   A faire:
     - exprimer le lien entre le geojson:Feature et un City, comment faire ?
-    - dans /collections/collId/items prise en compte des paramètres bbox, date, ...
     - mise en oeuvre de property
-    - JSON-LD ?
 journal: |
   28/11/2020:
-    - ajout du lien le la collection vers son schema JSON
+    - ajout du lien de la collection vers son schema JSON
+    - traitement des paramètres bbox et datetime
   27/11/2020:
     - améliorations
     - chgt de l'id de vCom|vErat en retirant le type déjà présent dans le nom de la collection
@@ -133,7 +132,7 @@ function getRecord(string $path_info, bool $ld): array {
           'title'=> "API d'accès au référentiel communal historique simplifié (ComHisto)",
           'description' => "Accès aux entités de ComHisto via une API Web conforme au standard OGC API Features.\n"
             ."Cette version 0 est limitée à l'accès aux versions d'entités (vCom et vErat).\n"
-            ."De plus, certaines fonctionnalités ne sont pas implémentées, notamment les paramètres bbox, date et property de items.",
+            ."De plus, certaines fonctionnalités ne sont pas implémentées, notamment les paramètres property de items.",
           'links'=> [
             [ 'href'=> "$baseUrl/", 'rel'=> 'self', 'type'=> 'application/json', 'title'=> "Ce document"],
             [
@@ -330,10 +329,40 @@ function getRecord(string $path_info, bool $ld): array {
     $startindex = $_GET['startindex'] ?? 0;
     if (!is_numeric($startindex) || ($startindex < 0))
       return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre startindex=$startindex incorrect"]];
-    $bbox = isset($_GET['bbox']) ? implode(',', $_GET['bbox']) : [];
+    $whereSupplement = '';
+    //echo "_GET = "; print_r($_GET);
+    $bbox = isset($_GET['bbox']) ? explode(',', $_GET['bbox']) : [];
     if ($bbox && !checkBbox($bbox))
       return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre bbox=$_GET[bbox] incorrect"]];
-    $datetime = $_GET['datetime'] ?? null;
+    if ($bbox) {
+      if (count($bbox) == 4)
+        $whereSupplement .= " and ST_Intersects(geom, ST_MakeEnvelope(".implode(',',$bbox).", 4326))";
+      else
+        $whereSupplement .= " and ST_Intersects(geom, ST_MakeEnvelope($bbox[0], $bbox[1], $bbox[3], $bbox[4], 4326))";
+    }
+    if ($datetime = ($_GET['datetime'] ?? null)) {
+      $date_pattern = '\d\d\d\d-\d\d-\d\d|\.\.';
+      if (!preg_match("!^($date_pattern)(/($date_pattern))?$!", $datetime, $matches)) {
+        return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre datetime=$datetime incorrect"]];
+      }
+      //echo "matches="; print_r($matches);
+      $start = $matches[1];
+      $end = $matches[3] ?? null;
+      if (!$end) { // date ponctuelle
+        if ($start == '..')
+          return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre datetime=$datetime incorrect"]];
+        $whereSupplement .= " and ddebut <= '$start' and (dfin > '$start' or dfin is null)";
+      }
+      elseif (($start == '..') && ($end == '..'))
+        $whereSupplement .= '';
+      elseif ($start == '..')
+        $whereSupplement .= " and ddebut < '$end'";
+      elseif ($end == '..')
+        $whereSupplement .= " and dfin > '$start'";
+      else
+        $whereSupplement .= " and ddebut < '$end' and dfin > '$start'";
+    }
+    
     $properties = [];
     foreach ($_GET as $key => $value) {
       if (!in_array($key, ['limit','bbox','datetime']))
@@ -352,7 +381,7 @@ function getRecord(string $path_info, bool $ld): array {
       throw new Exception($e->getMessage());
     }
     $sql = "select id, cinsee, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
-      from comhistog3 where type='$t'
+      from comhistog3 where type='$t' $whereSupplement
       limit $limit offset $startindex";
 
     try {
@@ -366,7 +395,7 @@ function getRecord(string $path_info, bool $ld): array {
         unset($tuple['id']);
         $features[] = [
           'type'=> 'Feature',
-          'id'=> $id,
+          'id'=> ($ld ? "$baseUrl/collections/$collectionId/items/$id" : $id),
           'properties'=> $tuple,
           'geometry'=> $geom,
         ];
@@ -379,7 +408,13 @@ function getRecord(string $path_info, bool $ld): array {
     }
     return [ // résultat généré en GéoJSON ou JSON-LD
       'header'=> ['Content-Type'=> $ld ? 'application/ld+json' : 'application/geo+json'],
-      'body'=> [
+      'body'=> 
+        ($ld ? ['@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld'] : [])
+      +[
+        'sql'=> $sql,
+        'timeStamp'=> str_replace('+00:00','Z', date(DATE_ATOM)),
+        'numberReturned'=> count($features),
+        'numberMatched'=> $numberMatched,
         'type'=> 'FeatureCollection',
         'features' => $features,
         'links'=> [
@@ -414,9 +449,6 @@ function getRecord(string $path_info, bool $ld): array {
             "href" => "$baseUrl/collections/$collectionId",
           ],
         ],
-        'timeStamp'=> str_replace('+00:00','Z', date(DATE_ATOM)),
-        'numberReturned'=> count($features),
-        'numberMatched'=> $numberMatched,
       ],
     ];
   }
@@ -447,7 +479,9 @@ function getRecord(string $path_info, bool $ld): array {
     unset($tuple['id']);
     return [ // résultat généré en GéoJSON ou JSON-LD
       'header'=> ['Content-Type'=> $ld ? 'application/ld+json' : 'application/geo+json'],
-      'body'=> [
+      'body'=> 
+        ($ld ? ['@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld'] : [])
+      +[
         'type'=> 'Feature',
         'id'=> $id,
         'properties'=> $tuple,
