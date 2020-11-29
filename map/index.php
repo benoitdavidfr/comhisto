@@ -94,7 +94,7 @@ function showComHisto(string $id='', array $record=null): string {
   elseif (basename($_SERVER['SCRIPT_NAME'])=='index.php') // cas sur http://localhost/yamldoc/pub/comhisto/map/
     // je suis dans le bon répertoire, il suffit donc d'utiliser le chemin relatif
     $mapScriptName = 'map.php';
-  elseif (basename($_SERVER['SCRIPT_NAME'])=='api.php') { // cas sur http://localhost/yamldoc/pub/comhisto/api/api.php
+  elseif (basename($_SERVER['SCRIPT_NAME'])=='uriapi.php') { // cas sur http://localhost/yamldoc/pub/comhisto/uriapi/uriapi.php
     // je suis dans le répertoire api, j'utilise le répertoire de comhisto défini indirectement par $_SERVER['SCRIPT_NAME']
     $comHistoDirname = dirname(dirname($_SERVER['SCRIPT_NAME'])); // répertoire comhisto
     //echo "index.php> comHistoDirname=$comHistoDirname<br>\n";
