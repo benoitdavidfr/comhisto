@@ -48,6 +48,7 @@ function response_header(array $input): array {
 $url = $_GET['url'] ?? '';
 $ydepth = $_GET['ydepth'] ?? 9;
 
+echo "<!DOCTYPE HTML><html>\n<head><meta charset='UTF-8'><title>json</title>\n</head><body>\n";
 echo "<table><tr>" // le formulaire
       . "<td><table border=1><form><tr>"
       . "<td><input type='text' size=130 name='url' value='$url'/></td>\n"

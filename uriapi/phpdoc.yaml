@@ -8,13 +8,13 @@ doc: |
       et leur déréférencement donnant en JSON-LD leur propriétés
     2) une IHM et la visualisation d'une carte correspondant à chaque entité
     3) des URI indépendants du mécanisme OGC API Features
-    4) l'URI correspondant au jeu de données Dcat (Dcat:Dataset) et son déréférencement
+    4) l'URI correspondant au jeu de données Dcat (dcat:Dataset) et son déréférencement
     
   Logique de mise à disposition:
     - chaque entité est identifiée par un URI dont le déréférencement donne accès à ses propriétés
       - les URI sont généralement de la forme http://comhisto.georef.eu/{concept}/{identifier}/{version}.{format}
-    - le déréférencement d'un URI propose, en fonction du paramètre Accept 2 résultats:
-      - un objet JSON-LD dans des ontologies standards, qui donc standardise cette structure mais en la simplifiant
+    - le déréférencement d'un URI propose, en fonction du paramètre Accept 2 résultats possibles:
+      - un objet JSON-LD dans des ontologies standards
       - un texte Html qui fournit une IHM basique tout en fournissant le JSON-LD dans l'en-tête Html
 
   Correspondance id <-> URI:
@@ -26,31 +26,33 @@ doc: |
       cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
       cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
   
-  L'APi est définie par le document openapi.yaml
+  L'API est définie par le document openapi.yaml conforme au standard OAS3 (http://spec.openapis.org/)
   
   Les motifs d'URI sont:
     / -> URI de référence
-      LD: doc de la base comme enregistrement dcat:Dataset, Html: IHM de consultation de la base
+      LD: doc de la base comme enregistrement dcat:Dataset
+      Html: IHM de consultation de la base
     /api
       JSON: doc open API de l'API d'accès
+    /apidoc
+      Renvoie vers la doc en ligne sur swaggerhub.com
     /(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune|ERAT débutant à {ddebut}
-      JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
+      LD: ressource du type https://schema.org/City
+      Html: carte Leaflet
     /codeInsee/{cinsee} -> URI du code Insee,
-      retourne en JSON-LD la liste des versions (dcterms:hasVersion) de COM|ERAT correspondant à {cinsee},
-      en Html la carte des versions de COM|ERAT correspondant à ce code,
-      si {cinsee} invalide retourne une erreur 404
-      correspond à l'id ne contenant que le code Insee
+      LD: liste des versions (dcterms:hasVersion) de COM|ERAT correspondant à {cinsee},
+      Html: carte des versions de COM|ERAT correspondant à ce code,
     /elits2020/{cinsee} -> URI de l'élit 2020,
       si l'élit est valide alors retourne en JSON un Feature GeoJSON, en Html une carte,
       si l'élit a été remplacé alors retourne la liste des élits le remplacant (dcterms:replacedBy) (A VOIR),
       si l'élit n'a jamais existé alors retourne une erreur 404
-    /map/(s|r|){cinsee}/{ddebut} -> URI de la carte,  en Html/JSON-LD, sinon erreur 404
+    /map/(s|r|){cinsee}/{ddebut} -> URI de la carte,  en Html/JSON-LD
     /status -> URI du thésaurus des statuts, retourne en JSON-LD un skos:ConceptScheme
-    /status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
-    /contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
+    /status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD
+    /contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD
 
   Plus les URL suivantes qui retournent des objets avec un URI différent de l'URL:
-    /(COM|ERAT)/{cinsee} -> retourne la version valide de la commune|ERAT en Html/JSON-LD, sinon erreur 404
+    /(COM|ERAT)/{cinsee} -> retourne la version valide de la commune|ERAT en Html/JSON-LD
     /(COM|ERAT)/{cinsee}?date={date}
       -> retourne la version existant à cette date en Html/JSON-LD, sinon erreur 404
     /codeInsee/{cinsee}?date={date}
@@ -107,7 +109,6 @@ doc: |
       - propriété https://schema.org/temporalCoverage (fait en partie)
       - améliorer replaces/replacedBy
       - gérer le déréférencement des classes et propriétés définies dans comhisto (comhisto:Event, comhisto:startEvent, ...)
-    - écrire la description open API
     
 journal: |
   29/11/2020:

@@ -78,7 +78,8 @@ submodules:
   - /yamldoc/pub/comhisto/croise2
   - /yamldoc/pub/comhisto/export
   - /yamldoc/pub/comhisto/map
-  - /yamldoc/pub/comhisto/api
+  - /yamldoc/pub/comhisto/uriapi
+  - /yamldoc/pub/comhisto/ogcapi
 sqlDBs:
   - name: comhisto
     title: comhisto - base PostGis comhisto

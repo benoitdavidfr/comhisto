@@ -2,6 +2,7 @@ info:
   title: API spécifique d'accès à comhisto
   description: |
     Cette API propose l'accès aux données de [ComHisto](https://github.com/benoitdavidfr/comhisto)  
+    Version du 29/11/2020
   contact:
     email: contact@geoapi.fr
     name: Benoit DAVID
