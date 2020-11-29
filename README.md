@@ -48,11 +48,14 @@ Il est [documenté plus précisément ici](export/README.md).
 
 Il est de plus proposé sous la forme:
 
-- de cartes HTML représentant les différentes versions associées aux codes Insee,
-- d'une API JSON/GéoJSON,
-- de données liées en JSON-LD intégrées dans les pages Html.
+- d'une première API définissant les URI des entités, les décrivant selon les principes des données liées
+  et permettant de les visualiser avec des cartes, [détaillée ici](uriapi/README.md),
+- d'une seconde API conforme au (standard OGC API Features)[http://docs.opengeospatial.org/is/17-069r3/17-069r3.html]
+  [détaillée ici](ogcapi/README.md),
 
-Ces 3 dernières formes sont [décrites ici](api/README.md).
+La première API a l'avantage de spécifier des URI indépendante de l'implémentation, notamment du standard OGC API Features,
+de plus les entités sont décrites en données liées comme des ressource du type schema:City.
+La seconde a l'avantage de respecter un stsndard reconnu (ou qui a vocation à l'être) notamment dans le mon des SIG.
 
 ## Limites du référentiel
 **Attention**, aux limites suivantes :

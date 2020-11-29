@@ -1,12 +1,10 @@
-# Mise à disposition de ComHisto sous diverses formes
+# API définissant et exposant les URI
 
-Outre la mise à disposition de fichiers GéoJSON, ComHisto est mis à disposition sous 3 formes :
-
-- au travers de l'API en JSON/GéoJSON qui impose au client de connaitre la structure des données,
-- comme données liées par la définition d'URI identifiant chaque entité, l'utilisation d'ontologies standards
-  et la fourniture de données en JSON-LD,
-- sous la forme d'une page Html par entité incluant une carte de l'entité, fournissant une IHM basique de navigation
-  et intégrant de manière cachée mais standardisée l'enregistrement JSON-LD.
+Cette URI offre les fonctionnalités suivantes :
+- définition d'URI stables pour les entités,
+- le déréférencement des URI fournit une description des entités en JSON-LD en utilisant le type City du standard Schema.org,
+- en Html, il expose une IHM basique de visualisation et de navigation intégrant des cartes Leaflet
+  ainsi que, de manière cachée mais standardisée, l'enregistrement JSON-LD.
 
 Les principales URI utilisées sont les suivantes :
 
@@ -20,17 +18,19 @@ Les principales URI utilisées sont les suivantes :
 
 De plus les URL suivantes sont définies :
 
-- `https://comhisto.geoapi.fr/{statut}/{cinsee}` retourne la version valide d'une commune ou d'une entité rattachée
+- `https://comhisto.georef.eu/{statut}/{cinsee}` retourne la version valide d'une commune ou d'une entité rattachée
   portant le code Insee {cinsee}, ou l'erreur Http 404 s'il n'existe pas de version valide pour ce code  
   ex:
-   - https://comhisto.geoapi.fr/COM/01015 retourne l'entité https://comhisto.geoapi.fr/COM/01015/2016-01-01
-   - https://comhisto.geoapi.fr/COM/01340 retourne une erreur 404 car il n'existe pas de version valide de commune
+   - https://comhisto.georef.eu/COM/01015 retourne l'entité https://comhisto.georef.eu/COM/01015/2016-01-01
+   - https://comhisto.georef.eu/COM/01340 retourne une erreur 404 car il n'existe pas de version valide de commune
      portant ce code.
-- `https://comhisto.geoapi.fr/{statut}/{cinsee}?date={date}` retourne la version d'une commune ou d'une entité rattachée
+- `https://comhisto.georef.eu/{statut}/{cinsee}?date={date}` retourne la version d'une commune ou d'une entité rattachée
   portant le code Insee {cinsee} et existant à la date {date}, ou l'erreur Http 404 si cette version n'existe pas  
   ex:
-   - https://comhisto.geoapi.fr/COM/01015?date=2019-01-01 retourne l'entité https://comhisto.geoapi.fr/COM/01015/2016-01-01
-   - https://comhisto.geoapi.fr/COM/01340?date=2019-01-01 retourne une erreur 404 car il n'existe pas de version de commune
+   - https://comhisto.georef.eu/COM/01015?date=2019-01-01 retourne l'entité https://comhisto.georef.eu/COM/01015/2016-01-01
+   - https://comhisto.georef.eu/COM/01340?date=2019-01-01 retourne une erreur 404 car il n'existe pas de version de commune
      portant ce code à cette date.
 
-
+Les fonctionnalités détaillées de l'API sont définies dans le document Open API 3.0
+disponible en JSON à https://comhisto.georef.eu/api
+et consultable en Html à https://comhisto.georef.eu/api
