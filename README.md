@@ -54,7 +54,7 @@ Il est de plus proposé sous la forme:
   conforme au [standard OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html),
  
 
-La première API a l'avantage de spécifier des URI indépendante de l'implémentation, notamment du standard OGC API Features,
+La première API a l'avantage de spécifier des URI indépendantes de l'implémentation, notamment du standard OGC API Features,
 de plus les entités sont décrites en données liées comme des ressource du type schema:City.
 La seconde a l'avantage de respecter un stsndard reconnu (ou qui a vocation à l'être) notamment dans le mon des SIG.
 
