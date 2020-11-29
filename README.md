@@ -50,7 +50,7 @@ Il est de plus proposé sous la forme:
 
 - d'une première API définissant les URI des entités, les décrivant selon les principes des données liées
   et permettant de les visualiser avec des cartes, [détaillée ici](uriapi/README.md),
-- d'une seconde API conforme au (standard OGC API Features)[http://docs.opengeospatial.org/is/17-069r3/17-069r3.html]
+- d'une seconde API conforme au [standard OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html)
   [détaillée ici](ogcapi/README.md),
 
 La première API a l'avantage de spécifier des URI indépendante de l'implémentation, notamment du standard OGC API Features,
