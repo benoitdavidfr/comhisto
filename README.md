@@ -48,10 +48,11 @@ Il est [documenté plus précisément ici](export/README.md).
 
 Il est de plus proposé sous la forme:
 
-- d'une première API définissant les URI des entités, les décrivant selon les principes des données liées
-  et permettant de les visualiser avec des cartes, [détaillée ici](uriapi/README.md),
-- d'une seconde API conforme au [standard OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html),
-  [détaillée ici](ogcapi/README.md),
+- d'une première API, [détaillée ici](uriapi/README.md), définissant les URI des entités, les décrivant selon les principes
+  des données liées et permettant de les visualiser sur des cartes,
+- d'une seconde API, [détaillée ici](ogcapi/README.md),
+  conforme au [standard OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html),
+ 
 
 La première API a l'avantage de spécifier des URI indépendante de l'implémentation, notamment du standard OGC API Features,
 de plus les entités sont décrites en données liées comme des ressource du type schema:City.
