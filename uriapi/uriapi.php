@@ -442,7 +442,7 @@ function getRecord(string $path_info): array {
   }
 
   if ($path_info == '/apidoc') {
-    $url = 'https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhisto-specapi';
+    $url = 'https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhisto-uriapi';
     header('HTTP/1.1 302 Moved Temporarily');
     header("Location: $url");
     die("Redirection vers $url<br>\n");
