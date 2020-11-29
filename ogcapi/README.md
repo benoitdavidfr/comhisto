@@ -7,7 +7,9 @@ La page d'accueil (landing page) est https://comhisto.geoapi.fr/?f=json ;
 en [JSON-LD l'URI correspond à un dcat:DataService](https://comhisto.geoapi.fr/?f=jsonld)
 exposant le dataset https://comhisto.georef.eu/
 
-L'API est décrite selon les [spécification OpenAPI 3.0](http://spec.openapis.org/) à https://comhisto.geoapi.fr/api?f=json
+L'API est décrite selon les [spécification OpenAPI 3.0](http://spec.openapis.org/)
+en JSON à https://comhisto.geoapi.fr/api?f=json
+ou en Html à https://comhisto.geoapi.fr/apidoc
 
 La liste des collections est disponible à https://comhisto.geoapi.fr/collections?f=json
 
