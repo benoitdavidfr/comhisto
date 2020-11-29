@@ -33,4 +33,4 @@ De plus les URL suivantes sont définies :
 
 Les fonctionnalités détaillées de l'API sont définies dans le document Open API 3.0
 disponible en JSON à https://comhisto.georef.eu/api
-et consultable en Html à https://comhisto.georef.eu/api
+et consultable en Html à https://comhisto.georef.eu/apidoc
