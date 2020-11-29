@@ -56,7 +56,7 @@ Il est de plus proposé sous la forme:
 
 La première API a l'avantage de spécifier des URI indépendantes de l'implémentation, notamment du standard OGC API Features,
 de plus les entités sont décrites en données liées comme des ressource du type schema:City.
-La seconde a l'avantage de respecter un stsndard reconnu (ou qui a vocation à l'être) notamment dans le mon des SIG.
+La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l'être) notamment dans le mon des SIG.
 
 ## Limites du référentiel
 **Attention**, aux limites suivantes :
