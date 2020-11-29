@@ -1,5 +1,5 @@
-title: comhisto/api - déf. des URI + API
-path: /yamldoc/pub/comhisto/api
+title: comhisto/uriapi - déf. des URI + API
+path: /yamldoc/pub/comhisto/uriapi
 doc: |
   2 API sont définies: celle-ci et https://comhisto.geoapi.fr/ qui correspond à un web-service OGC API Features
 
@@ -114,6 +114,7 @@ journal: |
   29/11/2020:
     - redéfinition des objectifs après l'écriture de ogcapi.php
     - écriture de openapi.yaml
+    - chgt de nom de api.php en uriapi.php
   24/11/2020:
     - ajout de la propriété https://schema.org/hasMap
     - ajout des URI/URL /map/(s|r|){cinsee}/{ddebut} et /map/(s|r|){cinsee}

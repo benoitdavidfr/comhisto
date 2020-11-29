@@ -1,7 +1,7 @@
 <?php
 /*PhpDoc:
-name: api.php
-title: api/api.php - API d'accès à ComHisto
+name: uriapi.php
+title: uriapi/api.php - API de déréférencement des URI de ComHisto 
 doc: |
   L'objet de ce script de déréférencer les URI dont les motifs sont définis dans phpdoc.yaml
 
@@ -11,6 +11,7 @@ doc: |
 journal: |
   29/11/2020:
     - refonte à la suite de la redéfinition des objectifs après l'écriture de ogcapi.php
+    - changement de nom en uriapi.php
   23/11/2020:
     - amélioration de la description LD des comhisto:(COM|ERAT)
   20-22/11/2020:

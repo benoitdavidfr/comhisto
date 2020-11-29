@@ -1,13 +1,14 @@
 info:
-  title: API spécifique d'accès à comhisto
+  title: API de gestion des URI de comhisto
   description: |
-    Cette API propose l'accès aux données de [ComHisto](https://github.com/benoitdavidfr/comhisto)  
+    Cette API réalise le déréférencement des URI de [ComHisto](https://github.com/benoitdavidfr/comhisto)
+    et permet l'accès aux données  
     Version du 29/11/2020
   contact:
     email: contact@geoapi.fr
     name: Benoit DAVID
     url: https://github.com/benoitdavidfr/comhisto
-  version: '0.7'
+  version: '0.8'
   x-keywords:
     - comhisto
     - commune
