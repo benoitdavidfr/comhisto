@@ -22,9 +22,8 @@ doc: |
       - 4 types MIME sont détectés dans le paramètre Http Accept
       - $format est simplifié et contient une des 4 valeurs: json, geojson, jsonld ou html
       - si $path_info contient un format alors $format est corrigé
-      - calcul de $ld en fonction de $accept
-        $ld ::= $format in ('jsond','html')
-      - appel de getRecord() avec ld en paramètre
+      - calcul de $ld en fonction de $accept -> $ld ::= $format in ('jsond','html')
+      - appel de getRecord() avec $path_info et $ld en paramètres
         - construction du résultat en fonction de ld
           - détermination du Content-Type en fonction du cas de figure
       - si format=='html' alors
@@ -37,6 +36,8 @@ doc: |
   A faire:
     - exprimer le lien entre le geojson:Feature et un City, comment faire ?
 journal: |
+  29/11/2020:
+    - améliorations
   28/11/2020:
     - ajout du lien de la collection vers son schema JSON
     - traitement des paramètres bbox et datetime
@@ -115,6 +116,7 @@ if (0) { // Tests de la fonction interval()
   die();
 }
 
+// fabrique une chaine avec les paramètres + le caractère '?' au début ssi il en existe au moins un
 function showParams(array $params): string {
   if (!$params)
     return '';
@@ -377,6 +379,8 @@ function getRecord(string $path_info, bool $ld): array {
       return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre startindex=$startindex incorrect"]];
     $whereSupplement = '';
     //echo "_GET = "; print_r($_GET);
+    
+    // gestion du paramètre bbox
     if ($bbox = isset($_GET['bbox']) ? explode(',', $_GET['bbox']) : []) { // si bbox est défini
       if (!checkBbox($bbox))
         return ['error'=> ['httpCode'=> 400, 'message'=> "Paramètre bbox=$_GET[bbox] incorrect"]];
@@ -385,6 +389,8 @@ function getRecord(string $path_info, bool $ld): array {
       else
         $whereSupplement .= " and ST_Intersects(geom, ST_MakeEnvelope($bbox[0], $bbox[1], $bbox[3], $bbox[4], 4326))";
     }
+    
+    // Gestion du paramètre datetime
     if ($interval = interval($_GET['datetime'] ?? '')) {
       if ($errorMessage = ($interval['error'] ?? null))
         return ['error'=> ['httpCode'=> 400, 'message'=> $errorMessage]];
@@ -415,23 +421,17 @@ function getRecord(string $path_info, bool $ld): array {
     if (!in_array('id', $properties))
       $properties = array_merge(['id'], $properties);
     //print_r($properties);
+    $properties = implode(',',$properties);
     
-    $t = ($collectionId == 'vCom') ? 's': (($collectionId == 'vErat') ? 'r': 'ERROR');
-    $sql = "select count(*) numbermatched from comhistog3 where type='$t' $whereSupplement";
     try {
-      $tuple = PgSql::getTuples($sql)[0];
-      //print_r($tuple);
-      $numberMatched = intval($tuple['numbermatched']);
-    } catch (Exception $e) {
-      echo "<pre>sql=$sql</pre>\n";
-      echo $e->getMessage();
-      throw new Exception($e->getMessage());
-    }
-    $sql = "select ".implode(',',$properties).", ST_AsGeoJSON(geom) geom
-      from comhistog3 where type='$t' $whereSupplement
-      limit $limit offset $startindex";
+      $t = ['vCom'=>'s','vErat'=>'r'][$collectionId] ?? 'ERROR';
+      $sql = "select count(*) numbermatched from comhistog3 where type='$t' $whereSupplement";
+      $numberMatched = intval(PgSql::getTuples($sql)[0]['numbermatched']);
 
-    try {
+      $sql = "select $properties, ST_AsGeoJSON(geom) geom
+        from comhistog3 where type='$t' $whereSupplement
+        limit $limit offset $startindex";
+
       $features = [];
       foreach (PgSql::getTuples($sql) as $tuple) {
         foreach (['geom','edebut','efin','erats','elits'] as $prop)
@@ -549,12 +549,12 @@ define('JSON_ENCODE_OPTIONS', JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNES
 //echo "<pre>"; print_r($_SERVER); die();
 // $format déduit de HTTP_ACCEPT
 $http_accept = explode(',', $_SERVER['HTTP_ACCEPT'] ?? '');
-if (array_intersect($http_accept, ['application/json','application/geo+json']))
-  $format = 'json';
+if (in_array('text/html', $http_accept))
+  $format = 'html';
 elseif (in_array('application/ld+json', $http_accept))
   $format = 'jsonld';
 else
-  $format = 'html';
+  $format = 'json';
 
 $path_info = $_SERVER['PATH_INFO'] ?? '';
 //echo "path_info=$path_info<br>\n";
@@ -573,6 +573,7 @@ $record['format'] = $format;
 //print_r($record);
 
 if ($format=='html') { // sortie Html
+  echo "<!DOCTYPE HTML><html>\n<head><meta charset='UTF-8'><title>ogcapi</title></head><body>\n";
   echo "<pre><b>Sortie en Html</b>\n";
   echo Yaml::dump($record, 4, 2);
 }

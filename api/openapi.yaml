@@ -1,0 +1,275 @@
+info:
+  title: API spécifique d'accès à comhisto
+  description: |
+    Cette API propose l'accès aux données de [ComHisto](https://github.com/benoitdavidfr/comhisto)  
+  contact:
+    email: contact@geoapi.fr
+    name: Benoit DAVID
+    url: https://github.com/benoitdavidfr/comhisto
+  version: '0.7'
+  x-keywords:
+    - comhisto
+    - commune
+    - entité rattachée
+    - commune associée
+    - commune déléguée
+    - arrondissement municipal
+    - découpage communal
+    - France
+  license:
+    name: Licence ouverte Etalab
+    url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
+  termsOfService: https://benoitdavidfr.github.io/comhisto/termsOfService.html
+openapi: 3.0.2
+components:
+  parameters:
+    cinsee:
+      name: cinsee
+      in: path
+      description: code Insee de l'entité
+      required: true
+      schema:
+        type: string
+        pattern: '^\d[\dAB]\d\d\d$'
+      example: '01015'
+    id:
+      name: id
+      in: path
+      description: code Insee évt. préfixé de s ou r
+      required: true
+      schema:
+        type: string
+        pattern: '^[sr]?\d[\dAB]\d\d\d$'
+      example: 'r01015'
+    ddebut:
+      name: ddebut
+      in: path
+      description: date de début de la version encodée comme chaine au format ISO 8601
+      required: true
+      schema:
+        type: string
+        pattern: ^\d\d\d\d-\d\d-\d\d$
+      example: '2016-01-01'
+    date:
+      name: date
+      description: date optionelle encodée comme chaine au format ISO 8601
+      explode: false
+      in: query
+      required: false
+      schema:
+        type: string
+        pattern: ^\d\d\d\d-\d\d-\d\d$
+      style: form
+      example: '2016-01-01'
+    f:
+      name: f
+      description: |
+        The optional f parameter indicates the output format which the server shall provide as part of the response document.
+        The default format is JSON-LD.
+      explode: false
+      in: query
+      required: false
+      schema:
+        default: jsonld
+        enum:
+          - jsonld
+          - json
+          - html
+        type: string
+      style: form
+  responses:
+    200:
+      description: successful operation
+    400:
+      description: Bad Request
+    404:
+      description: Not Found
+paths:
+  /:
+    get:
+      summary: 'Landing page'
+      operationId: getLandingPage
+      responses:
+        200: {$ref: '#/components/responses/200'}
+      tags:
+        - server
+  /api:
+    get:
+      summary: 'This document'
+      operationId: getOpenapi
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+      tags:
+        - server
+  /apidoc:
+    get:
+      summary: Documentation HTML de l'API
+      operationId: getOpenapiAsHtml
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+      tags:
+        - server
+  /contexts/{context}:
+    get:
+      description: Obtenir le contexte en JSON-LD
+      operationId: getContextById
+      parameters:
+        - name: context
+          in: path
+          description: identifiant du contexte
+          required: true
+          schema:
+            type: string
+          example: skos
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - server
+  /status:
+    get:
+      description: Obtenir le thésaurus des statuts en JSON-LD comme skos:ConceptScheme
+      operationId: getConceptScheme
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+      tags:
+        - server
+  /status/{status}:
+    get:
+      description: Obtenir le Concept Skos du statut en JSON-LD
+      operationId: getSkosConcept
+      parameters:
+        - name: status
+          in: path
+          description: identifiant du concept Skos
+          required: true
+          schema:
+            type: string
+          example: BASE
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - server
+  '/{concept}/{cinsee}/{ddebut}':
+    get:
+      summary: Obtenir la version du COM|ERAT|CodeInsee correspondant à l'id {cinsee} et débutant à {ddebut}
+      description: |
+        Pour COM et ERAT il s'agit d'une version d'entité.
+        Pour CodeInsee, il s'agit d'une version de COM si elle existe, sinon d'ERAT si elle existe, sinon Erreur
+      operationId: getVersion
+      parameters:
+        - name: concept
+          in: path
+          description: identifiant COM, ERAT ou CodeInsee
+          required: true
+          schema:
+            enum: [COM, ERAT, codeInsee]
+        - $ref: '#/components/parameters/cinsee'
+        - $ref: '#/components/parameters/ddebut'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - entité
+  '/{concept}/{cinsee}':
+    get:
+      summary: Obtenir la version de la commune|ERAT valide à une date donnée ou sans date à la date de validité du référentiel
+      operationId: getVersionValide
+      parameters:
+        - name: concept
+          in: path
+          description: identifiant COM ou ERAT
+          required: true
+          schema:
+            enum: [COM, ERAT]
+        - $ref: '#/components/parameters/cinsee'
+        - name: date
+          description: date de début de la version encodée comme chaine au format ISO 8601
+          explode: false
+          in: query
+          required: false
+          schema:
+            type: string
+            pattern: ^\d\d\d\d-\d\d-\d\d$
+          style: form
+          example: '2016-01-01'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - entité
+  '/codeInsee/{cinsee}':
+    get:
+      summary: Sans date obtenir les versions de COM|ERAT corr. à {cinsee}, avec la version soit COM|ERAT valide à cette date
+      operationId: getCodeInsee
+      parameters:
+        - $ref: '#/components/parameters/cinsee'
+        - $ref: '#/components/parameters/date'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - entité
+  '/elits2020/{cinsee}':
+    get:
+      summary: Obtenir l'elit 2020 correspondant à {cinsee}
+      operationId: getListeVersions
+      parameters:
+        - $ref: '#/components/parameters/cinsee'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - entité
+  '/map/{id}':
+    get:
+      summary: Obtenir la carte correspondant à l'id {id} = (s|r|){cinsee}
+      operationId: getMap
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - carte
+  '/map/{id}/{ddebut}':
+    get:
+      summary: Obtenir la carte correspondant à l'id {id}@{ddebut}
+      operationId: getMapDate
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/ddebut'
+        - $ref: '#/components/parameters/f'
+      responses:
+        200: {$ref: '#/components/responses/200'}
+        400: {$ref: '#/components/responses/400'}
+        404: {$ref: '#/components/responses/404'}
+      tags:
+        - carte
+servers:
+  - description: Service spécifique de ComHisto
+    url: 'https://comhisto.georef.eu/'
+tags:
+  - name: server
+    description: opérations de base
+    externalDocs:
+      description: information
+      url: 'https://github.com/benoitdavidfr/comhisto'
+  - name: entité
+    description: opérations sur une version d'entité

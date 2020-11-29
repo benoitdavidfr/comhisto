@@ -3,16 +3,14 @@
 name: api.php
 title: api/api.php - API d'accès à ComHisto
 doc: |
-  L'objet de ce script est double:
-    1) opérationaliser la définition d'URI pour les objets ComHisto
-    2) mettre en oeuvre le cas d'usage de récupération de la géométrie de la commune/ERAT correspondant à un code Insee
-       donné et à une date donnée.
-  La liste des motifs d'URI et d'URL est définie dans phpdoc.yaml
+  L'objet de ce script de déréférencer les URI dont les motifs sont définis dans phpdoc.yaml
 
   Ce script est normalement exécuté directement en mode non CLI.
   Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
 journal: |
+  29/11/2020:
+    - refonte à la suite de la redéfinition des objectifs après l'écriture de ogcapi.php
   23/11/2020:
     - amélioration de la description LD des comhisto:(COM|ERAT)
   20-22/11/2020:
@@ -247,8 +245,8 @@ function geoShape(array $geom): array {
     throw new Exception("geoshape non défini");
 }
 
-// construit en fonction du tuple issu de la base et de $ld soit le Feature GeoJSON soit la https://schema.org/City
-function buildFeatureOrCity(array $tuple, string $type, string $cinsee, ?string $outputFormat, bool $ld): array {
+// construit en fonction du tuple issu de la base la https://schema.org/City
+function buildCity(array $tuple, string $type, string $cinsee): array {
   $geom = completeUriTuple($tuple, $cinsee);
   $replaces = isset($tuple['edebut']['avaitPourCode']) ?
     $tuple['edebut']['avaitPourCode']
@@ -256,71 +254,43 @@ function buildFeatureOrCity(array $tuple, string $type, string $cinsee, ?string 
   $isReplacedBy = isset($tuple['efin']['changeDeCodePour']) ?
     $tuple['efin']['changeDeCodePour']
       : ($tuple['dfin'] ? makeUri($cinsee, 'ddebut', $tuple['dfin'], '') : null);
-  if (($outputFormat=='json') || !$ld) { // structuration GéoJSON
-    return [
-      'header'=> ['Content-Type'=> 'application/geo+json'],
-      'body'=> [
-        'type'=> 'Feature',
-        'id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
-        'properties'=> [
-          'created'=> $tuple['ddebut'],
-          'startEvent'=> $tuple['edebut'],
-          'deleted'=> $tuple['dfin'],
-          'endEvent'=> $tuple['efin'],
-          'replaces' => $replaces,
-          'isReplacedBy'=> $isReplacedBy,
-        ]
-        + ['status'=> "https://comhisto.georef.eu/status/$tuple[statut]"]
-        + (isset($tuple['crat']) ? ['crat'=> $tuple['crat']] : [])
-        + (isset($tuple['erats']) ? ['erats'=> $tuple['erats']] : [])
-        + ['elits'=> $tuple['elits']]
-        + ['name'=> $tuple['dnom']],
-        'geometry'=> $geom,
+  // structuration JSON-LD utilisant les contextes schema, dcterms et comhisto et typé schema:City
+  $id = (($type=='COM') ? 's' : 'r').$cinsee;
+  return [
+    'header'=> ['Content-Type'=> 'application/ld+json'],
+    'body'=> [
+      '@context'=> [
+        'schema'=> 'https://schema.org/',
+        'dcterms' => 'http://purl.org/dc/terms/',
+        'comhisto' => 'https://comhisto.georef.eu/',
       ],
+      '@type'=> 'schema:City',
+      '@id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
+      'schema:name'=> $tuple['dnom'],
+      'schema:temporalCoverage'=> $tuple['ddebut'].'/'.($tuple['dfin'] ?? '..'),
+      'comhisto:startEvent'=> ['@type'=> 'comhisto:Event'] + $tuple['edebut'],
+      'comhisto:endEvent'=> $tuple['efin'] ? ['@type'=> 'comhisto:Event'] + $tuple['efin'] : null,
+      'dcterms:replaces' => $replaces,
+      'dcterms:isReplacedBy'=> $isReplacedBy,
     ]
-    + ($outputFormat ? ['outputFormat'=> $outputFormat] : []);
-  }
-  else { // structuration JSON-LD utilisant les contextes schema, dcterms et comhisto et typé schema:City
-    $id = (($type=='COM') ? 's' : 'r').$cinsee;
-    return [
-      'header'=> ['Content-Type'=> 'application/ld+json'],
-      'body'=> [
-        '@context'=> [
-          'schema'=> 'https://schema.org/',
-          'dcterms' => 'http://purl.org/dc/terms/',
-          'comhisto' => 'https://comhisto.georef.eu/',
-        ],
-        '@type'=> 'schema:City',
-        '@id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
-        'schema:name'=> $tuple['dnom'],
-        'schema:temporalCoverage'=> $tuple['ddebut'].'/'.($tuple['dfin'] ?? '..'),
-        'comhisto:startEvent'=> ['@type'=> 'comhisto:Event'] + $tuple['edebut'],
-        'comhisto:endEvent'=> $tuple['efin'] ? ['@type'=> 'comhisto:Event'] + $tuple['efin'] : null,
-        'dcterms:replaces' => $replaces,
-        'dcterms:isReplacedBy'=> $isReplacedBy,
-      ]
-      + ['comhisto:status'=> "https://comhisto.georef.eu/status/$tuple[statut]"]
-      + (isset($tuple['crat']) ? ['schema:geoWithin'=> $tuple['crat']] : [])
-      + (isset($tuple['erats']) ? ['schema:geoContains'=> $tuple['erats']] : [])
-      + ['comhisto:elits'=> $tuple['elits']]
-      + ['schema:geo'=> geoShape($geom)]
-      + ['schema:hasMap'=> "https://comhisto.georef.eu/map/$id/$tuple[ddebut]"],
-    ]
-    + ($outputFormat ? ['outputFormat'=> $outputFormat] : []);
-  }
+    + ['comhisto:status'=> "https://comhisto.georef.eu/status/$tuple[statut]"]
+    + (isset($tuple['crat']) ? ['schema:geoWithin'=> $tuple['crat']] : [])
+    + (isset($tuple['erats']) ? ['schema:geoContains'=> $tuple['erats']] : [])
+    + ['comhisto:elits'=> $tuple['elits']]
+    + ['schema:geo'=> geoShape($geom)]
+    + ['schema:hasMap'=> "https://comhisto.georef.eu/map/$id/$tuple[ddebut]"],
+  ];
 }
 
 // retourne l'enregistrement correspondant au path_info passé en paramètre
-// le paramètre $ld définit, dans certains cas, si l'enregistrement doit être structuré en JSON/GéoJSON ou en JSON-LD
 // si ok alors le résultat est un array avec
 // - 1) un champ 'header' avec notamment un sous-champ 'Content-Type' avec le type MIME du rasultat
 // - 2) un champ 'body' avec l'enregistrement lui-même.
-// - 3) Si le path_info impose un format de sortie alors il est retourné dans le champ 'outputFormat'
 // En cas d'erreur retourne un array avec un champ 'error' contenant
 // - 1) un champ 'httpCode' qui est un code d'erreur Http
 // - 2) un champ 'message' qui est un message d'erreur sous la forme d'un texte
-function getRecord(string $path_info, bool $ld): array {
-  //echo "json(path_info=$path_info, ld=",$ld?'true':'false',")<br>\n";
+function getRecord(string $path_info): array {
+  //echo "json(path_info=$path_info)<br>\n";
   if (!$path_info || ($path_info == '/')) { // la racine correspond à la déclaration DCAT du Dataset en JSON-LD
     // inspiré de https://github.com/SEMICeu/dcat-ap_validator/blob/master/pages/samples/sample-json-ld.jsonld
     return [
@@ -461,6 +431,20 @@ function getRecord(string $path_info, bool $ld): array {
         'body'=> $html,
       ];
     }*/
+  }
+
+  if ($path_info == '/api') {
+    return [
+      'header'=> ['Content-Type'=> 'application/vnd.oai.openapi+json;version=3.0'],
+      'body'=> Yaml::parseFile(__DIR__.'/openapi.yaml'),
+    ];
+  }
+
+  if ($path_info == '/apidoc') {
+    $url = 'https://app.swaggerhub.com/apis-docs/benoitdavidfr/comhisto-specapi';
+    header('HTTP/1.1 302 Moved Temporarily');
+    header("Location: $url");
+    die("Redirection vers $url<br>\n");
   }
 
   if (preg_match('!^/contexts/([^/]*)!', $path_info, $matches)) { // définition de contexts 
@@ -646,7 +630,7 @@ function getRecord(string $path_info, bool $ld): array {
       return ['error'=> ['httpCode'=> 404, 'message'=> "Erreur statut $statusId inexistant"]];
   }
 
-  if (preg_match('!^/(COM|ERAT)$!', $path_info, $matches)) { // /(COM|ERAT) -> liste des COM|ERAT valides 
+  /*if (preg_match('!^/(COM|ERAT)$!', $path_info, $matches)) { // /(COM|ERAT) -> liste des COM|ERAT valides 
     $type = $matches[1];
     $t = ($type=='COM') ? 's': 'r';
     $sql = "select cinsee id, ddebut, dnom
@@ -682,7 +666,7 @@ function getRecord(string $path_info, bool $ld): array {
         ],
       ],
     ];
-  }
+  }*/
 
   if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
     $id = $matches[1];
@@ -707,14 +691,13 @@ function getRecord(string $path_info, bool $ld): array {
 
   // Sinon cas général
   // ! /(COM|ERAT|elits2020|codeInsee)/{cinsee}(/{ddebut})?
-  elseif (!preg_match('!^/(COM|ERAT|codeInsee|elits2020)/(\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?(\.(json))?$!',
+  elseif (!preg_match('!^/(COM|ERAT|codeInsee|elits2020)/(\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!',
        $path_info, $matches))
     return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur $path_info non reconnu"]];
 
   $type = $matches[1];
   $cinsee = $matches[2];
   $ddebut = $matches[4] ?? null;
-  $outputFormat = $matches[6] ?? null; // si le format de sortie est défini dans l'URL alors il s'impose
   //echo "type=$type, cinsee=$cinsee, ddebut=$ddebut<br>\n";
   
 
@@ -750,7 +733,7 @@ function getRecord(string $path_info, bool $ld): array {
     }
     $tuple = $tuples[0];
     //print_r($tuple);
-    return buildFeatureOrCity($tuple, $type, $cinsee, $outputFormat, $ld);
+    return buildCity($tuple, $type, $cinsee);
   }
 
   // /codeInsee/{cinsee} -> URI du code Insee, retourne la liste des versions utilisant ce code
@@ -822,7 +805,7 @@ function getRecord(string $path_info, bool $ld): array {
         $theTuple = $tuple;
     }
     $type = in_array($theTuple['statut'], ['COMA','COMD','ARM']) ? 'ERAT' : 'COM';
-    return buildFeatureOrCity($theTuple, $type, $cinsee, $outputFormat, $ld);
+    return buildCity($theTuple, $type, $cinsee);
   }
 
   // https://comhisto.georef.eu/elits2020/{cinsee} -> URI de l'élit 2020,
@@ -886,7 +869,7 @@ function pathInfoFromId(string $id): ?string { // construit le path_info à part
 }
 
 function idFromPathInfo(string $path_info): ?string { // construit un id à partir d'un path_info ou null
-  if (in_array($path_info,['','/']))
+  if (in_array($path_info,['','/','/api']))
     return '';
   if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
     $id = $matches[1];
@@ -939,35 +922,47 @@ if (!$_SERVER['SCRIPT_NAME']) { // lors execution https://comhisto.georef.eu/ le
 }
 
 //echo "<pre>"; print_r($_SERVER); die();
-$accept = explode(',', $_SERVER['HTTP_ACCEPT'] ?? '');
+$http_accept = explode(',', $_SERVER['HTTP_ACCEPT'] ?? '');
+if (in_array('text/html', $http_accept))
+  $format = 'html';
+else
+  $format = 'jsonld';
 
 // si le paramètre id est défini et correct alors il remplace ceux définis dans path_info
 $path_info = pathInfoFromId($_GET['id'] ?? '') ?? $_SERVER['PATH_INFO'] ?? '';
+if (preg_match('!\.(json|geojson|jsonld|html)$!', $path_info, $matches)) {
+  $format = $matches[1];
+  $path_info = substr($path_info, 0, strlen($path_info)-strlen($format)-1);
+} 
 //echo "path_info=$path_info<br>\n";
 
-$record = getRecord($path_info, !array_intersect($accept, ['application/json','application/geo+json']));
+if (isset($_GET['f'])) { // format défini en paramètre _GET
+  $format = $_GET['f'];
+}
+
+$record = getRecord($path_info);
 //print_r($record);
-if (array_intersect($accept, ['application/json','application/ld+json','application/geo+json'])
-|| (($record['outputFormat'] ?? '') == 'json') || (idFromPathInfo($path_info) === null)) {
-  if ($error = $record['error'] ?? null) {
-    define('HTTP_ERROR_LABELS', [
-      400 => 'Bad Request',
-      404 => 'Not Found',
-    ]);
-    header("HTTP/1.1 $error[httpCode] ".(HTTP_ERROR_LABELS[$error['httpCode']] ?? "Undefined httpCode $error[httpCode]"));
-    header('Content-type: text/plain');
-    die($error['message']);
+
+if ($format=='html') { // sortie Html
+  if (preg_match('!^/map/!', $path_info)) { // cas d'appel de la carte par son URI https://comhisto.georef.eu/map/...
+    require_once __DIR__.'/../map/map.php';
+    main(isset($_GET['id']) ? $_GET : ['id'=> idFromPathInfo($path_info)], $record);
   }
   else {
-    header('Content-Type: '.$record['header']['Content-Type']);
-    die(json_encode($record['body'], JSON_ENCODE_OPTIONS));
+    require_once __DIR__.'/../map/index.php'; // autre cas d'URI
+    showComHisto($_GET['id'] ?? idFromPathInfo($path_info), $record);
   }
 }
-elseif (preg_match('!^/map/!', $path_info)) { // cas d'appel de la carte par son URI https://comhisto.georef.eu/map/...
-  require_once __DIR__.'/../map/map.php';
-  main(isset($_GET['id']) ? $_GET : ['id'=> idFromPathInfo($path_info)], $record);
+elseif ($error = $record['error'] ?? null) {
+  define('HTTP_ERROR_LABELS', [
+    400 => 'Bad Request',
+    404 => 'Not Found',
+  ]);
+  header("HTTP/1.1 $error[httpCode] ".(HTTP_ERROR_LABELS[$error['httpCode']] ?? "Undefined httpCode $error[httpCode]"));
+  header('Content-type: text/plain');
+  die($error['message']);
 }
 else {
-  require_once __DIR__.'/../map/index.php'; // autre cas d'URI
-  showComHisto($_GET['id'] ?? idFromPathInfo($path_info), $record);
+  header('Content-Type: '.$record['header']['Content-Type']);
+  die(json_encode($record['body'], JSON_ENCODE_OPTIONS));
 }

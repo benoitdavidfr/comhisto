@@ -1,29 +1,38 @@
 title: comhisto/api - déf. des URI + API
 path: /yamldoc/pub/comhisto/api
 doc: |
+  2 API sont définies: celle-ci et https://comhisto.geoapi.fr/ qui correspond à un web-service OGC API Features
+
+  La particularité de cette API est de proposer:
+    1) des URI des vrais objets (schema:City), et pas leur représentation en objets informatique Feature,
+      et leur déréférencement donnant en JSON-LD leur propriétés
+    2) une IHM et la visualisation d'une carte correspondant à chaque entité
+    3) des URI indépendants du mécanisme OGC API Features
+    4) l'URI correspondant au jeu de données Dcat (Dcat:Dataset) et son déréférencement
+    
   Logique de mise à disposition:
     - chaque entité est identifiée par un URI dont le déréférencement donne accès à ses propriétés
       - les URI sont généralement de la forme http://comhisto.georef.eu/{concept}/{identifier}/{version}.{format}
-    - le déréférencement d'un URI propose, en fonction du paramètre Accept, jusqu'à 3 résultats:
-      - un objet JSON/GéoJSON qui fournit le détail des données mais nécessite que le client connaisse leur structure
+    - le déréférencement d'un URI propose, en fonction du paramètre Accept 2 résultats:
       - un objet JSON-LD dans des ontologies standards, qui donc standardise cette structure mais en la simplifiant
       - un texte Html qui fournit une IHM basique tout en fournissant le JSON-LD dans l'en-tête Html
 
   Correspondance id <-> URI:
-    En fonction des contextes, une entité est identifiée soit par id soit par un URI.
-    L'URI a l'avantage d'être générique mais est long, l'id au contraire est court.
+    En LD une entité est identifiée par un URI alors qu'en base elle est identfiée par un id.
+    L'URI a l'avantage d'être global mais long, l'id au contraire est court mais local.
     Il existe une bijection entre les id et les URI, dont il existe 4 catégories
-      cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
-      cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
-      [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
       [sr]cinsee@ddebut (eg r01015@2016-01-01) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut}
-
+      [sr]cinsee (eg r01015) <-> https://comhisto.georef.eu/(COM|ERAT)/{cinsee}
+      cinsee@ddebut (eg 01015@2016-01-01) <-> https://comhisto.georef.eu/codeInsee/{cinsee}/{ddebut}
+      cinsee (eg 01015) <-> http://comhisto.georef.eu/codeInsee/{cinsee}
+  
+  L'APi est définie par le document openapi.yaml
+  
   Les motifs d'URI sont:
     / -> URI de référence
       LD: doc de la base comme enregistrement dcat:Dataset, Html: IHM de consultation de la base
-    /api (A FAIRE)
+    /api
       JSON: doc open API de l'API d'accès
-    /(COM|ERAT) -> liste des objets COM|ERAT valides dans format JSON-LD
     /(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de commune|ERAT débutant à {ddebut}
       JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
     /codeInsee/{cinsee} -> URI du code Insee,
@@ -40,25 +49,17 @@ doc: |
     /status/{status} -> URI d'un statut, retourne un skos:Concept en JSON-LD ou erreur 404
     /contexts/{context} -> URI d'un contexte, retourne le contexte en JSON-LD ou erreur 404
 
-  Traitements - Points d'entrée:
-    / -> doc ?
-    /(COM|ERAT)/{cinsee} -> retourne la version valide de la commune|ERAT en GeoJSON/Html/JSON-LD, sinon erreur 404
+  Plus les URL suivantes qui retournent des objets avec un URI différent de l'URL:
+    /(COM|ERAT)/{cinsee} -> retourne la version valide de la commune|ERAT en Html/JSON-LD, sinon erreur 404
     /(COM|ERAT)/{cinsee}?date={date}
-      -> retourne la version existant à cette date en GeoJSON/Html/JSON-LD, sinon erreur 404
+      -> retourne la version existant à cette date en Html/JSON-LD, sinon erreur 404
     /codeInsee/{cinsee}?date={date}
       -> retourne la version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT,
-       en GeoJSON/Html/JSON-LD, sinon erreur 404
+       en Html/JSON-LD, sinon erreur 404
     /codeInsee/{cinsee}/{ddebut} -> retourne la version débutant à {ddebut} soit de commune s'il y en a une, sinon d'ERAT,
-       en GeoJSON/Html/JSON-LD, sinon erreur 404
+       en Html/JSON-LD, sinon erreur 404
     /map/(s|r|){cinsee} -> carte de la version valide de commune|ERAT|codeInsee en Html/JSON-LD, sinon erreur 404
 
-  Les 2 ensembles d'URL sont compatibles.
-  Ainsi http://comhisto.georef.eu/ et http://comhisto.geoapi.fr/
-  sont mappés vers /prod/georef/yamldoc/pub/comhisto/api/api.php/
-  
-  - http://comhisto.georef.eu/ correspond à des URI qui identifient des objets pérennes
-  - http://comhisto.geoapi.fr/ correspond à des traitements qui ne correspondent pas à un objet pérenne
-  
   Publication comme données liées (LD):
     - une version d'entité
       - est un objet de type http://schema.org/City
@@ -70,7 +71,7 @@ doc: |
     - puis de fournir un sitemap pour l'indexation par Google
   
   Logique d'enchainement replaces/replacedBy (défini dans dcterms(http://purl.org/dc/terms/)):
-    - les formats JSON et JSON-LD exposent les champs replaces et replacedBy
+    - le format JSON-LD expose les champs replaces et replacedBy
     - lien entre une version de code Insee et la suivante/précédente
     - + lors d'un changement de code lien entre les codes
     - + lors de la création de CNOUV avec déléguée propre -> lien replacedBy vers les 2 entités et inverse
@@ -106,10 +107,12 @@ doc: |
       - propriété https://schema.org/temporalCoverage (fait en partie)
       - améliorer replaces/replacedBy
       - gérer le déréférencement des classes et propriétés définies dans comhisto (comhisto:Event, comhisto:startEvent, ...)
-    - ajouter les enregistrements DCAT de distribution et de service
     - écrire la description open API
     
 journal: |
+  29/11/2020:
+    - redéfinition des objectifs après l'écriture de ogcapi.php
+    - écriture de openapi.yaml
   24/11/2020:
     - ajout de la propriété https://schema.org/hasMap
     - ajout des URI/URL /map/(s|r|){cinsee}/{ddebut} et /map/(s|r|){cinsee}
