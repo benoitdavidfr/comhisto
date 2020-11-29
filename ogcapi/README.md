@@ -9,8 +9,9 @@ exposant le dataset https://comhisto.georef.eu/
 
 L'API est décrite selon les [spécification OpenAPI 3.0](http://spec.openapis.org/)
 en JSON à https://comhisto.geoapi.fr/api?f=json
-ou en Html à https://comhisto.geoapi.fr/apidoc
 
 La liste des collections est disponible à https://comhisto.geoapi.fr/collections?f=json
 
 Les versions de communes sont disponibles à https://comhisto.geoapi.fr/collections/vCom/items?f=json
+
+Les versions de ERAT sont disponibles à https://comhisto.geoapi.fr/collections/vErat/items?f=json
