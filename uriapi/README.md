@@ -3,7 +3,7 @@
 Cette URI offre les fonctionnalités suivantes :
 - définition d'URI stables pour les entités,
 - déréférencement des URI fournissant une description des entités en JSON-LD en utilisant le type City du standard Schema.org,
-- en Html, exposition d'une IHM basique de visualisation et de navigation intégrant des cartes Leaflet
+- exposition en Html d'une IHM basique de visualisation et de navigation intégrant des cartes Leaflet
   ainsi que, de manière cachée mais standardisée, l'enregistrement JSON-LD.
 
 Les principales URI utilisées sont les suivantes :
@@ -19,7 +19,7 @@ Les principales URI utilisées sont les suivantes :
 De plus les URL suivantes sont définies :
 
 - `https://comhisto.georef.eu/{statut}/{cinsee}` retourne la version valide d'une commune ou d'une entité rattachée
-  portant le code Insee {cinsee}, ou l'erreur Http 404 s'il n'existe pas de version valide pour ce code  
+  portant le code Insee {cinsee}  
   ex:
    - https://comhisto.georef.eu/COM/01015 retourne l'entité https://comhisto.georef.eu/COM/01015/2016-01-01
    - https://comhisto.georef.eu/COM/01340 retourne une erreur 404 car il n'existe pas de version valide de commune
