@@ -2,8 +2,8 @@
 
 Cette URI offre les fonctionnalités suivantes :
 - définition d'URI stables pour les entités,
-- le déréférencement des URI fournit une description des entités en JSON-LD en utilisant le type City du standard Schema.org,
-- en Html, il expose une IHM basique de visualisation et de navigation intégrant des cartes Leaflet
+- déréférencement des URI fournissant une description des entités en JSON-LD en utilisant le type City du standard Schema.org,
+- en Html, exposition d'une IHM basique de visualisation et de navigation intégrant des cartes Leaflet
   ainsi que, de manière cachée mais standardisée, l'enregistrement JSON-LD.
 
 Les principales URI utilisées sont les suivantes :
