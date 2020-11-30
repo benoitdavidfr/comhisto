@@ -12,6 +12,8 @@ journal: |
 */
 //echo "<pre>_SERVER="; print_r($_SERVER); //die();
 
+require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
+
 if (($_SERVER['HTTP_HOST'] ?? 'localhost')=='localhost')
   PgSql::open('host=172.17.0.4 dbname=gis user=docker');
 else

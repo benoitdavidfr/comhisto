@@ -5,8 +5,12 @@ journal: |
   30/11/2020:
     - création
 phpScripts:
+  - /yamldoc/pub/comhisto/lib/json.php
 phpIncludes:
   - /yamldoc/pub/comhisto/lib/log.inc.php
   - /yamldoc/pub/comhisto/lib/config.inc.php
+  - /yamldoc/pub/comhisto/lib/secretconfig.inc.php
+  - /yamldoc/pub/comhisto/lib/mysql.inc.php
+  - /yamldoc/pub/comhisto/lib/openpg.inc.php
 htmlFiles:
   - /yamldoc/pub/comhisto/ogcapi/openapi.yaml

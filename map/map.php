@@ -69,9 +69,8 @@ journal: |
     - création
 classes:
 */
-require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/histelits.inc.php';
-require_once __DIR__.'/openpg.inc.php';
+require_once __DIR__.'/../lib/openpg.inc.php';
 
 class GBox { // BBox en coordonnées géographiques
   protected $min=[]; // [number, number] ou []

@@ -13,8 +13,7 @@ journal: |
   11/11/2020:
     - création
 */
-require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
-require_once __DIR__.'/openpg.inc.php';
+require_once __DIR__.'/../lib/openpg.inc.php';
 
 $features = [];
 $sqls = [

@@ -16,6 +16,5 @@ phpScripts:
   - /yamldoc/pub/comhisto/map/geojson.php
   - /yamldoc/pub/comhisto/map/neighbor.php
 phpIncludes:
-  - /yamldoc/pub/comhisto/map/openpg.inc.php
   - /yamldoc/pub/comhisto/map/histelits.inc.php
 htmlFiles:

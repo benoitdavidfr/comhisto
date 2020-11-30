@@ -7,8 +7,7 @@ journal: |
   23/11/2020:
     - création
 */
-require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
-require_once __DIR__.'/../map/openpg.inc.php';
+require_once __DIR__.'/../lib/openpg.inc.php';
 
 $type = 'COM';
 

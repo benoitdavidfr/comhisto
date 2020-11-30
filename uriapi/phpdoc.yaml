@@ -139,7 +139,6 @@ journal: |
     - création
 phpScripts:
   - /yamldoc/pub/comhisto/api/api.php
-  - /yamldoc/pub/comhisto/api/accept.php
   - /yamldoc/pub/comhisto/api/verif.php
   - /yamldoc/pub/comhisto/api/sitemap.php
 phpIncludes:
