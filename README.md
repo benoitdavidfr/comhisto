@@ -148,15 +148,8 @@ et 'r' pour une entité rattachée.
 Ainsi la version de la commune simple d'Arboys en Bugey sera identifiée par `s01015@2016-01-01`
 et celle de la commune déléguée d'Arbignieu par `r01015@2016-01-01`.
 
-## 7ème étape - exporter le référentiel
+## 7ème étape - exporter le référentiel et le mettre à disposition par API
 Enfin, le référentiel est exporté sous la forme d'[un fichier GeoJSON zippé et mis à disposition](export/comhistog3.7z)
 et décrit [ici](export/README.md).
 
-## 8ème étape - mise à disposition par API
-Il est de plus proposé sous la forme:
-
-- de cartes HTML représentant les différentes versions associées aux codes Insee,
-- d'une API JSON/GéoJSON,
-- de données liées en JSON-LD intégrées dans les pages Html.
-
-Ces 3 dernières formes sont [décrites ici](api/README.md).
+Il est de plus exposé sous la forme de 2 API décrites plus haut.
