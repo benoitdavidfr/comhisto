@@ -12,29 +12,31 @@ doc: |
     - GéoJSON zippé (6 Mo) -> https://github.com/benoitdavidfr/comhisto/blob/master/export/(comhistog3|elit).7z
     - visualisation interactive Html de chaque version de code Insee avec carte Leaflet associée
       -> https://georef.eu/yamldoc/pub/comhisto/map/
-    - URI/API d'accès à chaque entité -> https://comhisto.georef.eu/api/
+    - URI/API d'accès à chaque entité -> https://comhisto.georef.eu/
       avec restitution en fonction du paramètre Http Accept:
         - soit en Html avec inclusion du JSON-LD dans l'en-tête (par défaut dans un navigateur),
-        - soit en JSON ou GéoJSON,
         - soit en JSON-LD.
-    - API d'interpolation d'un code Insee à une date donnée -> https://comhisto.geoapi.fr/api/
+    - OGC API Features -> https://comhisto.geoapi.fr/
     - MD DCAT https://comhisto.georef.eu/ référencant plusieurs distributions
       - fichier GéoJSON -> https://static.data.gouv.fr/...
       - fichier GéoJSON zippé -> https://github.com/benoitdavidfr/comhisto/...
       - fichier Yaml/JSON -> https://comhisto.georef.eu/histelitp.yaml
       - URI/API d'accès en JSON-GéoJSON/html/JSON-LD -> https://comhisto.georef.eu/api/
         - la version html intègre la description JSON-LD dans l'en-tête de la page
-      - API JSON/GéoJSON d'interpolation -> https://comhisto.geoapi.fr/api/
+      - OGC API Features -> https://comhisto.geoapi.fr/
   
   Urls:
     - http://localhost/yamldoc/pub/comhisto/ - en local
     - https://georef.eu/yamldoc/pub/comhisto/ - sur Alwaysdata
-    - https://comhisto.georef.eu/ - URI simplifiée
+    - https://comhisto.georef.eu/ - URI API
+    - https://comhisto.geoapi.fr/ - OGC API
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
 journal: |
+  25-29/11/2020:
+    - ajout de l'API ogcapi
   13-21/11/2020:
-    - ajout de l'API
+    - ajout de l'API renommée ensuite uriapi
   11-12/11/2020:
     - ajout visu carto
   20/10-9/11/2020:
@@ -80,6 +82,7 @@ submodules:
   - /yamldoc/pub/comhisto/map
   - /yamldoc/pub/comhisto/uriapi
   - /yamldoc/pub/comhisto/ogcapi
+  - /yamldoc/pub/comhisto/lib
 sqlDBs:
   - name: comhisto
     title: comhisto - base PostGis comhisto

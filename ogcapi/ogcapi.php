@@ -36,6 +36,8 @@ doc: |
   A faire:
     - exprimer le lien entre le geojson:Feature et un City, comment faire ?
 journal: |
+  30/11/2020:
+    - ajout d'un log
   29/11/2020:
     - améliorations
   28/11/2020:
@@ -53,6 +55,8 @@ journal: |
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/../map/openpg.inc.php';
+require_once __DIR__.'/../lib/config.inc.php';
+require_once __DIR__.'/../lib/log.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -545,6 +549,8 @@ function getRecord(string $path_info, bool $ld): array {
 
 
 define('JSON_ENCODE_OPTIONS', JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+
+write_log(true); // écriture d'un log dans une base décrite dans ../lib/secretconfig.inc.php
 
 //echo "<pre>"; print_r($_SERVER); die();
 // $format déduit de HTTP_ACCEPT

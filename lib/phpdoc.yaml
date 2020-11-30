@@ -1,0 +1,12 @@
+title: comhisto/lib - fonctionnalités partagées
+path: /yamldoc/pub/comhisto/lib
+doc: |
+journal: |
+  30/11/2020:
+    - création
+phpScripts:
+phpIncludes:
+  - /yamldoc/pub/comhisto/lib/log.inc.php
+  - /yamldoc/pub/comhisto/lib/config.inc.php
+htmlFiles:
+  - /yamldoc/pub/comhisto/ogcapi/openapi.yaml

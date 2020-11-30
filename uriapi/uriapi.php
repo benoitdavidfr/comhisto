@@ -9,6 +9,8 @@ doc: |
   Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
 journal: |
+  30/11/2020:
+    - ajout d'un log
   29/11/2020:
     - refonte à la suite de la redéfinition des objectifs après l'écriture de ogcapi.php
     - changement de nom en uriapi.php
@@ -36,6 +38,8 @@ journal: |
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../../phplib/pgsql.inc.php';
 require_once __DIR__.'/../map/openpg.inc.php';
+require_once __DIR__.'/../lib/config.inc.php';
+require_once __DIR__.'/../lib/log.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -891,6 +895,8 @@ function idFromPathInfo(string $path_info): ?string { // construit un id à part
   else
     return "$id@$ddebut";
 }
+
+write_log(true); // écriture d'un log dans une base décrite dans ../lib/secretconfig.inc.php
 
 //echo "SCRIPT_NAME=$_SERVER[SCRIPT_NAME]<br>\n";
 if (!$_SERVER['SCRIPT_NAME']) { // lors execution https://comhisto.georef.eu/ lecture .php et fichiers divers

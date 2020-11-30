@@ -12,6 +12,7 @@ en JSON à https://comhisto.geoapi.fr/api?f=json
 
 La liste des collections est disponible à https://comhisto.geoapi.fr/collections?f=json
 
-Les versions de communes sont disponibles à https://comhisto.geoapi.fr/collections/vCom/items?f=json
+Les versions de communes sont disponibles à https://comhisto.geoapi.fr/collections/vCom/items?f=json  
+on peut balayer les items au travers du lien *next*.
 
 Les versions de ERAT sont disponibles à https://comhisto.geoapi.fr/collections/vErat/items?f=json
