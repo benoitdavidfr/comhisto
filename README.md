@@ -42,6 +42,33 @@ Sa date de validité est le 1/1/2020.
 Ce projet [a été annoncé sur Géorézo](https://georezo.net/forum/viewtopic.php?id=121876) et peut être commenté
 sur ce forum.
 
+## Recommandations pratiques
+Il est recommandé :
+
+- aux gestionnaires de bases métier d'associer à chaque code Insee la date à laquelle ce code a été valide ;
+  cette information sera utilisée pour effectuer le géocodage du code ;
+- aux gestionnaires de géocodeur, de proposer le géocodage sur le référentiel historique des codes de commune ;
+  l'identification de la commune ou de l'entité rattachée doit ainsi être complétée de la date de validité.
+  
+Il est proposé d'utiliser l'identification suivante :
+
+- `{cinsee}@{ddebut}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
+  et débutant à la date {ddebut}  
+  exemple: `01015@2016-01-01` pour la commune nouvelle d'Arboys en Bugey
+- `[sr]{cinsee}@{ddebut}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
+  exemples:
+    - `s01015@2016-01-01` pour la commune nouvelle d'Arboys en Bugey
+    - `r01015@2016-01-01` pour la commune rattachée d'Arbignieu
+- `{cinsee}!{date}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
+  et valide à la date {date}  
+  exemple: `01015!2020-01-01` pour la commune nouvelle d'Arboys en Bugey
+- `[sr]{cinsee}!{date}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
+  exemples:
+    - `s01015!2020-01-01` pour la commune nouvelle d'Arboys en Bugey
+    - `r01015!2020-01-01` pour la commune rattachée d'Arbignieu
+
+
+
 ## Mise à disposition du référentiel
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition
 sous la forme d'un fichier [au format GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
@@ -82,7 +109,7 @@ La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l
 De plus, **attention**, les résultats ne sont disponibles qu'à titre expérimental.
 
 
-# Démarche de construction du référentiel
+# Annexe - Démarche de construction du référentiel
 La suite de ce document détaille la démarche suivie pour construire ce nouveau référentiel.
 
 ## 1ère étape - restructurer les données du COG de l'Insee
