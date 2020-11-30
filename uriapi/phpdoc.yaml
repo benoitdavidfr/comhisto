@@ -74,10 +74,12 @@ doc: |
   
   Logique d'enchainement replaces/replacedBy (défini dans dcterms(http://purl.org/dc/terms/)):
     - le format JSON-LD expose les champs replaces et replacedBy
-    - lien entre une version de code Insee et la suivante/précédente
-    - + lors d'un changement de code lien entre les codes
-    - + lors de la création de CNOUV avec déléguée propre -> lien replacedBy vers les 2 entités et inverse
-    - + lors d'une fusion lien replacedBy de l'entité fusionnée vers la fusionnante et inverse
+    - la définition se fonde sur les Elits
+    - si B succède à A et ont mêmes élits alors B remplace A
+    - si B succède à A et si soit les élits de B incluent celles de A (non vide), soit l'inverse alors B replace A
+    - cela veut dire par ex. qu'une commune nouvelle sans élit ne participe pas aux successions
+    - non mis en oeuvre au 30/11/2020
+  On définit ainsi une topologie spatio-temporelle
   
   URI dans les évènements:
     Je décide dans les évènements de début d'utiliser l'URI valable à cette date et non l'URI de l'objet précédent

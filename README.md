@@ -39,6 +39,9 @@ Ce référentiel a été généré par croisement des informations du COG publi�
 et des informations d'Admin-Express publiées par l'IGN.
 Sa date de validité est le 1/1/2020.
 
+Ce projet [a été annoncé sur Géorézo](https://georezo.net/forum/viewtopic.php?id=121876) et peut être commenté
+sur ce forum.
+
 ## Mise à disposition du référentiel
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition
 sous la forme d'un fichier [au format GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
