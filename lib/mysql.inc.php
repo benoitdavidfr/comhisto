@@ -6,14 +6,19 @@ classes:
 doc: |
   Simplification de l'utilisation de MySql.
   La méthode statique MySql::open() prend en paramètre les paramètres MySql
-  sous la forme mysql://{user}:{passwd}@{host}/{database}
+    sous la forme mysql://{user}:{passwd}@{server}/{database}
+  La méthode Mysql::query() prend en paramètre une requête Sql et renvoie pour une DML un itérateur de tuple
   Voir utilisation en fin de fichier
   Sur localhost si la base utilisée n'existe pas alors elle est créée.
+  ATTENTION il existe une autre version améliorée sur ~/html/phplib/mysql.inc.php
 journal: |
+  30/11/2020:
+    - amélioration de la création automatique de la base sur localhost quand elle n'exiset pas
+    - suppression de l'affichage du mot de passe en cas d'erreur
   23/11/2019:
-    sur localhost si la base à ouvrir n'existe pas alors elle est créée. Cela simplifie le redémérrage d'un serveur docker vide
+    - sur localhost si la base à ouvrir n'existe pas alors elle est créée. Cela simplifie le redémérrage d'un serveur docker vide
   3/8/2018 15:00
-    ajout MySql::server()
+    - ajout MySql::server()
   3/8/2018
     création
 */
@@ -27,25 +32,30 @@ class MySql {
     if (!preg_match('!^mysql://([^:]+):([^@]+)@([^/]+)/(.*)$!', $mysqlParams, $matches))
       throw new Exception("Erreur: dans MySql::open() params \"".$mysqlParams."\" incorrect");
     //print_r($matches);
-    self::$mysqli = @new mysqli($matches[3], $matches[1], $matches[2], $matches[4]);
-    self::$server = $matches[3];
+    $username = $matches[1];
+    $passwd = $matches[2];
+    $server = $matches[3];
+    $dbname = $matches[4];
+      
+    self::$mysqli = @new mysqli($server, $username, $passwd, $dbname);
     // La ligne ci-dessous ne s'affiche pas correctement si le serveur est arrêté !!!
     //    throw new Exception("Connexion MySQL impossible pour $server_name : ".mysqli_connect_error());
     if (mysqli_connect_error()) {
       if ($_SERVER['HTTP_HOST'] <> 'localhost')
-        throw new Exception("Erreur: dans MySql::open() connexion MySQL impossible sur $mysqlParams");
+        throw new Exception("Erreur: dans MySql::open() connexion MySQL impossible sur mysql://$username:...@$server/$dbname");
       // Sur localhost j'essaie de créer la base
-      self::$mysqli = @new mysqli($matches[3], $matches[1], $matches[2], 'sys');
+      self::$mysqli = @new mysqli($server, $username, $passwd, 'sys');
       if (mysqli_connect_error())
-        throw new Exception("Erreur: dans MySql::open() connexion MySQL impossible sur $mysqlParams");
-      $sql = 'CREATE DATABASE IF NOT EXISTS `shomgt` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci';
+        throw new Exception("Erreur: dans MySql::open() connexion MySQL impossible sur mysql://$username:...@$server/sys");
+      $sql = "CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
       if (!($result = self::$mysqli->query($sql))) {
         //echo "sql:$sql\n";
         throw new Exception("Req. \"$sql\" invalide: ".self::$mysqli->error);
       }
-      if (!self::$mysqli->select_db($matches[4]))
-        throw new Exception("select_db($matches[4]) invalide: ".self::$mysqli->error);
+      if (!self::$mysqli->select_db($dbname))
+        throw new Exception("select_db($dbname) invalide: ".self::$mysqli->error);
     }
+    self::$server = $server;
     if (!self::$mysqli->set_charset ('utf8'))
       throw new Exception("Erreur: dans MySql::open() mysqli->set_charset() impossible : ".self::$mysqli->error);
   }
