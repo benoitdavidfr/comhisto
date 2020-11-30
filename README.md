@@ -48,7 +48,7 @@ Il est recommandé :
 - aux gestionnaires de bases métier d'associer à chaque code Insee la date à laquelle ce code a été valide ;
   cette information sera utilisée pour effectuer le géocodage du code ;
 - aux gestionnaires de géocodeur, de proposer le géocodage sur le référentiel historique des codes de commune ;
-  l'identification de la commune ou de l'entité rattachée doit ainsi être complétée de la date de validité.
+  l'identification de la commune ou de l'entité rattachée doit ainsi être complétée d'une date de validité.
   
 Il est proposé d'utiliser l'identification suivante :
 
