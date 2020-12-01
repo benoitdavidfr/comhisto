@@ -113,7 +113,7 @@ La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l
   de Bouvent (01055) et de Veyziat
   (01440)](https://comhisto.georef.eu/map/s01283/1943-01-01?defaultOverlayIds=s01055@1943-01-01,s01283@1943-01-01,r01440@1973-01-01)
   reconstitués par l'algorithme de Voronoi à partir de la version courante de la commune d'Oyonnax (01283)
-  dans laquelle elles ont été fusionnées.
+  dans laquelle elles ont été fusionnées et des chefs-lieux sous forme chacun d'un point de chaque commune initiale.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 - lorsqu'une commune est absorbée puis rétablie, on fait l'hypothèse que sa géométrie est identique avant l'absorption
   et après le rétablissement.
