@@ -1,0 +1,13 @@
+chid	text
+s01015@2016-01-01	bbb
+r01015@2016-01-01	bbb
+r01340@2016-01-01	bbb
+01340@2016-01-01	bbb
+01015@2016-01-01	bbb
+01015#2019-01-01	bbb
+01340#2019-01-01	bbb
+s01015#2019-01-01	bbb
+r01015#2019-01-01	bbb
+r01340#2019-01-01	bbb
+r01999#2019-01-01	erreur avec id conforme au motif
+xxx	erreur avec id non conforme au motif

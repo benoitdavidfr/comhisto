@@ -59,13 +59,13 @@ Il est proposé d'utiliser l'identification suivante :
   exemples:
     - `s01015@2016-01-01` pour la commune nouvelle d'Arboys en Bugey
     - `r01015@2016-01-01` pour la commune rattachée d'Arbignieu
-- `{cinsee}!{date}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
+- `{cinsee}#{date}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
   et valide à la date {date}  
-  exemple: `01015!2020-01-01` pour la commune nouvelle d'Arboys en Bugey
-- `[sr]{cinsee}!{date}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
+  exemple: `01015#2020-01-01` pour la commune nouvelle d'Arboys en Bugey
+- `[sr]{cinsee}#{date}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
   exemples:
-    - `s01015!2020-01-01` pour la commune nouvelle d'Arboys en Bugey
-    - `r01015!2020-01-01` pour la commune rattachée d'Arbignieu
+    - `s01015#2020-01-01` pour la commune nouvelle d'Arboys en Bugey
+    - `r01015#2020-01-01` pour la commune rattachée d'Arbignieu
 
 
 

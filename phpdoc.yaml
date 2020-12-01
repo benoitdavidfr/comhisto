@@ -2,8 +2,8 @@ title: comhisto - référentiel de l'historique des communes (V2)
 path: /yamldoc/pub/comhisto
 doc: |
   A faire:
+    - proposer un géocodeur
     - améliorer replaces/replacedBy sur le fondement de l'elit
-    - regarder les travaux de geo.api.gouv.fr et de l'Insee pour voir ce qui est identique et ce qui est différent
 
   Construction et diffusion d'un référentiel historique des communes depuis le 1er janvier 1943.
   Réutilisation du code produit dans rpicom, renommage du projet.
