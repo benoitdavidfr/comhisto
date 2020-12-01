@@ -258,12 +258,20 @@ function main(array $GET) {
         $defaultOverlayIds = [ $tuple['id'] ];
     }
   }
+  // URL de test:
+  // http://localhost/yamldoc/pub/comhisto/uriapi/uriapi.php/map/s01283/1943-01-01?defaultOverlayIds=s01055@1943-01-01,s01283@1943-01-01,r01440@1973-01-01,s01283@2015-01-01
+  //print_r($defaultOverlayIds);
+  if (isset($_GET['defaultOverlayIds'])) {
+    $defaultOverlayIds = explode(',', $_GET['defaultOverlayIds']);
+  }
+  //print_r($defaultOverlayIds);
   //echo 'overlays = '; print_r($overlays);
   $neigborPath = $mapDirPath."neighbor.php?id=$cinsee";
   // Plan IGN V2 n'existe pas dans les DOM, il est remplacé par ScanExpress qui existe
   //$defaultBaseLayer = (substr($cinsee, 0, 2) == '97') ? "Scan Express" : "Plan IGN v2";
   // Finalement si, Plan IGN V2 existe dans les DOM
   $defaultBaseLayer = "Plan IGN v2";
+  
   echo "</pre>\n";
   ?>
 <!DOCTYPE HTML><html><head>
