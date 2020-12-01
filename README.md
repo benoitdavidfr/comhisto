@@ -52,8 +52,7 @@ Il est recommandé :
   
 Il est proposé d'utiliser les formats d'identification suivants :
 
-- `{cinsee}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
-  et valide à la date de validité du référentiel  
+- `{cinsee}` pour définir la version courante d'une commune ou d'une entité rattachée portant le code {cinsee}  
   exemple: `01015` pour la commune nouvelle d'Arboys en Bugey
 - `[sr]{cinsee}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
   exemples:
