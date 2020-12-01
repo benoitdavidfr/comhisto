@@ -29,7 +29,7 @@ function write_log(bool $access): bool {
   
   // si les paramètres MySql ne sont pas définis pour HTTP_HOST alors le log est désactivé
   if (!isset(config('mysqlParams')[$_SERVER['HTTP_HOST']])) {
-    echo "Les paramètres MySql ne sont pas définis pour HTTP_HOST=$_SERVER[HTTP_HOST] alors le log est désactivé<br>\n";
+    //echo "Les paramètres MySql ne sont pas définis pour HTTP_HOST=$_SERVER[HTTP_HOST] alors le log est désactivé<br>\n";
     return $access;
   }
   

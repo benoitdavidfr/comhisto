@@ -462,7 +462,7 @@ function getRecord(string $path_info, bool $ld): array {
       'body'=> 
         ($ld ? ['@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld'] : [])
       +[
-        'sql'=> $sql,
+        //'sql'=> $sql,
         'timeStamp'=> str_replace('+00:00','Z', date(DATE_ATOM)),
         'numberReturned'=> count($features),
         'numberMatched'=> $numberMatched,
@@ -574,7 +574,7 @@ if (isset($_GET['f'])) {
 }
 
 $record = getRecord($path_info, in_array($format, ['jsonld','html']));
-$record['format'] = $format;
+//$record['format'] = $format;
 //print_r($record);
 
 if ($format=='html') { // sortie Html

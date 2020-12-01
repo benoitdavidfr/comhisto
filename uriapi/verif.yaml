@@ -4,14 +4,14 @@ abstract: |
   Fichier exploité par verif.php
 contents:
   baseUrls:
-    localhost: http://localhost/yamldoc/pub/comhisto/api/api.php
-    georef.eu: https://georef.eu/yamldoc/pub/comhisto/api/api.php
+    localhost: http://localhost/yamldoc/pub/comhisto/uriapi/uriapi.php
+    georef.eu: https://georef.eu/yamldoc/pub/comhisto/uriapi/uriapi.php
     comhisto.georef.eu: https://comhisto.georef.eu
   path_infos:
     - url: /
       title: racine
     - url: /ERAT
-      title: liste des ERAT valides
+      title: liste des ERAT valides -> KO
   # /COM/{cinsee}
     - url: /COM/01015
       title: commune Ok

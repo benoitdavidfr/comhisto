@@ -175,7 +175,7 @@ function main(array $GET) {
   elseif (basename($_SERVER['SCRIPT_NAME'])=='map.php') // cas sur http://localhost/yamldoc/pub/comhisto/map/map.php
     // je suis dans le bon répertoire, il suffit donc d'utiliser le chemin relatif
     $mapDirPath = '';
-  elseif (basename($_SERVER['SCRIPT_NAME'])=='api.php') { // cas sur http://localhost/yamldoc/pub/comhisto/api/api.php
+  elseif (basename($_SERVER['SCRIPT_NAME'])=='uriapi.php') { // cas sur http://localhost/yamldoc/pub/comhisto/uriapi/uriapi.php
     // je suis dans le répertoire api, j'utilise le répertoire de comhisto défini indirectement par $_SERVER['SCRIPT_NAME']
     $mapDirPath = dirname(dirname($_SERVER['SCRIPT_NAME']))."/map/";
   }

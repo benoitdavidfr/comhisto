@@ -81,13 +81,19 @@ if (FALSE === $contents = @file_get_contents($url, false, $context)) {
 }
 $response_header = response_header($http_response_header ?? null);
 echo "<pre>",Yaml::dump(['header'=> $response_header], 3, 2),"</pre>\n";
-if (($response_header['Content-Type'] ?? null) == 'text/html')
+
+if (($response_header['Content-Encoding'] ?? null) == 'gzip') {
+  $contents = gzdecode($contents);
+}
+
+$contentType = $response_header['Content-Type'] ?? null;
+if ($contentType == 'text/html')
   die($contents);
 $jsonContentTypes = [
   'application/ld+json','application/json','application/geo+json',
   'application/vnd.oai.openapi+json;version=3.0',
 ];
-if (!in_array($response_header['Content-Type'] ?? null, $jsonContentTypes))
+if (!in_array($contentType, $jsonContentTypes))
   die("<pre>$contents");
 if (($array = json_decode($contents, true)) === null)
   die("<pre><b>Erreur de décodage JSON</b>\n$contents");

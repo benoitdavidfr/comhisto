@@ -2,7 +2,9 @@ title: comhisto - référentiel de l'historique des communes (V2)
 path: /yamldoc/pub/comhisto
 doc: |
   A faire:
-    - proposer un géocodeur
+    - intégrer les pts des chefs-lieux en base, proposer de géocoder dessus
+    - proposer de générer une carte dans le géocodeur
+    - faire un site spécifique static.georef.eu pour les fichiers leaflet, ...
     - améliorer replaces/replacedBy sur le fondement de l'elit
 
   Construction et diffusion d'un référentiel historique des communes depuis le 1er janvier 1943.
@@ -37,6 +39,9 @@ doc: |
   
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
 journal: |
+  30/11-1/12/2020:
+    - annonce sur GéoRézo
+    - ajout du géocodeur
   25-29/11/2020:
     - ajout de l'API ogcapi
   13-21/11/2020:

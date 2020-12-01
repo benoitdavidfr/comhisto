@@ -27,16 +27,18 @@ $context = stream_context_create($opts);
 $jeutest = Yaml::parseFile('verif.yaml');
 
 
-echo "<pre>"; //print_r($jeutest);
+echo "<!DOCTYPE HTML><html>\n<head><meta charset='UTF-8'><title>verif</title>\n</head><body>\n";
+//echo "<pre>"; //print_r($jeutest);
 echo "<table border=1><th>",implode('</th><th>', array_keys($jeutest['contents']['baseUrls'])),"</th>";
 foreach ($jeutest['contents']['path_infos'] as $path_info) {
   echo "<tr>";
   foreach ($jeutest['contents']['baseUrls'] as $baseUrl) {
-    echo "<td><pre>";
     $url = $baseUrl.$path_info['url'];
+    $contents = @file_get_contents($url, false, $context);
+    $bgcolor = $contents === false ? '#FFB6C1' : '#00D000';
+    echo "<td bgcolor='$bgcolor'><pre>";
     echo "<a href='$url'>$path_info[url] $path_info[title]</a>\n";
-
-    if (($contents = @file_get_contents($url, false, $context)) ===  FALSE) {
+    if ($contents ===  FALSE) {
       echo "Erreur Http: $http_response_header[0]\n";
     }
     else {
@@ -52,3 +54,4 @@ foreach ($jeutest['contents']['path_infos'] as $path_info) {
   }
   echo "</tr>";
 }
+die("</table>\n");
