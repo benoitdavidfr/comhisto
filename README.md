@@ -109,9 +109,9 @@ La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l
   cette simplification n'est pas effectuée dans quelques cas où elle génèrerait des erreurs de construction de polygones.
 - les limites non disponibles dans la version d'Admin-Express du 1/1/2020 sont approximées en utilisant
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020 ;  
-  à titre d'illustration, voir l'exemple de la version de 1943 de la commune d'Amareins (01003)
-  (https://comhisto.georef.eu/map/s01003/1943-01-01) reconstituée par l'algorithme de Voronoi à partir de la version courante
-  de la commune de Francheleins (01165) dans laquelle elle a été fusionnée le 1/1/1983.
+  à titre d'illustration, voir l'exemple des périmètres des versions de 1943 des communes d'Oyonnax (01283), de Bouvent (01055)
+  et de Veyziat (01440) (https://comhisto.georef.eu/map/s01283/1943-01-01) reconstitués par l'algorithme de Voronoi à partir
+  de la version courante de la commune d'Oyonnax (01283) dans laquelle elle ont été fusionnées.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 - lorsqu'une commune est absorbée puis rétablie, on fait l'hypothèse que sa géométrie est identique avant l'absorption
   et après le rétablissement.
