@@ -64,12 +64,13 @@ function geocode(string $id): array {
       return ['error'=> "Erreur : cas imprévu sur $id"];
     }
   }
-  elseif (preg_match("/^([sr]?)($patterns[cinsee])#($patterns[date])$/", $id, $matches)) { // [sr]?{cinsee}!{ddebut}
+  elseif (preg_match("/^([sr]?)($patterns[cinsee])(#($patterns[date]))?$/", $id, $matches)) { // [sr]?{cinsee}(#{ddebut})?
     $type = $matches[1];
     $cinsee = $matches[2];
-    $date = $matches[3];
+    $date = $matches[4] ?? null;
     $sql = "select id, type, cinsee, ddebut, dfin, statut, dnom, ST_AsGeoJSON(geom) geom
-      from comhistog3 where cinsee='$cinsee' and ddebut<='$date' and (dfin>'$date' or dfin is null)"
+      from comhistog3 where cinsee='$cinsee'"
+      .($date ? " and ddebut<='$date' and (dfin>'$date' or dfin is null)" : 'and dfin is null')
       .($type ? " and type='$type'":'');
     $tuples = PgSql::getTuples($sql);
     if (!$tuples)
@@ -144,10 +145,11 @@ class MonoPart { // décodage et téléchargement d'un fichier
 $htmlHeader = "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>géocodeur</title></head><body>\n";
   
 // le formulaire de chargement du fichier sur le serveur
+{
 $form = <<<EOT
 <form action='' enctype='multipart/form-data' method='POST'>
 <table border=1><tr>
-<input type='hidden' name='MAX_FILE_SIZE' value='30000' />
+<input type='hidden' name='MAX_FILE_SIZE' value='2097152' />
 <td><label for='txt'>Selectionner un fichier CSV:</label>
 <input type='file' id='inputfile' name='inputfile' accept='text/*'></td>
 <td>séparateur: 
@@ -158,10 +160,26 @@ $form = <<<EOT
 <td><input type='submit'></td>
 </tr></table></form>
 EOT;
+}
 
+
+{
 $doc = <<<EOT
 </p>Géocodage sur les versions historiques des communes
 utilisant les formats d'identifiants suivants :<ul>
+  <li>`{cinsee}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
+    et valide à la date de validité du référentiel
+    <ul>
+      <li>exemple: `01015` pour la commune nouvelle d'Arboys en Bugey</li>
+    </ul>
+  </li>
+  <li>`[sr]{cinsee}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée<br>
+    exemples:
+    <ul>
+      <li>`s01015` pour la commune nouvelle d'Arboys en Bugey</li>
+      <li>`r01015` pour la commune rattachée d'Arbignieu</li>
+    </ul>
+  </li>
   <li>`{cinsee}@{ddebut}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
     et débutant à la date {ddebut}
     <ul>
@@ -189,7 +207,10 @@ utilisant les formats d'identifiants suivants :<ul>
     </ul>
   </li>
 </ul>
+Taille de fichier téléchargé limitée à 2Mo
 EOT;
+}
+
 
 if (!$_POST && (!$_GET || ($_GET['action']=='delfile'))) {
   if ($_GET && ($_GET['action']=='delfile') && file_exists(__DIR__."/$_GET[filename]"))
@@ -222,8 +243,8 @@ if ($_POST) { // transfert du fichier
     "<input type='hidden' name='separator' value='$_POST[separator]'>",
     "<table border=1><tr>",
     "<td>Fichier chargé, champ: ";
-  foreach ($headers as $header) {
-    echo "$header<input type='radio' name='field' value='$header'>\n";
+  foreach ($headers as $i => $header) {
+    echo "$header<input type='radio' name='field' value='$header'",(!$i ? 'checked':''),">\n";
   }
   echo "<td>sortie: ",
     "cntrl<input type='radio' name='action' value='cntrl' checked>\n",

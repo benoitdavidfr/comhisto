@@ -50,14 +50,22 @@ Il est recommandé :
 - aux gestionnaires de géocodeur, de proposer le géocodage sur le référentiel historique des codes de commune ;
   l'identification de la commune ou de l'entité rattachée doit ainsi être complétée d'une date de validité.
   
-Il est proposé d'utiliser l'identification suivante :
+Il est proposé d'utiliser les formats d'identification suivants :
 
+- `{cinsee}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
+  et valide à la date de validité du référentiel 
+  exemple: `01015` pour la commune nouvelle d'Arboys en Bugey
+- `[sr]{cinsee}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
+  exemples:
+    - `s01015` pour la commune nouvelle d'Arboys en Bugey
+    - `r01015` pour la commune rattachée d'Arbignieu
 - `{cinsee}@{ddebut}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
   et débutant à la date {ddebut}  
   exemple: `01015@2016-01-01` pour la commune nouvelle d'Arboys en Bugey
 - `[sr]{cinsee}@{ddebut}` si on veut préciser qu'il s'agit d'une commune ou d'une entité rattachée  
   exemples:
     - `s01015@2016-01-01` pour la commune nouvelle d'Arboys en Bugey
+    - `s01015@1943-01-01` pour la commune périmée d'Arbignieu
     - `r01015@2016-01-01` pour la commune rattachée d'Arbignieu
 - `{cinsee}#{date}` pour définir la version d'une commune ou d'une entité rattachée portant le code {cinsee}
   et valide à la date {date}  
