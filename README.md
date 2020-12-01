@@ -111,7 +111,7 @@ La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020 ;  
   à titre d'illustration, voir l'exemple des périmètres des versions de 1943 des communes d'Oyonnax (01283), de Bouvent (01055)
   et de Veyziat (01440) (https://comhisto.georef.eu/map/s01283/1943-01-01) reconstitués par l'algorithme de Voronoi à partir
-  de la version courante de la commune d'Oyonnax (01283) dans laquelle elle ont été fusionnées.
+  de la version courante de la commune d'Oyonnax (01283) dans laquelle elles ont été fusionnées.
 - les éventuels transferts de parcelles entre communes ne sont pas pris en compte,
 - lorsqu'une commune est absorbée puis rétablie, on fait l'hypothèse que sa géométrie est identique avant l'absorption
   et après le rétablissement.
