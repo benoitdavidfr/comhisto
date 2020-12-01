@@ -23,14 +23,16 @@ require_once __DIR__.'/mysql.inc.php';
 
 echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>log</title></head><body>\n";
 
-$mysqlParams = config('mysqlParams')[$_SERVER['HTTP_HOST']];
+if (!($mysqlParams = config('mysqlParams')[$_SERVER['HTTP_HOST']] ?? null))
+  die("log désactivé sur $_SERVER[HTTP_HOST]\n");
+
 MySQL::open($mysqlParams);
 
 if (!isset($_GET['action'])) {
   echo "Nbre de requêtes par jour et par application :\n";
   $sql = "
-    ( select date(logdt) d, 'tile' app, count(*) nbre from log
-      where request_uri like '%/shomgt/tile.php%'
+    ( select date(logdt) d, 'php' app, count(*) nbre from log
+      where request_uri like '%.php%'
       group by date(logdt)
     )
     union
@@ -49,10 +51,10 @@ if (!isset($_GET['action'])) {
     $logs[$tuple['d']][$tuple['app']] = $tuple['nbre'];
   }
   ksort($logs);
-  echo "<table border=1><th></th><th>tile</th><th>wms</th><th>autres</th>";
+  echo "<table border=1><th></th><th>.php</th><th>wms</th><th>autres</th>";
   foreach ($logs as $d => $log)
     echo "<tr><td>$d</td>",
-         "<td align='right'>",(isset($log['tile'])? $log['tile'] : ''),"</td>",
+         "<td align='right'>",(isset($log['php'])? $log['php'] : ''),"</td>",
          "<td align='right'>",(isset($log['wms'])? $log['wms'] : ''),"</td>",
          "<td align='right'>",(isset($log['xxx'])? $log['xxx'] : ''),"</td>",
          "</tr>\n";

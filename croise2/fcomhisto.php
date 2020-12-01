@@ -156,7 +156,7 @@ if ($_GET['action']=='testEntites') {
 /*PhpDoc: tables
 name: comhistog3
 title: table comhistog3 - couche des versions de communes
-database: [ comhisto ]
+database: [ ../comhistoPg ]
 columns:
   - name: id
     definition: char(17) not null primary key

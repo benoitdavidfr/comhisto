@@ -88,15 +88,25 @@ submodules:
   # archivé - /yamldoc/pub/comhisto/croise
   - /yamldoc/pub/comhisto/croise2
   - /yamldoc/pub/comhisto/export
+  - /yamldoc/pub/comhisto/lib
   - /yamldoc/pub/comhisto/map
   - /yamldoc/pub/comhisto/uriapi
   - /yamldoc/pub/comhisto/ogcapi
-  - /yamldoc/pub/comhisto/lib
+  - /yamldoc/pub/comhisto/geocodeur
 sqlDBs:
-  - name: comhisto
+  - name: comhistoPg
     title: comhisto - base PostGis comhisto
     doc: |
-      Utilisée en production et en consultation
+      Utilisée en production et en consultation pour stocker le référentiel comhistog3
+      localhost: 'host=172.17.0.4 dbname=gis user=docker'
+      else: 'host=postgresql-bdavid.alwaysdata.net dbname=bdavid_comhisto user=bdavid_comhisto password=motdepasse123$'
+  - name: comhistoMysql
+    title: comhisto - base MySql comhisto
+    doc: |
+      Utilisée pour le log
+      localhost: 'mysql://root:***@172.17.0.3/comhisto'
+      else: 'mysql://bdavid:***@mysql-bdavid.alwaysdata.net/bdavid_comhisto'
+      
 phpScripts:
   #- /yamldoc/pub/comhisto/index.php
 phpIncludes:
