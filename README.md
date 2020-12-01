@@ -109,9 +109,7 @@ La seconde a l'avantage de respecter un standard reconnu (ou qui a vocation à l
   cette simplification n'est pas effectuée dans quelques cas où elle génèrerait des erreurs de construction de polygones.
 - les limites non disponibles dans la version d'Admin-Express du 1/1/2020 sont approximées en utilisant
   une [décomposition de Voronoï](https://fr.wikipedia.org/wiki/Diagramme_de_Vorono%C3%AF) sur les entités valides au 1/1/2020 ;  
-  Ce principe est illustré par la carte ci-dessous
   
-  <iframe id='map' title='map' width='650' height='650' src='https://comhisto.georef.eu/map/s01283/1943-01-01?defaultOverlayIds=s01055@1943-01-01,s01283@1943-01-01,r01440@1973-01-01'></iframe>
   à titre d'illustration, voir l'[exemple des périmètres des versions de 1943 des communes d'Oyonnax (01283),
   de Bouvent (01055) et de Veyziat
   (01440)](https://comhisto.georef.eu/map/s01283/1943-01-01?defaultOverlayIds=s01055@1943-01-01,s01283@1943-01-01,r01440@1973-01-01)
