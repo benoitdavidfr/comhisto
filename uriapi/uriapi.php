@@ -954,6 +954,9 @@ if ($format=='html') { // sortie Html
     require_once __DIR__.'/../map/map.php';
     main(isset($_GET['id']) ? $_GET : ['id'=> idFromPathInfo($path_info)], $record);
   }
+  elseif ($path_info == '/geocodeur') { // cas d'appel de la carte par son URI https://comhisto.georef.eu/geocodeur
+    require_once __DIR__.'/../geocodeur/index.php';
+  }
   else {
     require_once __DIR__.'/../map/index.php'; // autre cas d'URI
     showComHisto($_GET['id'] ?? idFromPathInfo($path_info), $record);

@@ -81,7 +81,7 @@ function supprimeAccents(string $str): string {
 // $record est un array contenant
 //   soit le champ 'body' à afficher en JSON-LD dans le <head> et Yaml dans la page
 //   soit le champ 'error'
-function showComHisto(string $id='', array $record=null): string {
+function showComHisto(?string $id='', array $record=null): string {
   //echo "drawMap($id)<br>\n";
   //echo "<pre>record"; print_r($record); echo "</pre>\n";
   //echo "<pre>"; print_r($_SERVER); echo "</pre>\n";

@@ -67,7 +67,7 @@ Il est proposé d'utiliser l'identification suivante :
     - `s01015#2020-01-01` pour la commune nouvelle d'Arboys en Bugey
     - `r01015#2020-01-01` pour la commune rattachée d'Arbignieu
 
-
+Un géocodeur expérimental est disponible à https://comhisto.georef.eu/geocodeur
 
 ## Mise à disposition du référentiel
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition

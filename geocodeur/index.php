@@ -16,6 +16,8 @@ doc: |
     sinon
       réaliser le dwnld
     finsi
+
+  dispo sur: https://comhisto.georef.eu/geocodeur
 journal: |
   1/12/2020:
     - création
