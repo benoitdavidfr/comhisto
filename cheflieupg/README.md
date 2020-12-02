@@ -3,7 +3,7 @@ L'idée est de construire pour chaque entité un chef-lieu localisé par un poin
 En pratique, on devrait pouvoir associer à chaque code Insee ayant existé, un chef-lieu et lui associer un point.
 Il n'est pas utile de versionner ces chefs-lieux qui ne changent pas dans le temps.
 
-Le [fichier GéoJSON zippé](../export/cheflieu.7z) contient ces chefs-lieux avec les caractéristiques suivantes :
+Le [fichier GéoJSON zippé](../export/cheflieu.7z) contient ces chefs-lieux et correspond aux caractéristiques suivantes :
 
 - 111 codes Insee ne correspondent pas à un point, il s'agit :
   - des COMD/COMA non découpées par Voronoi, qui pourront être ajoutés ultérieurement,
