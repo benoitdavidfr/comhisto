@@ -1,0 +1,39 @@
+title: comhisto/cheflieupg - création d'une table des chefs-lieux dans PostGis
+path: /yamldoc/pub/comhisto/cheflieupg
+doc: |
+  L'objectif est de créer une table des chefs-lieux dans PostGis
+  L'idée initiale est de disposer dans PostGis des points définis pour calculer les Voronoi
+  complétés des points définis dans la table chef_lieu_carto d'Admin-Express
+  et ainsi d'associer un point à chaque code Insee
+  
+  Je rencontre plusieurs pbs:
+    - sur le contenu de chef_lieu_carto
+      - absence pour les entités rattachées sauf les 45 ARM
+      - 459 communes ont plusieurs chefs-lieux
+        -> il semble s'agir des communes déléguées propres avec même localisation que leur crat
+      - nom_chf ne semble pas conforme aux specs
+        - on retrouve le libéllé "marie de" non prévu
+      - 6 communes n'ont pas de chef-lieu
+        "id","nom_com"
+        "55189","Fleury-devant-Douaumont"
+        "55307","Louvemont-Côte-du-Poivre"
+        "55050","Bezonvaux"
+        "55139","Cumières-le-Mort-Homme"
+        "55039","Beaumont-en-Verdunois"
+        "55239","Haumont-près-Samogneux"
+    - contenu de ../cheflieu
+      - seuls ont été saisis les points utiles au Voronoi
+      - il manque a priori 110 codes Insee correspondant à priori
+        - aux COMD/COMA non découpés par Voronoi
+        - aux communes n'ayant pas de chef-lieu
+  Solution:
+    - création d'une table avec un ancien et un nouveau codes distincts lorsqu'il y a eu un changement de code
+    - utilisation de chef_lieu_carto en filtrant un point par code Insee
+    - absence de données pour les 111 codes correspondant
+      - aux COMD/COMA non découpées par Voronoi
+      - aux 6 communes n'ayant pas de chef-lieu
+      - aux 2 communes de StBarth et StMartin
+    
+phpScripts:
+  - /yamldoc/pub/comhisto/cheflieupg/cheflieupg.php
+phpIncludes:

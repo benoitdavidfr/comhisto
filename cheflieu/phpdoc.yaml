@@ -1,6 +1,11 @@
 title: comhisto/cheflieu - exploitation des chefs-lieux scrappés dans Wikipédia ou saisis dans le Géoportail 
 path: /yamldoc/pub/comhisto/cheflieu
 doc: |
+  cheflieuwp.yaml a été créé en récupérant les coordonnées des communes dans Wikipédia.
+  Le code de scrapping est dans /yamldoc/pub/rpicom/rpigeo/wikipedia
+  Pour les cas non traités, ou mal traités, cheflieugp.yaml contient des saisies des coordonnées du chef-lieu sur le Géoportail
+  ou sur les cartes IGN.
+  Le principe à chaque fois est d'associer un couple de coordonnées (longitude, latitude) à un couple (no de dépt, nom)
 journal: |
   18/9/2020:
     - création

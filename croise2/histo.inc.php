@@ -31,7 +31,8 @@ class Histo {
       exit(1);
     }
     foreach ($yaml['contents'] as $cinsee => $histo) {
-      self::$all[$cinsee] = new Histo($cinsee, $histo);
+      $called_class = get_called_class(); // permet de créer des objets d'une classe héritée
+      self::$all[$cinsee] = new $called_class($cinsee, $histo);
     }
     //print_r(self::$all);
   }
@@ -100,8 +101,7 @@ class Histo {
     return $this->vvalide;
   }
 
-  // retourne la liste des noms
-  function names(): array {
+  function names(): array { // retourne la liste des noms
     $names = []; // [ nom => 1 ]
     foreach ($this->versions as $dv => $version) {
       if ($name = $version->etat()['name'] ?? null)

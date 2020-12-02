@@ -64,6 +64,12 @@ journal: |
     - 18:00 - semble fonctionner - bloqué sur chefs-lieux identiques
   29/8/2020:
     - création
+includes:
+  - '../../../phplib/pgsql.inc.php'
+  - '../cheflieu/cheflieu.inc.php'
+  - pgsqlsa.inc.php
+  - histo.inc.php
+  - centelits.inc.php
 tables:
 */
 ini_set('memory_limit', '1G');

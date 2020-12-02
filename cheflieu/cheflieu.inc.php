@@ -3,18 +3,20 @@
 name: cheflieu.inc.php
 title: cheflieu.inc.php - exploitation des chefs-lieux provenant de Wikipedia ou saisis dans le Géoportail
 doc: |
+  Outre une méthode d'initialisation, 2 méthodes sont proposées:
+    - chercheGeo() recherche les coordonnées géo du chef-lieu à partir du no de département et du nom
+    - asGeoJsonFC() fabrique la FeatureCollection GeoJSON correspondant aux chefs-lieux stockés
 journal: |
   18/9/2020:
     - création
 */
-
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class ChefLieu {
   static $all = []; // [iddept => [id => ['names'=> [name], 'geo'=>[lon, lat]]]]
   
-  // chargement initial à parir des 2 fichiers Yaml
+  // chargement initial à partir des 2 fichiers Yaml
   static function load(string $dir) {
     self::$all = Yaml::parsefile("$dir/cheflieuwp.yaml");
     unset(self::$all['title']);
