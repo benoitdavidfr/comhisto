@@ -15,10 +15,10 @@ Le [fichier GéoJSON zippé](../export/cheflieu.7z) contient ces chefs-lieux ave
     - Beaumont-en-Verdunois (55039)
     - Haumont-près-Samogneux (55239)
   - des 2 communes de StBarth et StMartin
-- définition des champs
+- définition des champs :
   - `cinsee0` est le code Insee initial, soit au 1/1/1943, soit à la première création de la commune,
   - `cinseea` est le code Insee actuel, c'est dire après changement de code s'il y en a eu un, sinon il est identique à `cinsee0`,
-  - `dlnom` est le dernier nom local, c'est à dire en priviligiant le nom de communé déléguée à celui de la commune nouvelle,
+  - `dlnom` est le dernier nom local, c'est à dire en priviligiant le nom de la commune déléguée à celui de la commune nouvelle,
   - `source` définit la source de la géométrie, elle peut prendre les valeurs suivantes :
     - `absence` pour absence de géométrie dans les cas indiqués ci-dessus,
     - `chef_lieu_carto` quand la géométrie provient de la table `chef_lieu_carto` d'Admin-Express
