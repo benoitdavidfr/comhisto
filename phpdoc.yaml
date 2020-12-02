@@ -3,6 +3,7 @@ path: /yamldoc/pub/comhisto
 doc: |
   A faire:
     - étendre à la possibilité de définir des dates par l'année ou l'année et le mois
+      - fait pour le paramètre datetime de ogapi.php
     - proposer de générer une carte dans le géocodeur
     - faire un site spécifique static.georef.eu pour les fichiers leaflet, ...
     - améliorer replaces/replacedBy sur le fondement de l'elit

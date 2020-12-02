@@ -9,6 +9,8 @@ doc: |
   Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
 journal: |
+  2/12/2020:
+    - assouplissement du format des dates ddebut et date
   30/11/2020:
     - ajout d'un log
   29/11/2020:
@@ -39,6 +41,7 @@ require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../lib/openpg.inc.php';
 require_once __DIR__.'/../lib/config.inc.php';
 require_once __DIR__.'/../lib/log.inc.php';
+require_once __DIR__.'/../lib/isodate.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -695,13 +698,21 @@ function getRecord(string $path_info): array {
 
   // Sinon cas général
   // ! /(COM|ERAT|elits2020|codeInsee)/{cinsee}(/{ddebut})?
-  elseif (!preg_match('!^/(COM|ERAT|codeInsee|elits2020)/(\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!',
+  elseif (!preg_match('!^/(COM|ERAT|codeInsee|elits2020)/(\d[\dAB]\d\d\d)(/([-\d]+))?$!',
        $path_info, $matches))
     return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur $path_info non reconnu"]];
 
   $type = $matches[1];
   $cinsee = $matches[2];
-  $ddebut = $matches[4] ?? null;
+  if ($ddebut = $matches[4] ?? null) {
+    if (!($ddebut = checkIsoDate($ddebut)))
+      return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur date $matches[4] non reconnue"]];
+  }
+  $date = null;
+  if (isset($_GET['date'])) {
+    if (!preg_match('!^[\d-]+$!', $_GET['date']) || !($date = checkIsoDate($_GET['date'])))
+      return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur sur le paramètre date '$_GET[date]'"]];
+  }
   //echo "type=$type, cinsee=$cinsee, ddebut=$ddebut<br>\n";
   
 
@@ -721,11 +732,11 @@ function getRecord(string $path_info): array {
     if ($ddebut) { // https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la COM/ERAT
       $sql .= "id='$t$cinsee@$ddebut'";
     }
-    elseif (!isset($_GET['date'])) { // https://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
+    elseif (!$date) { // https://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la COM/ERAT valide
       $sql .= "type='$t' and cinsee='$cinsee' and dfin is null";
     }
     else { // https://comhisto.geoapi.fr/(COM|ERAT)/{cinsee}?date={date}
-      $sql .= "type='$t' and cinsee='$cinsee' and (ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null))";
+      $sql .= "type='$t' and cinsee='$cinsee' and (ddebut <= '$date' and (dfin > '$date' or dfin is null))";
     }
   
     if (!($tuples = PgSql::getTuples($sql))) {
@@ -741,7 +752,7 @@ function getRecord(string $path_info): array {
   }
 
   // /codeInsee/{cinsee} -> URI du code Insee, retourne la liste des versions utilisant ce code
-  if (($type == 'codeInsee') && !$ddebut && !isset($_GET['date'])) {
+  if (($type == 'codeInsee') && !$ddebut && !$date) {
     //echo "/codeInsee/{cinsee}<br>\n";
     $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom from comhistog3
       where cinsee='$cinsee'";
@@ -783,12 +794,12 @@ function getRecord(string $path_info): array {
   // /codeInsee/{cinsee}/{ddebut} -> URI de la version débutant à {ddebut} soit commune s'il y en a une, sinon ERAT
   // /codeInsee/{cinsee}?date={date} -> version existant à cette date soit de la commune s'il y en a une, sinon de l'ERAT
   //  JSON: Feature GeoJSON, LD: https://schema.org/City, Html: carte Leaflet, ou erreur 404
-  if (($type == 'codeInsee') && ($ddebut || isset($_GET['date']))) {
+  if (($type == 'codeInsee') && ($ddebut || $date)) {
     //echo "cas /codeInsee/{cinsee}/{ddebut} | /codeInsee/{cinsee}?date={date}<br>\n";
     $sql = "select id, ddebut, edebut, dfin, efin, statut, crat, erats, elits, dnom, ST_AsGeoJSON(geom) geom
             from comhistog3
             where cinsee='$cinsee' and "
-            .($ddebut ? "ddebut='$ddebut'" : "ddebut <= '$_GET[date]' and (dfin > '$_GET[date]' or dfin is null)");
+            .($ddebut ? "ddebut='$ddebut'" : "ddebut <= '$date' and (dfin > '$date' or dfin is null)");
     //echo "<pre>sql=$sql\n";
     try {
       $tuples = PgSql::getTuples($sql);

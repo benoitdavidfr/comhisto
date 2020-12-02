@@ -99,14 +99,18 @@ function interval(string $datetime): array {
   }
   //echo "<pre>matches="; print_r($matches); echo "</pre>\n";
   $start = $matches[3] ? $matches[3] : '..';
-  if (!checkIsoDate($start))
+  if (!($start2 = checkIsoDate($start)))
     return ['error'=> "Paramètre datetime1=$start incorrect"];
-  $end = !isset($matches[6]) ? null : ($matches[9] ? $matches[9] : '..');
-  if ($end && !checkIsoDate($end))
+  if (!isset($matches[6])) {
+    if ($start == '..')
+      return ['error'=> "Paramètre datetime=$datetime incorrect"];
+    else
+      return [ $start2, null];
+  }
+  $end =  $matches[9] ? $matches[9] : '..';
+  if (!($end2 = checkIsoDate($end)))
     return ['error'=> "Paramètre datetime2=$end incorrect"];
-  if (($start == '..') && !$end)
-    return ['error'=> "Paramètre datetime=$datetime incorrect"];
-  return [ $start, $end];
+  return [ $start2, $end2];
 }
 
 if (0) { // Tests de la fonction interval() 
@@ -469,6 +473,7 @@ function getRecord(string $path_info, bool $ld): array {
       'body'=> 
         ($ld ? ['@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld'] : [])
       +[
+        //'interval'=> $interval,
         //'sql'=> $sql,
         'timeStamp'=> str_replace('+00:00','Z', date(DATE_ATOM)),
         'numberReturned'=> count($features),
