@@ -1,7 +1,7 @@
 # Construction des chefs-lieux
-L'idée est de construire un chef-lieu pour chaque entité localisé par un point.  
-En pratique, on devrait pouvoir associer à chaque code Insee ayant existé, un chef-lieu, associé à un point.
-Il n'est pas utile de les versionner car ces chefs-lieux ne changent pas dans le temps.
+L'idée est de construire pour chaque entité un chef-lieu localisé par un point.  
+En pratique, on devrait pouvoir associer à chaque code Insee ayant existé, un chef-lieu et lui associer un point.
+Il n'est pas utile de versionner ces chefs-lieux qui ne changent pas dans le temps.
 
 Le [fichier GéoJSON zippé](../export/cheflieu.7z) contient ces chefs-lieux avec les caractéristiques suivantes :
 
