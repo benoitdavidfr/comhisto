@@ -9,3 +9,8 @@ ogr2ogr \
   -lco DESCRIPTION='Eléments administratifs intemporels au 1/1/2020, voir la doc. sur https://github.com/benoitdavidfr/comhisto' \
   PG:'host=172.17.0.4 port=5432 dbname=gis user=docker password=docker' "elit"
 7z a elit.7z elit.geojson
+ogr2ogr \
+  -f GeoJSON cheflieu.geojson -lco RFC7946=YES -lco COORDINATE_PRECISION=5 \
+  -lco DESCRIPTION='Objet chef-lieu avec nom et géométrie ponctuelle au 1/1/2020, voir la doc. sur https://github.com/benoitdavidfr/comhisto' \
+  PG:'host=172.17.0.4 port=5432 dbname=gis user=docker password=docker' "cheflieu"
+7z a cheflieu.7z cheflieu.geojson
