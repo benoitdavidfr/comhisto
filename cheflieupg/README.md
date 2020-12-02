@@ -5,16 +5,16 @@ Il n'est pas utile de versionner ces chefs-lieux qui ne changent pas dans le tem
 
 Le [fichier GéoJSON zippé](../export/cheflieu.7z) contient ces chefs-lieux avec les caractéristiques suivantes :
 
-- 111 codes Insee ne correspondent pas à un point, il s'agit des :
-  - COMD/COMA non découpées par Voronoi, qui porront être ajoutés ultérieurement,
-  - 6 communes n'ayant pas de chef-lieu dans Admin-Express:
+- 111 codes Insee ne correspondent pas à un point, il s'agit :
+  - des COMD/COMA non découpées par Voronoi, qui porront être ajoutés ultérieurement,
+  - des 6 communes n'ayant pas de chef-lieu dans Admin-Express:
     - Fleury-devant-Douaumont (55189)
     - Louvemont-Côte-du-Poivre (55307)
     - Bezonvaux (55050)
     - Cumières-le-Mort-Homme (55139)
     - Beaumont-en-Verdunois (55039)
     - Haumont-près-Samogneux (55239)
-  - 2 communes de StBarth et StMartin
+  - des 2 communes de StBarth et StMartin
 - définition des champs
   - `cinsee0` est le code Insee initial
   - `cinseea` est le code Insee actuel c'est dire après changement de code s'il y en a eu un, sinon il est identique à `cinsee`
