@@ -36,6 +36,8 @@ doc: |
   A faire:
     - exprimer le lien entre le geojson:Feature et un City, comment faire ?
 journal: |
+  2/12/2020:
+    - assouplissement du format de datetime
   30/11/2020:
     - ajout d'un log
   29/11/2020:
@@ -56,6 +58,7 @@ require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../lib/openpg.inc.php';
 require_once __DIR__.'/../lib/config.inc.php';
 require_once __DIR__.'/../lib/log.inc.php';
+require_once __DIR__.'/../lib/isodate.inc.php';
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -90,13 +93,17 @@ function checkBbox(array $bbox): bool { // Vérifie que la Bbox est bien formée
 function interval(string $datetime): array {
   if (!$datetime)
     return [];
-  $date_pattern = '((\d\d\d\d-\d\d-\d\d)(T[^/]*)?)|(\.\.)';
+  $date_pattern = '(([\d-]+)(T[^/]*)?)|(\.\.)'; // motif simplifié, la date est vérifiée par checkIsoDate()
   if (!preg_match("!^($date_pattern)(/($date_pattern))?$!", $datetime, $matches)) {
     return ['error'=> "Paramètre datetime=$datetime incorrect"];
   }
   //echo "<pre>matches="; print_r($matches); echo "</pre>\n";
   $start = $matches[3] ? $matches[3] : '..';
+  if (!checkIsoDate($start))
+    return ['error'=> "Paramètre datetime1=$start incorrect"];
   $end = !isset($matches[6]) ? null : ($matches[9] ? $matches[9] : '..');
+  if ($end && !checkIsoDate($end))
+    return ['error'=> "Paramètre datetime2=$end incorrect"];
   if (($start == '..') && !$end)
     return ['error'=> "Paramètre datetime=$datetime incorrect"];
   return [ $start, $end];
@@ -395,7 +402,7 @@ function getRecord(string $path_info, bool $ld): array {
     
     // Gestion du paramètre datetime
     if ($interval = interval($_GET['datetime'] ?? '')) {
-      if ($errorMessage = ($interval['error'] ?? null))
+      if ($errorMessage = ($interval['error'] ?? null)) // $_GET['datetime'] n'est pas un intervalle
         return ['error'=> ['httpCode'=> 400, 'message'=> $errorMessage]];
       list($start, $end) = $interval;
       //echo "start=$start, end=",($end ? $end : 'undef'),"\n";
@@ -536,7 +543,7 @@ function getRecord(string $path_info, bool $ld): array {
         ($ld ? ['@context'=> 'https://geojson.org/geojson-ld/geojson-context.jsonld'] : [])
       +[
         'type'=> 'Feature',
-        'id'=> $id,
+        'id'=> ($ld ? "$baseUrl/collections/$collectionId/items/$id" : $id),
         'properties'=> $tuple,
         'geometry'=> $geom,
       ],

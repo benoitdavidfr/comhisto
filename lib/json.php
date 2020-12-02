@@ -77,9 +77,9 @@ $context = stream_context_create($opts);
 //echo "url=$url\n";
 if (FALSE === $contents = @file_get_contents($url, false, $context)) {
   echo "<pre>Erreur de lecture de $url\nhttp_response_header = ";
-  die(Yaml::dump(['header'=> response_header($http_response_header ?? null)], 3, 2));
+  die(Yaml::dump(['header'=> response_header($http_response_header ?? [])], 3, 2));
 }
-$response_header = response_header($http_response_header ?? null);
+$response_header = response_header($http_response_header ?? []);
 echo "<pre>",Yaml::dump(['header'=> $response_header], 3, 2),"</pre>\n";
 
 if (($response_header['Content-Encoding'] ?? null) == 'gzip') {

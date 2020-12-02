@@ -12,5 +12,6 @@ phpIncludes:
   - /yamldoc/pub/comhisto/lib/secretconfig.inc.php
   - /yamldoc/pub/comhisto/lib/mysql.inc.php
   - /yamldoc/pub/comhisto/lib/openpg.inc.php
+  - /yamldoc/pub/comhisto/lib/isodate.inc.php
 htmlFiles:
   - /yamldoc/pub/comhisto/ogcapi/openapi.yaml
