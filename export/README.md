@@ -1,4 +1,5 @@
 # Documentation des fichiers comhistog3.geojson et elit.geojson
+Outre les 2 fichiers décrits ci-dessous, un fichier des chefs-lieux est disponible et [décrit ici](../cheflieupg/README.md).
 ## Documentation du fichier comhistog3.geojson
 
 Les objets (features) du fichier comhistog3.geojson correspondent aux versions successives des entités du référentiel.  
