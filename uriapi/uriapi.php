@@ -291,7 +291,7 @@ function buildCity(array $tuple, string $type, string $cinsee): array {
 
 // retourne l'enregistrement correspondant au path_info passé en paramètre
 // si ok alors le résultat est un array avec
-// - 1) un champ 'header' avec notamment un sous-champ 'Content-Type' avec le type MIME du rasultat
+// - 1) un champ 'header' avec notamment un sous-champ 'Content-Type' avec le type MIME du résultat
 // - 2) un champ 'body' avec l'enregistrement lui-même.
 // En cas d'erreur retourne un array avec un champ 'error' contenant
 // - 1) un champ 'httpCode' qui est un code d'erreur Http
@@ -325,7 +325,7 @@ function getRecord(string $path_info): array {
           "@type" => "vcard:VCard",
           "vcard:fn" => "Benoit David",
           "vcard:hasEmail" => [
-            "@id" => "mailto:benoit.david@free.fr",
+            "@id" => "mailto:contact@geoapi.fr",
           ],
         ],
         "dcat:distribution" => [
@@ -935,6 +935,17 @@ if (!$_SERVER['SCRIPT_NAME']) { // lors execution https://comhisto.georef.eu/ le
       case 'ico': header('Content-Type: image/x-icon'); break;
     }
     die(file_get_contents(__DIR__.'/../map'.$path_info));
+  }
+}
+
+if (preg_match('!^/ns/([^/]+)$!', $_SERVER['PATH_INFO'], $matches)) { // définition de l'espace de nom
+  $elt = $matches[1];
+  if (is_file(__DIR__."/namespaces/$elt.html"))
+    die(@file_get_contents(__DIR__."/namespaces/$elt.html"));
+  else {
+    header('HTTP/1.1 404 Not Found');
+    header('Content-type: text/plain');
+    die("Erreur: élément https://comhisto.georef.eu/ns/$elt non défini");
   }
 }
 

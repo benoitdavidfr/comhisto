@@ -115,7 +115,7 @@ $schema:
           $ref: '#/definitions/listeDeCodesInsee'
         sAssocieA:
           description: |
-            Commune simple s'associe à une commune de rattachement (mirroir prendPourAssociées)
+            Commune simple s'associe à une commune de rattachement (mirroir associe)
             La commune de rattachement objet doit être une commune simple.
             Si le sujet était auparavant rattaché à une autre CS alors il doit s'en détacher explicitement simultanément
             Si le sujet avait des ER alors elles doivent simultanément s'en détacher

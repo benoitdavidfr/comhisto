@@ -87,7 +87,7 @@ Il est de plus proposé sous la forme:
 
 - d'une [première API](https://comhisto.georef.eu/), [détaillée ici](uriapi/README.md),
   définissant les URI des entités, les décrivant selon les principes
-  des données liées et permettant de les visualiser sur des cartes,
+  des données liées et proposant de les visualiser sur une carte,
 - d'une [seconde API](https://comhisto.geoapi.fr/), [détaillée ici](ogcapi/README.md),
   conforme au [standard OGC API Features](http://docs.opengeospatial.org/is/17-069r3/17-069r3.html),
  

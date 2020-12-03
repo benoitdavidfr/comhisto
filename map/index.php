@@ -125,7 +125,7 @@ function showComHisto(?string $id='', array $record=null): string {
         . "<td><input type='text' size=60 name='id' value='$id'/></td>\n"
         . "<td><input type='submit' value='Chercher'></td>\n"
         . "</tr></form></table></td>\n"
-        . "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
+        //. "<td>(<a href='doc.php' target='_blank'>doc</a>)</td>\n"
         . "</tr></table>\n";
 
   if (!$id || in_array($id,['s','r'])) { // si paramètre vide ou r|s alors affichage du formulaire de recherche

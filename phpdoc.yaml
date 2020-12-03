@@ -2,8 +2,11 @@ title: comhisto - référentiel de l'historique des communes (V2)
 path: /yamldoc/pub/comhisto
 doc: |
   A faire:
+    - mieux documenter https://comhisto.georef.eu/Event + https://comhisto.georef.eu/startEvent + ...
+      - comment ? schéma ? URI ? utiliser \# ?
     - étendre à la possibilité de définir des dates par l'année ou l'année et le mois
-      - fait pour le paramètre datetime de ogapi.php
+      - fait pour le paramètre datetime de ogcapi.php
+      - fait pour les paramètres ddebut et date de uriapi.php
     - proposer de générer une carte dans le géocodeur
     - faire un site spécifique static.georef.eu pour les fichiers leaflet, ...
     - améliorer replaces/replacedBy sur le fondement de l'elit
