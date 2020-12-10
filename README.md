@@ -79,7 +79,7 @@ Un géocodeur expérimental est disponible à https://comhisto.georef.eu/geocode
 ## Mise à disposition du référentiel
 Ce référentiel, permettant de géocoder un ancien code Insee, est mis à disposition
 sous la forme d'un fichier [au format GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
-[publié sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20200920-175314/comhistog3.geojson)
+[publié sur data.gouv ici](https://static.data.gouv.fr/resources/code-officiel-geographique-cog/20201210-181440/comhistog3.geojson)
 et [zippé ici (6.0 Mo)](export/comhistog3.7z).
 Il est [documenté plus précisément ici](export/README.md).
 
