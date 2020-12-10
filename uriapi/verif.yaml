@@ -25,6 +25,8 @@ contents:
   # /COM/{cinsee}/{ddebut}
     - url: /COM/01015/2016-01-01
       title: version ok
+    - url: /COM/01015/2016
+      title: version ddebut réduite ok
     - url: /COM/01015/2010-01-01
       title: version KO
     - url: /COM/01340/2016-01-01
@@ -46,6 +48,8 @@ contents:
   # /codeInsee/{cinsee}/{ddebut}
     - url: /codeInsee/01015/2016-01-01
       title: commune Ok
+    - url: /codeInsee/01015/2016
+      title: commune ddebut réduite Ok
     - url: /codeInsee/01340/2016-01-01
       title: ERAT ok
     - url: /codeInsee/78121/1943-01-01
@@ -69,9 +73,18 @@ contents:
       title: Ok
     - url: /contexts/KO
       title: KO
+  # /ns
+    - url: /ns/Event
+      title: Ok
+    - url: /ns/startEvent
+      title: Ok
+    - url: /ns/KO
+      title: KO
   # /(COM|ERAT)/{cinsee}?date={date}
     - url: /COM/01015?date=2019-01-01
       title: commune Ok
+    - url: /COM/01015?date=2019
+      title: commune date réduite Ok
     - url: /COM/78121?date=2019-01-01
       title: code disparu -> KO
     - url: /ERAT/01340?date=2019-01-01

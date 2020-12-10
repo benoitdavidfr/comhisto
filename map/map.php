@@ -223,7 +223,12 @@ function main(array $GET) {
   // si l'id est un code Insee alors une des versions les plus récentes correspondant à ce code Insee
   // sinon la couche d'une entité dont la géographie est la même que celle demandée
   $statut = ($type == 'r') ? 'ERAT' : 'COM'; // statut COM ou ERAT
-  $elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : null;
+  try {
+    $elitEtendusDeLEntiteeDemandée = (strlen($id)==17) ? Histelits::elitEtendus($id, $statut) : null;
+  } catch (Exception $e) {
+    header('HTTP/1.1 404 Not Found');
+    die("Erreur dans map.php, paramètre id=$id inexistant");
+  }
   $defaultOverlayIds = [];
   $layers = []; // [layerId => ['path'=> path, 'color'=> color]] - liste des couches à afficher
   $elitss = []; // [elitEtendus => $layerId] - élitsEtendu des couches à afficher

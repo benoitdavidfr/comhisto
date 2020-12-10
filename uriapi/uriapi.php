@@ -9,6 +9,10 @@ doc: |
   Il peut aussi être utilisé en mode CLI pour effectuer des vérifications sur tous les objets existants.
 
 journal: |
+  4/12/2020:
+    - ajout description en html de https://comhisto.georef.eu/ns
+  3/12/2020:
+    - correction du GeoShape JSON-LD et des évènements
   2/12/2020:
     - assouplissement du format des dates ddebut et date
   30/11/2020:
@@ -130,8 +134,8 @@ function completeUriEvt(array &$evts, string $ddebut, string $cinsee): void {
         break;
       }
 
-      case 'fusionneDans': { // Il faut prendre l'URI de la version précédente
-        $params = makeUri($params, 'dfin', $ddebut, 's');
+      case 'fusionneDans': { // Il faut prendre l'URI de la version précédente NON
+        $params = makeUri($params, 'ddebut', $ddebut, 's');
         break;
       }
       
@@ -200,6 +204,14 @@ if (php_sapi_name() == 'cli') { // Vérifie systématiquement completeUriTuple()
   die();
 }
 
+function ldEvent(array $event): array { // plonge les noms de champs dans l'espace de nom comhisto:
+  $ldEvent = [];
+  foreach ($event as $key => $value) {
+    $ldEvent["comhisto:$key"] = $value;
+  }
+  return ['@type'=> 'comhisto:Event'] + $ldEvent;
+}
+
 // prend une structure GeoJSON:geometry et rend un https://schema.org/GeoShape ou un https://schema.org/GeoCoordinates
 function geoShape(array $geom): array {
   $geoShape = '';
@@ -210,7 +222,7 @@ function geoShape(array $geom): array {
       $bbox = !$bbox ? [$pt[1], $pt[0], $pt[1], $pt[0]]
         : [min($pt[1], $bbox[0]), min($pt[0], $bbox[1]), max($pt[1], $bbox[2]), max($pt[0], $bbox[3])];
     }
-    return ['@type'=> 'GeoShape', 'box'=> implode(',',$bbox), 'polygon'=> $geoShape];
+    return ['@type'=> 'schema:GeoShape', 'schema:box'=> implode(',',$bbox), 'schema:polygon'=> $geoShape];
   }
   elseif ($geom['type']=='MultiPolygon') {
     foreach ($geom['coordinates'] as $polygon) {
@@ -275,8 +287,8 @@ function buildCity(array $tuple, string $type, string $cinsee): array {
       '@id'=> "https://comhisto.georef.eu/$type/$cinsee/$tuple[ddebut]",
       'schema:name'=> $tuple['dnom'],
       'schema:temporalCoverage'=> $tuple['ddebut'].'/'.($tuple['dfin'] ?? '..'),
-      'comhisto:startEvent'=> ['@type'=> 'comhisto:Event'] + $tuple['edebut'],
-      'comhisto:endEvent'=> $tuple['efin'] ? ['@type'=> 'comhisto:Event'] + $tuple['efin'] : null,
+      'comhisto:startEvent'=> ldEvent($tuple['edebut']),
+      'comhisto:endEvent'=> $tuple['efin'] ? ldEvent($tuple['efin']) : null,
       'dcterms:replaces' => $replaces,
       'dcterms:isReplacedBy'=> $isReplacedBy,
     ]
@@ -461,7 +473,7 @@ function getRecord(string $path_info): array {
         'dcterms' => 'http://purl.org/dc/terms/',
         'dc' => 'http://purl.org/dc/elements/1.1/',
         'skos' => 'http://www.w3.org/2004/02/skos/core#',
-        'comhisto' => 'https://comhisto.georef.eu/',
+        'comhisto' => 'https://comhisto.georef.eu/ns/',
         'skos:broader' => ['@type'=> '@id'],
         'skos:inScheme' => ['@type'=> '@id'],
         'skos:related' => ['@type'=> '@id'],
@@ -486,13 +498,13 @@ function getRecord(string $path_info): array {
       ],
       'body'=> [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status',
+        '@id' => 'https://comhisto.georef.eu/status',
         'skos:prefLabel' => [
           'fr' => "Thésaurus des statuts des entités de ComHisto",
         ],
         'skos:hasTopConcept'=> [
-          'comhisto:status/COM',
-          'comhisto:status/ERAT',
+          'https://comhisto.georef.eu/status/COM',
+          'https://comhisto.georef.eu/status/ERAT',
         ],
       ],
     ];
@@ -503,126 +515,126 @@ function getRecord(string $path_info): array {
     [
       'COM' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/COM',
+        '@id' => 'https://comhisto.georef.eu/status/COM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune"
         ],
-        'skos:inScheme' => 'comhisto:status',
-        'skos:topConceptOf' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
+        'skos:topConceptOf' => 'https://comhisto.georef.eu/status',
         'skos:narrower' => [
-          'comhisto:status/BASE',
-          'comhisto:status/ASSO',
-          'comhisto:status/NOUV',
-          'comhisto:status/CARM',
+          'https://comhisto.georef.eu/status/BASE',
+          'https://comhisto.georef.eu/status/ASSO',
+          'https://comhisto.georef.eu/status/NOUV',
+          'https://comhisto.georef.eu/status/CARM',
         ],
       ],
       'BASE' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/BASE',
+        '@id' => 'https://comhisto.georef.eu/status/BASE',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "commune de base, cad ni associée, ni déléguée et n'ayant aucune entité rattachée",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/COM',
+          'https://comhisto.georef.eu/status/COM',
         ],
       ],
       'ASSO' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/ASSO',
+        '@id' => 'https://comhisto.georef.eu/status/ASSO',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des communes associées (association)",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/COM',
+          'https://comhisto.georef.eu/status/COM',
         ],
       ],
       'NOUV' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/NOUV',
+        '@id' => 'https://comhisto.georef.eu/status/NOUV',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des communes déléguées (commune nouvelle)",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/COM',
+          'https://comhisto.georef.eu/status/COM',
         ],
       ],
       'CARM' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/CARM',
+        '@id' => 'https://comhisto.georef.eu/status/CARM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune ayant des arrondissements municipaux",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/COM',
+          'https://comhisto.georef.eu/status/COM',
         ],
       ],
       'ERAT' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/ERAT',
+        '@id' => 'https://comhisto.georef.eu/status/ERAT',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Entité rattachée"
         ],
-        'skos:inScheme' => 'comhisto:status',
-        'skos:topConceptOf' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
+        'skos:topConceptOf' => 'https://comhisto.georef.eu/status',
         'skos:narrower' => [
-          'comhisto:status/COMA',
-          'comhisto:status/COMD',
-          'comhisto:status/ARM',
+          'https://comhisto.georef.eu/status/COMA',
+          'https://comhisto.georef.eu/status/COMD',
+          'https://comhisto.georef.eu/status/ARM',
         ],
       ],
       'COMA' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/COMA',
+        '@id' => 'https://comhisto.georef.eu/status/COMA',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune associée",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/ERAT',
+          'https://comhisto.georef.eu/status/ERAT',
         ],
       ],
       'COMD' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/COMD',
+        '@id' => 'https://comhisto.georef.eu/status/COMD',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Commune déléguée",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/ERAT',
+          'https://comhisto.georef.eu/status/ERAT',
         ],
       ],
       'ARM' => [
         '@context' => 'https://comhisto.georef.eu/contexts/skos',
-        '@id' => 'comhisto:status/ARM',
+        '@id' => 'https://comhisto.georef.eu/status/ARM',
         '@type' => 'skos:Concept',
         'skos:prefLabel'=> [
           '@language' => 'fr',
           '@value' => "Arrondissement municipal",
         ],
-        'skos:inScheme' => 'comhisto:status',
+        'skos:inScheme' => 'https://comhisto.georef.eu/status',
         'skos:broader' => [
-          'comhisto:status/ERAT',
+          'https://comhisto.georef.eu/status/ERAT',
         ],
       ],
     ]
@@ -675,9 +687,10 @@ function getRecord(string $path_info): array {
     ];
   }*/
 
-  if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
+  if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/([-\d]+))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
     $id = $matches[1];
-    $ddebut = $matches[4] ?? null;
+    if (($ddebut = $matches[4] ?? null) && !($ddebut = checkIsoDate($ddebut)))
+      return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur date $matches[4] non reconnue"]];
     $path_info = pathInfoFromId($ddebut ? "$id@$ddebut" : $id);
     return [
       'header'=> ['Content-Type'=> 'application/ld+json'],
@@ -704,18 +717,12 @@ function getRecord(string $path_info): array {
 
   $type = $matches[1];
   $cinsee = $matches[2];
-  if ($ddebut = $matches[4] ?? null) {
-    if (!($ddebut = checkIsoDate($ddebut)))
-      return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur date $matches[4] non reconnue"]];
-  }
-  $date = null;
-  if (isset($_GET['date'])) {
-    if (!preg_match('!^[\d-]+$!', $_GET['date']) || !($date = checkIsoDate($_GET['date'])))
-      return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur sur le paramètre date '$_GET[date]'"]];
-  }
+  if (($ddebut = $matches[4] ?? '') && !($ddebut = checkIsoDate($ddebut)))
+    return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur date $matches[4] non reconnue"]];
+  if (($date = $_GET['date'] ?? null) && !($date = checkIsoDate($date)))
+    return ['error'=> ['httpCode'=> 400, 'message'=> "Erreur sur le paramètre date '$_GET[date]'"]];
   //echo "type=$type, cinsee=$cinsee, ddebut=$ddebut<br>\n";
   
-
   // https://comhisto.georef.eu/(COM|ERAT)/{cinsee}/{ddebut} -> URI de la version de COM/ERAT comhisto
   //   retourne le Feature GeoJSON si elle existe, sinon Erreur 404
   // https://comhisto.georef.eu/(COM|ERAT)/{cinsee} -> URI de la version valide COM/ERAT comhisto
@@ -739,8 +746,8 @@ function getRecord(string $path_info): array {
       $sql .= "type='$t' and cinsee='$cinsee' and (ddebut <= '$date' and (dfin > '$date' or dfin is null))";
     }
   
+    //echo "<pre>sql=$sql\n";
     if (!($tuples = PgSql::getTuples($sql))) {
-      //echo "<pre>sql=$sql\n";
       $id = $ddebut ?
         "id $type$cinsee@$ddebut"
         : (isset($_GET['date']) ? "$type$cinsee/date=$_GET[date]" : "$type$cinsee");
@@ -886,24 +893,25 @@ function pathInfoFromId(string $id): ?string { // construit le path_info à part
 function idFromPathInfo(string $path_info): ?string { // construit un id à partir d'un path_info ou null
   if (in_array($path_info,['','/','/api']))
     return '';
-  if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/(\d{4,4}-\d\d-\d\d))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
+  if (preg_match('!^/map/((s|r|)\d[\dAB]\d\d\d)(/([-\d]+))?$!', $path_info, $matches)) { // /map/{id}/{ddebut}?
     $id = $matches[1];
-    $ddebut = $matches[4] ?? null;
-    return $ddebut ? "$id@$ddebut" : $id;
+    if (!($ddebut = $matches[4] ?? null))
+      return $id;
+    elseif ($ddebut = checkIsoDate($ddebut))
+      return $id.'@'.checkIsoDate($ddebut);
+    else
+      return $id;
   }
-  if (!preg_match('!^/(COM|ERAT|codeInsee)(/(\d(\d|A|B)\d\d\d)(/(\d{4,4}-\d\d-\d\d))?(\.json)?)?$!', $path_info, $matches))
+  if (!preg_match('!^/(COM|ERAT|codeInsee)/(\d[\dAB]\d\d\d)(/([-\d]+))?$!', $path_info, $matches))
     return null;
-  $type = $matches[1];
-  $cinsee = $matches[3] ?? null;
-  $ddebut = $matches[6] ?? null;
-  $outputFormat = $matches[7] ?? null; // si le format de sortie est défini dans l'URL alors il s'impose
-  if ($type == 'codeInsee')
-    return $cinsee;
-  $id = (($type=='COM') ? 's' : 'r').$cinsee;
-  if (!$ddebut)
-    return $id;
+  $type = ['COM'=>'s','ERAT'=>'r','codeInsee'=>''][$matches[1]];
+  $cinsee = $matches[2];
+  if (!($ddebut = $matches[4] ?? null))
+    return $type.$cinsee;
+  elseif ($ddebut = checkIsoDate($ddebut))
+    return "$type$cinsee@$ddebut";
   else
-    return "$id@$ddebut";
+    return $type.$cinsee;
 }
 
 write_log(true); // écriture d'un log dans une base décrite dans ../lib/secretconfig.inc.php
@@ -938,15 +946,80 @@ if (!$_SERVER['SCRIPT_NAME']) { // lors execution https://comhisto.georef.eu/ le
   }
 }
 
-if (preg_match('!^/ns/([^/]+)$!', $_SERVER['PATH_INFO'], $matches)) { // définition de l'espace de nom
-  $elt = $matches[1];
-  if (is_file(__DIR__."/namespaces/$elt.html"))
-    die(@file_get_contents(__DIR__."/namespaces/$elt.html"));
-  else {
-    header('HTTP/1.1 404 Not Found');
-    header('Content-type: text/plain');
-    die("Erreur: élément https://comhisto.georef.eu/ns/$elt non défini");
+function httpError(int $httpCode, string $message) { // génère le message d'erreur Http
+  define('HTTP_ERROR_LABELS', [
+    400 => 'Bad Request', // La syntaxe de la requête est erronée.
+    404 => 'Not Found', // Ressource non trouvée. 
+    500 => 'Internal Server Error', // Erreur interne du serveur. 
+    501 => 'Not Implemented', // Fonctionnalité réclamée non supportée par le serveur.
+  ]);
+  header("HTTP/1.1 $httpCode ".(HTTP_ERROR_LABELS[$httpCode] ?? "Undefined httpCode $httpCode"));
+  header('Content-type: text/plain');
+  die($message);
+}
+
+function ldClassOrProp(string $name) { // affiche les caractéristiques du nom $name ou de toutes les classes et propriétés
+  try {
+    $ldstruct = Yaml::parseFile(__DIR__.'/ldstruct.yaml');
+  } catch(ParseException $e) {
+    httpError(500, $e->getMessage());
   }
+  //print_r($ldstruct);
+  if (!$name) { // affiche les caractéristiques de toutes les classes et propriétés
+    echo "<h1>Liste des classes et propriétés définies dans https://comhisto.georef.eu/ns</h1>\n";
+    foreach ($ldstruct['classes'] as $classId => $class) {
+      echo "<h2>Classe $classId</h2>\n";
+      echo $class['description'] ?? '';
+      if (isset($class['properties'])) {
+        echo "<h3>Propriétés</h3>\n",
+          "<table border=1><th>nom</th><th>objet</th><th>description</th>\n";
+        foreach ($class['properties'] as $propId => $prop) {
+          echo "<tr><td>$propId</td><td>$prop[range]</td><td>$prop[description]</td></tr>\n";
+        }
+        echo "</table>\n";
+      }
+    }
+    die();
+  }
+  if ($class = $ldstruct['classes'][$name] ?? null) { // affiche les caractéristiques de la classe $name
+    echo "<h2>Classe $name</h2>\n";
+    echo $class['description'] ?? '';
+    if (isset($class['properties'])) {
+      echo "<h3>Propriétés</h3>\n",
+        "<table border=1><th>nom</th><th>objet</th><th>description</th>\n";
+      foreach ($class['properties'] as $propId => $prop) {
+        echo "<tr><td>$propId</td><td>$prop[range]</td><td>$prop[description]</td></tr>\n";
+      }
+      echo "</table>\n";
+    }
+    die();
+  }
+  foreach ($ldstruct['classes'] as $classId => $class) { // affiche les caractéristiques de la propriété $name
+    if ($prop = $class['properties'][$name] ?? null) {
+      if (($pos = strpos($classId, ':')) === false) {
+        $classUri = "https://comhisto.georef.eu/ns/$classId";
+        echo "<h2>Propriété $name de la classe <a href='$classUri'>$classId</a</h2>\n";
+      }
+      else {
+        $ns = substr($classId, 0, $pos);
+        if (!($classUri = $ldstruct['prefixes'][$ns] ?? null))
+          die("prefix=$prefix non défini");
+        $classUri .= substr($classId, $pos+1);
+        echo "<h2>Propriété $name ajoutée à la classe <a href='$classUri'>$classId</a</h2>\n";
+      }
+      
+      echo "<table border=1><th>nom</th><th>objet</th><th>description</th>\n";
+      echo "<tr><td>$name</td><td>$prop[range]</td><td>$prop[description]</td></tr>\n";
+      echo "</table>\n";
+      die();
+    }
+  }
+  httpError(404, "nom $name ne correspond ni à une classe ni à une propriété de https://comhisto.georef.eu/ns");
+}
+
+if (preg_match('!^/ns(/([^/]+))?$!', $_SERVER['PATH_INFO'] ?? '', $matches)) { // définition de l'espace de nom
+  $eltId = $matches[2] ?? '';
+  die(ldClassOrProp($eltId));
 }
 
 //echo "<pre>"; print_r($_SERVER); die();
@@ -976,23 +1049,17 @@ if ($format=='html') { // sortie Html
     require_once __DIR__.'/../map/map.php';
     main(isset($_GET['id']) ? $_GET : ['id'=> idFromPathInfo($path_info)], $record);
   }
-  elseif ($path_info == '/geocodeur') { // cas d'appel de la carte par son URI https://comhisto.georef.eu/geocodeur
+  elseif ($path_info == '/geocodeur') { // cas d'appel du géocodeur par son URI https://comhisto.georef.eu/geocodeur
     require __DIR__.'/../geocodeur/index.php';
     die();
   }
   else {
-    require_once __DIR__.'/../map/index.php'; // autre cas d'URI
+    require_once __DIR__.'/../map/index.php'; // cas général d'URI
     showComHisto($_GET['id'] ?? idFromPathInfo($path_info), $record);
   }
 }
 elseif ($error = $record['error'] ?? null) {
-  define('HTTP_ERROR_LABELS', [
-    400 => 'Bad Request',
-    404 => 'Not Found',
-  ]);
-  header("HTTP/1.1 $error[httpCode] ".(HTTP_ERROR_LABELS[$error['httpCode']] ?? "Undefined httpCode $error[httpCode]"));
-  header('Content-type: text/plain');
-  die($error['message']);
+  httpError($error['httpCode'], $error['message']);
 }
 else {
   header('Content-Type: '.$record['header']['Content-Type']);

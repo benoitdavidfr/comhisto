@@ -13,8 +13,8 @@ doc: |
     - exterior.sql qui construuit les limites extérieures des communes, cad les limites avec la mer ou l'étranger
     - ctrlqual.sql qui effectue une comparaison entre admin et eadming3 pour détecter d'éventuelles erreurs
 
-  Dans un premier temps on constitue les données initiales à partir des couches commune_carto et entite_rattachee_carto de AE2020COG
-  corrigées dans ~/html/data/aegeofla/makefra.php des bugs initiaux détectées
+  Dans un premier temps on constitue les données initiales à partir des couches commune_carto et entite_rattachee_carto
+  de AE2020COG corrigées dans ~/html/data/aegeofla/makefra.php des bugs initiaux détectées
   L'étape préliminaire consiste à vérifier les données IGN et éventuellement à les corriger dans errorcorr.sql.
 
   L'algorithme est ensuite le suivant:
@@ -291,7 +291,7 @@ having count(*) > 1;
 alter table eadminpolg3 add num serial;
 update eadminpolg3 set geom=ST_MakeValid(geom);
 
-  -- Lorsqu'il y a un trou dans un polygone, il est affecté à la fois à la c. du trou et à celle qui le contient'
+-- Lorsqu'il y a un trou dans un polygone, il est affecté à la fois à la c. du trou et à celle qui le contient'
 -- suppression des polygones qui à la fois touchent un autre polygone ayant même eid
 -- et égalent un autre polygone avec un eid différent
 -- 

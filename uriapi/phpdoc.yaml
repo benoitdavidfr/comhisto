@@ -110,9 +110,10 @@ doc: |
     - améliorer la publication en LD
       - propriété https://schema.org/temporalCoverage (fait en partie)
       - améliorer replaces/replacedBy
-      - gérer le déréférencement des classes et propriétés définies dans comhisto (comhisto:Event, comhisto:startEvent, ...)
     
 journal: |
+  4/12/2020:
+    - gestion de l'espace de noms https://comhisto.georef.eu/ns
   29/11/2020:
     - redéfinition des objectifs après l'écriture de ogcapi.php
     - écriture de openapi.yaml

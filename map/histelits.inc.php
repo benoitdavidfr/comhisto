@@ -73,6 +73,8 @@ class Histelits extends AutoDescribed {
     $cinsee = substr($vid, 1, 5); // code Insee
     $ddebut = substr($vid, 7); // date de début
     //echo "type=$type, cinse=$cinsee, ddebut=$ddebut\n";
+    if (!isset(self::$all[$cinsee][$ddebut]['élits']))
+      throw new Exception("version $cinsee@$ddebut inexistante");
     $elitEtendus = [];
     foreach (self::$all[$cinsee][$ddebut]['élits'] as $elit)
       $elitEtendus[$elit] = 1;
