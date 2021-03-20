@@ -21,4 +21,4 @@ La définition d'un filtre facilite la visualisation des données.
 Par exemple:
 
 - pour filtrer uniquement les entités valides à la date de validité du référentiel, utiliser
-        xxxxx
+  `xxxx`
