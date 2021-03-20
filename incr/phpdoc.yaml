@@ -1,0 +1,9 @@
+title: comhisto/incr - réflexion sur la génération incrémentale de comhisto
+path: /yamldoc/pub/comhisto/incr
+doc: |
+  L'idée est de produire la version de comhisto au 1/1/2021 à partir d'une part de la version au 1/1/2020
+  et d'autre part des mvts publiés par l'Insee au 1/1/2021.
+  Il faut aussi que je regarde de près l'API Insee qui diffuse l'historique.
+journal: |
+  17/3/2021:
+    - création
