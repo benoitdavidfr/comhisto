@@ -15,25 +15,10 @@ https://features.geoapi.fr/comhisto/collections/comhistog3/items
 Les objets peuvent être balayés au travers du lien *next*.
 
 ## Utilisation dans QGis
-Cette API peut être utilisée dans les versions ércentes de QGis (>= 3.16).
+Cette API peut être utilisée dans les versions récentes de QGis (>= 3.16).
 
-La définition d'un filtre facilite la visualisation des données.  
-Par exemple:
+Pour visualiser aisément les données, il est recommandé:
 
-- pour filtrer uniquement les entités valides à la date de validité du référentiel,
-  utiliser `"dfin" is null`
-
-- pour filtrer uniquement les communes simples valides à la date de validité du référentiel,
-  utiliser `"dfin" is null and type='s'`
-
-  
-  
-  simplesValides:
-    title: filtrer les COMS valides
-    filtre: dfin is null and type='s'
-  date1981:
-    title: version à une date, ex 1/1/1981
-    filtre: ("ddebut" <= '1981-01-01') and (("dfin" is null) or ("dfin" > '1981-01-01'))
-  date1943:
-    title: version au 1/1/1943
-    filtre: "ddebut" = '1943-01-01'
+- de dédoubler la couche en 2 en utilisant pour les communes simples le filtre `type='s'`
+  et pour les entitées rattachées le filtre `type='r'`
+- d'utiliser le mode temporel de QGis en indiquant le champ `ddebut`comme champ Début et le champ `dfin` comme champ de fin.
