@@ -17,8 +17,8 @@ Les objets peuvent être balayés au travers du lien *next*.
 ## Utilisation dans QGis
 Cette API peut être utilisée dans les versions ércentes de QGis (>= 3.16).
 
-La définition d'un filtre facilite la visualisation des données.
+La définition d'un filtre facilite la visualisation des données.  
 Par exemple:
 
 - pour filtrer uniquement les entités valides à la date de validité du référentiel, utiliser
-      xxxxx
+        xxxxx
