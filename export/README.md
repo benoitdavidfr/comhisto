@@ -41,6 +41,8 @@ Dans QGis, il est simple d'effectuer un filtre, par exemples pour :
 
 Le schema JSON est [disponible ici en Yaml](comhistog3.schema.yaml). 
 
+Le fichier a été modifié le 10/12/2020 pour corriger des polygones parasites créés par PostGis.
+
 ## Documentation du fichier elit.geojson
 
 Les objets du fichier elit.geojson correspondent aux éléments intemporels au 1/1/2020.

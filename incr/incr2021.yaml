@@ -1,0 +1,473 @@
+title: 'Mouvements ComHisto restructurés pour la période du 2/1/2020 au 1/1/2021'
+abstract: 'Les mvts mod=70 ne sont pas traités.'
+$schema: incr
+mvts:
+  '2020-02-12':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '35064'
+          LIBELLE: 'La Chapelle-de-Brain'
+        comAssociéeAbsorbées:
+          - 35036
+  '2020-02-29':
+    -
+      chgtNom:
+        COM-07242:
+          LIBELLE_AV: Saint-Gineis-en-Coiron
+          LIBELLE_AP: Saint-Gineys-en-Coiron
+    -
+      chgtNom:
+        COM-24291:
+          LIBELLE_AV: Montignac
+          LIBELLE_AP: Montignac-Lascaux
+    -
+      chgtNom:
+        COM-24459:
+          LIBELLE_AV: Saint-Maime-de-Péreyrol
+          LIBELLE_AP: Saint-Mayme-de-Péreyrol
+    -
+      chgtNom:
+        COM-32199:
+          LIBELLE_AV: Lasserade
+          LIBELLE_AP: Lasserrade
+    -
+      chgtNom:
+        COM-37187:
+          LIBELLE_AV: Ports
+          LIBELLE_AP: Ports-sur-Vienne
+    -
+      chgtNom:
+        COM-38206:
+          LIBELLE_AV: Laval
+          LIBELLE_AP: Laval-en-Belledonne
+    -
+      chgtNom:
+        COM-42173:
+          LIBELLE_AV: Pommiers
+          LIBELLE_AP: Pommiers-en-Forez
+    -
+      chgtNom:
+        COM-63343:
+          LIBELLE_AV: Saint-Flour
+          LIBELLE_AP: 'Saint-Flour-l''Étang'
+    -
+      chgtNom:
+        COM-63460:
+          LIBELLE_AV: Villosanges
+          LIBELLE_AP: Villossanges
+    -
+      chgtNom:
+        COM-66076:
+          LIBELLE_AV: Felluns
+          LIBELLE_AP: Feilluns
+    -
+      chgtNom:
+        COM-71401:
+          LIBELLE_AV: Sainte-Croix
+          LIBELLE_AP: Sainte-Croix-en-Bresse
+  '2020-03-01':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '01227'
+          LIBELLE: Magnieu
+        comDéléguéeAbsorbées:
+          - '01227'
+          - '01341'
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '27290'
+          LIBELLE: Goupil-Othon
+        comDéléguéeAbsorbées:
+          - 27290
+          - 27642
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '35176'
+          LIBELLE: Guipry-Messac
+        comDéléguéeAbsorbées:
+          - 35129
+          - 35176
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '91228'
+          LIBELLE: Évry-Courcouronnes
+        comDéléguéeAbsorbées:
+          - 91182
+          - 91228
+  '2020-03-09':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '50267'
+          LIBELLE: Lessay
+        comDéléguéeAbsorbées:
+          - 50012
+          - 50267
+  '2020-03-15':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '23192'
+          LIBELLE: Fursac
+        comDéléguéeAbsorbées:
+          - 23192
+          - 23231
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '38560'
+          LIBELLE: Val-de-Virieu
+        comDéléguéeAbsorbées:
+          - 38293
+          - 38560
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '39021'
+          LIBELLE: 'La Chailleuse'
+        comDéléguéeAbsorbées:
+          - 39215
+          - 39488
+          - 39544
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '50139'
+          LIBELLE: Condé-sur-Vire
+        comDéléguéeAbsorbées:
+          - 50139
+          - 50319
+          - 50608
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '50142'
+          LIBELLE: Vicq-sur-Mer
+        comDéléguéeAbsorbées:
+          - 50142
+          - 50211
+          - 50375
+          - 50432
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '50417'
+          LIBELLE: Quettehou
+        comDéléguéeAbsorbées:
+          - 50358
+          - 50417
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '63255'
+          LIBELLE: Nonette-Orsonnette
+        comDéléguéeAbsorbées:
+          - 63255
+          - 63266
+  '2020-03-22':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '01098'
+          LIBELLE: Chazey-Bons
+        comDéléguéeAbsorbées:
+          - '01098'
+          - '01316'
+  '2020-03-23':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '14355'
+          LIBELLE: 'Ponts sur Seulles'
+        comDéléguéeAbsorbées:
+          - 14008
+          - 14355
+          - 14690
+  '2020-04-01':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '16175'
+          LIBELLE: 'Val des Vignes'
+        comDéléguéeAbsorbées:
+          - 16021
+          - 16175
+          - 16201
+          - 16257
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '45307'
+          LIBELLE: 'La Selle-sur-le-Bied'
+        comDéléguéeAbsorbées:
+          - 45287
+  '2020-05-25':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '12223'
+          LIBELLE: 'Argences en Aubrac'
+        comDéléguéeAbsorbées:
+          - 12005
+          - 12112
+          - 12117
+          - 12223
+          - 12279
+          - 12304
+  '2020-05-26':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '46201'
+          LIBELLE: Montcuq-en-Quercy-Blanc
+        comDéléguéeAbsorbées:
+          - 46025
+          - 46166
+          - 46201
+          - 46261
+          - 46326
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '76289'
+          LIBELLE: 'Saint Martin de l''If'
+        comDéléguéeAbsorbées:
+          - 76089
+          - 76267
+          - 76289
+          - 76444
+  '2020-05-28':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '72023'
+          LIBELLE: 'Ballon-Saint Mars'
+        comDéléguéeAbsorbées:
+          - 72023
+          - 72301
+  '2020-06-01':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '14200'
+          LIBELLE: 'Creully sur Seulles'
+        comDéléguéeAbsorbées:
+          - 14200
+          - 14577
+          - 14757
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '16046'
+          LIBELLE: Coteaux-du-Blanzacais
+        comDéléguéeAbsorbées:
+          - 16046
+          - 16115
+          - 16332
+  '2020-06-02':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '62691'
+          LIBELLE: Saint-Augustin
+        comDéléguéeAbsorbées:
+          - 62226
+          - 62691
+  '2020-06-08':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '50209'
+          LIBELLE: 'Gonneville-Le Theil'
+        comDéléguéeAbsorbées:
+          - 50209
+          - 50595
+  '2020-06-15':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '27157'
+          LIBELLE: Marbois
+        comDéléguéeAbsorbées:
+          - 27145
+          - 27157
+          - 27225
+          - 27532
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '78551'
+          LIBELLE: Saint-Germain-en-Laye
+        comDéléguéeAbsorbées:
+          - 78551
+  '2020-06-30':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '27638'
+          LIBELLE: 'Le Thuit de l''Oison'
+        comDéléguéeAbsorbées:
+          - 27636
+          - 27638
+          - 27639
+  '2020-07-01':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '62757'
+          LIBELLE: Saint-Martin-lez-Tatinghem
+        comDéléguéeAbsorbées:
+          - 62757
+          - 62807
+  '2020-07-06':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '53121'
+          LIBELLE: Javron-les-Chapelles
+        comAssociéeAbsorbées:
+          - 53060
+  '2020-07-07':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '55369'
+          LIBELLE: Naives-Rosières
+        comAssociéeAbsorbées:
+          - 55440
+  '2020-07-11':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '28012'
+          LIBELLE: 'Commune nouvelle d''Arrou'
+        comDéléguéeAbsorbées:
+          - 28012
+          - 28044
+          - 28093
+          - 28115
+          - 28204
+          - 28356
+  '2020-08-01':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '28393'
+          LIBELLE: Tremblay-les-Villages
+        comAssociéeAbsorbées:
+          - 28097
+          - 28138
+          - 28181
+          - 28328
+          - 28384
+  '2020-08-03':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '79122'
+          LIBELLE: 'Fontenille-Saint-Martin-d''Entraigues'
+        comAssociéeAbsorbées:
+          - 79275
+  '2020-08-28':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '52126'
+          LIBELLE: Choilley-Dardenay
+        comAssociéeAbsorbées:
+          - 52166
+  '2020-09-01':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '35060'
+          LIBELLE: 'La Chapelle du Lou du Lac'
+        comDéléguéeAbsorbées:
+          - 35060
+          - 35158
+  '2020-09-24':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '74123'
+          LIBELLE: Faverges-Seythenex
+        comDéléguéeAbsorbées:
+          - 74123
+          - 74270
+  '2020-09-25':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '72189'
+          LIBELLE: Marolles-les-Braults
+        comDéléguéeAbsorbées:
+          - 72116
+          - 72189
+  '2020-10-16':
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '22251'
+          LIBELLE: Pordic
+        comDéléguéeAbsorbées:
+          - 22251
+          - 22367
+  '2020-12-31':
+    -
+      absorptionComAssociées:
+        cheflieu:
+          COM: '14721'
+          LIBELLE: Vacognes-Neuilly
+        comAssociéeAbsorbées:
+          - 14463
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '27032'
+          LIBELLE: Chambois
+        comDéléguéeAbsorbées:
+          - 27032
+          - 27172
+          - 27634
+  '2021-01-01':
+    -
+      creationComNouvelle:
+        cheflieu:
+          COM_AP: '16233'
+          LIBELLE_AP: Mosnac-Saint-Simeux
+        comDéléguéeCréées:
+          16233: { LIBELLE: Mosnac }
+          16351: { LIBELLE: Saint-Simeux }
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM_AV: '27676'
+          LIBELLE_AV: 'Les Trois Lacs'
+          COM_AP: '27058'
+          LIBELLE_AP: 'Les Trois Lacs'
+        comDéléguéeAbsorbées:
+          - 27058
+          - 27647
+          - 27676
+    -
+      creationComNouvelle:
+        cheflieu:
+          COM_AP: '53249'
+          LIBELLE_AP: Vimartin-sur-Orthe
+        comDéléguéeCréées:
+          53239: { LIBELLE: Saint-Martin-de-Connée }
+          53249: { LIBELLE: Saint-Pierre-sur-Orthe }
+          53274: { LIBELLE: Vimarcé }
+    -
+      absorptionComDéléguées:
+        cheflieu:
+          COM: '73227'
+          LIBELLE: Courchevel
+        comDéléguéeAbsorbées:
+          - 73198
+          - 73227

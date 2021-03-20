@@ -4,6 +4,8 @@ name: centelits.inc.php
 title: centelits.inc.php - couple (eadmin (coms, erat, ecomp) définie dans COG2020, élits correspondants)
 doc: |
 journal: |
+  18/12/2020:
+    - ajout d'un index spatial sur la table elit
   18/9/2020:
     - création
 */
@@ -40,6 +42,7 @@ class CEntElits {
     )");
     $date_atom = date(DATE_ATOM);
     PgSql::query("comment on table elit is 'couche des éléments intemporels générée le $date_atom'");
+    PgSql::query("create index elit_gist on public.elit using GIST (geom)");
     //file_put_contents(__DIR__.'/fcomhisto.sql', '');
   }
   

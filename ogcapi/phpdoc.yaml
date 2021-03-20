@@ -1,6 +1,10 @@
 title: comhisto/ogcapi - serveur OGC API Feature
 path: /yamldoc/pub/comhisto/ogcapi
 doc: |
+  10/2/2021:
+    Le point d'entrée devrait être conforme aux specs OGC API Features et pas renvoyer une ressource dcat:DataService !!!
+    REMPLACER ce service par https://features.geoapi.fr/comhisto
+  
   Le point d'entrée ogcapi.php est publié sur Internet comme https://comhisto.geoapi.fr
   openapi.yaml contient la description OpenAPI 3.0 de l'API et est utilisé par ogcapi.php
     il doit être recopié dans https://app.swaggerhub.com/apis/benoitdavidfr/comhistoogcapi

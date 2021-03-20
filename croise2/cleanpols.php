@@ -316,6 +316,7 @@ function sliverIndicator(array $lpos) { // indicateur pour détecter un sliver, 
   // je calcule le rapport de la surface sur le quart de la longueur au carré
   // l'indicateur n'a pas de dimension, il est identique quelle que soit la taille de l'objet
   // pour un carré il vaut 1
+  // pour un cercle il vaut pi * r**2 / (2 pi r / 4) ** 2 = 4 / pi = 1,27
   $gegeom = new LineString($lpos);
   $qlen = $gegeom->length() / 4;
   if ($qlen == 0)
@@ -402,7 +403,7 @@ function gboxFromTuple(array $tuple): ?GBox { // crée un GBox à partir du rés
   return new GBox([$tuple['xmin'], $tuple['ymin'], $tuple['xmax'], $tuple['ymax']]);
 }
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker');
+PgSql::open('host=pgsqlserver dbname=gis user=docker');
 
 if ($id = ($_GET['id'] ?? null)) { // Visualisation d'un tuple particulier
   //echo "visu id=$id, ligne=",__LINE__,"\n";

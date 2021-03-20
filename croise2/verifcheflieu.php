@@ -38,7 +38,7 @@ ChefLieu::load(__DIR__.'/../cheflieu');
 Histo::load(__DIR__.'/../elits2/histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+PgSql::open('host=pgsqlserver dbname=gis user=docker password=docker');
 
 $verif = true; // false si au moins une erreur
 foreach (Histo::$all as $cinsee => $histo) {

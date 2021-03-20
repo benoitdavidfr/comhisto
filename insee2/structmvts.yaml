@@ -85,11 +85,13 @@ modalitésType:
       5339	COM	  52121	Chaumont	COMD	52078	Brottes
       5340	COMA	52078	Brottes	COM	52121	Chaumont
       5341	COM	  52121	Chaumont	COM	52121	Chaumont
-      
+  35:
+    linInsee: Suppression de commune déléguée
+    
   41:
     libInsee: Changement de code dû à un changement de département
   50:
     libInsee: Changement de code dû à un transfert de chef-lieu
   70:
-    libInsee: Transformation de commune associé en commune déléguée
+    libInsee: Transformation de commune associée en commune déléguée
     

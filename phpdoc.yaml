@@ -41,10 +41,13 @@ doc: |
     
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
 journal: |
+  18/12/2020:
+    - création utilisateur comhisto/Comhisto123456 sur Ovh et transfert connexion base vers Ovh suite à problèmes sur Alwaysdata
+  10/12/2020:
+    - correction de polygones parasites dans comhistog3
+    - réexport de comhistog3, copie sur github, data.gouv et Alwaysdata
   4/12/2020:
     - gestion de l'espace de noms https://comhisto.georef.eu/ns
-  2/12/2020:
-    - chargement en base des chefs-lieux définis par un point
   2/12/2020:
     - chargement en base des chefs-lieux définis par un point
   30/11-1/12/2020:
@@ -86,6 +89,7 @@ journal: |
     - création à la suite de rpicom pour réécrire le code
 submodules:
   - /yamldoc/pub/comhisto/data
+  - /yamldoc/pub/comhisto/data2
   # archivé - /yamldoc/pub/comhisto/insee
   - /yamldoc/pub/comhisto/insee2
   # archivé - /yamldoc/pub/comhisto/elits

@@ -26,7 +26,7 @@ else {
   $_GET['action'] = 'prod';
 }
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+PgSql::open('host=pgsqlserver dbname=gis user=docker');
 
 $entitesIgn= []; // liste des entités IGN
 $sql = "select id, type, nom_com from commune_carto";

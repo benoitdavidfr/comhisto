@@ -7,7 +7,7 @@ if (php_sapi_name() <> 'cli') {
   echo "<!DOCTYPE HTML><html><head><meta charset='UTF-8'><title>ajoutead</title></head><body><pre>\n";
 }
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker password=docker');
+PgSql::open('host=pgsqlserver dbname=gis user=docker password=docker');
 
 $fc = json_decode(file_get_contents(__DIR__.'/stbarthmartin.geojson'), true);
 if ($fc === null) {

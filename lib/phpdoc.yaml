@@ -5,7 +5,6 @@ journal: |
   30/11/2020:
     - création
 phpScripts:
-  - /yamldoc/pub/comhisto/lib/json.php
 phpIncludes:
   - /yamldoc/pub/comhisto/lib/log.inc.php
   - /yamldoc/pub/comhisto/lib/config.inc.php

@@ -22,6 +22,8 @@ doc: |
   Le résultat est stocké dans la table comhistog3
 
 journal: |
+  18/12/2020:
+    - ajout création d'indexs sur cinsee et sur la géométrie
   19/11/2020:
     - ajout du champ elitsND dans comhistog3 / ANNULATION
   12/11/2020:
@@ -110,7 +112,7 @@ ChefLieu::load(__DIR__.'/../cheflieu');
 Histo::load(__DIR__.'/../elits2/histelitp.yaml');
 //echo Yaml::dump(Histo::allAsArray(), 3, 2);
 
-PgSql::open('host=172.17.0.4 dbname=gis user=docker');
+PgSql::open('host=pgsqlserver dbname=gis user=docker');
 
 if ($_GET['action']=='testEntites') {
   $sql = "select eid from eadming3";
@@ -198,6 +200,8 @@ PgSql::query("create table comhistog3(
 )");
 $date_atom = date(DATE_ATOM);
 PgSql::query("comment on table comhistog3 is 'couche des versions de communes générée le $date_atom'");
+PgSql::query("create index comhistog3_gist on public.comhistog3 using GIST (geom)");
+PgSql::query("create index comhistog3_cinsee on public.comhistog3 (cinsee)");
 
 foreach (Histo::$all as $cinsee => $histo) {
   //if (substr($cinsee, 0, 1) >= 4) break;

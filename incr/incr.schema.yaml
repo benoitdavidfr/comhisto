@@ -1,0 +1,143 @@
+title: schema du fichier Yaml restructuré des mouvements
+$schema: http://json-schema.org/draft-07/schema#
+definitions:
+  mvt:
+    description: définition d'un mouvement
+    oneOf:
+      - description: chgtNom (10)
+        type: object
+        additionalProperties: false
+        properties:
+          chgtNom:
+            type: object
+            additionalProperties: false
+            patternProperties:
+              '^COM-\d[\dAB]\d\d\d$': # COM- suivi du code insee
+                type: object
+                additionalProperties: false
+                properties:
+                  LIBELLE_AV:
+                    description: libellé avant le mouvement
+                    type: string
+                  LIBELLE_AP:
+                    description: libellé après le mouvement
+                    type: string
+      - description: absorptionComAssociées
+        type: object
+        additionalProperties: false
+        properties:
+          absorptionComAssociées:
+            type: object
+            additionalProperties: false
+            properties:
+              cheflieu:
+                type: object
+                additionalProperties: false
+                properties:
+                  COM:
+                    description: code Insee du chef-lieu, identique avant et après
+                    type: string
+                    pattern: '^\d[\dAB]\d\d\d$'
+                  LIBELLE:
+                    description: libellé, identique avant et après
+                    type: string
+              comAssociéeAbsorbées:
+                description: liste des communes associées absorbées définies chacune par leur code Insee
+                type: array
+                items:
+                  description: code Insee de chaque commune asscoiée
+                  type: [string,number]
+                  pattern: '^\d[\dAB]\d\d\d$'
+      - description: absorptionComDéléguées
+        type: object
+        additionalProperties: false
+        properties:
+          absorptionComDéléguées:
+            type: object
+            additionalProperties: false
+            properties:
+              cheflieu:
+                type: object
+                additionalProperties: false
+                properties:
+                  COM:
+                    description: code Insee du chef-lieu, identique avant et après
+                    type: string
+                    pattern: '^\d[\dAB]\d\d\d$'
+                  COM_AV:
+                    description: code Insee du chef-lieu avant
+                    type: string
+                    pattern: '^\d[\dAB]\d\d\d$'
+                  COM_AP:
+                    description: code Insee du chef-lieu après
+                    type: string
+                    pattern: '^\d[\dAB]\d\d\d$'
+                  LIBELLE:
+                    description: libellé, identique avant et après
+                    type: string
+                  LIBELLE_AV:
+                    description: libellé avant
+                    type: string
+                  LIBELLE_AP:
+                    description: libellé après
+                    type: string
+              comDéléguéeAbsorbées:
+                description: liste des communes déléguées absorbées définies chacune par leur code Insee
+                type: array
+                items:
+                  description: code Insee de chaque commune asscoiée
+                  type: [string,number]
+                  pattern: '^\d[\dAB]\d\d\d$'
+      - description: creationComNouvelle
+        type: object
+        additionalProperties: false
+        properties:
+          creationComNouvelle:
+            type: object
+            additionalProperties: false
+            properties:
+              cheflieu:
+                type: object
+                additionalProperties: false
+                properties:
+                  COM_AP:
+                    description: code Insee du chef-lieu après
+                    type: string
+                    pattern: '^\d[\dAB]\d\d\d$'
+                  LIBELLE_AP:
+                    description: libellé après
+                    type: string
+              comDéléguéeCréées:
+                description: liste des communes déléguées créées indexée par leur code Insee
+                type: object
+                additionalProperties: false
+                patternProperties:
+                  '^\d[\dAB]\d\d\d$': # code insee
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      LIBELLE:
+                        description: libellé de la commune déléguée créée
+                        type: string
+    
+type: object
+properties:
+  title:
+    description: titre du document
+    type: string
+  abstract:
+    description: résumé et/ou commentaires
+    type: string
+  $schema:
+    description: référence au schéma
+    type: string
+  mvts:
+    description: liste des mouvements dans l'ordre chronologique organisée par date d'effet
+    type: object
+    additionalProperties: false
+    patternProperties:
+      '^\d\d\d\d-\d\d-\d\d$': # date d'effet
+        description: liste de mvts pour une date d'effet donnée
+        type: array
+        items:
+          $ref: '#/definitions/mvt'
