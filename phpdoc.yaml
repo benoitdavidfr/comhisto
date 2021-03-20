@@ -41,6 +41,8 @@ doc: |
     
   synchro: http://localhost/synchro.php?remote=http://georef.eu/&dir=yamldoc/pub/comhisto
 journal: |
+  20/3/2021:
+    - ajout incr pour produire le réf. au 1/1/2021 à partir de celui au 1/1/2020
   18/12/2020:
     - création utilisateur comhisto/Comhisto123456 sur Ovh et transfert connexion base vers Ovh suite à problèmes sur Alwaysdata
   10/12/2020:
@@ -105,6 +107,7 @@ submodules:
   - /yamldoc/pub/comhisto/uriapi
   - /yamldoc/pub/comhisto/ogcapi
   - /yamldoc/pub/comhisto/geocodeur
+  - /yamldoc/pub/comhisto/incr
 sqlDBs:
   - name: comhistoPg
     title: comhisto - base PostGis comhisto

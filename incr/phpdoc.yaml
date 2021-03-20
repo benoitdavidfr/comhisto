@@ -5,5 +5,10 @@ doc: |
   et d'autre part des mvts publiés par l'Insee au 1/1/2021.
   Il faut aussi que je regarde de près l'API Insee qui diffuse l'historique.
 journal: |
+  20/3/2021:
+    - 1ère version de readincr.php pour générer le fichier Yaml incr2021.yaml
   17/3/2021:
     - création
+phpScripts:
+  - /yamldoc/pub/comhisto/incr/readincr.php
+
