@@ -19,6 +19,6 @@ Cette API peut être utilisée dans les versions récentes de QGis (>= 3.16).
 
 Pour visualiser aisément les données, il est recommandé:
 
-- de dédoubler la couche en 2 en utilisant pour les communes simples le filtre `type='s'`
-  et pour les entitées rattachées le filtre `type='r'`
-- d'utiliser le mode temporel de QGis en indiquant le champ `ddebut`comme champ Début et le champ `dfin` comme champ de fin.
+- d'utiliser les 2 collections `communehqg` et `entratthqg` spécialement préparées pour une visualisation avec QGis
+- d'utiliser la visualisation temporelle de QGis en indiquant le champ `ddebut`comme champ Début
+  et le champ `dfin` comme champ de Fin de l'extension temporelle des versions.
